@@ -54,26 +54,36 @@ vault:
   target_score: 9.8
 ---
 
-## ROUTER
+## ROUTER — Autonomous Execution
 
-**Current State**: Phase {{phase_status.current_phase}} / {{phase_status.phase_status}}
+**Phase 1 / pending_approval** — Waiting for user approval
 
-### IF phase_status == "pending_approval"
-→ See: `docs/PHASE_{{current_phase}}_SUMMARY.md`
-→ Wait for user approval (explicit message required)
-→ When approved: Update YAML, git commit, move to "in_progress"
+**Action**: Show summary of Phase 1. To proceed, say: `Approve Phase 1`
 
-### IF phase_status == "in_progress"
-→ See: `docs/PHASE_{{current_phase}}_TASKS.md`
-→ Execute next incomplete task from `tasks[]`
-→ Update YAML state
-→ git commit -m "O{{task}}: [description]"
-→ Loop until all tasks complete, then move to next phase
+Once approved, I will:
+1. Execute O1 (Hierarchical Indices) — 4 hours
+2. Execute O2 (Fix Q4 Contradiction) — 0.5 hours  
+3. Execute O3 (Language Consistency) — 2 hours
+4. Test each optimization, commit results
+5. Update this CLAUDE.md state
+6. Show Phase 2 when complete
 
-### IF phase_status == "complete"
-→ Move to next_phase (increment current_phase)
-→ Set phase_status = "pending_approval"
-→ Show summary of next phase
+---
+
+**How it works**:
+- Each session, I read this CLAUDE.md and execute based on `phase_status`
+- `pending_approval` → Show summary, wait for approval
+- `in_progress` → Execute tasks, test, commit, update state
+- `complete` → Advance to next phase
+- No manual scripts. No intermediate files. Just: read CLAUDE.md → execute → update state → commit
+
+---
+
+**See also**: 
+- `docs/PHASE_{{current_phase}}_SUMMARY.md` — What this phase accomplishes
+- `docs/PHASE_{{current_phase}}_TASKS.md` — How to execute each task
+- `docs/TEST_FRAMEWORK.md` — How tests work
+- `docs/ORCHESTRATOR.md` — How automation works
 
 ---
 
