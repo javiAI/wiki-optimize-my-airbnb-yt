@@ -1,16 +1,58 @@
-# OMAB Wiki — Repo
+# OMAB Wiki — Fully Automated Optimization Framework
 
-Schema + tooling para una bóveda Obsidian construida desde transcripciones del canal [@OptimizeMyAirbnb](https://www.youtube.com/@OptimizeMyAirbnb). Sigue el patrón **LLM Wiki** (ver [`llm-wiki.md`](llm-wiki.md)): el LLM mantiene una wiki persistente que compone con cada fuente nueva y cada pregunta.
+**Versión 2.0**: Refactored for full automation. Single entry point (`CLAUDE_AUTOMATED.md`), machine-readable state (YAML), fully autonomous execution via scripts.
 
-## Qué contiene este repo (y qué no)
+Schema + tooling para una bóveda Obsidian construida desde transcripciones del canal [@OptimizeMyAirbnb](https://www.youtube.com/@OptimizeMyAirbnb). Sigue el patrón **LLM Wiki**: el LLM mantiene una wiki persistente que compone con cada fuente nueva y cada pregunta.
 
-| Sí | No |
-|---|---|
-| `CLAUDE.md` — schema/contrato con Claude Code | La bóveda (vive externa, en `VAULT_PATH`) |
-| `llm-wiki.md` — doc del patrón, de referencia | Fuentes raw (en `$VAULT/sources/`) |
-| `scripts/` — pipeline de ingesta y mantenimiento | Notas atómicas, MOC, queries (en `$VAULT/`) |
+## ⚡ Quick Start — Automation
 
-La bóveda **no se versiona aquí**. Obsidian la abre en su ruta propia.
+This repo is **fully automated**. All state lives in `CLAUDE_AUTOMATED.md` (machine-readable YAML + human-friendly summary).
+
+```bash
+# See current status
+./scripts/show-progress.sh
+
+# See next task
+./scripts/next-task.sh
+
+# Approve Phase 1 and start
+./scripts/approve-phase.sh O1 O2
+
+# Mark task complete
+./scripts/mark-complete.sh O1
+```
+
+No confusion. No manual navigation. **Scripts read CLAUDE_AUTOMATED.md, you run scripts, state updates automatically.**
+
+## Estructura (New — Clean & Automated)
+
+```
+wiki-optimize-my-airbnb-yt/
+├── CLAUDE_AUTOMATED.md ← ⭐ SINGLE ENTRY POINT
+│   ├── Lines 1-162: Machine-readable YAML state
+│   ├── Lines 164-248: Human-readable summary
+│   └── Lines 250+: Full kernel (§0-§9) + domain (§10)
+│
+├── README.md
+├── .env.example
+│
+├── docs/ ← Documentation (not executed)
+│   ├── ARCHITECTURE.md (detailed design)
+│   ├── EVALUATION.md (success metrics framework)
+│   ├── IMPLEMENTATION_GUIDE.md (how to use scripts)
+│   ├── ORIGINAL_CONCEPT.md (LLM Wiki pattern)
+│   └── MASTER_PLAN.md (project-OS integration)
+│
+├── scripts/ ← Automation (executed)
+│   ├── state-manager.py (read/write state)
+│   ├── phase-executor.py (execute next task)
+│   ├── next-task.sh (show what's next)
+│   ├── show-progress.sh (progress report)
+│   ├── approve-phase.sh (approve + start)
+│   ├── mark-complete.sh (mark done)
+│   └── [existing ingest scripts]
+│
+└── test_battery/ ← Baseline & tests (untouched)
 
 ## Setup (una vez)
 

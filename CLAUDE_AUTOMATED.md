@@ -373,9 +373,107 @@ Si esta es la **primera vez** usando este repo con la bóveda:
 
 ---
 
-# DOMAIN LAYER (§10) — Optimize My Airbnb
+# 10. Capa de dominio — Optimize My Airbnb (YouTube)
 
-[Content from original CLAUDE.md §10 - lines 503-603]
+Todo lo siguiente es **específico de esta bóveda**. Para una bóveda nueva, reescribir solo esta sección.
+
+## 10.1 Tipo de fuente
+
+Transcripciones (auto-caption en inglés original) de vídeos del canal YouTube [@OptimizeMyAirbnb](https://www.youtube.com/@OptimizeMyAirbnb). Creador: Daniel Rusteen. Tema: alquiler de corta estancia / Airbnb.
+
+Al 2026-04-22: **173 transcripciones** ingestadas (2017-11 → 2026-04), 5 vídeos en español excluidos (solo subs ES).
+
+## 10.2 Schema YAML de `sources/*.md`
+
+```yaml
+---
+video_id: <youtube-id>
+title: <título original>
+url: https://youtube.com/watch?v=...
+published: YYYY-MM-DD
+duration_sec: 7320
+views: 123456
+likes: 9876
+comments: 543
+channel_authority: high | medium | low
+language: en | es
+topics: [pricing, orphan-nights, ...]
+superseded_by: []
+---
+```
+
+**Cuerpo**: bloques `[MM:SS]` cada ~20 s (emitidos por el script de ingesta). **No reformatear** salvo vía re-ingesta.
+
+**Locator** para citas: timestamp `MM:SS` → link Obsidian `[[sources/YYYY-MM-DD--slug#t=MM:SS]]`.
+
+## 10.3 Tópicos iniciales
+
+Plantillas de MOC sugeridas (se irán creando bajo demanda durante la extracción de átomos):
+
+- `MOC/pricing.md` — estrategias de precio, noches huérfanas, temporadas, minimum stay
+- `MOC/occupancy.md` — tasas, gap nights, stay-length optimization
+- `MOC/listing-optimization.md` — título, fotos, descripción, ranking en Airbnb
+- `MOC/cleaning-ops.md` — equipos de limpieza, turnover, checklists
+- `MOC/reviews.md` — flujo de mensajes, atributos, gestión de negativas
+- `MOC/hospitality.md` — experience on-site + surprise & delight
+- `MOC/ranking.md` — factores de búsqueda Airbnb
+- `MOC/direct-booking.md` — cuándo sí + minimum viable moves
+- `MOC/market-selection.md` — filtros negativos + perfil positivo
+- `MOC/regulations.md` — normativas, licencias, impuestos
+- `MOC/tools-tech.md` — PriceLabs, Beyond Pricing, Hostfully, software
+- `MOC/investing.md` — selección de mercado, evaluación de deals, ROI
+
+**Nota**: `MOC/guest-experience.md` se retiró en el lint 2026-04-22. Su contenido se absorbió en `reviews` (comunicación) + `hospitality` (experience on-site) + `listing-optimization` (amenities). Recrear solo si aparece un sub-tema que no encaje en los tres.
+
+## 10.4 Pesos del score (§5)
+
+```
+score = 0.40·recency + 0.30·popularity + 0.20·specificity + 0.10·authority
+```
+
+- **Popularity**: usar `views` (log-normalizada contra max del corpus).
+- **Authority default**: `high` para todo el canal (creador consolidado, 8+ años). Marcar `medium` o `low` manualmente en colabs con invitados.
+
+## 10.5 Meta files del dominio
+
+- `meta/videos.md` — tabla maestra auto-generada (ver `scripts/build-meta.sh`). No editar a mano.
+- `meta/contradictions.md` — conflictos entre claims + score aplicado. Se mantiene manualmente.
+- `meta/glossary.md` — jerga del creador (ej. "orphan night", "gap night", "KAT score"). Se amplía al detectar términos nuevos durante la ingesta.
+
+## 10.6 Pipeline de ingesta
+
+Scripts en el repo (fuera del vault):
+
+```bash
+# Ingestar 1 vídeo (requiere yt-dlp + jq + python3)
+scripts/ingest-video.sh <video_id_or_url>
+
+# Ingestar un listado (formato: video_id|title|duration por línea)
+scripts/batch-ingest.sh <list_file>
+
+# Regenerar tablas: meta/videos.md + log entry + sección "Fuentes" de index.md
+scripts/build-meta.sh
+
+# Rankear sources por §5 (recency + popularity). Imprime top-N sources
+# ordenados por score para seleccionar el siguiente batch de atomización (§4.1.a).
+scripts/rank-sources.py --top 10
+```
+
+Flujo interno del ingest: `yt-dlp` baja metadata JSON + VTT (auto-caption EN) → `scripts/clean_vtt.py` deduplica + agrupa en bloques de 20 s → se escribe `sources/YYYY-MM-DD--slug.md` con frontmatter de §10.2.
+
+**Fallback para vídeos sin subs EN**: re-ejecutar con `--sub-lang es` manualmente (requeriría flag adicional en el script; no implementado).
+
+## 10.7 Response Contract (este dominio)
+
+Audiencia: host contratante. Tono: consultor, no profesor.
+
+- Sin introducción ni contexto a menos que la pregunta lo pida.
+- Estructura default: lista numerada de pasos accionables.
+- Una cita [[atom]] inline por paso; nunca al final en bloque.
+- Máx 600 palabras para queries tácticas; 1000 para estratégicas.
+- Anglicismos permitidos: PriceLabs, Airbnb, WiFi, PMS, BLT (PMS Y BLT explicado 1 vez).
+- Prohibidos: adjetivos de relleno ("clave", "importante", "fundamental"), "cabe destacar", summaries al final.
+- Citar cada número concreto con su source_id entre paréntesis la primera vez.
 
 ---
 
