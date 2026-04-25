@@ -1,0 +1,33 @@
+{
+  "question_id": "Q20",
+  "question": "Mi listing está estable (4.9★, 75% occupancy). ¿Cómo lo llevo al 'elite tier'?",
+  "level": 4,
+  "response": "4.9★ y 75% occupancy es la media-alta del mercado, no el techo. El salto a 'elite tier' (4.95-5.0 + 80-85% occupancy + premium ADR) no se consigue con micro-edits — los micro-edits no mueven nada — sino con palancas estructurales que la mayoría de hosts no tocan.\n\n**Diagnóstico previo**: aplica el orden listing → hospitality → pricing antes de actuar [[notes/listing-optimization--three-step-troubleshooting]]. Bajar precio aquí sería destruir el pricing power que ya tienes ganado.\n\n## Palancas (orden de impacto, no de coste)\n\n1. **Cierra el gap 4.9 → 4.95+ con 'surprise & delight' rotativo**. Cada +0.1 en rating = +5% revenue medible; 4.9 → 5.0 ≈ +5-10% revenue [[notes/reviews--rating-to-revenue-formula]]. El rating no sube pidiendo 5★, sube cuando el guest descubre algo no anunciado. Botella local + nota manuscrita ($5-15/estancia), rotando el detalle cada 2-3 meses [[notes/hospitality--surprise-and-delight]].\n\n2. **Diseña para repeat guests dentro de Airbnb**. Returning guests es señal medida en el Insights Dashboard; casi ningún host tiene repeats → 1-2/año = 1 desviación estándar por encima del competitor set. Triple payoff: ranking boost + review rate ≈100% + 5★ cuasi-garantizado [[notes/ranking--repeat-guests-boost]]. Tácticas: friends&family code post-checkout, ping en temporada relevante 3-4 meses después, NO sacar al guest off-platform.\n\n3. **Inyecta 'review fuel' — amenities únicas que obligan a mencionarlas**. Telescope ($80-300, requiere outdoor + low light pollution), hammock plegable ($40-80), copper silverware ($30-50), 3-spout showerhead ($80-150), reverse-osmosis water filter ($200-400). Las reviews largas son señal de ranking [[notes/listing-optimization--unique-amenities-review-fuel]]. La pregunta no es '¿lo usará?' sino '¿lo mencionará?'.\n\n4. **Stack '10% mejor en 10 cosas'**. El elite tier no se hace con un wow-factor — se hace con acumulación: dimmable lights, blackout curtains, 2 almohadas/persona (1 firme + 1 suave), king bed, 100\" TV, monitores top-tier, mesa de juegos. Cada item solo no mueve aguja; el stack convierte y genera 5★ [[notes/listing-optimization--ten-percent-better-ten-things]].\n\n5. **Compound effect: amenities suben rate Y occupancy simultáneamente**. Caso documentado: water park amenity llevó a +74% rate × +24% occupancy = +115% revenue (no +98% aditivo). Si proyectas con modelo aditivo subestimas ROI [[notes/listing-optimization--amenities-rate-plus-occupancy-compound]]. Aplica este cálculo antes de descartar inversiones de $200-2k.\n\n6. **Re-shoot fotográfico dirigido por ti**. Después de 2+ años con las mismas fotos, hay decay. Director del shoot eres tú, no el fotógrafo: chest-level 4ft (no eye-level), todas luces ON, todas cortinas abiertas, Netflix overlay editado en TVs, una foto por space (no por room), nada de close-ups artísticos [[notes/listing-optimization--photo-shoot-direction]]. Lift documentado: +13% occupancy.\n\n7. **Re-optimization 10 minutos, 2-3×/año**. La palanca más infrautilizada — Airbnb detecta 'stale listings' y reduce exposure. Antes de alta temporada: foto principal, título, summary (primeras 2 líneas), amenities ticked, safety features [[notes/listing-optimization--reoptimize-biannual]]. Nunca durante peak season.\n\n8. **Convierte los surges en ranking permanente**. Cuando entre una long-term reservation o veas 80%+ occupancy a BLT-días vista, sube base price +10-20% inmediatamente Y reduce weekly discount a la mitad. No para captar más bookings — para comunicar al algoritmo 'listing valioso'. Cuando el calendar se libera, el ranking ya está consolidado al tier superior [[notes/pricing--base-price-raise-after-surge]]. Mantén hasta que occupancy a BLT baje de 50%.\n\n## Secuencia de ejecución (90 días)\n\n- **Semana 1-2**: activa surprise & delight + automatiza el flow post-checkout para inducir repeats (friends&family code).\n- **Semana 3-4**: pedido de las 2-3 amenities únicas con mejor fit a tu price point + re-shoot fotos.\n- **Semana 5-8**: deja correr; mide rating en Insights, occupancy a BLT, repeat % en dashboard.\n- **Semana 9-12**: primera oportunidad de surge → ejecuta base-price-raise. Re-optimization de 10 min antes de alta temporada.\n\n## Métrica objetivo\n\n- Rating: 4.95+ (no 5.00 fetiche — un único 4★ basta para bajarte y la curva de coste sube exponencial).\n- Occupancy a BLT: 50% (target estable); aprovecha cada surge para subir base.\n- Repeat guests: ≥1-2/año (medido en Insights Dashboard).\n- Review length media: trending up (proxy de review fuel funcionando).\n\nLo que NO mueve la aguja desde 4.9: cambiar palabras del título, subir a Superhost (no es ranking factor [[ranking--superhost-zero-boost]]), promociones nativas Airbnb (1000 views, 0 bookings en test). El elite tier es estructural, no cosmético.",
+  "atoms_cited": [
+    "[[notes/listing-optimization--three-step-troubleshooting]]",
+    "[[notes/reviews--rating-to-revenue-formula]]",
+    "[[notes/hospitality--surprise-and-delight]]",
+    "[[notes/ranking--repeat-guests-boost]]",
+    "[[notes/listing-optimization--unique-amenities-review-fuel]]",
+    "[[notes/listing-optimization--ten-percent-better-ten-things]]",
+    "[[notes/listing-optimization--amenities-rate-plus-occupancy-compound]]",
+    "[[notes/listing-optimization--photo-shoot-direction]]",
+    "[[notes/listing-optimization--reoptimize-biannual]]",
+    "[[notes/pricing--base-price-raise-after-surge]]"
+  ],
+  "sources_cited": [
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/iFZnEXouqx8]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/S-dc_mCqOhY]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/y3T-IIIPOdw]]",
+    "[[sources/1_mswIQixGc]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "question_id": "Q14",
+  "question": "¿Cómo interpreto Airbnb Insights y qué KPIs priorizo semanalmente?",
+  "level": 3,
+  "response": "## Activación previa\n\n1. Activa **Professional Hosting Tools** (Account → Professional hosting tools → Manage → Toggle ON). Es gratuito y desbloquea el Insights Dashboard completo (booking lead time, conversion funnel, channel breakdown, repeat guests). Sin esto operas a ciegas [[notes/tools-tech--airbnb-professional-hosting-tools-activation]].\n\n## Los 3 KPIs canónicos (framework semanal)\n\nLas tres métricas que deben **batir simultáneamente** al market en el panel de \"similar listings\". Una o dos pueden mentir; las tres juntas confirman pricing óptimo [[notes/pricing--three-metrics-framework]]:\n\n2. **Average nightly rate (ADR) vs similar listings.** Target: **+20-30% por encima** de la media de similar listings, manteniendo occupancy ≥90%. Si tu rate ≤ media → estás dejando dinero en la mesa [[notes/pricing--insights-dashboard-benchmark]].\n\n3. **Occupancy a BLT días vista.** Anchor: **50% de occupancy a la distancia de tu Booking Lead Time**. Si BLT=30d, quieres 50% ocupado en los próximos 30 días. Por encima → subir base; por debajo → bajar base [[notes/pricing--occupancy-target-blt]].\n\n4. **Booking Lead Time vs market.** BLT tuyo **> market** = señal de value (guests se comprometen antes); BLT < market = alerta (overpriced o listing sub-óptimo) [[notes/pricing--blt-below-competition-signal]].\n\n## KPIs secundarios del Insights\n\n5. **Conversion rate (bookings / impressions).** Bandas operativas [[notes/ranking--conversion-rate-benchmarks]]:\n   - <0.2% = revisar fotos/título/precio\n   - 0.3-0.4% = típico, no tocar\n   - 0.5-0.9% = considerar subir base +5%\n   - ≥1% = **subir precio ya** (estás infra-precio)\n\n6. **Returning / repeat guests.** Métrica oculta como ranking signal. Tener 1-2 repeat guests/año = standard deviation advantage (la mayoría de hosts tienen 0); además dejan review ~100% y casi siempre 5★. No saques al guest off-platform: pierdes el boost [[notes/ranking--repeat-guests-boost]].\n\n## Rutina semanal (30 segundos por listing)\n\n7. **Cada miércoles**, no lunes ni weekend. Abrir Insights / PriceLabs, leer occupancy a BLT, comparar contra green zone 40-60%. Fuera de banda → mover base ±5%. Customizations solo se revisan 2-3x/año [[notes/pricing--weekly-30-seconds-routine]].\n\n## Caveats críticos al leer Insights\n\n8. **\"Similar listings\" es opaco** — Airbnb no revela los criterios de similitud (¿neighborhood? ¿price band? ¿amenities?). Úsalo como señal direccional, no como target absoluto. Validar manualmente con búsqueda en Airbnb + filtros tuyos [[notes/ranking--similar-listings-metric-opaque]].\n\n9. **El BLT promedio puede ocultar distribución invertida.** Una media de 26 días puede ser una J invertida (72% bookings en 0-25d + cero entre 25-40). Exporta reservas, bucketiza por `booking_date - checkin_date`, y decide last-minute discount sobre la distribución real, no sobre la media [[notes/pricing--track-own-booking-lead-time]].\n\n10. **Long-term bookings distorsionan conversion.** Un booking 30+ días bloquea impressions en esa ventana → conversion sube artificialmente. No interpretes el jump como mejora real.\n\n## Orden de prioridad semanal\n\n1. Occupancy a BLT (rutina miércoles, 30s).\n2. Rate vs similar listings (mantener +20-30%).\n3. BLT vs market (sanity check mensual).\n4. Conversion rate (escaneo, alarma si <0.2% o ≥1%).\n5. Repeat guests (lectura mensual, palanca de marketing más que de pricing).",
+  "atoms_cited": [
+    "[[notes/tools-tech--airbnb-professional-hosting-tools-activation]]",
+    "[[notes/pricing--three-metrics-framework]]",
+    "[[notes/pricing--insights-dashboard-benchmark]]",
+    "[[notes/pricing--occupancy-target-blt]]",
+    "[[notes/pricing--blt-below-competition-signal]]",
+    "[[notes/ranking--conversion-rate-benchmarks]]",
+    "[[notes/ranking--repeat-guests-boost]]",
+    "[[notes/pricing--weekly-30-seconds-routine]]",
+    "[[notes/ranking--similar-listings-metric-opaque]]",
+    "[[notes/pricing--track-own-booking-lead-time]]"
+  ],
+  "sources_cited": [
+    "[[sources/cTffAvSy_XA]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/6Mz5AlyuPcI]]",
+    "[[sources/HsCIAq2TPMI]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

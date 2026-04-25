@@ -1,0 +1,25 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 2,
+  "response": "Una respuesta pública a una reseña negativa es un micro-anuncio dirigido a Future Potential Guests (FPG) que escanean tu listing en P3, no una réplica al guest que ya se fue. Cualquier defensiva, justificación emocional o long-form rebattle te penaliza más que la propia review.\n\n1. Responde SOLO con hechos, nunca con subjetivo. Si el guest dice \"the place was dirty\", no respondas \"that's not true\" ni \"in 150 reservations this never happened\". Responde algo como: \"Cleaning checklist updated post-stay; deep clean now scheduled between every booking.\" Sin emoción, sin contradecir directamente. [[notes/reviews--facts-only-negative-review]]\n\n2. Mantén la respuesta corta (2-3 frases máx). El FPG dedica 2-5 segundos por review. Una respuesta de 6 líneas defendiéndote señala que el problema fue real y que estás afectado. Una respuesta breve y operativa señala profesionalismo. [[notes/hospitality--host-response-to-review-as-marketing]]\n\n3. Estructura: [acknowledgment neutral 1 línea] + [acción concreta tomada] + [opcional: insight nuevo sobre la property]. Ejemplo para review baja por ruido: \"Thanks for the feedback. We've installed a NoiseAware sensor and added blackout curtains in the master bedroom this month.\" Conviertes el negativo en señal de host atento + amenity nuevo visible al FPG.\n\n4. Evita 4 anti-patterns: (a) discutir hechos del guest (\"that's not what happened\"), (b) culpar al guest (\"they brought 6 people without telling us\"), (c) pedir disculpas excesivas que validen el problema (\"so sorry, we failed you completely\"), (d) copy-paste genérico (\"thanks for staying!\"). [[notes/hospitality--host-response-to-review-as-marketing]]\n\n5. Match emotional intensity al guest pero +10% empático, no +10% defensivo. Si el guest está molesto nivel 5, tú empático nivel 6, no defensivo nivel 6. La asymmetric bias del sistema (negative reviews pesan más, ver [[notes/reviews--negative-bias-asymmetric]]) hace que cualquier escalada por tu parte amplifique el daño. [[notes/reviews--emotional-intensity-plus-10]]\n\n6. La palanca real no es la respuesta, es el volumen. Una review negativa sobre 10 hunde el rating (-8%); sobre 100 apenas mueve la aguja (-0.8%). Tras responder, fuerza el flujo: bookings rápidos sin sacrificar precio + push del flow de 9 mensajes para subir review completion rate. [[notes/reviews--more-dilutes-negative]]\n\n7. NO intentes que Airbnb remueva la review como guest (post-2025 el proceso está roto, ver [[notes/reviews--removal-process-broken-2025]]). La excepción 2026 es el refund-for-review loophole, que es una jugada distinta y previa al post (ver [[notes/reviews--refund-for-review-trade-2026-loophole]]); una vez la review está pública, asume que es permanente y úsala como vehículo para señal positiva al FPG.\n\nCaveat: la wiki tiene un gap explícito en templates específicos de respuesta a reviews negativas ya posteadas (MOC/reviews lo nota como pendiente). Las recomendaciones arriba se derivan de los principios genéricos de host-response-as-marketing y facts-only — son consistentes con la doctrina del canal pero no provienen de un atom dedicado a este caso exacto.",
+  "atoms_cited": [
+    "[[notes/reviews--facts-only-negative-review]]",
+    "[[notes/hospitality--host-response-to-review-as-marketing]]",
+    "[[notes/reviews--emotional-intensity-plus-10]]",
+    "[[notes/reviews--more-dilutes-negative]]",
+    "[[notes/reviews--negative-bias-asymmetric]]",
+    "[[notes/reviews--removal-process-broken-2025]]",
+    "[[notes/reviews--refund-for-review-trade-2026-loophole]]"
+  ],
+  "sources_cited": [
+    "[[sources/uwdAHCmhNn4]]",
+    "[[sources/UPMR-gfpQLs]]",
+    "[[sources/zih3JqcBRAE]]"
+  ],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 7,
+    "accuracy": 8
+  }
+}

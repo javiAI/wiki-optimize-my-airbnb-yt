@@ -1,0 +1,32 @@
+{
+  "question_id": "Q3",
+  "question": "¿Qué pongo en el título y las primeras líneas del summary?",
+  "level": 1,
+  "response": "Título y summary forman parte de las big three de conversión (foto > título > summary). Mal hechos, no hay precio que rescate el listing [[listing-optimization--big-three]].\n\n**Título — reglas**\n\n1. Elige UNA de dos vías: (a) brand name memorable o (b) 2-3 amenities diferenciales (hot tub, ocean view, pool, sauna). Nunca adjetivos genéricos tipo \"cozy\", \"charming\", \"beautiful\" — son ruido [[listing-optimization--title-brand-or-amenities]].\n2. Usa brand SOLO si: >15% de tus reservas son repeat, tienes varios listings en el mismo market (el brand compone), o estás en luxury (>$500/noche). En cualquier otro caso, cada caracter va a amenities concretas [[listing-optimization--title-brand-or-amenities]].\n3. No repitas lo que ya muestra la foto de portada. Si el cover ya dice \"playa\", el título suma info nueva (hot tub + BBQ + ocean view), no duplica [[listing-optimization--title-brand-or-amenities]].\n4. Regla de los 50 caracteres: en mobile el título se trunca alrededor del char 50. Escribe el título, abre la app de Airbnb en móvil y verifica live qué se ve antes del corte. Las amenities diferenciales deben caber en los primeros 50 chars [[listing-optimization--title-brand-or-amenities]].\n5. Test de calidad: ¿podría un guest elegir tu listing dentro de una grid de 30 thumbnails leyendo solo tu título? Si no, reescribe [[listing-optimization--title-brand-or-amenities]].\n\nEjemplos fuertes: \"Sunset House — Hot Tub + Ocean View\" / \"Villa Aurora: Pool, Sauna, 2mi from Downtown\". Ejemplos a evitar: \"Cozy Retreat in Nashville\", \"Beautiful Home, Great Location\".\n\n**Primeras líneas del summary (primeros ~400 chars visibles)**\n\n1. Asume que cuando el guest llega al texto, NO está convencido. Esas dos primeras líneas son el último cierre antes del bounce; si parecen genéricas, lo perdiste [[listing-optimization--text-for-still-shopping]].\n2. Arranca con un bullet list de amenities NO visibles en las fotos: tipo de colchón (memory foam/hybrid), Mbps reales del WiFi, monitores 27\" 4K para nómadas, espresso machine, 65\" 4K TV, washer & dryer. Lo que la foto no puede decir [[listing-optimization--text-for-still-shopping]].\n3. Especificaciones con números, cero adjetivos vacíos: \"WiFi 75 Mbps, sofá-cama extra, 2 baños, 5 min a pie del parque\" en lugar de \"stylish, centrally located\" [[listing-optimization--description-concrete-over-poetic]].\n4. Mete elementos de no-friction que reducen objeciones: self check-in con digital lock, no check-out rules, 24/7 outdoor security (aclarando outdoor) [[listing-optimization--text-for-still-shopping]].\n5. Si tienes un negativo real (42 escaleras, piscina compartida, ruido de calle), reenmárcalo en los primeros 3 bullets, no como disclaimer al final. \"Hillside, 42 stairs — great workout, guaranteed privacy\" filtra al guest correcto y sube ratings [[listing-optimization--turn-negatives-into-positives]].\n\n**Qué NO poner**\n\n- Adjetivos vacíos (spacious, cozy, luxurious, charming) — el guest juzga por photos [[listing-optimization--text-for-still-shopping]].\n- Repetir lo que ya muestran las fotos (decoración, vistas) [[listing-optimization--description-concrete-over-poetic]].\n- Párrafos largos sobre la historia personal del host en las primeras líneas [[listing-optimization--text-for-still-shopping]].\n- CTAs tipo \"Send us a message\" — más mensajes correlacionan con menos bookings; el guest dudoso que escribe rara vez reserva [[listing-optimization--text-for-still-shopping]].\n\n**Operativa**\n\n1. Reescribe título → publica → abre Airbnb app en móvil → verifica truncation a ~50 chars.\n2. Reescribe primeras 2 líneas del summary como bullets de amenities no visibles + specs numéricos.\n3. Vuelve a auditar 2-3 veces al año junto al resto del listing — es la palanca más infrautilizada [[listing-optimization--reoptimize-biannual]].",
+  "atoms_cited": [
+    "[[listing-optimization--big-three]]",
+    "[[listing-optimization--title-brand-or-amenities]]",
+    "[[listing-optimization--text-for-still-shopping]]",
+    "[[listing-optimization--description-concrete-over-poetic]]",
+    "[[listing-optimization--turn-negatives-into-positives]]",
+    "[[listing-optimization--reoptimize-biannual]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/MajEZ2en-Qk]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/IGd6LzHUmDw]]",
+    "[[sources/TFFssjYQLhY]]",
+    "[[sources/WQxUX4NGqlc]]",
+    "[[sources/ulUJsbj3FIc]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/wqgfoP-V8m0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

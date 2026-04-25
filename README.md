@@ -79,7 +79,7 @@ mkdir -p "$VAULT_PATH"/{sources,MOC,notes,queries,meta}
 
 **Un solo vídeo**:
 ```bash
-scripts/ingest-video.sh <video_id_or_url>
+scripts/ingest.sh <video_id_or_url>
 scripts/build-meta.sh                    # regenera meta/videos.md + log + index
 ```
 
@@ -93,7 +93,7 @@ scripts/build-meta.sh
 
 **Re-ingesta forzada** (si mejoran los subtítulos o cambias el formato):
 ```bash
-scripts/ingest-video.sh --force <video_id>
+scripts/ingest.sh --force <video_id>
 ```
 
 ### 2. Extraer átomos (guiada por Claude)
@@ -133,7 +133,7 @@ wiki-optimize-my-airbnb-yt/
 └── scripts/
     ├── config.sh.example      # plantilla
     ├── config.sh              # local, gitignored
-    ├── ingest-video.sh        # 1 vídeo → sources/
+    ├── ingest.sh        # 1 vídeo → sources/
     ├── batch-ingest.sh        # lista → sources/ (con log)
     ├── build-meta.sh          # regenera meta/videos.md + log + index
     ├── clean_vtt.py           # VTT → markdown con bloques [MM:SS]
@@ -148,19 +148,19 @@ wiki-optimize-my-airbnb-yt/
 
 Cuando el canal publique un vídeo nuevo:
 ```bash
-scripts/ingest-video.sh <nuevo_video_id>
+scripts/ingest.sh <nuevo_video_id>
 scripts/build-meta.sh
 ```
 
 ### Recuperar vídeos en español (5 no ingestados)
 
-Pendiente: añadir flag `--sub-lang es` a `ingest-video.sh`. Los 5 vídeos sin subs EN son interviews/contenido en español. Si los quieres, editar el script para aceptar lang como parámetro.
+Pendiente: añadir flag `--sub-lang es` a `ingest.sh`. Los 5 vídeos sin subs EN son interviews/contenido en español. Si los quieres, editar el script para aceptar lang como parámetro.
 
 ### Reemplazar transcripciones (mejor calidad)
 
 Si el creador activa subs manuales o mejora los auto-captions:
 ```bash
-scripts/ingest-video.sh --force <video_id>
+scripts/ingest.sh --force <video_id>
 ```
 Revisar después si los timestamps citados en `notes/` siguen siendo válidos (pueden haberse desplazado).
 

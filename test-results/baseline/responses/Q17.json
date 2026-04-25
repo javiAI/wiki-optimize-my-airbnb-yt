@@ -1,0 +1,35 @@
+{
+  "question_id": "Q17",
+  "question": "¿Cómo evalúo un mercado para invertir en una segunda propiedad (discovered vs undiscovered)?",
+  "level": 4,
+  "response": "Evaluación de mercado para una segunda propiedad. La decisión clave es elegir entre **discovered** (30A, Smoky Mountains, Scottsdale) y **undiscovered** (conjectura propia: lake towns Midwest, medical tourism, retirement zones). Recomendación por defecto: **undiscovered** — menos competencia, easier ser top-1 del market, regulation runway intacto, y purchase/revenue ratio que cumple la regla del 5x [[notes/market-selection--discovered-vs-undiscovered]].\n\n**Pasos para evaluar el market**:\n\n1. **Empieza con conjectura, no con listas públicas**. Las listas \"top 25 most profitable\" llevan a todos los mismos markets saturados. Define una hipótesis propia (ej. \"qué market tiene los best guests?\" → elderly travel destinations; \"qué market tiene year-round demand?\" → medical tourism). Documenta ≥25 candidatos antes de filtrar [[notes/investing--conjecture-first-market-research]].\n\n2. **Aplica la heurística geográfica USA**: zonas con ≥3 cities de 100k+ residents + ≥2 airports dentro de 3h drive. Garantiza demand diversificada (business + leisure + medical + family). En Europa baja a 2h; en Latinoamérica prioriza international airports + tourism clusters [[notes/market-selection--airports-plus-cities-3h-drive]].\n\n3. **Filtra los 5 criterios del market profile**: (1) demanda year-round, (2) infraestructura turística creciendo, (3) gap oferta-demanda, (4) workforce local sana, (5) regulación estable o moviéndose hacia claridad (no hacia restricción) [[notes/market-selection--profile-criteria]].\n\n4. **Filtros negativos automáticos**: (a) descarta markets hot donde workforce no crece al ritmo del stock — sin cleaners fiables, tus números son ficción [[notes/market-selection--avoid-hot-workforce-starved]]. (b) Test rápido: si conseguir 2-3 equipos de limpieza requiere \"rezar\", siguiente market.\n\n5. **Proxy de market maturity**: abre Airbnb en el market, zoom-out 7 de 18 niveles, cuenta avg reviews per listing en primera página. <50 = market joven o high-churn (riesgo). 150-300 = market maduro profitable (años de actividad continua). >400 = posible saturación, chequea supply/demand [[notes/market-selection--reviews-on-first-page-proxy]].\n\n6. **Detección discovered vs undiscovered** (3 señales rápidas):\n   - Google \"[market] Airbnb investment\" → si hay >10 videos/blogs recientes = discovered.\n   - AirDNA listing count: >2000 listings para population <500k = discovered.\n   - Reddit menciones frecuentes = discovered.\n\n7. **Baja a micro-neighborhood, no pares en city-level**. Dos listings a 3 calles de distancia dentro del mismo ZIP pueden generar $15-20k/año de diferencia por proximidad a waterfront, walking street, parque. En AirDNA/AllTheRooms filtra comps por radio 0.5 mi del target, no por neighborhood polygon. PriceLabs Market Dashboard permite drag-and-drop de comparables individuales [[notes/investing--micro-neighborhood-concept]].\n\n8. **Benchmark contra el percentil 90, no contra el promedio**. El average incluye el 50% de listings mal optimizados/priced/reviewed. Pulla el top 10% de la micro-zone por bedroom count — ese es tu revenue target realista, porque vas a operar en el top 10% [[notes/investing--90th-percentile-benchmark]].\n\n9. **Aplica la regla del 5x sobre revenue esperado, no best-case**. Purchase price ÷ revenue anual bruto proyectado ≤ 5. Si ratio = 5.1, fuera. Y \"projected\" significa lo que TÚ vas a hacer (top 10% del micro-neighborhood), no lo que hizo el operador anterior — compras el upside [[notes/investing--purchase-to-revenue-ratio-5x]] [[notes/investing--expected-revenue-not-best-case]].\n\n**Por qué undiscovered domina para una segunda propiedad**: el edge se captura al comprar, y solo existe si el market no está saturado de compradores paralelos. En un market con 50 listings, ser top-5 basta para 90% occupancy; en uno con 5000, top-100 puede estar en page 15. Además undiscovered cumple el 5x con holgura (3-5x), discovered viola la regla por purchase premium (6-10x).\n\n**Cuándo discovered SÍ puede tener sentido**: capital grande con capacidad de ops-at-scale + brand play luxury, repeat-destination demand asegurada (familias anuales), o infrastructure madura (cleaners abundantes). Si no encajas en ninguno, undiscovered.\n\n**Caveat undiscovered**: \"sin reconocimiento público\" no es \"sin demanda\". Antes de asumir oportunidad, valida occupancy >60% y revenue >$60k en el 90th %ile del micro-neighborhood. Si esos números no aparecen, undiscovered está muerto, no oculto.",
+  "atoms_cited": [
+    "[[notes/market-selection--discovered-vs-undiscovered]]",
+    "[[notes/investing--conjecture-first-market-research]]",
+    "[[notes/market-selection--airports-plus-cities-3h-drive]]",
+    "[[notes/market-selection--profile-criteria]]",
+    "[[notes/market-selection--avoid-hot-workforce-starved]]",
+    "[[notes/market-selection--reviews-on-first-page-proxy]]",
+    "[[notes/investing--micro-neighborhood-concept]]",
+    "[[notes/investing--90th-percentile-benchmark]]",
+    "[[notes/investing--purchase-to-revenue-ratio-5x]]",
+    "[[notes/investing--expected-revenue-not-best-case]]"
+  ],
+  "sources_cited": [
+    "[[sources/gRBPFT97MV8]]",
+    "[[sources/2PTub0hub0g]]",
+    "[[sources/0f3846KigQg]]",
+    "[[sources/jKY6djYDsZc]]",
+    "[[sources/L5jTvT-Z5JQ]]",
+    "[[sources/AtQ1oDITk4c]]",
+    "[[sources/iQFK03Gcyn0]]",
+    "[[sources/xHWdzc7ovmY]]",
+    "[[sources/-kMX4p7MtAA]]",
+    "[[sources/lr8to3rM1os]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

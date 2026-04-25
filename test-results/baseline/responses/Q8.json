@@ -1,0 +1,26 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 2,
+  "response": "Antes de redactar la respuesta pública, asume que es permanente: en 2026 la remoción de reviews negativas está prácticamente rota (CX rechaza incluso evidencia clara) [[notes/reviews--removal-process-broken-2025]]. Tu respuesta NO es para el guest que escribió: es un micro-ad que leerán los Future Potential Guests durante el skim de tu P3 [[notes/hospitality--host-response-to-review-as-marketing]]. Pesa además que una review negativa carga peso asimétrico (100% de descontentos reviewan, solo 60% de contentos lo hacen) [[notes/reviews--negative-bias-asymmetric]], por lo que cada palabra cuenta.\n\nProtocolo en 7 pasos:\n\n1. Espera 24-48h antes de redactar. Match emocional +10% es la regla en mensajes privados [[notes/reviews--emotional-intensity-plus-10]], pero la respuesta pública requiere lo opuesto: -50% de tu intensidad real. Si escribes caliente, suenas defensivo y amplificas el daño en el lector.\n\n2. Redacta solo en hechos, sin adjetivos ni juicio sobre el guest. El principio facts-only que aplica al review que TÚ escribes al guest [[notes/reviews--facts-only-negative-review]] es el mismo que protege la respuesta pública: lo subjetivo (\"este guest fue irrazonable\") te pinta a ti, no al guest, y Airbnb puede flaggearlo. Lo factual (\"la limpieza fue verificada con video timestamped antes del check-in\") informa al FPG sin atacar.\n\n3. Estructura de 3 frases máximo: (a) reconocer brevemente el inconveniente con neutralidad — sin \"lo sentimos profundamente\"; (b) un hecho concreto que contextualiza o desmiente sin contradecir frontalmente (ej. \"la propiedad cuenta con video de turnover de cada checkout\", \"la WiFi fue verificada a 200 Mbps el día del check-in\"); (c) una frase de mejora forward-looking (\"hemos añadido X para futuros guests\") que convierte la respuesta en señal de host engaged, no defensivo.\n\n4. NO niegues frontalmente, NO uses sarcasmo, NO menciones reembolsos ofrecidos ni montones de mensajes intercambiados — el FPG no quiere drama. NO incluyas el nombre del guest. NO uses CTAs externos ni links (riesgo ToS) [[notes/hospitality--host-response-to-review-as-marketing]].\n\n5. Cierra con un anchor de mejora medible. Igual que la última frase del review tuyo al guest es la que más pesa [[notes/reviews--facts-only-negative-review]], aquí la frase final es la que el FPG lee en el skim. Ejemplo: \"Hemos instalado un segundo termostato en planta baja para garantizar el confort en invierno.\"\n\n6. Tras publicar la respuesta, pivota a dilución: la palanca que SÍ baja el daño matemáticamente es volumen. Una 1★ sobre 10 reviews = 4.6; sobre 100 = 4.96 [[notes/reviews--more-dilutes-negative]]. Empuja bookings inmediatos, activa el flow de 9 mensajes [[notes/hospitality--nine-automated-messages]] y el reciprocity post-checkout 3-6h [[notes/reviews--reciprocity-post-checkout]] para acelerar review capture rate. Esto es más rentable que pelear la review.\n\n7. Threshold check: si tu rating cayó por debajo de 4.8, pasaste un step function y guests experienced te descartan sin leer [[notes/reviews--four-point-eight-threshold-disregard]]. La respuesta pública sola NO te recupera; necesitas hospitality fix + volumen agresivo en las próximas 4-6 semanas para cruzar el threshold de vuelta.\n\nPlantilla operativa (180 caracteres aprox.):\n\n\"Gracias por el feedback. La limpieza se documenta en video al cierre de cada turnover; revisaremos ese registro. Hemos añadido [mejora concreta] para próximos guests.\"\n\nQué evita esta plantilla: defensa, contradicción frontal, emoción, marketing externo. Qué transmite al FPG: host calmado, sistema operativo serio, mejora continua.",
+  "atoms_cited": [
+    "[[notes/reviews--removal-process-broken-2025]]",
+    "[[notes/hospitality--host-response-to-review-as-marketing]]",
+    "[[notes/reviews--negative-bias-asymmetric]]",
+    "[[notes/reviews--emotional-intensity-plus-10]]",
+    "[[notes/reviews--facts-only-negative-review]]",
+    "[[notes/reviews--more-dilutes-negative]]",
+    "[[notes/hospitality--nine-automated-messages]]",
+    "[[notes/reviews--reciprocity-post-checkout]]",
+    "[[notes/reviews--four-point-eight-threshold-disregard]]"
+  ],
+  "sources_cited": [
+    "[[sources/2024-12-19--how-to-delete-airbnb-reviews-7-step-guide]]",
+    "[[sources/2026-04-01--what-airbnb-employees-actually-think-of-hosts]]"
+  ],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 7,
+    "accuracy": 8
+  }
+}

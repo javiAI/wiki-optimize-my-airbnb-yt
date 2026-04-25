@@ -1,0 +1,22 @@
+{
+  "question_id": "Q10",
+  "question": "Recibo un mensaje de pre-booking que me huele mal. ¿Cómo lo gestiono sin perder al guest si es legítimo?",
+  "level": 2,
+  "response": "1. Vetea el guest profile antes de responder al mensaje. Mira las 5 secciones que importan: reviews de otros hosts, fecha de join, verifications (email + phone), Government ID, y la About-me description. La regla decisional: 3+ reviews positivas = accept; 0 reviews + 5 secciones completas = accept; 3-4 secciones + mensaje específico (nombres, propósito del viaje, fechas claras) = accept; 0-2 secciones = pide al guest que complete el perfil antes de confirmar. Esto filtra ~80% de los problemáticos sin tocar la conversación. [[notes/hospitality--guest-profile-vetting-framework]]\n\n2. Responde dentro del Airbnb chat, nunca en WhatsApp ni teléfono. Sin record escrito, cualquier disputa posterior la pierdes — Airbnb te graba pero tú no puedes grabarles. Si el guest pide salir de la plataforma, redirígelo: \"para tener el detalle accesible al soporte, sigamos en el chat del reservation\". Esto también te da paper trail si tienes que cancelar después. [[notes/hospitality--communication-on-platform-only]]\n\n3. Pide información concreta antes de confirmar: número exacto de huéspedes, propósito del viaje, hora estimada de llegada, si hay mascotas. Un mensaje específico es señal verde; respuesta evasiva o genérica (\"hi when can I check in\") es señal roja. Evita preguntas en tono inquisitivo — formúlalas como logística operativa (\"para preparar mejor tu llegada, ¿cuántos seréis y a qué hora estimáis llegar?\"). El guest legítimo responde sin fricción.\n\n4. Identifica red flags concretos que justifican cancelación penalty-free: intento de overbook (reserva 4, anuncia 12 \"para cumpleaños\"), negativa a pagar extra-guest fee declarado, payment failure no resuelto en 24h, comunicación hostil desde el inicio (\"raised the price\", acusaciones), o lag de 24h+ en responder confirmaciones. Si aparece UNA de estas, el riesgo de review negativa + daño físico supera el revenue de la noche. [[notes/hospitality--cancel-problem-booking-pre-checkin]]\n\n5. Si confirmas las red flags, cancela vía Airbnb policy (party intent, unauthorized guests, payment failure, safety concern). Usa el link \"cancel without penalty\" del email de Airbnb — NO uses cancellation genérica (eso sí penaliza ranking, ver [[notes/ranking--never-cancel]]). Screenshot del email + del chat antes de cancelar. Si el form no ofrece la opción penalty-free, escala pidiendo US-based rep o superhost line.\n\n6. Si el vetting + las preguntas operativas dan luz verde, confirma con tono profesional y mueve al flow estándar (mensaje 4 días pre-checkin, etc.). El guest legítimo NO se ofende por tres preguntas concretas; el problemático sí — la fricción del filter es la señal. La regla del autor: \"prefiero cancelar que aceptar una reserva con un guest problemático ni a 30% descuento\". El break-even no compensa el riesgo de review negativa o daño.\n\nResumen operativo: vet profile → chat en Airbnb → preguntas específicas → si red flag concreta, cancel penalty-free con paper trail; si no, confirma y sigue el flow.",
+  "atoms_cited": [
+    "[[notes/hospitality--guest-profile-vetting-framework]]",
+    "[[notes/hospitality--communication-on-platform-only]]",
+    "[[notes/hospitality--cancel-problem-booking-pre-checkin]]",
+    "[[notes/ranking--never-cancel]]"
+  ],
+  "sources_cited": [
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/XnDOXWniPaU]]",
+    "[[sources/qzm28u64294]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

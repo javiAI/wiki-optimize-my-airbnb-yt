@@ -60,30 +60,51 @@ vault:
 
 **Action**: Show summary of Phase 1. To proceed, say: `Approve Phase 1`
 
-Once approved, I will:
-1. Execute O1 (Hierarchical Indices) — 4 hours
-2. Execute O2 (Fix Q4 Contradiction) — 0.5 hours  
-3. Execute O3 (Language Consistency) — 2 hours
-4. Test each optimization, commit results
-5. Update this CLAUDE.md state
-6. Show Phase 2 when complete
+Once approved, I will execute the cycle: **Baseline test → O1 → Test O1 → Compare → Decide → O2 → ...**
+
+For each optimization:
+1. Implement changes (per `docs/PHASE_X_TASKS.md`)
+2. Git commit with `OX:` prefix
+3. **Run test suite** (per `docs/TEST_PROTOCOL.md`):
+   - `python3 scripts/run-test-suite.py --prepare --label OX`
+   - Launch 20 Agent calls in PARALLEL (single tool_use response)
+   - `python3 scripts/run-test-suite.py --consolidate --label OX`
+   - `python3 scripts/run-test-suite.py --compare --from <prev> --to OX`
+4. Read decision from `<VAULT>/meta/tests/optimizations/OX-comparison.json`:
+   - **IMPLEMENT** → Update CLAUDE.md state, continue to next OX
+   - **ITERATE** → Refine implementation, retry test
+   - **REVERT** → `git revert HEAD`, mark as failed, continue to next OX
+
+**Critical**: Tests use 20 fresh agents in parallel, no cache, no context. See `docs/TEST_PROTOCOL.md`.
 
 ---
 
-**How it works**:
-- Each session, I read this CLAUDE.md and execute based on `phase_status`
+**Before starting Phase 1**: Run baseline test once (establishes reference metrics).
+
+```bash
+python3 scripts/run-test-suite.py --prepare --label baseline
+# Then: 20 parallel Agent calls
+python3 scripts/run-test-suite.py --consolidate --label baseline
+```
+
+---
+
+**How automation works**:
+- Each session, I read this CLAUDE.md
+- Router determines action based on `automation.phase_status`
 - `pending_approval` → Show summary, wait for approval
-- `in_progress` → Execute tasks, test, commit, update state
+- `in_progress` → Execute next task → test → decide → commit → repeat
 - `complete` → Advance to next phase
-- No manual scripts. No intermediate files. Just: read CLAUDE.md → execute → update state → commit
+- Hook in `.claude/settings.json` reminds me to run tests after each `OX:` commit
 
 ---
 
-**See also**: 
+**See also**:
 - `docs/PHASE_{{current_phase}}_SUMMARY.md` — What this phase accomplishes
 - `docs/PHASE_{{current_phase}}_TASKS.md` — How to execute each task
-- `docs/TEST_FRAMEWORK.md` — How tests work
-- `docs/ORCHESTRATOR.md` — How automation works
+- `docs/TEST_PROTOCOL.md` — **How to run parallel tests (read before testing)**
+- `docs/TEST_FRAMEWORK.md` — Test framework theory
+- `docs/ORCHESTRATOR.md` — Full orchestration design
 
 ---
 
@@ -251,7 +272,7 @@ score = 0.40·recency + 0.30·popularity + 0.20·specificity + 0.10·authority
 ## 10.6 Ingest pipeline
 
 ```bash
-scripts/ingest-video.sh <video_id>
+scripts/ingest.sh <video_id>
 scripts/batch-ingest.sh <list_file>
 scripts/build-meta.sh
 scripts/rank-sources.py --top 10

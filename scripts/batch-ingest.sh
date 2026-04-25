@@ -20,7 +20,7 @@ while IFS='|' read -r VID TITLE DURATION; do
   N=$((N+1))
   printf "[%3d/%3d] %s " "$N" "$TOTAL" "$VID" | tee -a "$LOG"
 
-  OUT=$("${REPO_ROOT}/scripts/ingest-video.sh" "$VID" 2>&1)
+  OUT=$("${REPO_ROOT}/scripts/ingest.sh" "$VID" 2>&1)
   RC=$?
   case $RC in
     0)

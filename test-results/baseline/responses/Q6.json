@@ -1,0 +1,25 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 2,
+  "response": "Estás ante orphan nights. La intuición de bajar precio es errónea: pierdes margen y atraes al peor perfil (one-night party). El guest que busca 1-2 noches específicas (business traveller, layover, escapada de fin de semana) es poco price-sensitive; lo que le bloquea es tu minimum stay, no tu rate.\n\n1. Quita la fricción del minimum stay solo en esas fechas concretas. En PriceLabs: Date-Specific Customization → minimum_stay = 1 únicamente para los días huérfanos. No tocar el min-stay base [[notes/pricing--orphan-night-strategy]].\n\n2. Aplica un premium de +20% sobre el recommended price en esa fecha. El que reserva 1 noche aislada paga el premium sin parpadear porque su demanda está anclada a la fecha, no al precio. Configurar también como Date-Specific en PriceLabs, en %recommended (no absolute) para que el dynamic pricing siga funcionando por debajo [[notes/pricing--percent-of-recommended-date-edit]].\n\n3. Sube tu cleaning fee si aún no es alto ($150-250 para 1-2 bed). Sobre 1 noche se percibe como un fuerte premium adicional, lo que filtra al guest casual y deja pasar al de mayor disposición a pagar; sobre 2 noches se diluye [[notes/cleaning-ops--fee-deters-one-night]].\n\n4. Para huecos de 2 noches: misma lógica. min-stay 2 + premium ~15-20% en esas fechas. Si tu calendario está lleno 1.5× BLT alrededor del hueco, considera +15% adicional como señal al algoritmo [[notes/pricing--calendar-booked-solid-algo-reset]].\n\n5. Profilaxis: configura min-stay holiday (3 noches Christmas/NYE, 2-3 holiday weekends) via Date-Specific en PriceLabs ANTES de que aparezca la orphan. Forzar min-3 sobre Dec 26 evita que un booking 1-noche genere un orphan Dec 27-28 [[notes/pricing--holiday-specific-date-min-stay]].\n\n6. Si el patrón de orphans es recurrente (no excepción): revisa minimum_stay base. Bajarlo a 1 noche con cleaning fee alto captura el pool 1-night sin flood de problemáticos, y elimina la fuente del problema antes de que aparezca [[notes/cleaning-ops--fee-deters-one-night]].\n\nNo hacer: bajar el rate, etiquetar la fecha como 'sale' o 'discount', subir min-stay base a 3+ far-out (perjudica conversion fuera de holidays).",
+  "atoms_cited": [
+    "[[notes/pricing--orphan-night-strategy]]",
+    "[[notes/pricing--percent-of-recommended-date-edit]]",
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/pricing--calendar-booked-solid-algo-reset]]",
+    "[[notes/pricing--holiday-specific-date-min-stay]]"
+  ],
+  "sources_cited": [
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/79k3wAdhzH4]]",
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/VHQNoDMgLBE]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

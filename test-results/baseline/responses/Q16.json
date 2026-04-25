@@ -1,0 +1,30 @@
+{
+  "question_id": "Q16",
+  "question": "¿Cómo construyo direct bookings y reduzco mi dependencia de las OTAs?",
+  "level": 4,
+  "response": "Antes de invertir un solo euro en direct booking, valida que cumplas alguna de estas 4 condiciones; si no las cumples, el ROI es negativo y deberías concentrarte en optimizar tu Airbnb.\n\n1. **Filtro de entrada (gatekeeping).** Solo construye direct booking si cumples UNA: (a) gestionas 12+ listings, (b) operas en luxury ($500+/noche), (c) tienes ≥30% repeat business histórico, o (d) ya eres influencer con audiencia propia. Sin una de esas, el ahorro del fee Airbnb no compensa los costos invisibles (ads, tech stack, fraud, soporte 24/7) ([[notes/direct-booking--skip-unless-conditions]]).\n\n2. **Identifica tu razón real.** Solo hay 2 motivos genuinos: necesitas cash flow inmediato (vs 24-48h Airbnb) o quieres escapar del review tyranny. Las otras razones (\"ahorrar fees\", \"control\", \"brand\") son fear-driven y no resisten el análisis ([[notes/direct-booking--two-real-reasons]]).\n\n3. **Arquitectura PMS-first desde la propiedad #1.** El PMS es el hub (Hostfully/Guesty/Hospitable); Airbnb, VRBO y tu website son spokes. NO uses el website built-in del PMS — usa WordPress propio para que sea portable cuando cambies de PMS. Sin esta arquitectura, cualquier cambio futuro te obliga a reconstruir todo y pierdes reviews + SEO + email list ([[notes/direct-booking--pms-first-architecture]]).\n\n4. **Captura emails desde el día 1 con WiFi captive portal.** Instala StayFi (o equivalente, ~$5-15/mo por listing): cada guest introduce email + nombre + teléfono para conectarse al WiFi. Una booking de 2 guests rinde 2-4 emails; una long-term con visitantes, 10-30. La email list es tu único asset que ninguna plataforma puede banearte ([[notes/direct-booking--wifi-captive-portal-email-capture]]).\n\n5. **Minimum viable moves (las 3 jugadas 80/20).** (a) Google My Business gratis (\"lodging\") — captura búsquedas \"hotel [city]\". (b) Menciona tu brand en las reviews que dejas a guests (\"welcome back to Sunset House anytime\"). (c) Retargeting pixel (Meta + Google Ads) en tu website con $30-50/mo. Todo lo demás (SEO content, email flows complejos, partnerships) es 80% esfuerzo / 20% retorno hasta que las 3 anteriores estén funcionando ([[notes/direct-booking--minimum-moves]]).\n\n6. **Diferenciador visual: Matterport 3D.** Embebe un tour 3D Matterport en tu web directa — Airbnb no lo soporta nativamente, así que es ventaja propia. Justificado solo si listing premium ($150-300 scan one-time) y ya tienes web directa operativa ([[notes/direct-booking--matterport-3d-tour]]).\n\n7. **Concentra plataformas en lugar de proliferar.** Si distribuyes 70/20/5/5 entre Airbnb/VRBO/Booking/direct, elimina las dos minoritarias. Parte del 20% absorbido se transfiere a la plataforma principal por calendar disponibility, y reduces overhead. Excepción: mantén direct aunque esté en <10% si eres pipeline repeat-guest. Si direct <2% tras 12 meses con esfuerzo activo, el tráfico no existe ([[notes/direct-booking--multi-platform-concentration]]).\n\n8. **Discount destroyer en chat 1:1.** Cuando un guest pida descuento, NUNCA bajes el rate — ofrece upgrade asimétrico (late checkout 2pm, early checkin 12pm, welcome bottle, parking). 80% acepta; el 20% que insiste en precio se auto-filtra (son los guests más problemáticos). En direct booking el margen para ofrecer upgrades es mayor que en Airbnb ([[notes/direct-booking--discount-destroyer-response]]).\n\n9. **Presupuesta los 3 servicios invisibles que Airbnb te da gratis.** Review solicitation (Airbnb consigue 70-80% review rate; tú en direct te quedarás en 20-30%), trust badge (guest confía en Airbnb para disputas; en direct cualquier issue es contigo) y SEO orgánico (Airbnb hereda el DA enorme; tu site empieza de cero). Estos 3 NO se replican con $500 en ads — requieren años ([[notes/direct-booking--invisible-airbnb-value]]).\n\n**Secuencia recomendada (90 días)**: validar gatekeeping → instalar PMS hub + WordPress + Stripe → activar StayFi y empezar a capturar emails → registrar GMB → instalar pixel + brand mentions → evaluar a 12 meses si la distribución de bookings justifica seguir.",
+  "atoms_cited": [
+    "[[notes/direct-booking--skip-unless-conditions]]",
+    "[[notes/direct-booking--two-real-reasons]]",
+    "[[notes/direct-booking--pms-first-architecture]]",
+    "[[notes/direct-booking--wifi-captive-portal-email-capture]]",
+    "[[notes/direct-booking--minimum-moves]]",
+    "[[notes/direct-booking--matterport-3d-tour]]",
+    "[[notes/direct-booking--multi-platform-concentration]]",
+    "[[notes/direct-booking--discount-destroyer-response]]",
+    "[[notes/direct-booking--invisible-airbnb-value]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/w8cuYma09zY]]",
+    "[[sources/YI7E_q53bRU]]",
+    "[[sources/zDz2XogOarw]]",
+    "[[sources/Vq8a31O1p44]]",
+    "[[sources/wqgfoP-V8m0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

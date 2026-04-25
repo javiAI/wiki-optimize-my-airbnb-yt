@@ -1,0 +1,27 @@
+{
+  "question_id": "Q15",
+  "question": "Un guest pide extender estancia mid-stay. ¿Cuándo acepto y cuándo rechazo?",
+  "level": 3,
+  "response": "Decision rule: acepta por defecto si el guest se ha comportado bien y el calendar no tiene una reserva mejor; rechaza si hay banderas rojas de comportamiento o si el ADR de la extensión queda muy por debajo del market rate actual.\n\n1. **Verifica primero behavior in-stay**: si el guest ha tenido quejas continuas, ruido, daño detectado o disputas pre-checkin, NO extiendas — la probabilidad de review negativa o damage escala con cada noche extra. Misma lógica que vetting pre-stay [[notes/hospitality--guest-profile-vetting-framework]] aplicada in-stay [[notes/hospitality--cancel-problem-booking-pre-checkin]].\n\n2. **Comprueba el calendar antes de aceptar**: si esas fechas siguen libres, acepta. Si la siguiente reserva entra el mismo día del checkout, rechaza (no canceles a un guest confirmado para acomodar la extensión — penalty + ranking hit) [[notes/occupancy--extend-offer-message]].\n\n3. **Compara ADR de la extensión vs market rate actual**: si el booking activo se reservó hace meses con precio bajo y el dynamic pricing ahora marca +30% para esas noches, NO aceptes al precio del booking original. Ofrece extender al precio actual del calendar (o pídele que reserve las noches nuevas como booking separado para que el sistema cobre dynamic) [[notes/hospitality--offer-extension-midstay]].\n\n4. **Si el guest es solid y el ADR cuadra, ofrece descuento controlado**: -5 a -10% sobre las noches adicionales para LT (14+ noches) o -15 a -25% para extensiones cortas tipo \"una noche más\". Take rate típico cuando se ofrece proactivamente: 30% en short stays, 15-25% en LT [[notes/occupancy--extend-offer-message]].\n\n5. **Caso especial — orphan night cubierto**: si la extensión cubre una noche que iba a quedar huérfana entre dos reservas, acepta agresivamente — preferible guest conocido a un one-night booker desconocido (más wear & tear, menos vetted) [[notes/pricing--orphan-night-strategy]].\n\n6. **Caso especial — cruce a 28+ noches**: si la extensión empuja la estancia total a 28+ días, audita primero si el listing está preparado para LT (water heater, blackout curtains, kitchen real, blinds, sin grietas). Si NO está preparado, rechaza la extensión a 28+; las annoyances de short-term se convierten en review-killers en LT [[notes/hospitality--long-term-annoyances-become-issues]].\n\n7. **Regla anti-bargain**: \"Rather cancel than take at 30% discount with a problem guest\" — aplica igual al extend. No bajes el ADR por debajo del 75% del market rate actual solo para llenar; un gap a precio justo es mejor que una extensión barata con guest mediocre [[notes/hospitality--cancel-problem-booking-pre-checkin]].\n\n**Templante de aceptación con descuento**:\n> \"Hola [nombre], puedo extender [fechas] al [-X%] sobre el rate actual si confirmas en 24h. Lo bloqueo en cuanto me digas.\"\n\n**Templante de rechazo educado** (calendar ocupado o ADR insuficiente):\n> \"Hola [nombre], esas noches ya están reservadas / a un rate más alto. Si quieres, te paso las próximas fechas disponibles.\"\n\n**Resumen tabla de decisión**:\n- Guest OK + calendar libre + ADR cuadra → ACEPTAR (ofrece -5 a -25% según duración)\n- Guest OK + calendar libre + ADR muy bajo vs market → ACEPTAR a precio actual (no al precio del booking original)\n- Guest OK + calendar bloqueado → RECHAZAR (no canceles al siguiente)\n- Guest problemático → RECHAZAR siempre\n- Extensión cruza 28 noches + listing no LT-ready → RECHAZAR\n- Extensión cubre orphan night + guest OK → ACEPTAR agresivamente",
+  "atoms_cited": [
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/hospitality--offer-extension-midstay]]",
+    "[[notes/hospitality--long-term-annoyances-become-issues]]",
+    "[[notes/hospitality--guest-profile-vetting-framework]]",
+    "[[notes/hospitality--cancel-problem-booking-pre-checkin]]",
+    "[[notes/pricing--orphan-night-strategy]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/CyddkOVq6WM]]",
+    "[[sources/Q9Xz-Hg_9Vg]]",
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/XnDOXWniPaU]]",
+    "[[sources/PG3EGrwFzsI]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

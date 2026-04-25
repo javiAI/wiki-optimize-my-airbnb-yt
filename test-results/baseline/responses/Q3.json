@@ -1,0 +1,28 @@
+{
+  "question_id": "Q3",
+  "question": "¿Qué pongo en el título y las primeras líneas del summary?",
+  "level": 1,
+  "response": "Título y summary son la 2ª y 3ª palanca de las 'big three' (fotos > título > summary). Optimizar bien estos dos elementos puede duplicar conversion sin tocar nada más [[notes/listing-optimization--big-three]].\n\n**Título — reglas operativas**\n\n1. Elige una de dos vías y ejecuta a fondo: (a) **brand name** memorable, o (b) **2-3 amenities diferenciales** (hot tub, ocean view, pool, sauna). Cero adjetivos genéricos tipo 'cozy', 'charming', 'beautiful' — son ruido que no convierte [[notes/listing-optimization--title-brand-or-amenities]].\n2. Brand SOLO se justifica en 3 casos: tienes >15% repeat guests, multi-listing en el mismo market (el brand compounds), o luxury positioning >$500/noche. Si no caes en ninguno → cada caracter del título debe ser amenity concreta [[notes/listing-optimization--title-brand-or-amenities]].\n3. Las amenities diferenciadoras deben caber en los **primeros 50 caracteres**. En mobile el título se trunca alrededor de los 50 chars; los últimos 20 son invisibles. Escribe el título, abre Airbnb en el móvil en modo guest, y verifica live qué se muestra antes del corte [[notes/listing-optimization--title-brand-or-amenities]].\n4. **Regla 'no repetir la foto'**: si el cover muestra playa, no escribas 'Beachfront house' — añade nueva señal ('Hot Tub + BBQ + Ocean View'). El título debe decir lo que la foto NO puede [[notes/listing-optimization--title-brand-or-amenities]].\n5. Test de calidad: ¿podrías elegir tu listing entre 30 thumbnails sólo por el título? Si no → reescribe.\n\nEjemplos fuertes: 'Sunset House — Hot Tub + Ocean View' / 'Villa Aurora: Pool, Sauna, 2mi Downtown'. Ejemplos débiles: 'Cozy Retreat in Nashville' / 'Beautiful Home, Great Location'.\n\n**Primeras líneas del summary — reglas operativas**\n\n6. El summary es el **último cierre antes del bounce**: si el guest llega al text es porque las fotos + título + precio aún no le convencieron. Las 2 primeras líneas tienen que **diferenciar**, no introducir. Texto genérico que aplique a otros 10 listings es waste [[notes/listing-optimization--text-for-still-shopping]].\n7. Estructura: **bullet list de amenities NO visibles en fotos** (specs concretas con números): WiFi en Mbps, tipo de mattress (memory foam / hybrid), tamaño de TV (65' 4K), monitores 27' 4K para nómadas, espresso machine, W&D. El guest ya vio la decoración — descríbele lo que no se ve [[notes/listing-optimization--text-for-still-shopping]].\n8. Specs sobre adjetivos: 'WiFi 75 Mbps + indoor fireplace + indoor hot tub' supera siempre a 'enjoy a stylish stay in our centrally located place'. Cero fluff, máximo dato [[notes/listing-optimization--description-concrete-over-poetic]].\n9. Incluir **elementos no-friction** que reducen objeciones tempranas: self check-in con digital lock, no check-out rules, 24/7 outdoor video security. Cada uno mata una pregunta-bloqueante antes de que se convierta en mensaje (y los mensajes pre-booking convierten peor que booking directo) [[notes/listing-optimization--text-for-still-shopping]].\n10. Si el listing tiene un negativo real (escaleras, ruido, piscina compartida): **menciónalo y refrámalo** en los primeros 3 bullets. 'Hillside location, 42 steps — great workout, guaranteed privacy'. Ocultar negativos genera reviews 1-3★ por expectativa rota; nombrarlos filtra al guest adecuado [[notes/listing-optimization--turn-negatives-into-positives]].\n\n**Qué EVITAR en las primeras líneas**\n\n- Repetir lo visible en fotos (decoración, vistas que el cover ya enseña).\n- Adjetivos vacíos: spacious, cozy, luxurious, charming, stylish.\n- Párrafos largos de historia personal del host.\n- CTA tipo 'Send us a message' — más mensajes pre-booking = menos bookings; el guest dudoso que escribe rara vez reserva [[notes/listing-optimization--text-for-still-shopping]].\n\n**Cierre operativo (30 minutos)**\n\nReescribe el título según las reglas 1-4, abre Airbnb mobile y verifica el truncamiento. Reescribe los primeros 2 bullets del summary con specs no visibles (regla 7) + 1 elemento no-friction (regla 9). Si hay un negativo conocido, añade el reframe (regla 10) en bullet #3. Re-audita 2-3 veces al año — la palanca más infrautilizada del listing.",
+  "atoms_cited": [
+    "[[notes/listing-optimization--big-three]]",
+    "[[notes/listing-optimization--title-brand-or-amenities]]",
+    "[[notes/listing-optimization--text-for-still-shopping]]",
+    "[[notes/listing-optimization--description-concrete-over-poetic]]",
+    "[[notes/listing-optimization--turn-negatives-into-positives]]"
+  ],
+  "sources_cited": [
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/MajEZ2en-Qk]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/IGd6LzHUmDw]]",
+    "[[sources/TFFssjYQLhY]]",
+    "[[sources/wqgfoP-V8m0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "question_id": "Q10",
+  "question": "Recibo un mensaje de pre-booking que me huele mal. ¿Cómo lo gestiono sin perder al guest si es legítimo?",
+  "level": 2,
+  "response": "Protocolo en 6 pasos. Objetivo: usar el pre-booking como filtro activo (no como obstáculo) y, si confirma señales rojas, cancelar penalty-free antes del check-in.\n\n1. Mantén TODO el intercambio dentro del chat de Airbnb. Si el guest empuja a WhatsApp/SMS para discutir condiciones, redirige: \"para tener registro accesible, sigamos por el chat de Airbnb\". Sin paper trail, una disputa posterior la pierdes [[notes/hospitality--communication-on-platform-only]].\n\n2. Audita el guest profile en las 5 secciones que importan: reviews de otros hosts, fecha de join, verifications (email + phone mínimo), government ID y about-me. Decide en árbol: 3+ reviews positivas = accept; 0 reviews + 5 secciones completas = accept; 3-4 secciones + mensaje específico (nombres, propósito, fechas) = accept; 0-2 secciones = responde \"please complete your Airbnb profile with a photo and description before I confirm\". Esto filtra 80%+ de potenciales problemas sin rechazar al legítimo [[notes/hospitality--guest-profile-vetting-framework]].\n\n3. Aplica la lógica del reservation flow en pre-booking: lo que necesita el guest aquí es amenities + ubicación + price justification + house rules críticas (max guests, no parties, no smoking). Si el mensaje del guest no cuadra con esa promesa (más huéspedes que el max, intent de evento), tu respuesta debe re-confirmar las reglas y el extra-guest fee, no entrar en negociación abierta [[notes/hospitality--reservation-flow-framework]].\n\n4. Cataloga las señales rojas pre-checkin antes de aceptar:\n   - Intento de overbook declarado (\"reservo para 4, vamos 12\").\n   - Negativa a pagar extra-guest fee ya listado en policies.\n   - Anuncio de fiesta / evento undeclared.\n   - Comunicación hostil desde el inicio (\"you raised the price\", acusaciones).\n   - Lag 24h+ en responder confirmaciones.\n   - Payment failure sin update [[notes/hospitality--cancel-problem-booking-pre-checkin]].\n\n5. Si tras el intercambio el guest aclara dudas con datos concretos (nombres, propósito del viaje, fechas reales) y cumple house rules, confirma. Si persiste cualquier red flag, ejerce penalty-free cancellation: Airbnb la concede por party intent, unauthorized guests, payment failure o house-rule violation pre-stay. Click en el link \"cancel without penalty\" del email de Airbnb; si el form no la ofrece, escala a soporte (US-based rep / superhost line) y conserva screenshot del email original como paper trail. Esta cancelación NO cuenta como cancellation negativa para ranking; \"never cancel\" aplica solo a cancellations sin justificación [[notes/hospitality--cancel-problem-booking-pre-checkin]] [[notes/ranking--never-cancel]].\n\n6. Regla de break-even del autor: \"prefiero cancelar que aceptar una reserva con 30% de descuento y un guest problemático\". El coste esperado de un 3★ (10-30 bookings dañados) supera cualquier revenue marginal. Detectar pronto > absorber el riesgo.\n\nNota lateral: si el guest legítimo se siente molesto por el escrutinio, el mensaje siempre se justifica como \"política estándar para todos los guests, así me aseguro de que tu estancia sea perfecta\". El guest legítimo lo acepta; el problemático se autoexcluye.",
+  "atoms_cited": [
+    "[[notes/hospitality--communication-on-platform-only]]",
+    "[[notes/hospitality--guest-profile-vetting-framework]]",
+    "[[notes/hospitality--reservation-flow-framework]]",
+    "[[notes/hospitality--cancel-problem-booking-pre-checkin]]",
+    "[[notes/ranking--never-cancel]]"
+  ],
+  "sources_cited": [
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/XnDOXWniPaU]]",
+    "[[sources/qzm28u64294]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/Nzmpg8m-imY]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

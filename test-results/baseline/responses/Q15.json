@@ -1,0 +1,24 @@
+{
+  "question_id": "Q15",
+  "question": "Un guest pide extender estancia mid-stay. ¿Cuándo acepto y cuándo rechazo?",
+  "level": 3,
+  "response": "Decisión binaria con árbol de 4 chequeos. La extensión mid-stay es revenue casi gratis (zero-friction, sin turnover, guest ya está cómodo): take rate 15-30% cuando se ofrece proactivamente, frente a <5% si esperas a que pregunten. Pero hay supuestos en los que el coste oculto supera el revenue.\n\n**Acepta cuando se cumplen los 4 filtros simultáneamente**:\n\n1. **Guest sin red flags durante la estancia**. Cero quejas escaladas, cero damage, cero ruido reportado, cero violaciones de house rules. Si en los primeros días ya estás tenso, no prolongues — la review se erosiona con cada día extra de exposición [[notes/hospitality--cancel-problem-booking-pre-checkin]].\n\n2. **El calendar no tiene reserva confirmada que solape**. Verifica las fechas exactas que pide en PriceLabs/PMS antes de responder. Si las noches solicitadas chocan con un booking existente, rechazo automático.\n\n3. **El ADR de la extensión no destruye margen**. Si el booking actual está a un ADR muy por debajo del market rate actual (ej. reservó hace 4 meses cuando estabas en slow season y ahora estás en peak), extender al mismo nightly te quema dinero. En ese caso: o cobras al market rate actual (no al rate del booking original), o rechazas.\n\n4. **Si el booking es 28+ noches, tu listing está preparado para LT**. Si no tienes oficina, blackout curtains, water heater dimensionado para duchas simultáneas, washer/dryer, y has auditado grietas/mosquitos/water pressure, NO extiendas hasta los 28 días — las annoyances que el short-term ignora drenan reviews en LT [[notes/hospitality--long-term-annoyances-become-issues]].\n\n**Rechaza directamente si**:\n\n- Guest problemático (damage, ruido, quejas, party intent) — no prolongues exposure.\n- Calendar ya tiene reserva confirmada en las fechas pedidas con ADR igual o superior.\n- ADR del booking actual ya está muy por debajo del market rate y el guest no acepta el rate actualizado.\n- Listing no preparado para 28+ noches y la extensión cruza ese umbral.\n\n**Cómo ofrecerlo (proactivo, no reactivo)**:\n\nEn booking de 14+ noches, envía mensaje día 5-7 ofreciendo extensión con descuento -5 a -10% sobre noches adicionales y deadline de 24h para confirmar [[notes/hospitality--offer-extension-midstay]]. En bookings cortos, mensaje 1-2 días antes del checkout ofreciendo -15 a -25% (sweet spot de conversion: take rate ~30%) [[notes/occupancy--extend-offer-message]]. Solo dispara el mensaje si las fechas siguen libres y la siguiente reserva no llega el día de checkout.\n\n**Caso especial — extensión cubre noche huérfana**: si la extensión te tapa una orphan night que ibas a tener que vender a 1-night premium, acéptala incluso sin descuento; eliminas un turnover y un riesgo de no-fill [[notes/pricing--orphan-night-strategy]].\n\n**Regla operativa**: pricing de la extensión NO es el rate del booking original. Cobra al market rate actual menos el discount agreed (-5 a -25% según largo). El guest en stay percibe el discount como trato exclusivo, no como precio raro.",
+  "atoms_cited": [
+    "[[notes/hospitality--offer-extension-midstay]]",
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/hospitality--long-term-annoyances-become-issues]]",
+    "[[notes/hospitality--cancel-problem-booking-pre-checkin]]",
+    "[[notes/pricing--orphan-night-strategy]]"
+  ],
+  "sources_cited": [
+    "[[sources/Q9Xz-Hg_9Vg]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/CyddkOVq6WM]]",
+    "[[sources/XnDOXWniPaU]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

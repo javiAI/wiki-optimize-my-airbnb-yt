@@ -1,0 +1,34 @@
+{
+  "question_id": "Q20",
+  "question": "Mi listing está estable (4.9★, 75% occupancy). ¿Cómo lo llevo al 'elite tier'?",
+  "level": 4,
+  "response": "Estás en el top 10% (4.9★) con occupancy decente, pero por debajo del top 1% (4.95+). El 'elite tier' no se alcanza con micro-edits ni bajando precio: requiere atravesar dos step-functions (rating 4.9→4.95 y occupancy 75%→90%+) usando palancas estructurales y compounding. Plan ordenado por ROI:\n\n1. **Cierra el gap de rating 4.9 → 4.95+**. Esta décima es la más cara pero la que define elite: top 1% vs top 10%. Diluye con volumen + flow de mensajes maduro: 9 touchpoints automatizados (4 días pre + arrival 5★ calibration + 18h wellness + pre-checkout + 3-6h post-checkout reciprocity) y human contact como driver primario [[notes/reviews--four-days-pre-checkin-message]].\n\n2. **Activa repeat guests como ranking moat**. La mayoría de hosts tienen 0 returning guests. Con 1-2/año estás a una desviación estándar del comp set. Triple payoff: ranking boost directo + ~100% review rate + ~100% review 5★. Despliega friends-and-family discount post-stay y follow-up estacional, manteniéndolos dentro de Airbnb (no off-platform) [[notes/ranking--repeat-guests-boost]].\n\n3. **Stack de amenities únicas como 'review fuel'**. A 4.9 las reviews 5★ son baseline; lo que falta es review *length* y mention rate, ambos ranking signals. Telescope ($80-300 si tienes outdoor), hammock plegable, reverse-osmosis filter, large 3-spout showerhead, copper silverware, fancy drinkware ajustado al price-point. Coste $50-300 one-time → menciones orgánicas en reviews + activan tags P3 [[notes/listing-optimization--unique-amenities-review-fuel]].\n\n4. **Stack Hormozi 10×10 (no 1×10×)**. Elite tier no es un wow-factor único sino acumulación: dimmable lights, blackout curtains, king bed (filtro Airbnb), 2 almohadas/persona (1 firme + 1 suave), 100\" TV, monitores top-tier si target nómada, mesa de juegos. Cada item por sí solo no mueve la aguja; el stack convierte y genera 5★ [[notes/listing-optimization--ten-percent-better-ten-things]].\n\n5. **Capex amenity con compound effect**. La diferencia clave entre top-decile y top-1% es revenue, y revenue lift de amenity es multiplicativo (Δrate × Δocc), no aditivo. Caso water park: rate +74% + occ +24% = +115% revenue compound. Identifica una amenity de tu market que active filtros nuevos y posicione premium; payback 5 años máximo [[notes/listing-optimization--amenities-rate-plus-occupancy-compound]].\n\n6. **Auditoría big-three antes de subir base**. Foto cover diferenciada del comp set (pattern interrupt SERP), título brand-or-amenities (no adjetivos), summary 2 primeras líneas afiladas. Optimizando solo estos 3 elementos hosts del autor doblaron conversion [[notes/listing-optimization--big-three]].\n\n7. **Pricing: sube base si conversion benchmarks lo soportan**. Con 4.9★ + 75% occupancy probablemente estás dejando rate sobre la mesa. Insights Dashboard: si conversion >1% estás excepcional (subir base $5-10 incremental). Tres métricas deben batir comp set simultáneamente (rate + occupancy + BLT) — si tu BLT es más largo que market = value signal, hay margen para subir [[notes/pricing--three-metrics-framework]].\n\n8. **No bajes precio**. El 80% de hosts intenta optimizar via pricing primero — es 'lighting money on fire'. A 4.9★/75% occ tu palanca NO es precio, es las 7 anteriores [[notes/listing-optimization--three-step-troubleshooting]].\n\n**Métrica de éxito (90 días)**: rating 4.93+, occupancy 85%+, conversion >0.5% en Insights, ≥1 repeat guest cerrado, ≥3 reviews mencionando una amenity única por nombre. Si llegas a 4.95+/90% occ: estás en top 1%.",
+  "atoms_cited": [
+    "[[notes/reviews--four-point-eight-threshold-disregard]]",
+    "[[notes/reviews--four-days-pre-checkin-message]]",
+    "[[notes/ranking--repeat-guests-boost]]",
+    "[[notes/listing-optimization--unique-amenities-review-fuel]]",
+    "[[notes/listing-optimization--ten-percent-better-ten-things]]",
+    "[[notes/listing-optimization--amenities-rate-plus-occupancy-compound]]",
+    "[[notes/listing-optimization--big-three]]",
+    "[[notes/pricing--three-metrics-framework]]",
+    "[[notes/listing-optimization--three-step-troubleshooting]]",
+    "[[notes/investing--revenue-lift-benchmarks-by-lever]]"
+  ],
+  "sources_cited": [
+    "[[sources/t5bZYS_i06M]]",
+    "[[sources/y3T-IIIPOdw]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/iFZnEXouqx8]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/clYjtIftLdI]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

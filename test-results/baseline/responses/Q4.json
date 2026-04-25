@@ -1,0 +1,23 @@
+{
+  "question_id": "Q4",
+  "question": "¿Debo activar Instant Book desde el principio?",
+  "level": 1,
+  "response": "Sí, actívalo desde el día 1. Es señal directa de ranking y free leverage que no te conviene dejar sobre la mesa.\n\n1. **Activa Instant Book ya, con guardrails firmes.** Airbnb interpreta IB como acceptance rate del 100%; quien usa request-to-book efectivamente baja su acceptance al rechazar o dejar expirar requests, y eso lo penaliza el algoritmo. Configura los 3 filtros del autor: Government ID verified, no bad reviews, y agreement explícito a tus house rules. Con esos guardrails, el volumen de guests problemáticos cae ~95% sin perder el boost [[notes/ranking--instant-book-acceptance-signal]].\n\n2. **Cuantifica lo que pierdes si NO lo activas.** Caso documentado del autor: tras desactivar IB en un listing operativo, midió -25% de first-page impressions vía IntelliHost. La first-page es donde se juega la conversion, así que el coste de no tener IB es directo y medible — no teórico [[notes/ranking--instant-book-acceptance-signal]].\n\n3. **No te preocupa cancelar mal: IB lo previene, no lo causa.** El miedo común es \"y si llega un guest tóxico\". Pero tus guardrails actúan antes del booking — filtran por los mismos criterios que usarías manualmente. Y la regla absoluta es nunca cancelar una reserva aceptada: la penalización de Airbnb sobre cancellations del host es severa y persistente (meses de daño por una sola cancelación). IB con guardrails reduce la necesidad de cancelar; request-to-book mal gestionado la aumenta [[notes/ranking--never-cancel]].\n\n4. **Si tu listing es nuevo (sin reviews), IB es aún más crítico.** El bootstrap de listing nuevo es: calendar bloqueado salvo 3-5 semanas próximas, min stay 1 noche, precio -30% vs comparables, hasta acumular 3 reviews. Toda esta config va a maximizar bookings por unidad de tiempo — y IB amplifica esa conversion al eliminar la fricción del request. Sin IB, sacrificas la velocidad de los primeros 3 reviews que es lo único que importa en esa fase [[notes/occupancy--new-listing-calendar-strategy]].\n\n5. **Excepción única: mercado saturado vs nuevo.** En markets saturados Airbnb pondera el acceptance rate como tie-breaker más fuerte; en markets nuevos pesa menos. Pero el autor es categórico: aún en markets nuevos, no dejes ranking gratuito sobre la mesa. La asimetría es clara — el upside (ranking + impressions) es estructural, el downside (con guardrails) es marginal [[notes/ranking--instant-book-acceptance-signal]].\n\n**Acción inmediata**: entra en Settings → Booking → activa Instant Book → marca los 3 guardrails. 2 minutos. Beneficio mensurable.",
+  "atoms_cited": [
+    "[[notes/ranking--instant-book-acceptance-signal]]",
+    "[[notes/ranking--never-cancel]]",
+    "[[notes/occupancy--new-listing-calendar-strategy]]"
+  ],
+  "sources_cited": [
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/j5emxo6P7No]]",
+    "[[sources/I-Xk22Mp8eE]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/9IcUCiUcsFg]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

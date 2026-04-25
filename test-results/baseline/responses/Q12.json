@@ -1,0 +1,37 @@
+{
+  "question_id": "Q12",
+  "question": "¿Qué filtros aplica un guest en search antes de hacer click en mi listing?",
+  "level": 3,
+  "response": "Antes del click (P2 — search results), el guest filtra y descarta con un set acotado de criterios. Si tu listing no encaja en sus filtros, no aparece; y si aparece, la decisión de click se juega en cover photo + precio + rating ([[notes/ranking--p1-p2-p3-framework]]).\n\n1. **Los 4 filtros primarios estructurales — los únicos que de verdad importan**: price, location, number of bedrooms, number of bathrooms. Es lo único que el guest filtra realmente; el resto del listing solo cierra el booking, no atrae búsquedas nuevas [[notes/listing-optimization--guests-only-care-four-things]].\n\n2. **Verificá que tu bedroom y bathroom counts sean exactos**. Configurar 2 baños cuando tenés 3 (powder room no contado) te saca de todas las búsquedas con filtro \"3+ bathrooms\". El autor recuperó +12% revenue solo corrigiendo esto. Half baths cuentan como 0.5 [[notes/listing-optimization--bathroom-filter-match]].\n\n3. **Subí max guests al cap real de tu propiedad**. Activás los filtros \"fits 6+\", \"fits 8+\", típicos de family/group celebrations. Capturás bookings $1,000+/noche que antes ni te veían. Requiere camas + baños suficientes para no caer en 1-star por overcrowded [[notes/listing-optimization--max-guests-expands-pool]].\n\n4. **Asegurá ≥1 king bed**. Activa el filtro \"king bed\" de Airbnb (basta uno). El que hace el booking es quien deja la review, así que satisfacer su sueño es suficiente; el resto pueden ser queens. One-time purchase, 0 maintenance [[notes/listing-optimization--king-bed-filter-hack]].\n\n5. **Auditá los amenity-filters más usados**: kitchen (full), TV, workspace/desk, fast WiFi, parking (free), washer/dryer, pet-friendly. El autor cita casos de listings con TV física no marcada o kitchen desactivado — invisibles a segmentos enteros del search. Re-verificá cada 6 meses [[notes/listing-optimization--bathroom-filter-match]].\n\n6. **Rating threshold como filtro implícito de descarte**. Guests experienced ignoran <4.8 sin leer (\"4.6 = gray area, <4.5 forget about it\"). Si estás bajo 4.8, el problema no es el listing ni el pricing — es hospitality, y bloquea la conversión antes que cualquier otro filtro [[notes/reviews--four-point-eight-threshold-disregard]].\n\n7. **Superhost = filtro guest, no ranking signal**. Cuando el guest activa el toggle \"Superhost only\", desapareces si no lo tienes. Útil en markets con 40% Superhost, pero no invertir esfuerzo específico en mantenerlo a costa de ejecución real [[notes/ranking--superhost-zero-boost]].\n\n8. **Cover photo decide el click una vez pasado el filtrado**. Ocupa ~70% del tile en P2; debe ser tu mejor foto Y diferenciarse de la SERP del market (pattern interrupt). Si todos muestran living-room frontal y vos también, el guest scroll-fatigue [[notes/listing-optimization--cover-photo-differentiation]].\n\n9. **Orden de fotos importa post-click pero también afecta P2**: las primeras 5 deben ser 5 espacios distintos con el hero amenity en posición 1-2. Reordenar es gratis y mueve bookings [[notes/listing-optimization--photo-ordering]].\n\n10. **Precio mostrado sin fechas ≠ base price**. Es el precio más bajo de los próximos 28 días. Un descuento agresivo cercano tira hacia abajo lo que ven los guests browseando sin fechas, afectando el click-through vs. competidores [[notes/listing-optimization--undated-search-price-display]].\n\n**Acción mínima esta semana**: (1) verificar bedroom/bathroom count exactos; (2) auditar los 7 amenity-filters críticos (kitchen, TV, WiFi, parking, washer/dryer, workspace, pet-friendly); (3) confirmar ≥1 king bed; (4) revisar max guests al cap real. Toma 30 minutos. Si el rating está <4.8, esto no se compensa con filtros — fix hospitality primero.",
+  "atoms_cited": [
+    "[[notes/listing-optimization--guests-only-care-four-things]]",
+    "[[notes/listing-optimization--bathroom-filter-match]]",
+    "[[notes/listing-optimization--max-guests-expands-pool]]",
+    "[[notes/listing-optimization--king-bed-filter-hack]]",
+    "[[notes/reviews--four-point-eight-threshold-disregard]]",
+    "[[notes/ranking--superhost-zero-boost]]",
+    "[[notes/ranking--p1-p2-p3-framework]]",
+    "[[notes/listing-optimization--cover-photo-differentiation]]",
+    "[[notes/listing-optimization--photo-ordering]]",
+    "[[notes/listing-optimization--undated-search-price-display]]"
+  ],
+  "sources_cited": [
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/t5bZYS_i06M]]",
+    "[[sources/x8Wk_mG7yM8]]",
+    "[[sources/wqgfoP-V8m0]]",
+    "[[sources/MajEZ2en-Qk]]",
+    "[[sources/UPMR-gfpQLs]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/76G3CGbJLk0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

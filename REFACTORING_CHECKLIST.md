@@ -52,7 +52,7 @@ Repository Root (5 .md files + 1 docs/ folder) — Clean + Automated
 │   ├── next-task.sh (NEW: show next incomplete task)
 │   ├── show-progress.sh (NEW: human-friendly progress)
 │   ├── approve-phase.sh (NEW: approve & start phase)
-│   └── [existing scripts: ingest-video.sh, batch-ingest.sh, etc.]
+│   └── [existing scripts: ingest.sh, batch-ingest.sh, etc.]
 │
 ├── test_battery/ (untouched — 20 files)
 │

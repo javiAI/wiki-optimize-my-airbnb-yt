@@ -1,0 +1,36 @@
+{
+  "question_id": "Q5",
+  "question": "¿Cómo consigo mis primeras reseñas?",
+  "level": 1,
+  "response": "El objetivo en las primeras 4-6 semanas es uno: llegar a 3 reseñas lo antes posible. Volumen de reseñas es la señal #1 de ranking en Airbnb (un listing con 100 reviews @ 4.8 supera a uno con 20 @ 5.0), así que la prioridad es velocidad de bookings, no precio óptimo ni rating perfecto.\n\n1. **Configura el calendar en modo bootstrap**: bloquea TODO el calendar excepto las próximas 3-5 semanas, fija mínimo de noches en 1, y posiciona el precio 25-30% por debajo de comparables. Mantén esa configuración hasta tener 3 reseñas; después abre calendar completo y sube precio gradualmente. [[notes/occupancy--new-listing-calendar-strategy]]\n\n2. **Acepta el base price recomendado por PriceLabs sin afinar**: pre-launch no tienes data propia, así que conectar PL y aceptar su base recomendado es decisión de 30 segundos. Espera 10 días con bookings reales y entonces ajusta ±5-10% según occupancy ventana 30-day. No te auto-sabotees con un -20% \"por si acaso\". [[notes/pricing--new-listing-pricelabs-bootstrap]]\n\n3. **Match el cleaning fee a los comparables y no anuncies el descuento**: si tus comps cobran $75 de limpieza, no pongas $120; el guest ve el total, no las líneas. Y nunca pongas \"new listing sale!\" — anunciar el descuento señala desesperación y hunde conversion. [[notes/occupancy--new-listing-calendar-strategy]]\n\n4. **Instala el flujo de 9 mensajes automatizados desde el día 1**: el flujo (booking confirmation, 4-días pre-checkin, día-de-checkin, wellness check 18h post-checkin, mid-stay, pre-checkout, reciprocity post-checkout, day-10 nudge) es lo que convierte estancia → reseña. Cualquier PMS moderno lo soporta; setup ~2h. [[notes/hospitality--nine-automated-messages]]\n\n5. **Calibra expectativa de 5 estrellas en el welcome message**: frase tipo \"Our goal is a 5-star experience. If anything falls short, tell me immediately so I can fix it — that way we both end with a great review.\" Hace dos cosas: el guest te escribe a ti antes que a la review, y recalibra el \"5\" (muchos guests dan 4 sin saber que es nota baja). [[notes/reviews--calibrate-five-star-arrival]]\n\n6. **Mensaje de reciprocity 3-6h post-checkout**: \"Thanks for staying — I'll be leaving you a 5-star review. If you enjoyed your stay, I'd really appreciate the same.\" Un solo mensaje sube el review completion rate de ~70% a ~90% por reciprocidad explícita (Cialdini). Solo enviar si genuinamente le darás 5*. [[notes/reviews--reciprocity-post-checkout]]\n\n7. **Garantiza al menos un punto de contacto humano por estancia**: live check-in tú mismo si vives cerca, o paga $30/estancia a un \"local friend\" que salude 10 min y dé tips. La automatización 100% techy tiende a 4*, no 5*. El guest recuerda emociones, no procesos. [[notes/reviews--human-contact-primary-driver]]\n\n8. **No declines guests cuestionables por miedo a una review baja**: en fase bootstrap el coste de oportunidad de no tener una reseña es mucho mayor que el riesgo de una 4*. Una review mala se diluye con volumen (1@1* sobre 10 reseñas hunde el rating; sobre 100 apenas se nota). [[notes/reviews--more-dilutes-negative]]\n\nUna vez tengas 3-5 reseñas, mueve un screenshot de la mejor a photo #6-7 del listing — Airbnb entierra reviews al fondo, traerlas arriba es lift de conversion gratis mientras todavía construyes social proof. [[notes/listing-optimization--reviews-to-top-of-listing]]",
+  "atoms_cited": [
+    "[[notes/occupancy--new-listing-calendar-strategy]]",
+    "[[notes/pricing--new-listing-pricelabs-bootstrap]]",
+    "[[notes/hospitality--nine-automated-messages]]",
+    "[[notes/reviews--calibrate-five-star-arrival]]",
+    "[[notes/reviews--reciprocity-post-checkout]]",
+    "[[notes/reviews--human-contact-primary-driver]]",
+    "[[notes/reviews--more-dilutes-negative]]",
+    "[[notes/ranking--more-reviews-beats-higher-rating]]",
+    "[[notes/listing-optimization--reviews-to-top-of-listing]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/WUIrpYpbQ5E]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/_twgnZtv0Ps]]",
+    "[[sources/j5emxo6P7No]]",
+    "[[sources/t5bZYS_i06M]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

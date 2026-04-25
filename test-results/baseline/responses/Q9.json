@@ -1,0 +1,43 @@
+{
+  "question_id": "Q9",
+  "question": "¿Qué amenities destaco y cuáles no aportan al booking?",
+  "level": 2,
+  "response": "Tu jerarquía de amenities tiene tres capas: las que activan filtros de búsqueda (visibility), las que el guest espera de base (no destacan, pero su ausencia te hunde), y las que generan menciones explícitas en reviews (review fuel + rate y occupancy compound). Destaca las dos primeras en fotos y texto del listing; las terceras son tu moat real.\n\n**Capa 1 — Filtros de búsqueda (las que SÍ destacas porque te hacen visible)**\n\n1. Audita el match de filtros básicos: bedrooms exactos, bathrooms exactos (incluye half-baths como 0.5), max guests al cap real, kitchen, TV, workspace, parking, washer/dryer, pet-friendly. Un listing con 3 baños configurado a 2 desaparece de toda la búsqueda \"3+ bathrooms\" — el autor cita +12% de revenue solo corrigiendo este campo [[listing-optimization--bathroom-filter-match]].\n2. Asegúrate de que **al menos un bedroom tenga king bed**. Activa el filtro Airbnb \"king bed\" y la persona que reserva (la que deja review) duerme bien — suficiente para 5★ [[listing-optimization--king-bed-filter-hack]].\n3. Sube max guests al máximo real con extra-guest fee. Activas filtros \"fits 6+/8+\" y capturas grupos/celebraciones a precios altos [[listing-optimization--max-guests-expands-pool]].\n4. Activa **TODAS** las safety features aplicables (smoke, CO, fire extinguisher, first aid, exterior camera). Airbnb tiene incentivo a promover listings con liability reducida; coste <$200, ranking lift material [[listing-optimization--safety-features-select-all]].\n\n**Capa 2 — Esenciales irrenunciables (no destacan, pero su ausencia mata reviews)**\n\n5. Los **9 amenities <$200 totales** que todos los guests esperan: shower head grande, hooks junto a la puerta, plastic hangers, Bluetooth speaker, tapas para ollas/sartenes, tijeras, variedad de asientos, lámparas de mesilla (≥1 por cama), digital lock para self check-in. Si te faltan 3+ no es un problema de amenity — es que no has dormido en tu propio listing [[listing-optimization--essential-amenities-checklist]].\n6. Para self check-in usa **digital lock con keypad ($129), nunca smart lock con app/Wi-Fi**: 0 problemas en 10 años vs múltiples fallos del smart [[listing-optimization--digital-lock-not-smart]].\n\n**Capa 3 — Review fuel + compound (lo que SÍ destacas con foto + overlay)**\n\n7. Amenities únicas que obligan al guest a mencionarlas en reviews: telescopio (si tienes outdoor + cielo limpio), hammock plegable, reverse osmosis filter, showerhead 3-spouts, copper silverware, fancy drinkware. Coste $50-300 one-time, larga vida, cero maintenance. Generan reviews largas (señal de ranking) y menciones que activan tags [[listing-optimization--unique-amenities-review-fuel]].\n8. Filtra cualquier upgrade por **vida útil larga + maintenance bajo**: dimmable lights (solo ~3% de Airbnbs los tienen, 0 maintenance), blackout curtains non-negotiable, multi-firmness pillows, monitores top, 100\" TV, king bed [[listing-optimization--amenity-longevity-low-maintenance]].\n9. Recuerda que las amenities suben rate **Y** occupancy a la vez: el efecto es **multiplicativo, no aditivo**. Caso documentado: water park +74% rate × +24% occupancy = +115% revenue [[listing-optimization--amenities-rate-plus-occupancy-compound]].\n10. Suma **spaces** (no rooms): balcón con mobiliario cómodo, hammock-corner, reading-nook, pool deck. Cada hang-out point usable = +1 punto de valor percibido. Space inutilizable (balcón vacío en zona caliente sin ventilador) penaliza por expectativa frustrada [[listing-optimization--spaces-concept]].\n\n**Cómo destacarlas operativamente**\n\n11. **Foto + overlay digital**: \"Netflix\" sobre la TV, \"Bluetooth\" sobre el speaker, \"200 Mbps Wi-Fi\" sobre el router. El guest escanea la foto en <1 segundo y asume el peor caso si no hay label [[listing-optimization--photo-digital-edits]].\n12. Coloca la amenity headline en las **top-5 fotos**, no en la #35 — los guests rara vez pasan de la 10-15 [[listing-optimization--photo-ordering]]. Mantén el tier coherente con el price point: Nespresso/robes en $300+, básicos impecables en $50-120 [[listing-optimization--amenities-match-price-point]].\n\n**Lo que NO aporta al booking (no inviertas aquí)**\n\n13. **Hot tubs**: alta maintenance (chemicals, breakdowns, limpieza), no diferencian lo suficiente y rompen el filtro \"longevity + low maintenance\". El autor los ha probado y los descarta [[listing-optimization--amenity-longevity-low-maintenance]].\n14. **Smart locks Wi-Fi/Bluetooth**: friction de app, fail con Wi-Fi caída, battery drain, firmware breaks. Coste-beneficio negativo vs digital lock [[listing-optimization--digital-lock-not-smart]].\n15. **Bajar precio para arreglar el atributo \"value\"** de las reviews: el guest percibe value como amenities/price, no price/market. Una Nespresso + welcome basket mueve value más que -10% de precio [[reviews--amenities-fix-value-attribute]].\n16. **Amenities que tienes pero NO marcas** en el editor de Airbnb (TV física no checkeada, kitchen marcado \"no\" porque falta el horno completo): te hace invisible a segmentos enormes de búsqueda. Audita en cada re-optimización biannual [[listing-optimization--bathroom-filter-match]].\n17. **Marcar features que NO tienes**: el guest lo nota, deja review negativa y Airbnb te penaliza más que el lift original [[listing-optimization--safety-features-select-all]].\n18. **Comprar la amenity sin ponerla en fotos + texto**: si no aparece en P2 (search preview), el 70% de FPGs no la ven y pierdes la señal — equivale a no tenerla [[listing-optimization--unique-amenities-review-fuel]].\n\n**Orden de inversión** (con $500-800 de presupuesto): primero el sweep gratuito de filtros (Capa 1, $0) → 9 esenciales si te faltan ($259-823) → 1-2 review-fuel únicas adaptadas a tu propiedad ($50-300) → digital edits sobre las fotos.",
+  "atoms_cited": [
+    "[[listing-optimization--bathroom-filter-match]]",
+    "[[listing-optimization--king-bed-filter-hack]]",
+    "[[listing-optimization--max-guests-expands-pool]]",
+    "[[listing-optimization--safety-features-select-all]]",
+    "[[listing-optimization--essential-amenities-checklist]]",
+    "[[listing-optimization--digital-lock-not-smart]]",
+    "[[listing-optimization--unique-amenities-review-fuel]]",
+    "[[listing-optimization--amenity-longevity-low-maintenance]]",
+    "[[listing-optimization--amenities-rate-plus-occupancy-compound]]",
+    "[[listing-optimization--spaces-concept]]",
+    "[[listing-optimization--photo-digital-edits]]",
+    "[[listing-optimization--photo-ordering]]",
+    "[[listing-optimization--amenities-match-price-point]]",
+    "[[reviews--amenities-fix-value-attribute]]"
+  ],
+  "sources_cited": [
+    "[[sources/4VBSa0I5PIA]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/iFZnEXouqx8]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/t5bZYS_i06M]]",
+    "[[sources/Q9Xz-Hg_9Vg]]",
+    "[[sources/zjIO6Z9YtJE]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/CbIZETKeV-U]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

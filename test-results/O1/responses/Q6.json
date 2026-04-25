@@ -1,0 +1,34 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 2,
+  "response": "Las orphan nights son resolubles con palancas concretas. Antes de bajar el precio (error tipico: pierdes margen y atraes al peor guest), aplica este orden:\n\n1. **Activa el adjacency factor en PriceLabs** (-25% inicial, escalar a -40% / -50% si no entran bookings). Baja automaticamente el precio de los dias antes y despues de cada reserva existente, donde la demanda real cae. Es la customization mas infrautilizada y suele ser el unico fix necesario; case study: occupancy de 60% a 82% en 6 semanas solo activandolo. [[notes/pricing--adjacency-factor]]\n\n2. **Drop minimum stay a 1 noche + 20% premium sobre recommended price, solo en la fecha aislada**, via Date-Specific Customization en PriceLabs. El guest que busca 1 noche (business traveler, layover) es menos price-sensitive: premium funciona mejor que descuento. [[notes/pricing--orphan-night-strategy]]\n\n3. **No subas el cleaning fee en esa fecha** si ya esta alto: sobre 1 noche se percibe como surcharge brutal y mata la conversion. Si tu cleaning fee general es alto para filtrar 1-night guests, en orphan dejalo: la combinacion premium + cleaning alto solo capta business travel real. [[notes/cleaning-ops--fee-deters-one-night]]\n\n4. **Antes del checkout actual, ofrece extension al guest in-house** con -20% sobre noches adicionales (mensaje 1-2 dias antes del checkout). Take rate ~30% y captura la huerfana con guest ya conocido, cero turnover extra. Solo si la siguiente reserva no llega en el mismo dia de checkout. [[notes/occupancy--extend-offer-message]]\n\n5. **Revisa flexibilidad antes de bajar precio**. Si la huerfana persiste tras 1-4, comprueba: cancellation policy, guest requirements y minimum-stay base. Mover min-stay general de 3 a 2 puede eliminar el problema estructural. [[notes/pricing--flexibility-concept]]\n\n6. **No subas minimum nights far-out para evitar futuros gaps**: reduce el pool de FPGs sin compensacion. La excepcion es holidays (Christmas, NYE) donde si configuras min 3 noches via Date-Specific en PriceLabs para bloquear orphans estructurales antes de que se formen. [[notes/pricing--no-increase-min-nights-far-out]] [[notes/pricing--holiday-specific-date-min-stay]]\n\n**Orden operativo**: activa adjacency factor hoy (cubre el 80% de casos sin tocar nada mas). Para las que queden, aplica drop-min + 20% premium dia a dia. La extend-offer es la red de seguridad final con guest in-house.",
+  "atoms_cited": [
+    "[[notes/pricing--adjacency-factor]]",
+    "[[notes/pricing--orphan-night-strategy]]",
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/pricing--flexibility-concept]]",
+    "[[notes/pricing--no-increase-min-nights-far-out]]",
+    "[[notes/pricing--holiday-specific-date-min-stay]]"
+  ],
+  "sources_cited": [
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/79k3wAdhzH4]]",
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/9Yk_IF97QdM]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/5Cmryzffb5I]]",
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/CyddkOVq6WM]]",
+    "[[sources/xqnB9WfMRFk]]",
+    "[[sources/VHQNoDMgLBE]]",
+    "[[sources/GZeFviVCFxw]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

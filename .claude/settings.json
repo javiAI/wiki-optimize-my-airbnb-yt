@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'COMMAND=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r .command 2>/dev/null || echo \"\"); if echo \"$COMMAND\" | grep -qE \"git commit.*-m.*\\\"O[0-9]+:\"; then OPT=$(echo \"$COMMAND\" | grep -oE \"O[0-9]+\" | head -1); echo \"\\n🧪 [HOOK] Optimization $OPT committed. Test should run next.\\n   Run: python3 scripts/run-test-suite.py --prepare --label $OPT\\n   Then Claude launches 20 parallel agents.\\n   Then: python3 scripts/run-test-suite.py --consolidate --label $OPT\\n   Then: python3 scripts/run-test-suite.py --compare --from <previous> --to $OPT\"; fi'"
+          }
+        ]
+      }
+    ]
+  },
+  "_documentation": {
+    "purpose": "Triggers test workflow notification after optimization commits",
+    "flow": "Hook detects 'git commit -m \"OX:...\"' and reminds Claude to run test suite",
+    "test_command_sequence": [
+      "1. python3 scripts/run-test-suite.py --prepare --label OX",
+      "2. Claude launches 20 Agent tool calls in parallel (one per Q1-Q20)",
+      "3. Each Agent reads its prompt from $VAULT_PATH/meta/tests/prompts/OX/Q*.md",
+      "4. Each Agent writes response to $VAULT_PATH/meta/tests/raw-responses/OX-Q*.json",
+      "5. python3 scripts/run-test-suite.py --consolidate --label OX",
+      "6. python3 scripts/run-test-suite.py --compare --from <prev> --to OX",
+      "7. If REVERT: git revert HEAD; if IMPLEMENT: continue to next optimization"
+    ]
+  }
+}
