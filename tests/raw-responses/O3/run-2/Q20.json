@@ -1,0 +1,36 @@
+{
+  "question_id": "Q20",
+  "question": "Mi listing está estable (4.9★, 75% occupancy). ¿Cómo lo llevo al 'elite tier'?",
+  "level": 4,
+  "response": "Estás en buena posición pero todavía no en elite. Elite tier significa 4.95+ de rating, 90%+ de occupancy y un nightly rate 20-30% por encima de listings similares — y eso solo se consigue empujando varias palancas a la vez, porque se multiplican. Aquí van los siete movimientos por orden de impacto.\n\n1. **Sube de 4.9 a 4.95+ con surprise & delight rotativo.** Cada estancia: detalle inesperado de $5-15 (vino local + nota manuscrita, basket de productos locales, flores el día de llegada). Rotar cada 2-3 meses. Es la palanca que el autor cita explícitamente para el salto 4.7→4.95 en el Belmonte Penthouse, y aplicando la fórmula +0.1 rating = +5% revenue, pasar de 4.9 a 4.95 vale un ~2.5% adicional sobre todo lo demás [[notes/hospitality--surprise-and-delight]].\n\n2. **Activa el flywheel de repeat guests.** En Insights Dashboard verás \"returning guests\" — la mayoría de anfitriones tienen 0; con 1-2 al año ya estás una desviación estándar arriba. Mensaje 7 días post-checkout con código de friends & family (10% off) y ping en temporada alta 3-4 meses después. Repeat guest = ranking boost + review casi 100% + 5★ casi garantizada. NO los saques de la plataforma [[notes/ranking--repeat-guests-boost]].\n\n3. **Apila 5-7 \"review fuel\" amenities únicas.** Telescope si tienes outdoor con cielo limpio, hammock plegable, large showerhead 3-spout, copper silverware, fancy drinkware adaptada al tier, reverse osmosis filter. Coste $30-300 cada una, one-time. La pregunta no es si el huésped lo usará, sino si lo MENCIONARÁ en la reseña — y reviews más largas rankean mejor [[notes/listing-optimization--unique-amenities-review-fuel]].\n\n4. **Auditá tu pricing contra los tres marcadores simultáneamente.** En PriceLabs Market Dashboard o Airbnb Insights, las tres métricas tienen que batir al market a la vez: rate (20-30% sobre similar listings), occupancy (≥90%), y booking lead time (BLT más largo que el market = señal de \"valuable listing\"). Si solo ganas en una, hay distorsión. A 75% occupancy probablemente estés underpriced o tengas el listing infra-optimizado para tu rate [[notes/pricing--three-metrics-framework]] [[notes/pricing--insights-dashboard-benchmark]].\n\n5. **Rutina semanal de 30 segundos en PriceLabs.** \"Set and forget\" deja dinero sobre la mesa incluso para anfitriones competentes — el autor afirma que un host que se considera bueno todavía puede sumar +20% con gestión activa (mix de rate + occupancy). Miércoles, 30 segundos, green-zone check (40-60% occupancy a BLT días), ajustes ±5% [[notes/pricing--pricelabs-not-passive]].\n\n6. **Stack 10% × 10 en el listing.** No busques un wow-factor. Suma diez ventajas pequeñas: dimmable lights, blackout curtains, king bed, dos almohadas por persona (una firme + una blanda), TV grande, monitores si trabaja gente, juegos de mesa de madera, lock digital de teclado, floor plan en las fotos, walking map con grey-out. Cada una es marginal; el stack mueve conversion + rating juntos [[notes/listing-optimization--ten-percent-better-ten-things]].\n\n7. **Re-optimización biannual del listing.** Cada 6 meses, 10 minutos: cover photo (la que maximiza clicks hoy), título, primeras dos líneas del summary, amenities nuevas tickeadas, todos los safety features activados. Airbnb degrada \"stale listings\" por debajo del radar — esto te mantiene fresco sin tocar nada estructural [[notes/listing-optimization--reoptimize-biannual]].\n\nEl orden importa porque las palancas se compounden, no se suman: subir rating 0.05 + activar repeat guests + 20% rate via PriceLabs activo no es +30%, es más cerca de (1.025 × 1.10 × 1.20) - 1 ≈ +35% sobre tu revenue actual. A 75% occupancy actual, el techo realista al ejecutar los siete está en 90-94% con 20-30% de rate premium. Eso es elite.",
+  "atoms_cited": [
+    "[[notes/hospitality--surprise-and-delight]]",
+    "[[notes/ranking--repeat-guests-boost]]",
+    "[[notes/listing-optimization--unique-amenities-review-fuel]]",
+    "[[notes/pricing--three-metrics-framework]]",
+    "[[notes/pricing--insights-dashboard-benchmark]]",
+    "[[notes/pricing--pricelabs-not-passive]]",
+    "[[notes/listing-optimization--ten-percent-better-ten-things]]",
+    "[[notes/listing-optimization--reoptimize-biannual]]",
+    "[[notes/reviews--four-point-eight-threshold-disregard]]",
+    "[[notes/investing--revenue-lift-benchmarks-by-lever]]",
+    "[[notes/listing-optimization--amenities-rate-plus-occupancy-compound]]"
+  ],
+  "sources_cited": [
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/6Mz5AlyuPcI]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/t5bZYS_i06M]]",
+    "[[sources/4KeWeSwiT_A]]",
+    "[[sources/iFZnEXouqx8]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

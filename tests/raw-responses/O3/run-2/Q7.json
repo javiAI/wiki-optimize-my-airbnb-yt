@@ -1,0 +1,23 @@
+{
+  "question_id": "Q7",
+  "question": "¿Cuándo subo el cleaning fee y cuándo lo bajo?",
+  "level": 2,
+  "response": "La regla central: el cleaning fee se ancla a la **media del comp set**, no a tu coste real de turnover. Esa es la referencia para decidir si subes o bajas.\n\n**Cuándo SUBIRLO**\n\n1. **Tu fee está por debajo de la media de comps directos (radio 0.5 mi, mismo tamaño)**. Saca la mediana de 3-5 comps; si estás más de un 10% por debajo, súbelo hasta entrar en banda. Estás dejando margen sin ganar conversión [[cleaning-fee-match-comp]].\n2. **Quieres mantener mínimo de 1 noche pero filtrar reservas de 1 noche** (party risk, wear ratio alto). Un fee de $200 sobre 1 noche se percibe como $200/noche y desincentiva; sobre 4 noches son $50/noche, asumible. Sigues visible para el ~30% de búsquedas con filtro 1-night, pero capturas estancias largas [[cleaning-ops--fee-deters-one-night]].\n3. **Casa entera de 4+ habitaciones o vacation rental con pool/hot tub**. Aquí el fee es estructural: $150-300 para casa, $200-400 con amenities premium. Sin fee, el coste real no es absorbible en la base sin matar conversión [[cleaning-ops--fee-depends-on-property]].\n4. **Tras detectar que tu coste real de cleaning ha subido y la media del comp set también lo ha hecho**. Ajustas con el mercado, no por delante.\n\n**Cuándo BAJARLO**\n\n1. **Tu fee está más de un 10% por encima de la media de comps**. El guest compara totales en P2; un fee inflado infla el total visible 10-20% y te saca de filtros por precio total. El propio creador bajó de $110 a $80 para reactivar bookings [[cleaning-fee-match-comp]].\n2. **Studio o 1-bed urbano sin tracción**. Aquí el fee puede ir incluso a $0-30; el cleaning time es bajo y el fee visible penaliza conversión más de lo que aporta. El autor opera un 4-bed (Belmonte Penthouse) a $0 cleaning y está en top 1% de occupancy de su market — no es \"nunca pongas fee\", es \"right-size para tu producto\" [[cleaning-ops--fee-depends-on-property]].\n3. **Listing nuevo sin reseñas o en bootstrap con PriceLabs**. Mientras consolidas las primeras 5-10 reseñas, un fee bajo desbloquea filtros de precio total en P3 (search) y acelera la primera tracción.\n4. **Coste real bajo pero fee anclado a un valor histórico alto**. Audita: si el cleaner cobra menos de lo que asumes, o el turnover real son 2h y no 4h, baja el fee al coste real ajustado a la media del market.\n\n**Lo que NO debes hacer**\n\n- **No elimines el fee subiendo el nightly rate** para \"simplificar\". El budget filter de Airbnb discrimina por nightly, no por total: si subes de $600 a $682/noche para absorber el fee, desapareces de la búsqueda \"hasta $600/noche\" aunque el total final sea idéntico [[cleaning-ops--dont-split-fee-into-nightly]].\n- **No traspases el cleaning al management fee** para \"esconderlo\". Airbnb suma ambos al total visible en P2: el precio efectivo sube y reduces tu pool de guests. Además, el management fee se percibe como arbitrario, el cleaning como justificado [[pricing--cleaning-vs-management-fee-trap]].\n\n**Cadencia de revisión**: una vez por trimestre. Saca media de comps, contrasta con tu coste real, y mueve el fee en pasos del 10-15%, no más.",
+  "atoms_cited": [
+    "[[notes/cleaning-ops--fee-depends-on-property]]",
+    "[[notes/cleaning-ops--dont-split-fee-into-nightly]]",
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/pricing--cleaning-fee-match-comp]]",
+    "[[notes/pricing--cleaning-vs-management-fee-trap]]"
+  ],
+  "sources_cited": [
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/giuHVqw_y4k]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

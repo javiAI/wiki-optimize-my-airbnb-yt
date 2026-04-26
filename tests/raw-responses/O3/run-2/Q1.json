@@ -1,0 +1,28 @@
+{
+  "question_id": "Q1",
+  "question": "Acabo de publicar mi anuncio. ¿Qué precio inicial pongo?",
+  "level": 1,
+  "response": "1. Conecta PriceLabs y acepta el `base_price` recomendado tal cual, sin afinarlo manualmente. Pre-publicación no tienes ningún dato propio, así que intentar superar al algoritmo es overconfidence pura. Esta decisión debe tomarte 30 segundos, no 30 minutos [[pricing--new-listing-pricelabs-bootstrap]].\n\n2. En paralelo, aplica la estrategia de calendar para listing nuevo: bloquea todas las fechas excepto las próximas 3-5 semanas, fija mínimo 1 noche y posiciona el precio un 25-30% por debajo de comparables. Mantén esa configuración hasta acumular 3 reseñas; entonces abres calendar completo y subes a paridad [[occupancy--new-listing-calendar-strategy]].\n\n3. Empareja la cleaning fee con la media de tu comp set, no con tu coste real de turnover. Lo que convierte es el precio total visible, no el line item; cualquier diferencia métela en el base price [[pricing--cleaning-fee-match-comp]].\n\n4. Nunca etiquetes el precio como \"new listing sale\" ni añadas mensajes de descuento explícito. El precio bajo convierte por sí solo; anunciarlo señaliza desesperación y reduce la percepción de calidad [[pricing--dont-announce-discount-to-new-guests]].\n\n5. Día 10 post-publicación: revisa la occupancy de la ventana 30-day. Si <35% reservado, baja base un 5-10%. Si 35-65%, mantén. Si >65%, sube base un 5-10%. Repite el ciclo cada 10 días hasta converger al 50% de occupancy a 30 días [[pricing--new-listing-pricelabs-bootstrap]].\n\n6. Tras las primeras 3 reseñas, abre calendar, normaliza mínimo a 2-3 noches, sube a paridad con comparables y pasa a la rutina semanal de 30 segundos: miércoles, comparar contra target, mover base ±5% como máximo [[pricing--weekly-30-seconds-routine]].\n\n7. A partir del día 30-45, usa el Airbnb Insights dashboard como brújula objetiva. Compara tu nightly rate, occupancy y booking lead time contra \"similar listings\". El objetivo a medio plazo es estar 20-30% por encima de la media de comparables manteniendo occupancy alta [[pricing--insights-dashboard-benchmark]].\n\nNotas operativas: no esperes 30 días para el primer ajuste (pierdes dos ciclos de iteración) ni recortes el base un 20% \"por si acaso\" (te auto-saboteas y, si entran reservas, no sabes si fue por calidad o por precio). El primer año es de calibración del market; no optimices agresivo antes de tener seasonality propia [[pricing--one-year-market-calibration]].",
+  "atoms_cited": [
+    "[[pricing--new-listing-pricelabs-bootstrap]]",
+    "[[occupancy--new-listing-calendar-strategy]]",
+    "[[pricing--cleaning-fee-match-comp]]",
+    "[[pricing--dont-announce-discount-to-new-guests]]",
+    "[[pricing--weekly-30-seconds-routine]]",
+    "[[pricing--insights-dashboard-benchmark]]",
+    "[[pricing--one-year-market-calibration]]"
+  ],
+  "sources_cited": [
+    "[[sources/WUIrpYpbQ5E]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/6Mz5AlyuPcI]]",
+    "[[sources/HsCIAq2TPMI]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

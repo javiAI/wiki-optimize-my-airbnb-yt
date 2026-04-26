@@ -1,0 +1,367 @@
+{
+  "label": "O1",
+  "timestamp": "2026-04-26T08:41:44.095183+00:00",
+  "rubric_version": "1.0",
+  "decision_version": "2.0",
+  "evaluation_source": "external_evaluator",
+  "evaluation_sources_per_run": [
+    "external_evaluator"
+  ],
+  "n_runs": 1,
+  "runs": [
+    {
+      "run": 1,
+      "n_questions": 20,
+      "evaluation_source": "external_evaluator",
+      "avg_input_tokens": 39944.65,
+      "avg_output_tokens": 905.35,
+      "avg_weighted_cost": 45376.75,
+      "avg_latency_ms": 88234.9,
+      "total_input_tokens": 798893,
+      "total_output_tokens": 18107,
+      "quality_avg": {
+        "completeness": 9.4,
+        "accuracy": 9.05,
+        "spanish_purity": 4.45,
+        "tone": 9.0,
+        "format_compliance": 8.45,
+        "weighted_avg": 8.32
+      },
+      "per_question": {
+        "Q1": {
+          "level": 1,
+          "weighted_cost": 38996,
+          "input_tokens": 35534,
+          "output_tokens_estimated": 577,
+          "latency_ms": 69788,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.4
+          }
+        },
+        "Q2": {
+          "level": 1,
+          "weighted_cost": 37272,
+          "input_tokens": 32940,
+          "output_tokens_estimated": 722,
+          "latency_ms": 57721,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.25
+          }
+        },
+        "Q3": {
+          "level": 1,
+          "weighted_cost": 41453,
+          "input_tokens": 35753,
+          "output_tokens_estimated": 950,
+          "latency_ms": 84661,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 7.0,
+            "weighted_avg": 8.1
+          }
+        },
+        "Q4": {
+          "level": 1,
+          "weighted_cost": 33221,
+          "input_tokens": 29717,
+          "output_tokens_estimated": 584,
+          "latency_ms": 52113,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.4
+          }
+        },
+        "Q5": {
+          "level": 1,
+          "weighted_cost": 48360,
+          "input_tokens": 43344,
+          "output_tokens_estimated": 836,
+          "latency_ms": 90891,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 8.0,
+            "weighted_avg": 8.3
+          }
+        },
+        "Q6": {
+          "level": 2,
+          "weighted_cost": 39631,
+          "input_tokens": 36049,
+          "output_tokens_estimated": 597,
+          "latency_ms": 72397,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.4
+          }
+        },
+        "Q7": {
+          "level": 2,
+          "weighted_cost": 37452,
+          "input_tokens": 33132,
+          "output_tokens_estimated": 720,
+          "latency_ms": 67223,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.25
+          }
+        },
+        "Q8": {
+          "level": 2,
+          "weighted_cost": 45500,
+          "input_tokens": 40814,
+          "output_tokens_estimated": 781,
+          "latency_ms": 75557,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.25
+          }
+        },
+        "Q9": {
+          "level": 2,
+          "weighted_cost": 52369,
+          "input_tokens": 45493,
+          "output_tokens_estimated": 1146,
+          "latency_ms": 90661,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 7.0,
+            "weighted_avg": 8.1
+          }
+        },
+        "Q10": {
+          "level": 2,
+          "weighted_cost": 41716,
+          "input_tokens": 36982,
+          "output_tokens_estimated": 789,
+          "latency_ms": 79559,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.4
+          }
+        },
+        "Q11": {
+          "level": 3,
+          "weighted_cost": 49526,
+          "input_tokens": 44684,
+          "output_tokens_estimated": 807,
+          "latency_ms": 105527,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 10.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.9
+          }
+        },
+        "Q12": {
+          "level": 3,
+          "weighted_cost": 46875,
+          "input_tokens": 41793,
+          "output_tokens_estimated": 847,
+          "latency_ms": 79165,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.25
+          }
+        },
+        "Q13": {
+          "level": 3,
+          "weighted_cost": 47929,
+          "input_tokens": 40819,
+          "output_tokens_estimated": 1185,
+          "latency_ms": 92994,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 7.0,
+            "weighted_avg": 8.1
+          }
+        },
+        "Q14": {
+          "level": 3,
+          "weighted_cost": 55301,
+          "input_tokens": 48731,
+          "output_tokens_estimated": 1095,
+          "latency_ms": 114931,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 8.0,
+            "weighted_avg": 8.3
+          }
+        },
+        "Q15": {
+          "level": 3,
+          "weighted_cost": 40353,
+          "input_tokens": 35163,
+          "output_tokens_estimated": 865,
+          "latency_ms": 86630,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.4
+          }
+        },
+        "Q16": {
+          "level": 4,
+          "weighted_cost": 43573,
+          "input_tokens": 36517,
+          "output_tokens_estimated": 1176,
+          "latency_ms": 103169,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.5
+          }
+        },
+        "Q17": {
+          "level": 4,
+          "weighted_cost": 42281,
+          "input_tokens": 36947,
+          "output_tokens_estimated": 889,
+          "latency_ms": 86104,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 9.0,
+            "weighted_avg": 8.4
+          }
+        },
+        "Q18": {
+          "level": 4,
+          "weighted_cost": 46606,
+          "input_tokens": 38356,
+          "output_tokens_estimated": 1375,
+          "latency_ms": 110873,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 8.0,
+            "weighted_avg": 8.2
+          }
+        },
+        "Q19": {
+          "level": 4,
+          "weighted_cost": 56258,
+          "input_tokens": 50402,
+          "output_tokens_estimated": 976,
+          "latency_ms": 117000,
+          "quality": {
+            "completeness": 9.0,
+            "accuracy": 9.0,
+            "spanish_purity": 5.0,
+            "tone": 9.0,
+            "format_compliance": 8.0,
+            "weighted_avg": 8.2
+          }
+        },
+        "Q20": {
+          "level": 4,
+          "weighted_cost": 62863,
+          "input_tokens": 55723,
+          "output_tokens_estimated": 1190,
+          "latency_ms": 127734,
+          "quality": {
+            "completeness": 10.0,
+            "accuracy": 9.0,
+            "spanish_purity": 4.0,
+            "tone": 9.0,
+            "format_compliance": 8.0,
+            "weighted_avg": 8.3
+          }
+        }
+      }
+    }
+  ],
+  "aggregated_metrics": {
+    "n_runs": 1,
+    "avg_weighted_cost": {
+      "mean": 45376.75,
+      "se": 0.0
+    },
+    "quality": {
+      "completeness": {
+        "mean": 9.4,
+        "se": 0.0
+      },
+      "accuracy": {
+        "mean": 9.05,
+        "se": 0.0
+      },
+      "spanish_purity": {
+        "mean": 4.45,
+        "se": 0.0
+      },
+      "tone": {
+        "mean": 9.0,
+        "se": 0.0
+      },
+      "format_compliance": {
+        "mean": 8.45,
+        "se": 0.0
+      },
+      "weighted_avg": {
+        "mean": 8.32,
+        "se": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "question_id": "Q5",
+  "question": "¿Cómo consigo mis primeras reseñas?",
+  "level": 1,
+  "response": "El objetivo en un listing nuevo es velocidad: las primeras 3 reseñas son la palanca que desbloquea ranking, así que prioriza volumen sobre precio o margen.\n\n1. Configura el calendar agresivo: bloquea todo excepto las próximas 3-5 semanas, fija mínimo 1 noche y baja el precio 25-30% por debajo de comparables hasta acumular 3 reseñas. Esto concentra la demanda y fuerza bookings rápidos. [[notes/occupancy--new-listing-calendar-strategy]]\n\n2. Acepta el base price recomendado por PriceLabs sin overthink (decisión de 30 segundos), espera 10 días con bookings reales y ajusta ±5-10% según ocupancia 30-day. No intentes afinar el precio antes de tener data propia. [[notes/pricing--new-listing-pricelabs-bootstrap]]\n\n3. Nunca anuncies el descuento al huésped (\"new listing sale\"). El precio bajo convierte; etiquetarlo como descuento señaliza desesperación, rompe la confianza y rozza el ToS de Airbnb sobre quid-pro-quo. [[notes/pricing--dont-announce-discount-to-new-guests]]\n\n4. Calibra la expectativa de 5 estrellas en el mensaje de bienvenida: \"Nuestro objetivo es una experiencia 5 estrellas; si algo no está a la altura, dímelo de inmediato\". Recibes los problemas en chat (donde se arreglan) en vez de en la reseña. [[notes/reviews--calibrate-five-star-arrival]]\n\n5. Activa contacto humano en algún punto de la estancia (live check-in tuyo, cohost o \"local friend\" 10 minutos). Es el driver #1 de reseñas 5 estrellas; la automatización 100% técnica tiende a 4. [[notes/reviews--human-contact-primary-driver]]\n\n6. Implementa el flujo de 9 mensajes automatizados, especialmente el wellness check ~18h post-checkin para capturar quejas menores antes de que maduren en una reseña de 3 estrellas. [[notes/hospitality--nine-automated-messages]]\n\n7. Envía el mensaje de reciprocity entre 3-6 horas tras el checkout: \"Te dejaré 5 estrellas; si disfrutaste tu estancia, te agradecería lo mismo\". Duplica la tasa de completion de reseñas (de ~70% a ~90%). Solo envíalo si genuinamente le darás 5. [[notes/reviews--reciprocity-post-checkout]]\n\n8. No filtres huéspedes \"cuestionables\" por miedo a una reseña baja durante esta fase: el algoritmo premia volumen, no rating perfecto. Una mala se diluye con las siguientes; lo que no se recupera es no rankear. [[notes/ranking--more-reviews-beats-higher-rating]]\n\nUna vez tengas las 3 reseñas: abre el calendar completo, normaliza el mínimo a 2-3 noches, sube precio a paridad con comparables y entra en routine semanal.",
+  "atoms_cited": [
+    "[[notes/occupancy--new-listing-calendar-strategy]]",
+    "[[notes/pricing--new-listing-pricelabs-bootstrap]]",
+    "[[notes/pricing--dont-announce-discount-to-new-guests]]",
+    "[[notes/reviews--calibrate-five-star-arrival]]",
+    "[[notes/reviews--human-contact-primary-driver]]",
+    "[[notes/hospitality--nine-automated-messages]]",
+    "[[notes/reviews--reciprocity-post-checkout]]",
+    "[[notes/ranking--more-reviews-beats-higher-rating]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/WUIrpYpbQ5E]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/_twgnZtv0Ps]]",
+    "[[sources/j5emxo6P7No]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "label": "O3",
+  "rubric_version": "1.0",
+  "evaluator_notes": "Batch O3 muestra cobertura técnica muy alta y formato consistente con steps numerados + atoms citados. La debilidad transversal es spanish_purity: alto volumen de anglicismos evitables (host, guest, review, booking, listing, market, rate, base, premium, schedule) cuando existen equivalentes en español. Tone es generalmente directo y consultivo, aunque varios pasajes se sienten densos por shorthand operativo. Format compliance fuerte salvo en respuestas tactical que exceden 600 palabras (Q3, Q5, Q7, Q9, Q13).",
+  "evaluations": {
+    "Q1": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Cobertura excelente del bootstrap PriceLabs con antipatrones; muchos anglicismos evitables (base, listing, guest, comp set, low season).",
+      "violations": ["Anglicismos: base price, listing, guest, comp set, low season, booked", "Steps con varias atoms en lugar de una clara por step"]
+    },
+    "Q2": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Cubre mínimos por bedroom, cover, top-5 y A/B test. Penaliza por 'guest', 'cover', 'living', 'bedroom', 'kitchen' constantes.",
+      "violations": ["Anglicismos: guest, cover, living, bedroom, kitchen, market, scroll, hero", "Headings en negrita rompen el patrón steps numerados puro"]
+    },
+    "Q3": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 8,
+      "format_compliance": 6,
+      "notes": "Muy completo y útil pero ~700+ palabras (excede límite tactical 600). Anglicismos abundantes en titulares y ejemplos.",
+      "violations": ["Excede 600 palabras (tactical)", "Anglicismos: guest, summary, listing, mobile, desktop, booking, host, market"]
+    },
+    "Q4": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta sólida y argumentada con quantificación (~25% impressions). Mejor balance de español que la media del batch.",
+      "violations": ["Anglicismos: ranking, listing, guest, request-to-book, booking", "Pequeña intro antes de step 1 (1 línea, tolerable)"]
+    },
+    "Q5": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Cobertura completa con calibración 5 estrellas y reciprocity. Mensajes literales en inglés y abundantes anglicismos.",
+      "violations": ["Excede 600 palabras", "Anglicismos: review, guest, host, booking, calendar, base, rating", "Texto en inglés directo en plantillas"]
+    },
+    "Q6": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Tactical limpio: drop min + premium 20%, extend-offer, Thu/Sun, holiday min-stay. Conciso (~300 palabras).",
+      "violations": ["Anglicismos: orphan night, business traveler, layover, calendar, booking, weekend"]
+    },
+    "Q7": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Subir/bajar bien argumentado con errores frecuentes y protocolo. Excede 600 palabras tactical y mezcla heading bold con steps.",
+      "violations": ["Excede 600 palabras", "Anglicismos: cleaning fee, booking, base, market, comp, guest, fee", "Steps con múltiples atoms"]
+    },
+    "Q8": {
+      "completeness": 9,
+      "accuracy": 8,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Excelente framing 'anuncio para FPG' y plantilla. Anglicismos persistentes (FPG, guest, review, reply).",
+      "violations": ["Anglicismos: FPG, guest, host, reply, review, refund, listing", "Plantilla en inglés mezclada con español"]
+    },
+    "Q9": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 8,
+      "format_compliance": 6,
+      "notes": "Excelente estructura de 3 capas + qué descartar. Excede claramente 600 palabras tactical y mezcla extensiva con inglés.",
+      "violations": ["Excede 600 palabras", "Muchos anglicismos: amenities, listing, review, booking, guest, host, kitchen, workspace"]
+    },
+    "Q10": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Vetting framework + red flags + plantillas claros. Citas como [[hospitality--...]] sin prefijo notes/ — desviación menor.",
+      "violations": ["Anglicismos: guest, booking, off-platform, refund, host", "Atom prefix inconsistente (sin 'notes/')"]
+    },
+    "Q11": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Strategic completo: BLT, base, customizations, rutina, validación. Long pero cabe en 1000 palabras strategic.",
+      "violations": ["Anglicismos: base price, minimum, customization, rate, market, listing, far-out, last-minute", "Algunos steps con múltiples atoms"]
+    },
+    "Q12": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 8,
+      "format_compliance": 9,
+      "notes": "Estructura clara de 4+secundarios+P2; acción inmediata útil. Anglicismos típicos.",
+      "violations": ["Anglicismos: bathroom, bedroom, guest, listing, kitchen, parking, search, click-through"]
+    },
+    "Q13": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Flow muy completo (9 touchpoints + tooling). Plantillas literales en inglés, anglicismos densos.",
+      "violations": ["Excede 600 palabras (es strategic-ish, dentro de 1000 ok)", "Plantillas en inglés", "Anglicismos: guest, host, message, booking, check-in, checkout"]
+    },
+    "Q14": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Strategic con KPIs priorizados, bandas concretas y resumen ejecutivo. Bien estructurado.",
+      "violations": ["Anglicismos: dashboard, listing, booking, occupancy, rate, guest, conversion"]
+    },
+    "Q15": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "4 pasos + cuándo aceptar/rechazar + plantillas. Conciso y operativo.",
+      "violations": ["Anglicismos: guest, booking, calendar, market rate, host", "Plantilla en español pero con bracketed [nombre] estilo template"]
+    },
+    "Q16": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Strategic excelente con skip-unless filter, secuencia operativa final. Source_id largo en lugar de yt-id en una cita.",
+      "violations": ["Anglicismos: direct booking, guest, host, fees, brand, booking, listing", "source_id 2023-03-03--a-conversation-... formato distinto al estándar"]
+    },
+    "Q17": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Excepcionalmente completo y bien ordenado: clasificación → conjetura → filtros → cuant. Tono consultor sólido.",
+      "violations": ["Anglicismos: market, revenue, ratio, booking, listing, host, weekend, drive"]
+    },
+    "Q18": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cobertura excelente con caveat explícito sobre gap de wiki en estructura societaria. Headings ## en lugar de steps puros.",
+      "violations": ["Anglicismos: PM, listing, host, guest, booking, payouts, co-host", "Atoms sin prefijo notes/"]
+    },
+    "Q19": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Strategic ordenado, regla 'no rompible' al final. Atoms sin prefijo notes/ en todas las citas — patrón.",
+      "violations": ["Anglicismos: listing, host, booking, calendar, hourly, market", "Atoms sin prefijo notes/"]
+    },
+    "Q20": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Strategic claro: 7 frentes ordenados por ROI + orden de ataque. Tesis 'offer stacking' explícita.",
+      "violations": ["Anglicismos: rating, listing, booking, market, surge, base, photo", "Atoms sin prefijo notes/"]
+    }
+  }
+}

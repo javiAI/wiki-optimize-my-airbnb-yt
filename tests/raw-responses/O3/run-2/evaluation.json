@@ -1,0 +1,188 @@
+{
+  "label": "O3",
+  "run": 2,
+  "rubric_version": "1.0",
+  "evaluator_notes": "Batch O3 run-2 muestra coherencia tactica y formato consistente: pasos numerados, una cita por step, plantillas operativas y caveats de mercado. Punto debil global: spanish_purity con anglicismos evitables persistentes (host, guest, booking/bookings, listing, review/reviews, rating, ranking) usados como sustantivos comunes; tone es solido (directo, consultor, segunda persona) sin filler. Format compliance alto pero algunas respuestas tactical (Q3, Q11, Q14, Q18, Q19) superan el limite de 600 palabras y mezclan ingles tecnico (overconfidence, sweet spot, bookings) cuando hay alternativa en castellano.",
+  "evaluations": {
+    "Q1": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cobertura tactica fuerte (PriceLabs bootstrap + ciclo 10 dias + transicion post-3-resenas). Anglicismos evitables: 'overconfidence', 'comp set', 'comparables', 'occupancy', 'far-out', 'overconfidence pura'.",
+      "violations": ["spanglish: occupancy, comp, market, base price", "uso de 'overconfidence' donde cabe 'exceso de confianza'"]
+    },
+    "Q2": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Estructura clara (cuantos / portada / proceso / errores). Demasiado anglicismo: cover, listing, market, scroll-fatigue, pattern interrupt, screenshot, staging, A/B test, impressions.",
+      "violations": ["multiples anglicismos evitables (cover, listing, scroll, staging)", "longitud rozando limite tactical"]
+    },
+    "Q3": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Diez pasos accionables y muy concretos. Excede claramente las 600 palabras (~720). Anglicismos: cozy, charming, cover, summary, repeat guests, brand name, bullets, bounce, CTA.",
+      "violations": ["supera 600 palabras (tactical)", "anglicismos evitables (resenas/comodidades aparecen como amenities)"]
+    },
+    "Q4": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Buena tesis: activar IB con guardrails. Cifra ~25% caida concreta. Anglicismos: friction score, ranking, request-to-book, acceptance rate, search ranking, booking, vetting.",
+      "violations": ["uso de 'ranking' como sustantivo recurrente", "request-to-book sin traducir"]
+    },
+    "Q5": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Lineamiento velocidad>precio coherente con corpus. Anglicismos: bookings, calendar, comparables, checkin/checkout, message, rating, reviews.",
+      "violations": ["'bookings' y 'rating' donde caben reservas/calificacion", "'checkout' sin traducir (uso operativo, aceptable parcialmente)"]
+    },
+    "Q6": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Tactica completa: customization Date-Specific + extension + last-minute + prevencion + anti-patrones. Anglicismos: orphan nights, take rate, churn, sweet spot, last-minute, business traveler, holiday weekends.",
+      "violations": ["orphan nights repetido sin traducir", "anglicismos varios (sweet spot, take rate)"]
+    },
+    "Q7": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Buena estructura subir/bajar/no-hacer. Excede ~640 palabras. Anglicismos abundantes: comp set, fee, vacation rental, budget filter, pool, hot tub, conversion, nightly, rate, total, tier.",
+      "violations": ["supera 600 palabras", "uso de 'fee' como sustantivo en lugar de 'tarifa'"]
+    },
+    "Q8": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Marketing defensivo + plantilla operativa + anti-patrones. Anglicismos: FPG, host, marketing, screenshots, refund, red flag, slang. Plantilla en castellano correcto.",
+      "violations": ["FPG sin glosa en español la primera vez", "host se mantiene sin traducir"]
+    },
+    "Q9": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Cobertura amplia (destacar/no destacar/regla compound). Largo (~640). Anglicismos: review fuel, smart lock, max guests, P2, conversion, listings, tier, payback, rate.",
+      "violations": ["supera 600 palabras", "anglicismos saturan (smart lock, payback, review fuel)"]
+    },
+    "Q10": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 10,
+      "format_compliance": 9,
+      "notes": "Vetting framework + plantillas de mensajes + cancelacion penalty-free. Anglicismos: vetting, red flags, paper trail, refund, host-cancel, rapport.",
+      "violations": ["red flags y vetting sin traduccion", "host-cancel anglicismo"]
+    },
+    "Q11": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "Excelente nivel tecnico (BLT, base, min, gradual, adjacency, far-out, customizations). Excede 600 palabras (~750). Anglicismos densos: BLT, far-out, holidays, ramp, weekend window, FPGs, percent gradual.",
+      "violations": ["supera 600 palabras pese a ser strategic-3 (rozando 1000)", "muchos anglicismos tecnicos"]
+    },
+    "Q12": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Diagnostico funnel + 4 filtros primarios + auditoria. Anglicismos: bookings, search, full, fast WiFi, parking, washer/dryer, pet-friendly, P2, pattern interrupt.",
+      "violations": ["bookings/listings sin traducir", "P2 sin glosa la primera vez"]
+    },
+    "Q13": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Flujo 9 mensajes con timing y reglas transversales. Anglicismos abundantes (ingles dentro de plantillas: 'Hope everything is great', 'Thanks for staying'); en espanol: PMS, triggers, response rate, response time, reciprocity, day-of, mid-stay, nudge.",
+      "violations": ["plantillas de mensaje en ingles sin version en espanol", "nudge/reciprocity sin traduccion"]
+    },
+    "Q14": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "Diagnostico funnel completo y rutina semanal. Excede 1000 palabras (~1080) limite strategic. Anglicismos: dashboard, search rank, funnel, comp set, bookings, conversion rate, throttlea.",
+      "violations": ["supera 1000 palabras (strategic limit)", "'throttlea' es spanglish puro"]
+    },
+    "Q15": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "4 criterios + plantillas + heuristica final. Conciso. Anglicismos: ADR, mid-stay, host, market rate, long-term, turnover.",
+      "violations": ["mid-stay sin traduccion", "long-term en lugar de larga estancia"]
+    },
+    "Q16": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Tesis contraintuitiva clara + condiciones + arquitectura PMS-first + KPIs. Anglicismos densos: direct booking, hub/spokes, captive portal, retargeting, fear-driven, CAC, payouts.",
+      "violations": ["alta densidad de anglicismos", "fear-driven y skin in the game sin traducir"]
+    },
+    "Q17": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Filtros negativos -> perfil -> heuristica -> proxy resenas. Buena coherencia con corpus. Faltan acentos en varias palabras (analisis, numeros). Anglicismos: workforce, weather, runway, supply/demand, weekend getaway, skin in the game, ratio.",
+      "violations": ["acentos ausentes (analisis, numeros, regulacion)", "workforce/runway sin traducir"]
+    },
+    "Q18": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cuando/como/estructura legal cubiertos. Excede 1000 palabras (~1100). Anglicismos: hourly rate, day-job, churn, payouts, banking, co-host, HUT (correcto, term legal), out-of-state, onboarding.",
+      "violations": ["supera 1000 palabras (strategic limit)", "anglicismos en clusters (day-job, hourly rate, banking)"]
+    },
+    "Q19": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Roadmap 1->5 con prueba de control final. Acentos faltan (mensajeria, automatizacion). Anglicismos: PMS, host-operador, portfolio-host, SOPs, sweet spot, single point of failure, SKU, churn.",
+      "violations": ["acentos sistematicamente ausentes", "host-operador y portfolio-host como compuestos hibridos"]
+    },
+    "Q20": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Siete movimientos con calculo de compounding final. Anglicismos densos: surprise & delight, repeat guests, review fuel, flywheel, ranking, dashboard, set and forget, stack, wow-factor, biannual.",
+      "violations": ["anglicismos saturan (review fuel, flywheel, set and forget)", "ingles en frases enteras ('surprise and delight')"]
+    }
+  }
+}

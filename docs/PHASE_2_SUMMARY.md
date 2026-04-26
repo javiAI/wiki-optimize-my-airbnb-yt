@@ -1,102 +1,71 @@
-# Phase 2: Quality Foundation
+# Phase 2: Quality Foundation (Structural)
 
-**Objective**: Build systematic quality assurance into the vault.
+**Objective**: Build systematic quality assurance into the vault — solo via cambios estructurales (kernel, templates, automatización). Las opts que modifican átomos se han movido a Phase 5.
 
-After Phase 1's structural improvements, Phase 2 focuses on content quality: detecting and preventing contradictions, enforcing response format consistency, and creating executable checklists that guide future ingests.
+Tras Phase 1 (mejoras estructurales de indexación), Phase 2 ataca dos vectores: detectar contradicciones en query-time, y estandarizar el formato de respuesta para reducir cognitive load y reforzar `spanish_purity` (el techo bajo de la rúbrica, 4.45-5.12).
 
 ---
 
 ## What Phase 2 Accomplishes
 
-- **O3 (Language Consistency)**: See Phase 1 (carried over from phase_1 task list; actually belongs here)
-- **O4 (Contradiction Detection L1)**: Automated detection of semantic conflicts at atom read-time, not just post-hoc audit
-- **O5 (Response Format Templates)**: Standardized query response structure with mandatory sections (scope, assumptions, caveats)
-- **O6 (Executable Checklists)**: Task lists in atoms that Obsidian can execute (Dataview integration)
+- **O4 (Contradiction Detection L1)**: Heurística en kernel que flagea conflictos semánticos al leer atoms durante query, no solo en lint sweeps.
+- **O5 (Response Format Templates)**: Templates canónicos por régimen (factual / tactical / taxonomic) en `queries/RESPONSE_TEMPLATES.md`. **Aprovecha para añadir reglas anti-anglicismos** que apuntan al `spanish_purity` floor.
 
-**Effort**: ~9 hours total  
-**Quality Impact**: Quality score 8.9 → 9.3  
-**Unlock**: Phase 3 (Automation) depends on Phase 2 quality gates
+**Effort**: ~5.5h total (3h O4 + 2.5h O5)
+**Quality target**: weighted_avg estable o ≥ punto pre-O4; `spanish_purity` ≥ 5.5; `format_compliance` ≥ punto pre-O4
+**Unlock**: Phase 3 (Automation) depende de Phase 2 quality gates.
+
+---
+
+## Diferidas a Phase 5
+
+- **O3 (Language Consistency)** — atom_content. Re-clasificada y diferida tras n=2 runs (composite +0.0088 pero `target_dim_regression` floor breach en `format_compliance`). Se re-incorpora como regla at-creation en el prompt de regeneración.
+- **O6 (Executable Checklists)** — atom_content. Convierte cuerpos de atoms procedurales a Dataview-checklist. Se aplica at-creation en Phase 5.
+
+Razón consolidada: ver principio en [OPTIMIZATIONS.md](OPTIMIZATIONS.md#principio-de-optimización-2026-04-26).
 
 ---
 
 ## Optimizations
 
-### O3: Language Consistency (2 hours)
-
-**Covered in Phase 1 Tasks.** Restate here: standardize all atoms to YAML format, consistent terminology, proper claim brevity, source citations.
-
----
-
 ### O4: Contradiction Detection L1 (3 hours)
 
-**What it does**: Implement a heuristic that flags potential contradictions the moment an atom is read during query execution, not just during lint sweeps.
+**What it does**: Heurística que, al leer un atom durante query (step 6 de §4.2), comprueba:
+- ¿Existen otros atoms del mismo topic con `claim` opuesto?
+- ¿La `confidence` de este atom es menor que la del conflictivo?
+- ¿Está resuelto en `meta/contradictions.md`?
 
-**Current state**: Contradictions only surfaced by manual lint passes (§4.3).
+Si conflict no resuelto: flag en respuesta con caveat "Note: conflicting advice from [[other-atom]]; confidence high vs medium."
 
-**Target state**: When reading an atom during query (step 6 of §4.2), automatically check:
-- Do any other atoms share this topic but have opposite `claim`?
-- Is the `confidence` of this atom lower than the conflicting one?
-- Has this been resolved in `meta/contradictions.md`?
+**Por qué**: el usuario ve el conflicto up-front, reduce trust issues, fuerza resolución proactiva.
 
-If unresolved conflict detected: flag in response with caveat "Note: conflicting advice from [[other-atom]]; confidence 0.8 vs 0.6."
+**Estructural**: lógica del kernel (CLAUDE.md §4.2), generaliza a otra bóveda sin cambios.
 
-**Why**: Users see the conflict up-front, reducing trust issues. Encourages proactive resolution.
-
-**Implementation**: Add to §4.2 step 6 a sub-step "Check for conflicts before citing".
+**Implementation**: Sub-step en §4.2 step 6 ("Check for conflicts before citing"). Detalle en [PHASE_2_TASKS.md](PHASE_2_TASKS.md).
 
 ---
 
 ### O5: Response Format Templates (2.5 hours)
 
-**What it does**: Define canonical response structure for different query types.
+**What it does**: Templates canónicos por régimen de consulta:
+- **Régimen A (factual)**: Pregunta → Respuesta directa (1-2 frases) → Condiciones/excepciones → Sources → Confidence
+- **Régimen B (tactical)**: Pregunta → 3-5 pasos numerados → Por qué → Outcome esperado → Caveats → Sources
+- **Régimen C (taxonomic)**: Pregunta → Intro → Tabla/lista comparativa → Cómo elegir → Sources
 
-**Templates by regime (§4.2.a)**:
-- **Regime A (factual)**: Question → Direct answer (1-2 sentences) → Conditions/exceptions → Sources → Confidence level
-- **Regime B (tactical)**: Question → 3-5 step list → Why this approach → Expected outcome → Caveats → Sources
-- **Regime C (taxonomic)**: Question → Intro → Table/list of options (comparison) → How to choose → Sources
+**Por qué**: estructura consistente reduce cognitive load. Más fácil validar completeness. Y, crucialmente, los templates incluyen una sección anti-anglicismos al pie del prompt: "Solo usa términos en inglés si son nombres propios o tech estandarizada (ver §10.7). En el resto, español: anfitrión/huésped/reseña/comodidades/anuncio/reserva/valoración."
 
-**Why**: Consistent structure reduces cognitive load for users. Easier to validate completeness.
+**Estructural**: nuevo artifact `queries/RESPONSE_TEMPLATES.md` + referencia en CLAUDE.md §10.7. Generaliza.
 
-**Implementation**: Create `queries/RESPONSE_TEMPLATES.md` with templates + examples.
-
----
-
-### O6: Executable Checklists (1.5 hours)
-
-**What it does**: Convert advice from atoms into Obsidian-executable checklists.
-
-**Example**: Atom `pricing--dynamic-adjustments.md` contains a procedure. Add a Dataview block:
-
-```
-```dataview
-TASK
-WHERE file.path = this.file.path
-GROUP BY status
-```
-```
-
-Then in the body:
-```markdown
-## Procedure
-- [ ] Log into PriceLabs
-- [ ] Review last 7 days performance
-- [ ] Adjust base price ±5-10%
-- [ ] Check competitor pricing
-- [ ] Publish changes
-```
-
-Obsidian users can tick boxes; Dataview aggregates completion status across vault.
-
-**Why**: Actionable content. Users can track what they've done based on vault advice.
+**Implementation**: Crear el artifact, referenciarlo en §10.7. Detalle en [PHASE_2_TASKS.md](PHASE_2_TASKS.md).
 
 ---
 
 ## Next Steps
 
 1. Approve Phase 2
-2. Execute O3 (if not complete from Phase 1)
-3. Execute O4 (add conflict detection to query flow)
-4. Execute O5 (create response templates)
-5. Execute O6 (add checklists to relevant atoms)
-6. Verify quality improvement
+2. Execute O4 (kernel update)
+3. Test O4 → compare → decide
+4. Execute O5 (templates artifact)
+5. Test O5 → compare → decide
+6. Update CLAUDE.md, OPTIMIZATIONS.md, history.md
 7. Move to Phase 3

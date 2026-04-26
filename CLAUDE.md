@@ -1,23 +1,26 @@
 ---
 automation:
-  version: "3.1"
+  version: "3.3"
   current_phase: 2
   phase_status: "pending_approval"
-  last_update: "2026-04-26T07:00:00Z"
+  last_update: "2026-04-26T11:30:00Z"
+  notes: "Restructure 2026-04-26: principio de optimización = SOLO estructural/automatización (generaliza a otras bóvedas). Atom-content opts (O3, O6, futuras) movidas a nueva Phase 5 'Atom Regeneration' donde se regeneran los 156 átomos desde cero con el contrato consolidado de todas las opts estructurales. O3 reverted (decision v2.0: target_dim_regression). Vault keep-as-is (no git rollback posible). Test framework v2 (decision v2.0, composite α=0.85, hard floors, comparison history en tests/comparisons/history/<from>-vs-<to>__n<N>.json). Vault read-only para agentes."
 
 phases:
   phase_1:
     name: "Critical Path"
     status: "complete"
-    tasks: [O1, O2, O3]
-    completed: [O1, O3]
+    tasks: [O1, O2]
+    completed: [O1]
     skipped: [O2]
+    deferred: [O3]
     progress: 100
   phase_2:
-    name: "Quality Foundation"
+    name: "Quality Foundation (Structural)"
     status: "pending_approval"
-    tasks: [O4, O5, O6]
+    tasks: [O4, O5]
     completed: []
+    deferred: [O6]
     progress: 0
   phase_3:
     name: "Automation"
@@ -31,20 +34,27 @@ phases:
     tasks: [O10, O11, O12]
     completed: []
     progress: 0
+  phase_5:
+    name: "Atom Regeneration"
+    status: "not_started"
+    tasks: [O3, O6]
+    completed: []
+    progress: 0
+    notes: "Final phase: regenera los 156 átomos desde sources/ con el contrato consolidado (rules de O1+O4+O5+O7+O8+O9+O10+O11+O12 ya validados) + reglas de naming/casing/format de O3 + checklists ejecutables de O6 incorporadas at-creation, no retroactivas."
 
 optimizations:
-  O1: { name: "Hierarchical Indices", phase: 1, hours: 4, status: "complete", cost_delta_pct: -25.3, quality_delta: 0 }
-  O2: { name: "Fix Q4 Contradiction", phase: 1, hours: 0.5, status: "skipped", reason: "premise_stale" }
-  O3: { name: "Language Consistency", phase: 1, hours: 2, status: "complete", cost_delta_pct: -3.4, quality_delta: 0 }
-  O4: { name: "Contradiction Detection L1", phase: 2, hours: 3, status: "not_started" }
-  O5: { name: "Response Format Templates", phase: 2, hours: 2.5, status: "not_started" }
-  O6: { name: "Executable Checklists", phase: 2, hours: 1.5, status: "not_started" }
-  O7: { name: "Agent Orchestration", phase: 3, hours: 8, status: "not_started" }
-  O8: { name: "Auto-Linking System", phase: 3, hours: 4, status: "not_started" }
-  O9: { name: "Query Caching", phase: 3, hours: 6, status: "not_started" }
-  O10: { name: "Semantic Gap Detection", phase: 4, hours: 3, status: "not_started" }
-  O11: { name: "Backlink Generation", phase: 4, hours: 4, status: "not_started" }
-  O12: { name: "RAG Fallback", phase: 4, hours: 6, status: "not_started" }
+  O1: { name: "Hierarchical Indices", phase: 1, hours: 4, status: "complete", cost_delta_pct: -25.3, quality_delta: 0, class: "structural" }
+  O2: { name: "Fix Q4 Contradiction", phase: 1, hours: 0.5, status: "skipped", reason: "premise_stale", class: "atom_specific" }
+  O3: { name: "Language Consistency", phase: 5, hours: 2, status: "deferred", reason: "atom_content_opt; decision v2.0 REVERT (target_dim_regression on format_compliance); to be re-incorporated as a generation-time rule in Phase 5 (atom regeneration), not as a retroactive audit", class: "atom_content" }
+  O4: { name: "Contradiction Detection L1", phase: 2, hours: 3, status: "not_started", class: "structural" }
+  O5: { name: "Response Format Templates", phase: 2, hours: 2.5, status: "not_started", class: "structural" }
+  O6: { name: "Executable Checklists", phase: 5, hours: 1.5, status: "deferred", reason: "atom_content_opt; modifies atom procedures into Dataview checklists, belongs to atom regeneration phase", class: "atom_content" }
+  O7: { name: "Agent Orchestration", phase: 3, hours: 8, status: "not_started", class: "structural" }
+  O8: { name: "Auto-Linking System", phase: 3, hours: 4, status: "not_started", class: "structural" }
+  O9: { name: "Query Caching", phase: 3, hours: 6, status: "not_started", class: "structural" }
+  O10: { name: "Semantic Gap Detection", phase: 4, hours: 3, status: "not_started", class: "structural" }
+  O11: { name: "Backlink Generation", phase: 4, hours: 4, status: "not_started", class: "structural" }
+  O12: { name: "RAG Fallback", phase: 4, hours: 6, status: "not_started", class: "structural" }
 
 vault:
   name: "optimize-my-airbnb-yt"
@@ -57,36 +67,40 @@ vault:
 
 ## ROUTER — Autonomous Execution
 
-**Phase 1 / pending_approval** — Waiting for user approval
+**Phase status**: Read `automation.current_phase` and `automation.phase_status` from the YAML frontmatter at the top of this file — that is the single source of truth (do not hardcode the phase number or status in this prose).
 
-**Action**: Show summary of Phase 1. To proceed, say: `Approve Phase 1`
+**Action**: Show summary of the current phase from `docs/PHASE_<N>_SUMMARY.md` (where `<N>` = `automation.current_phase`). To proceed, the user says: `Approve Phase <N>`.
 
 Once approved, I will execute the cycle: **Baseline test → O1 → Test O1 → Compare → Decide → O2 → ...**
 
 For each optimization:
 1. Implement changes (per `docs/PHASE_X_TASKS.md`)
-2. Git commit with `OX:` prefix
-3. **Run test suite** (per `docs/TEST_PROTOCOL.md`):
+2. Declare optimization in `tests/prompts/OX/meta.yaml` (`target_dims`, `at_risk_dims`, `neutral_dims`, `predicted_deltas`, `allow_repetition`)
+3. Git commit with `OX:` prefix
+4. **Run test suite** (per `docs/TEST_PROTOCOL.md` v2):
    - `python3 scripts/run-test-suite.py --prepare --label OX`
-   - Launch 20 Agent calls in PARALLEL (single tool_use response)
-   - `python3 scripts/run-test-suite.py --consolidate --label OX`
+   - Launch 20 Agent calls in PARALLEL (single tool_use response) → write `tests/raw-responses/OX/run-N/tokens.json`
+   - `python3 scripts/run-test-suite.py --prepare-evaluator --label OX`
+   - Launch 1 Evaluator Agent → writes `tests/raw-responses/OX/run-N/evaluation.json` with 5-dim rubric scores
+   - `python3 scripts/run-test-suite.py --consolidate --label OX` (aggregates across all run-N dirs)
    - `python3 scripts/run-test-suite.py --compare --from <prev> --to OX`
-4. Read decision from `<VAULT>/meta/tests/optimizations/OX-comparison.json`:
-   - **IMPLEMENT** → Update CLAUDE.md state, continue to next OX
-   - **ITERATE** → Refine implementation, retry test
-   - **REVERT** → `git revert HEAD`, mark as failed, continue to next OX
+5. Read decision from `tests/comparisons/OX-vs-<prev>.json` (decision_version 2.0):
+   - Composite score: `α·quality_delta_norm + (1−α)·cost_delta_norm`, α=0.85
+   - Hard floors override composite (REVERT regardless): `accuracy` abs drop ≥ 1.0, `weighted_avg` abs drop ≥ 7.0, target_dim regression, any-dim abs drop ≥ 1.0
+   - **IMPLEMENT** (composite ≥ +0.005, no floor breach) → update state + `docs/OPTIMIZATIONS.md` + `tests/history.md`, continue
+   - **ITERATE** (composite in noise zone [−0.005, +0.005] AND `allow_repetition: true` AND runs < 3) → run again; consolidate aggregates across runs (mean, SE, 95% CI)
+   - **REVERT** (composite ≤ −0.005 or any hard floor breach) → `git revert HEAD`, mark as failed, continue
+6. After IMPLEMENT, run `python3 scripts/run-test-suite.py --check-repetition --from <prev> --to OX` to confirm no further runs needed.
 
 **Critical**: Tests use 20 fresh agents in parallel, no cache, no context. See `docs/TEST_PROTOCOL.md`.
 
+**Vault is READ-ONLY for agents**: All test writes go to `tests/` in THIS repo (not `$VAULT_PATH`). Enforced by `_ensure_under_tests` in `scripts/run-test-suite.py`; agent prompts already carry this constraint.
+
+**Quality evaluation**: External evaluator agent grades each response on a 5-dim rubric (`completeness` 25%, `accuracy` 25%, `spanish_purity` 15%, `tone` 15%, `format_compliance` 20%). Weighted avg feeds the **composite score** (α=0.85 quality, 1−α cost). Hard floors override composite. See `docs/TEST_PROTOCOL.md` v2. Templates: `tests/prompts/_agent_template.md`, `tests/prompts/_evaluator_template.md` (per-run prompts generated from these). If rubric/decision logic changes, bump `RUBRIC_VERSION` / `DECISION_VERSION` in `scripts/run-test-suite.py`.
+
 ---
 
-**Before starting Phase 1**: Run baseline test once (establishes reference metrics).
-
-```bash
-python3 scripts/run-test-suite.py --prepare --label baseline
-# Then: 20 parallel Agent calls
-python3 scripts/run-test-suite.py --consolidate --label baseline
-```
+**Before any phase**: ensure baseline exists at `tests/results/baseline.json` with `evaluation_source: external_evaluator`. If only a self-assessment baseline exists, regenerate by running steps 4-6 of the protocol (the existing 20 raw responses can be reused for the evaluator pass).
 
 ---
 

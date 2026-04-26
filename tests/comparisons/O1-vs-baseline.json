@@ -1,0 +1,320 @@
+{
+  "from": "baseline",
+  "to": "O1",
+  "timestamp": "2026-04-26T08:41:53.540287+00:00",
+  "rubric_version": "1.0",
+  "decision_version": "2.0",
+  "evaluation_source": "external_evaluator",
+  "n_runs": {
+    "from": 1,
+    "to": 1,
+    "min": 1
+  },
+  "meta": {
+    "label": "O1",
+    "description": "Hierarchical Indices (flat index.md -> tiered L1 + L2 sub-indices)",
+    "optimization_type": "cost_reduction",
+    "target_dims": [],
+    "at_risk_dims": [
+      "completeness",
+      "format_compliance"
+    ],
+    "neutral_dims": [
+      "accuracy",
+      "spanish_purity",
+      "tone"
+    ],
+    "predicted_deltas": {
+      "cost": -25.0,
+      "completeness": -0.5,
+      "format_compliance": -0.3
+    }
+  },
+  "metrics": {
+    "cost": {
+      "weighted_cost": {
+        "before": 60776.8,
+        "after": 45376.75,
+        "delta_pct": -25.33869831909545,
+        "significance": {
+          "delta_abs": -15400.05,
+          "pooled_se": 0.0,
+          "ci95_low": -15400.05,
+          "ci95_high": -15400.05,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "input_tokens_avg": {
+        "before": null,
+        "after": null
+      },
+      "output_tokens_avg": {
+        "before": null,
+        "after": null
+      }
+    },
+    "quality": {
+      "completeness": {
+        "before": 9.6,
+        "after": 9.4,
+        "delta_abs": -0.2,
+        "delta_pct": -2.08,
+        "weight": 0.25,
+        "category": "at_risk",
+        "predicted_delta_abs": -0.5,
+        "predicted_delivery_pct": 40.0,
+        "significance": {
+          "delta_abs": -0.2,
+          "pooled_se": 0.0,
+          "ci95_low": -0.2,
+          "ci95_high": -0.2,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "accuracy": {
+        "before": 8.95,
+        "after": 9.05,
+        "delta_abs": 0.1,
+        "delta_pct": 1.12,
+        "weight": 0.25,
+        "category": "neutral",
+        "predicted_delta_abs": null,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": 0.1,
+          "pooled_se": 0.0,
+          "ci95_low": 0.1,
+          "ci95_high": 0.1,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "spanish_purity": {
+        "before": 4.9,
+        "after": 4.45,
+        "delta_abs": -0.45,
+        "delta_pct": -9.18,
+        "weight": 0.15,
+        "category": "neutral",
+        "predicted_delta_abs": null,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": -0.45,
+          "pooled_se": 0.0,
+          "ci95_low": -0.45,
+          "ci95_high": -0.45,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "tone": {
+        "before": 8.8,
+        "after": 9.0,
+        "delta_abs": 0.2,
+        "delta_pct": 2.27,
+        "weight": 0.15,
+        "category": "neutral",
+        "predicted_delta_abs": null,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": 0.2,
+          "pooled_se": 0.0,
+          "ci95_low": 0.2,
+          "ci95_high": 0.2,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "format_compliance": {
+        "before": 8.65,
+        "after": 8.45,
+        "delta_abs": -0.2,
+        "delta_pct": -2.31,
+        "weight": 0.2,
+        "category": "at_risk",
+        "predicted_delta_abs": -0.3,
+        "predicted_delivery_pct": 66.7,
+        "significance": {
+          "delta_abs": -0.2,
+          "pooled_se": 0.0,
+          "ci95_low": -0.2,
+          "ci95_high": -0.2,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "weighted_avg": {
+        "before": 8.423,
+        "after": 8.32,
+        "delta_abs": -0.103,
+        "delta_pct": -1.22,
+        "significance": {
+          "delta_abs": -0.1025,
+          "pooled_se": 0.0,
+          "ci95_low": -0.1025,
+          "ci95_high": -0.1025,
+          "significant": false,
+          "n_runs": 1
+        }
+      }
+    },
+    "composite": {
+      "alpha": 0.85,
+      "quality_delta_norm": -0.0103,
+      "cost_delta_norm": 0.2534,
+      "value": 0.0293
+    }
+  },
+  "targeted_analysis": {
+    "target_dims": [],
+    "at_risk_dims": [
+      {
+        "dim": "completeness",
+        "delta_abs": -0.2,
+        "delta_pct": -2.08,
+        "predicted_delta_abs": -0.5,
+        "ci95": [
+          -0.2,
+          -0.2
+        ],
+        "significant": false
+      },
+      {
+        "dim": "format_compliance",
+        "delta_abs": -0.2,
+        "delta_pct": -2.31,
+        "predicted_delta_abs": -0.3,
+        "ci95": [
+          -0.2,
+          -0.2
+        ],
+        "significant": false
+      }
+    ]
+  },
+  "floor_breaches": [],
+  "summary_table": [
+    {
+      "metric": "weighted_cost",
+      "before": 60776.8,
+      "after": 45376.8,
+      "delta_pct": -25.34,
+      "ci95": [
+        -15400.05,
+        -15400.05
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.completeness",
+      "category": "at_risk",
+      "before": 9.6,
+      "after": 9.4,
+      "delta_pct": -2.08,
+      "delta_abs": -0.2,
+      "predicted": -0.5,
+      "delivery_pct": 40.0,
+      "ci95": [
+        -0.2,
+        -0.2
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.accuracy",
+      "category": "neutral",
+      "before": 8.95,
+      "after": 9.05,
+      "delta_pct": 1.12,
+      "delta_abs": 0.1,
+      "predicted": null,
+      "delivery_pct": null,
+      "ci95": [
+        0.1,
+        0.1
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.spanish_purity",
+      "category": "neutral",
+      "before": 4.9,
+      "after": 4.45,
+      "delta_pct": -9.18,
+      "delta_abs": -0.45,
+      "predicted": null,
+      "delivery_pct": null,
+      "ci95": [
+        -0.45,
+        -0.45
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.tone",
+      "category": "neutral",
+      "before": 8.8,
+      "after": 9.0,
+      "delta_pct": 2.27,
+      "delta_abs": 0.2,
+      "predicted": null,
+      "delivery_pct": null,
+      "ci95": [
+        0.2,
+        0.2
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.format_compliance",
+      "category": "at_risk",
+      "before": 8.65,
+      "after": 8.45,
+      "delta_pct": -2.31,
+      "delta_abs": -0.2,
+      "predicted": -0.3,
+      "delivery_pct": 66.7,
+      "ci95": [
+        -0.2,
+        -0.2
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.weighted_avg",
+      "before": 8.423,
+      "after": 8.32,
+      "delta_pct": -1.22,
+      "delta_abs": -0.103,
+      "ci95": [
+        -0.1025,
+        -0.1025
+      ],
+      "significant": false
+    },
+    {
+      "metric": "composite",
+      "value": 0.0293,
+      "alpha": 0.85,
+      "components": {
+        "quality_delta_norm": -0.0103,
+        "cost_delta_norm": 0.2534
+      }
+    }
+  ],
+  "decision": {
+    "action": "IMPLEMENT",
+    "primary_reason": "composite_positive",
+    "reasons": [
+      "composite=+0.0293 >= +0.005",
+      "cost_delta_pct=-25.34%"
+    ],
+    "composite": 0.0293
+  },
+  "repetition_advice": {
+    "should_repeat": false,
+    "reason": "decision is clear at current N"
+  }
+}

@@ -1,23 +1,71 @@
-# Phase 2: Execution Tasks
+# Phase 2: Execution Tasks — Quality Foundation (Structural)
 
-**Status**: Phase 2 is approved and in_progress.
+**Status**: Phase 2 is pending_approval.
 
-Execute tasks in order: O3 (if needed from Phase 1), O4, O5, O6.
+Execute tasks in order: **O4, O5**. (O3 was deferred to Phase 5 on 2026-04-26 — atom_content opt; O6 was also moved to Phase 5 — modifies atom procedure format.)
+
+**Phase 2 scope**: solo opts estructurales (kernel logic, templates, response contract). No tocar contenido de átomos. Las opts atom_content viven en Phase 5 (Atom Regeneration), donde se regeneran los 156 átomos desde sources con todas las reglas consolidadas.
 
 ---
 
-## O3: Language Consistency — Phase 1 Carryover
+## Mandatory pre-execution template (A/B/C)
 
-If not completed in Phase 1, execute now. See PHASE_1_TASKS.md for details. If already done, skip to O4.
+**Before implementing any optimization in this phase**, the three sections (A. Concept, B. Technical, C. Expected improvements) must be filled in below. The Expected-improvements section is a **prediction commitment**: after running the test suite, compare predicted vs actual deltas to validate or invalidate the hypothesis.
+
+**Section C must be mirrored into `tests/prompts/OX/meta.yaml`** (decision_version 2.0 — see [TEST_PROTOCOL.md](TEST_PROTOCOL.md) §meta.yaml). The script reads meta.yaml to (1) classify each rubric dim as `target` / `at_risk` / `neutral`, (2) compute composite score, and (3) trigger hard-floor breaches like `target_dim_regression` if a declared target dim drops. Required fields: `target_dims`, `at_risk_dims`, `neutral_dims`, `predicted_deltas` (cost + per-dim abs deltas), `optimization_type`, `allow_repetition`. Section C in this doc is the human narrative; meta.yaml is the machine-readable mirror — they must agree.
+
+If predictions deviate by more than ~50% from actuals on any rubric dimension, document the surprise in `tests/history.md` and update the hypothesis model for the next OX.
 
 ---
 
 ## O4: Contradiction Detection L1 (3 hours)
 
-### Purpose
-Add real-time conflict detection to §4.2 (QUERY operation) so users see conflicting advice immediately, not just during lint audits.
+### A. Concept (intuitivo)
 
-### Implementation
+Hoy las contradicciones entre atoms solo se detectan en el lint manual (§4.3) — son invisibles durante la query. Esta optimización añade un *guardia en tiempo de lectura*: cuando el agente arma el shortlist de atoms para responder, escanea si hay otros atoms del mismo tópico con claims opuestos. Si los hay y no están resueltos en `meta/contradictions.md`, la respuesta incluye un caveat explícito ("⚠️ Conflicting advice: [[A]] dice X, [[B]] dice Y").
+
+Analogía: pasar de "auditoría anual" a "alarma de incendios". El usuario ve el conflicto en el momento, no después.
+
+### B. Técnica
+
+**Cambios concretos**:
+
+1. Añadir substep §4.2.6a en CLAUDE.md kernel:
+   - Para cada atom en el shortlist, scan `MOC/<topic>.md`
+   - Comparar `claim:` con otros atoms del mismo tópico
+   - Si claim opuesto detectado: cross-check con `meta/contradictions.md`
+   - Si NO está resuelto: marcar `potential_conflict` con severity HIGH/MEDIUM/LOW
+
+2. Crear template de display en queries/RESPONSE_TEMPLATES.md (placeholder hasta O5):
+   ```markdown
+   ⚠️ **Conflicting advice**: [[atom-A]] recomienda X, mientras [[atom-B]] recomienda Y.
+   **Confidence**: atom-A es higher-confidence (0.81 vs 0.63).
+   **Caveat**: atom-B aplica si [condición].
+   See [[meta/contradictions]].
+   ```
+
+3. Severity scoring:
+   - HIGH: mismo topic, contradicción explícita
+   - MEDIUM: mismo topic, evidencia conflictiva
+   - LOW: topic relacionado, recomendación distinta
+
+**Archivos tocados**: `CLAUDE.md` (§4.2.6a), `meta/contradictions.md` (existente, sin cambios), opcionalmente `queries/RESPONSE_TEMPLATES.md`.
+
+### C. Mejoras esperadas + justificación
+
+| Métrica | Predicción | Por qué |
+|---------|-----------|---------|
+| `weighted_cost` | +1% a +3% | Conflict-check añade ~50-200 tokens por query (lectura extra de MOC). Pequeño coste adicional aceptable. |
+| `completeness` | +0.3 a +0.5 | Caveats sobre conflictos no anotados son cobertura genuina extra. |
+| `accuracy` | +0.2 a +0.4 | Detectar contradicciones evita afirmar como hecho lo que está en disputa. |
+| `spanish_purity` | estable | Cambio de logic, no de output language. |
+| `tone` | estable o -0.1 | El caveat con ⚠️ puede sentirse alarmista; mitigarlo con redacción cálida. |
+| `format_compliance` | estable | Format §10.7 ya admite caveats. |
+| **`weighted_avg`** | **+0.15 a +0.30** | Mejora de accuracy + completeness pesa 50% del rubric. |
+
+**Hipótesis principal**: la mayoría de las preguntas del test set NO tocan contradicciones, así que el coste extra solo se paga en ~3-5 de las 20 queries. Si más queries activan el guardia, el coste subirá más; si las contradicciones detectadas no son relevantes, accuracy/completeness no mejorarán y debería ITERATE.
+
+### Steps
 
 1. **Add conflict-check logic to §4.2 step 6**
    - When selecting atom candidates for shortlist, cross-reference each atom's topics
@@ -44,23 +92,22 @@ Add real-time conflict detection to §4.2 (QUERY operation) so users see conflic
 4. **Create conflict display template**
    ```markdown
    ⚠️ **Conflicting advice**: [[atom-A]] recommends X, while [[atom-B]] recommends Y.
-   **Confidence**: atom-A is higher-confidence (8.1 vs 6.3 based on {{recency|popularity}}).
+   **Confidence**: atom-A is higher-confidence (0.81 vs 0.63 based on recency/popularity).
    **Caveat**: atom-B's approach applies if [condition].
    See [[meta/contradictions]] for full analysis.
    ```
 
 5. **Test with known contradictions**
-   - Run a query that touches the O2-resolved orphan-night contradiction
+   - Run a query that touches a known contradiction
    - Verify: response includes conflict caveat if both atoms in shortlist
    - Verify: caveat cites higher-confidence atom as primary
 
 6. **Update `log.md`**
    ```
-   ## [2026-04-25] O4 complete | Contradiction detection L1
+   ## [YYYY-MM-DD] O4 complete | Contradiction detection L1
    - Added §4.2.6a conflict-check substep to CLAUDE.md kernel
    - Implemented severity scoring (HIGH/MEDIUM/LOW)
    - Created conflict caveat template
-   - Tested with orphan-night contradiction
    ```
 
 7. **Git commit**
@@ -69,6 +116,7 @@ Add real-time conflict detection to §4.2 (QUERY operation) so users see conflic
    ```
 
 ### Verification Checklist
+
 - [ ] §4.2.6a added to CLAUDE.md
 - [ ] Severity scoring defined and documented
 - [ ] Conflict template created
@@ -77,14 +125,59 @@ Add real-time conflict detection to §4.2 (QUERY operation) so users see conflic
 - [ ] `log.md` updated
 - [ ] Git commit made
 
+### Test (per docs/TEST_PROTOCOL.md)
+
+```bash
+python3 scripts/run-test-suite.py --prepare --label O4
+# 20 parallel Agent calls; write tests/raw-responses/O4-tokens.json
+python3 scripts/run-test-suite.py --prepare-evaluator --label O4
+# 1 evaluator Agent call
+python3 scripts/run-test-suite.py --consolidate --label O4
+python3 scripts/run-test-suite.py --compare --from O3 --to O4
+```
+
+Read decision from `tests/comparisons/O4-vs-O3.json`. Validate predicted-vs-actual against the C section above.
+
 ---
 
 ## O5: Response Format Templates (2.5 hours)
 
-### Purpose
-Standardize response structure by query type (regime) to ensure consistency and completeness.
+### A. Concept (intuitivo)
 
-### Implementation
+Hoy las respuestas tienen formato libre dentro de §10.7 — cada agente decide cómo estructurar. Resultado: variabilidad innecesaria en `format_compliance`. Esta optimización **define plantillas canónicas por régimen de pregunta** (factual / tactical / taxonomic) y obliga al kernel a matcheada antes de responder.
+
+Analogía: pasar de "escribe libremente respetando el estilo" a "rellena este formulario". Reduce decisión cognitiva del agente y produce respuestas más predecibles para el usuario.
+
+### B. Técnica
+
+**Tres regímenes**:
+- **A (Narrow Factual)**: Question → answer 1-2 frases → conditions → sources → confidence
+- **B (Tactical Multi-Palanca)**: Question → approach → 3-5 numbered steps con `[[atom]]` → why this works → expected outcome → caveats → sources → confidence
+- **C (Taxonomic/Broad)**: Question → overview → comparison table → how to choose → see also → sources → confidence
+
+**Cambios**:
+1. Crear `queries/RESPONSE_TEMPLATES.md` con las 3 plantillas + ejemplos
+2. Añadir §4.2.9a (FORMAT CHECK) al kernel: identificar régimen, matchear template, verificar secciones
+3. Reformatear queries existentes en `queries/` que no cumplan
+4. Documentar criterio de regimen detection (heurística por palabras-clave de la pregunta)
+
+**Archivos tocados**: nuevo `queries/RESPONSE_TEMPLATES.md`, `CLAUDE.md` (§4.2.9a), `queries/*.md` existentes (reformat selectivo).
+
+### C. Mejoras esperadas + justificación
+
+| Métrica | Predicción | Por qué |
+|---------|-----------|---------|
+| `weighted_cost` | -3% a -8% | Templates más estructurados → respuestas más concisas → menos output tokens (que pesan 6×). |
+| `completeness` | +0.2 a +0.5 | El template fuerza que aparezcan secciones obligatorias (caveats, conditions). |
+| `accuracy` | estable | El cambio es de format, no de contenido. |
+| `spanish_purity` | estable | El template es estructural, no léxico. |
+| `tone` | -0.2 a +0.1 | Riesgo: templates pueden sentirse rígidos/burocráticos. Mitigación: el template indica tono cálido en cada sección. |
+| `format_compliance` | +1.0 a +1.8 | Es el target directo del cambio. Era la dimensión más débil. |
+| **`weighted_avg`** | **+0.20 a +0.45** | format_compliance pesa 20%, mejora grande directa. |
+
+**Hipótesis principal**: la variabilidad actual en formato es el principal driver de format_compliance bajo. Si los templates son demasiado rígidos, tone caerá; si son útiles, tone se mantiene.
+
+### Steps
 
 1. **Create templates document**
    ```bash
@@ -94,189 +187,108 @@ Standardize response structure by query type (regime) to ensure consistency and 
 2. **Define Regime A (Narrow Factual) template**
    ```markdown
    **Question**: <user question>
-   
+
    **Answer**: <direct answer, 1-2 sentences>
-   
+
    **Applies only if**: <conditions where answer is valid>
-   
+
    **See also**: [[related-atom-1]], [[related-atom-2]]
-   
+
    **Confidence**: High (based on [[source-id]], 0.9)
    ```
-   - Example: "¿4.8 rating es bueno?" → answer with tier table + conditions
 
 3. **Define Regime B (Tactical Multi-Palanca) template**
    ```markdown
    **Question**: <user question>
-   
+
    **Approach**: <intro explaining the strategy>
-   
+
    **Steps**:
    1. [[atom-1]] — <step 1 summary>
    2. [[atom-2]] — <step 2 summary>
    3. [[atom-3]] — <step 3 summary>
-   
+
    **Why this works**: <explanation of interdependencies>
-   
+
    **Expected outcome**: <what to expect>
-   
+
    **Caveats**: [[atom-caveat]] applies if <condition>
-   
+
    **Confidence**: Medium-High (based on [[source-A]], [[source-B]])
    ```
-   - Example: "¿Cómo optimizar precio para noche huérfana?" → 3-step approach
 
 4. **Define Regime C (Taxonomic/Broad) template**
    ```markdown
    **Question**: <user question>
-   
+
    **Overview**: <landscape of options/factors>
-   
+
    **Comparison**:
    | Factor | Option A | Option B | Option C |
    |--------|----------|----------|----------|
    | [[aspect-1]] | ... | ... | ... |
    | [[aspect-2]] | ... | ... | ... |
-   
+
    **How to choose**: <decision heuristic>
    - Use Option A if [[condition-a]]
    - Use Option B if [[condition-b]]
-   
+
    **See also**: [[related-topic-1]], [[related-topic-2]]
-   
+
    **Confidence**: Medium (incomplete coverage; only 8 of 12 aspects covered)
    ```
-   - Example: "¿Todas las tácticas de pricing?" → comparison table
 
-5. **Create `queries/RESPONSE_TEMPLATES.md` file**
-   ```bash
-   # Write header explaining when to use each template
-   # Include all 3 templates above with full examples
-   ```
+5. **Audit existing queries**, reformat to match templates as needed.
 
-6. **Audit existing queries**
-   - List all files in `queries/`
-   - Check each against nearest template
-   - If format differs significantly: reformat to match template
-   - Git commit reformat batch: `git commit -m "O5: Reformat existing queries to templates"`
-
-7. **Add template reference to §4.2 (CLAUDE.md kernel)**
-   - After step 9 (response generation), add:
+6. **Add template reference to §4.2 (CLAUDE.md kernel)**
    ```
    9a. FORMAT CHECK
        - Identify query regime (A/B/C from step 4)
-       - Match response to {{regime}}_TEMPLATE from queries/RESPONSE_TEMPLATES.md
+       - Match response to {regime}_TEMPLATE from queries/RESPONSE_TEMPLATES.md
        - Verify all required sections present
    ```
 
-8. **Update `log.md`**
-   ```
-   ## [2026-04-25] O5 complete | Response format templates
-   - Created queries/RESPONSE_TEMPLATES.md with Regime A/B/C templates
-   - Reformatted {{N}} existing queries to templates
-   - Added §4.2.9a format-check substep
-   ```
+7. **Update `log.md`**.
 
-9. **Git commit**
+8. **Git commit**
    ```bash
    git commit -m "O5: Response format templates (Regime A/B/C standardization)"
    ```
 
 ### Verification Checklist
+
 - [ ] `queries/RESPONSE_TEMPLATES.md` created with 3 templates
-- [ ] Regime A template includes: answer + conditions + sources + confidence
-- [ ] Regime B template includes: steps + why + caveats + sources + confidence
-- [ ] Regime C template includes: comparison + decision heuristic + sources + confidence
-- [ ] Existing queries reformatted (or marked "legacy" if exempt)
+- [ ] Regime A template: answer + conditions + sources + confidence
+- [ ] Regime B template: steps + why + caveats + sources + confidence
+- [ ] Regime C template: comparison + decision heuristic + sources + confidence
+- [ ] Existing queries reformatted (or marked legacy)
 - [ ] §4.2.9a added to CLAUDE.md
 - [ ] `log.md` updated
 - [ ] Git commit made
 
+### Test (per docs/TEST_PROTOCOL.md)
+
+```bash
+python3 scripts/run-test-suite.py --prepare --label O5
+# 20 parallel Agent calls; write tests/raw-responses/O5-tokens.json
+python3 scripts/run-test-suite.py --prepare-evaluator --label O5
+python3 scripts/run-test-suite.py --consolidate --label O5
+python3 scripts/run-test-suite.py --compare --from O4 --to O5
+```
+
+Validate predicted-vs-actual deltas against the C section.
+
 ---
 
-## O6: Executable Checklists (1.5 hours)
+## O6 — DEFERRED to Phase 5
 
-### Purpose
-Convert procedural advice in atoms into Obsidian-executable checklists that users can check off.
-
-### Implementation
-
-1. **Install Dataview plugin (if not present)**
-   - User should have this; if not: Obsidian → Community Plugins → search "Dataview" → install
-   - No special config needed for basic TASK queries
-
-2. **Identify procedural atoms**
-   - Scan `notes/` for atoms with claim containing "do", "steps", "procedure"
-   - Example atoms: "dynamic-price-adjustments", "message-guest-before-checkout", "cleaning-between-guests"
-   - Create list: `meta/procedural-atoms.txt` (one filename per line)
-
-3. **Add TASK lists to procedural atoms**
-   - For each atom in list, open the body section
-   - After claim explanation, add checklist:
-   ```markdown
-   ## Procedure
-   - [ ] Step 1 description
-   - [ ] Step 2 description
-   - [ ] Step 3 description
-   ```
-
-4. **Add Dataview summary block (optional)**
-   - At bottom of atom, add optional completion tracker:
-   ```
-   ```dataview
-   TASK
-   WHERE file.path = this.file.path
-   GROUP BY status
-   ```
-   ```
-   - Obsidian will render completion counts (e.g., "2 of 3 done")
-
-5. **Document checkbox convention**
-   - Add note to `CLAUDE.md` kernel §4.2.9b:
-   ```
-   9b. CHECKBOXES IN ATOMS
-       Procedural atoms may include task lists (- [ ] step).
-       Users can check boxes in Obsidian to track progress.
-       Dataview plugin aggregates completion status.
-   ```
-
-6. **Create example atom with checklist**
-   - Pick 1 high-value atom (e.g., pricing optimization procedure)
-   - Implement full checklist + Dataview block
-   - Screenshot result (for docs)
-
-7. **Batch-add checklists to other procedural atoms**
-   - For each atom in `meta/procedural-atoms.txt`, add task list
-   - Group in single git commit: `git commit -m "O6: Add executable checklists to {{N}} procedural atoms"`
-
-8. **Update `log.md`**
-   ```
-   ## [2026-04-25] O6 complete | Executable checklists
-   - Added task lists to {{N}} procedural atoms
-   - Documented checkbox convention in §4.2.9b
-   - Obsidian users can now track procedure completion via Dataview
-   ```
-
-9. **Git commit**
-   ```bash
-   git commit -m "O6: Executable checklists ({{N}} procedural atoms + Dataview integration)"
-   ```
-
-### Verification Checklist
-- [ ] Dataview plugin installed and working
-- [ ] {{N}} procedural atoms identified and listed in `meta/procedural-atoms.txt`
-- [ ] Task lists added to all procedural atoms
-- [ ] Dataview blocks added (optional but recommended for high-value atoms)
-- [ ] Convention documented in §4.2.9b
-- [ ] Example atom with full checklist visible in Obsidian
-- [ ] `log.md` updated
-- [ ] Git commit made
+O6 (Executable Checklists — atoms procedurales → formato Dataview con `- [ ]`) modifica el contenido de los átomos. Bajo el principio de "solo opts estructurales en Phases 1-4", se ha movido a [PHASE_5_TASKS.md](PHASE_5_TASKS.md) donde se aplicará at-creation cuando regeneremos los 156 átomos desde `sources/`.
 
 ---
 
 ## After Phase 2 Completion
 
-1. **Update CLAUDE.md YAML**
+1. **Update CLAUDE.md YAML**:
    ```yaml
    phase_2:
      status: "complete"
@@ -286,14 +298,13 @@ Convert procedural advice in atoms into Obsidian-executable checklists that user
      phase_status: "pending_approval"
    ```
 
-2. **Measure vault quality**
-   - Run: `scripts/quality-check.sh` (if exists)
-   - Expected score improvement: 8.9 → 9.3
+2. **Update `docs/OPTIMIZATIONS.md`** status table with final cost/quality deltas.
 
-3. **Git commit**
+3. **Append to `tests/history.md`** entries for O4, O5.
+
+4. **Git commit**:
    ```bash
-   git commit -m "Phase 2 complete: Quality foundation (O3, O4, O5, O6)"
+   git commit -m "Phase 2 complete: Quality foundation structural (O4, O5)"
    ```
 
-4. **Show Phase 3 summary**
-   - Ready for: "Approve Phase 3"
+5. **Show Phase 3 summary** → ready for `Approve Phase 3`.

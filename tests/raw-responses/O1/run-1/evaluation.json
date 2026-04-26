@@ -1,0 +1,187 @@
+{
+  "label": "O1",
+  "rubric_version": "1.0",
+  "evaluator_notes": "Batch consistente y de calidad alta: formato numerado, citas [[atom]] por step, tono consultor directo. Patron transversal: anglicismos sistematicos evitables (host, guest, listing, review/reviews, amenity/amenities, booking, rate, ranking, market, cleaning fee) que bajan spanish_purity en casi todas las respuestas. Algunas tactical responses exceden ~600 palabras (Q3, Q5, Q9, Q13, Q14) y algunas Level 4 strategic se acercan o pasan ~1000 (Q18, Q19, Q20). Accuracy y completeness son las dimensiones mas fuertes; el contract de §10.7 se cumple en lo estructural pero no en spanish_purity.",
+  "evaluations": {
+    "Q1": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Cobertura completa del bootstrap pre-launch con secuencia operativa clara y caveats (no anunciar descuento, no tocar 10 dias). Anglicismos: listing, base price, override, comparables, reviews, conversion, cleaning fee, guest, calendar, market, rate, customizations.",
+      "violations": ["spanish_purity: ~12 anglicismos evitables (listing, reviews, guest, rate, base price, conversion)"]
+    },
+    "Q2": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta densa con regla numerica clara por bedroom-size, criterio de cover photo y proceso operativo. Anglicismos densos: cover photo, listing, market, scroll-fatigue, hero angle, low-angle, sweet spot, returns, search feed.",
+      "violations": ["spanish_purity: muchos anglicismos (cover photo, scroll-fatigue, hero angle, returns, search feed)"]
+    },
+    "Q3": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "Cobertura excelente y bien diferenciada titulo vs summary, con ejemplos. Probablemente excede ~600 palabras tactical. Anglicismos altos: listing, summary, brand, amenities, FPGs, cover, mobile, bullet, specs, CTAs.",
+      "violations": ["format_compliance: longitud probable >600w tactical", "spanish_purity: 8+ anglicismos"]
+    },
+    "Q4": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Responde si/no con guardrails y cuantifica el coste de no activarlo. Buena cita del propio test del creador. Anglicismos: ranking, acceptance rate, friction score, host-cancel, declines, cancellations, guests, reviews.",
+      "violations": ["spanish_purity: ~8 anglicismos evitables"]
+    },
+    "Q5": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Plan completo de bootstrap a 3 reviews con calibracion 5*, reciprocity, contacto humano. Cerca o por encima del limite tactical 600w. Anglicismos: review/reviews (denso), guest, host, ranking, calendar, base price, cleaning fee, welcome message, post-checkout, listing.",
+      "violations": ["format_compliance: probable >600w", "spanish_purity: 10+ anglicismos"]
+    },
+    "Q6": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Excelente orden operativo (adjacency factor primero, drop min + premium despues, extend offer al final). Cuantificacion concreta. Anglicismos: orphan nights, adjacency factor, customization, premium, business traveler, surcharge, cleaning fee, holidays.",
+      "violations": ["spanish_purity: ~8 anglicismos"]
+    },
+    "Q7": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Decision rapida muy bien estructurada con casos. Buen contraste subir/bajar. Anglicismos: cleaning fee (denso), comps, turnover, premium, base price, search visibility, management fee, rate, total visible, FPGs.",
+      "violations": ["spanish_purity: 10+ anglicismos (cleaning fee usado constantemente)"]
+    },
+    "Q8": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Incluye anti-patterns y caveat honesto sobre gap en wiki. Anti-patterns numerados son utiles. Anglicismos: review/reviews (denso), guest, FPG, host, listing, anti-patterns, copy-paste, refund.",
+      "violations": ["spanish_purity: 10+ anglicismos"]
+    },
+    "Q9": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "Cobertura muy completa, segmentada por price point con ejemplos cuantificados. Probablemente >600w. Anglicismos: amenities (constante), listing, guest, ranking, review fuel, base layer, filter, smart locks, hot tub.",
+      "violations": ["format_compliance: longitud claramente >600w", "spanish_purity: 12+ anglicismos"]
+    },
+    "Q10": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Protocolo claro 6 pasos, arbol de decision, lista de banderas rojas. Anglicismos: pre-booking, paper trail, guest profile, reviews, house rules, payment failure, ranking.",
+      "violations": ["spanish_purity: ~8 anglicismos"]
+    },
+    "Q11": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Configuracion PriceLabs muy precisa y secuencial; rutina semanal incluida. Anglicismos: base price, minimum, customizations, BLT, last-minute discount, far-out premium, orphan night, holidays, far-out, set-and-forget.",
+      "violations": ["spanish_purity: ~10 anglicismos (PriceLabs feature names parcialmente justificados)"]
+    },
+    "Q12": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Filtros bien jerarquizados (primarios, secundarios, amenities, calendario). Cierra con accion inmediata priorizada. Anglicismos: filter/filtros (mezcla), listing, search, guest, cover photo, amenities, max guests, king bed, ranking.",
+      "violations": ["spanish_purity: 10+ anglicismos"]
+    },
+    "Q13": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "Flow de 9 mensajes con timing y reglas transversales. Probablemente >600w tactical o cerca de strategic 1000w. Anglicismos densos: booking, check-in/check-out, message flow, guest, reciprocity, review, host, off-cycle, on-platform, PMS-native.",
+      "violations": ["format_compliance: longitud probable >600w", "spanish_purity: 12+ anglicismos"]
+    },
+    "Q14": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "KPIs jerarquizados con bandas accionables, advertencias contra micro-edits. Probablemente al limite o sobre strategic. Anglicismos: KPI, dashboard, conversion rate, booking lead time, similar listings, ranking, returning guests.",
+      "violations": ["spanish_purity: 10+ anglicismos"]
+    },
+    "Q15": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Tabla de decision al final muy util. Casos especiales (orphan, 28+ noches) bien capturados. Anglicismos: mid-stay, ADR, market rate, calendar, dynamic pricing, ranking hit, take rate.",
+      "violations": ["spanish_purity: ~8 anglicismos"]
+    },
+    "Q16": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Filtro de viabilidad al inicio (no construir si no cumples condicion) es excelente. Stack ordenado y razonado. Anglicismos: direct booking (denso), OTA, fee, brand, listing, tracking, retargeting, content-creator, upgrade.",
+      "violations": ["spanish_purity: 12+ anglicismos"]
+    },
+    "Q17": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Marco discovered/undiscovered con criterios cuantificados (5x ratio, 7/18 zoom). Caveat operacional honesto. Anglicismos: market, undiscovered, listing, workforce, demand, year-round, hot, edge.",
+      "violations": ["spanish_purity: ~9 anglicismos"]
+    },
+    "Q18": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Tres bloques (cuando, como, estructura legal) con caveat explicito sobre gap LLC/S-corp. Probablemente cerca de 1000w strategic. Anglicismos: hourly rate, fee, listing, co-host, payouts, churn, switching cost.",
+      "violations": ["spanish_purity: ~10 anglicismos"]
+    },
+    "Q19": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 5,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Plan 7 pasos + reglas duras + trigger para frenar. Bien escalonado de 1 a 5. Anglicismos: listing/listings, hub, single point of failure, hourly rate, conversion, occupancy, ranking, capex.",
+      "violations": ["spanish_purity: ~10 anglicismos"]
+    },
+    "Q20": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 4,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Diagnostico previo + palancas ordenadas por impacto + secuencia 90 dias + metrica objetivo. Excelente cierre con 'lo que NO mueve aguja'. Anglicismos: rating, surprise & delight, repeat guests, review fuel, amenities, base price, surge, listing, low light pollution.",
+      "violations": ["spanish_purity: 12+ anglicismos"]
+    }
+  }
+}

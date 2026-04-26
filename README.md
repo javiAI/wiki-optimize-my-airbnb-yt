@@ -1,58 +1,33 @@
-# OMAB Wiki — Fully Automated Optimization Framework
+# OMAB Wiki — LLM Wiki for @OptimizeMyAirbnb
 
-**Versión 2.0**: Refactored for full automation. Single entry point (`CLAUDE_AUTOMATED.md`), machine-readable state (YAML), fully autonomous execution via scripts.
+Schema + tooling para una bóveda Obsidian construida desde 173 transcripciones del canal [@OptimizeMyAirbnb](https://www.youtube.com/@OptimizeMyAirbnb). Sigue el patrón **LLM Wiki**: el LLM mantiene una wiki persistente que compone con cada fuente nueva y cada pregunta.
 
-Schema + tooling para una bóveda Obsidian construida desde transcripciones del canal [@OptimizeMyAirbnb](https://www.youtube.com/@OptimizeMyAirbnb). Sigue el patrón **LLM Wiki**: el LLM mantiene una wiki persistente que compone con cada fuente nueva y cada pregunta.
+## Entry point
 
-## ⚡ Quick Start — Automation
+[CLAUDE.md](CLAUDE.md) es el contrato y el state. Contiene:
 
-This repo is **fully automated**. All state lives in `CLAUDE_AUTOMATED.md` (machine-readable YAML + human-friendly summary).
+- **YAML frontmatter** (top): estado de optimizaciones (`current_phase`, `phase_status`, per-`OX` status + cost/quality deltas)
+- **ROUTER**: lógica de ejecución autónoma — el agente lee el estado, ejecuta la siguiente tarea, testea, decide IMPLEMENT/ITERATE/REVERT
+- **Kernel §0–§9**: reglas reutilizables del patrón LLM Wiki
+- **Dominio §10**: específico de OMAB (tópicos, schema YAML, response contract)
+
+## Quick Start
+
+Setup primero (sección siguiente). Después, day-to-day:
 
 ```bash
-# See current status
-./scripts/show-progress.sh
+# Ver estado actual
+grep -E "current_phase|phase_status" CLAUDE.md | head -2
 
-# See next task
-./scripts/next-task.sh
+# Plan de la fase actual (N = current_phase)
+cat docs/PHASE_<N>_TASKS.md
 
-# Approve Phase 1 and start
-./scripts/approve-phase.sh O1 O2
-
-# Mark task complete
-./scripts/mark-complete.sh O1
+# Ejecutar test suite (ver docs/TEST_PROTOCOL.md)
+python3 scripts/run-test-suite.py --prepare --label <LABEL>
+# (Claude lanza 20 Agent calls en paralelo)
+python3 scripts/run-test-suite.py --consolidate --label <LABEL>
+python3 scripts/run-test-suite.py --compare --from <PREV> --to <LABEL>
 ```
-
-No confusion. No manual navigation. **Scripts read CLAUDE_AUTOMATED.md, you run scripts, state updates automatically.**
-
-## Estructura (New — Clean & Automated)
-
-```
-wiki-optimize-my-airbnb-yt/
-├── CLAUDE_AUTOMATED.md ← ⭐ SINGLE ENTRY POINT
-│   ├── Lines 1-162: Machine-readable YAML state
-│   ├── Lines 164-248: Human-readable summary
-│   └── Lines 250+: Full kernel (§0-§9) + domain (§10)
-│
-├── README.md
-├── .env.example
-│
-├── docs/ ← Documentation (not executed)
-│   ├── ARCHITECTURE.md (detailed design)
-│   ├── EVALUATION.md (success metrics framework)
-│   ├── IMPLEMENTATION_GUIDE.md (how to use scripts)
-│   ├── ORIGINAL_CONCEPT.md (LLM Wiki pattern)
-│   └── MASTER_PLAN.md (project-OS integration)
-│
-├── scripts/ ← Automation (executed)
-│   ├── state-manager.py (read/write state)
-│   ├── phase-executor.py (execute next task)
-│   ├── next-task.sh (show what's next)
-│   ├── show-progress.sh (progress report)
-│   ├── approve-phase.sh (approve + start)
-│   ├── mark-complete.sh (mark done)
-│   └── [existing ingest scripts]
-│
-└── test_battery/ ← Baseline & tests (untouched)
 
 ## Setup (una vez)
 
@@ -122,22 +97,48 @@ Claude revisa contradicciones sin anotar, stale claims, páginas huérfanas, cro
 
 ---
 
+## Tests (en este repo, no en la bóveda)
+
+Todo el infrastructure de testing vive en [tests/](tests/). **La bóveda es read-only para los agentes**; cualquier escritura va a `tests/` (enforced por `_ensure_under_tests` en `scripts/run-test-suite.py`).
+
+```
+tests/
+├── questions.yaml         # 20 preguntas (immutable)
+├── prompts/<LABEL>/       # Q1.md ... Q20.md generados por --prepare
+├── raw-responses/         # <LABEL>-Q*.json + <LABEL>-tokens.json (manifest)
+├── results/<LABEL>.json   # métricas consolidadas (avg/total cost, quality, latency)
+└── comparisons/           # <TO>-vs-<FROM>.json + decisión IMPLEMENT/ITERATE/REVERT
+```
+
+Workflow detallado: [docs/TEST_PROTOCOL.md](docs/TEST_PROTOCOL.md). Diseño: [docs/ORCHESTRATOR.md](docs/ORCHESTRATOR.md), [docs/TEST_FRAMEWORK.md](docs/TEST_FRAMEWORK.md).
+
 ## Estructura del repo
 
 ```
 wiki-optimize-my-airbnb-yt/
-├── CLAUDE.md                  # schema / contrato (kernel §0-9 + dominio §10)
+├── CLAUDE.md                  # ⭐ entry point: state + kernel + domain
 ├── llm-wiki.md                # patrón LLM Wiki — referencia
 ├── README.md                  # este archivo
+├── .env.example
 ├── .gitignore
-└── scripts/
-    ├── config.sh.example      # plantilla
-    ├── config.sh              # local, gitignored
-    ├── ingest.sh        # 1 vídeo → sources/
-    ├── batch-ingest.sh        # lista → sources/ (con log)
-    ├── build-meta.sh          # regenera meta/videos.md + log + index
-    ├── clean_vtt.py           # VTT → markdown con bloques [MM:SS]
-    └── extract-meta.py        # frontmatter → fila de tabla
+├── docs/
+│   ├── MASTER_PLAN.md         # roadmap consolidado
+│   ├── ORCHESTRATOR.md        # diseño full de orquestación
+│   ├── TEST_PROTOCOL.md       # cómo ejecutar tests (4-step protocol)
+│   ├── TEST_FRAMEWORK.md      # teoría del framework de tests
+│   └── PHASE_{1..4}_{SUMMARY,TASKS}.md
+├── scripts/
+│   ├── config.sh.example      # plantilla
+│   ├── config.sh              # local, gitignored (export VAULT_PATH=...)
+│   ├── ingest.sh              # 1 vídeo → sources/
+│   ├── batch-ingest.sh        # lista → sources/ (con log)
+│   ├── build-meta.sh          # regenera meta/videos.md + log + index
+│   ├── clean_vtt.py           # VTT → markdown con bloques [MM:SS]
+│   ├── extract-meta.py        # frontmatter → fila de tabla
+│   ├── rank-sources.py        # score §10.4 → top-N sources
+│   ├── budget-check.sh        # verifica límites de tokens
+│   └── run-test-suite.py      # orquestador de tests (--prepare/--consolidate/--compare)
+└── tests/                     # ver sección Tests arriba
 ```
 
 ---
@@ -193,11 +194,17 @@ comm -23 <(ls notes/ | sort) <(grep -oE "notes/[^]]*" index.md | sort -u)
 
 ## Estado actual (snapshot)
 
+Single source of truth: YAML frontmatter en [CLAUDE.md](CLAUDE.md). Lo que sigue es un resumen humano (puede quedar stale — verificar contra CLAUDE.md):
+
 - **173 transcripciones** en `sources/` (2017-11 → 2026-04). 5 vídeos en español excluidos.
-- **MOC, notes, queries**: vacíos. Pendiente de primera extracción de átomos (§4.1 paso 2).
-- Última ingesta: 2026-04-22.
+- **156 atoms** en `notes/`, **12 MOCs** (per CLAUDE.md `vault.atoms` / `vault.mocs`).
+- **Quality score**: 8.52 / 9.8 target.
+- **Optimizaciones completadas**: O1 (Hierarchical Indices, −25.3% cost), O3 (Language Consistency, −3.4%). O2 skipped (premise stale).
+- **Fase actual**: Phase 2 / pending_approval.
 
 ## Referencias
 
-- [`CLAUDE.md`](CLAUDE.md) — contrato con el LLM. Léelo primero si vas a abrir una sesión de Claude Code sobre la bóveda.
-- [`llm-wiki.md`](llm-wiki.md) — patrón de referencia (LLM Wiki). Conservado para onboarding de bóvedas futuras.
+- [CLAUDE.md](CLAUDE.md) — contrato + state. Léelo primero si vas a abrir una sesión de Claude Code.
+- [llm-wiki.md](llm-wiki.md) — patrón de referencia (LLM Wiki). Conservado para onboarding de bóvedas futuras.
+- [docs/MASTER_PLAN.md](docs/MASTER_PLAN.md) — roadmap consolidado (12 optimizaciones, 4 fases).
+- [docs/TEST_PROTOCOL.md](docs/TEST_PROTOCOL.md) — protocolo operacional para correr el test suite.

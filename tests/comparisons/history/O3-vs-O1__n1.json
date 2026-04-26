@@ -1,0 +1,313 @@
+{
+  "from": "O1",
+  "to": "O3",
+  "timestamp": "2026-04-26T09:20:58.465157+00:00",
+  "rubric_version": "1.0",
+  "decision_version": "2.0",
+  "evaluation_source": "external_evaluator",
+  "n_runs": {
+    "from": 1,
+    "to": 1,
+    "min": 1
+  },
+  "meta": {
+    "label": "O3",
+    "description": "Language Consistency (atom naming/casing/format normalization)",
+    "optimization_type": "hygiene",
+    "target_dims": [
+      "format_compliance"
+    ],
+    "at_risk_dims": [],
+    "neutral_dims": [
+      "completeness",
+      "accuracy",
+      "spanish_purity",
+      "tone"
+    ],
+    "predicted_deltas": {
+      "cost": -3.0,
+      "format_compliance": 0.3
+    }
+  },
+  "metrics": {
+    "cost": {
+      "weighted_cost": {
+        "before": 45376.75,
+        "after": 43818.85,
+        "delta_pct": -3.433256017674253,
+        "significance": {
+          "delta_abs": -1557.9,
+          "pooled_se": 0.0,
+          "ci95_low": -1557.9,
+          "ci95_high": -1557.9,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "input_tokens_avg": {
+        "before": null,
+        "after": null
+      },
+      "output_tokens_avg": {
+        "before": null,
+        "after": null
+      }
+    },
+    "quality": {
+      "completeness": {
+        "before": 9.4,
+        "after": 9.65,
+        "delta_abs": 0.25,
+        "delta_pct": 2.66,
+        "weight": 0.25,
+        "category": "neutral",
+        "predicted_delta_abs": null,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": 0.25,
+          "pooled_se": 0.0,
+          "ci95_low": 0.25,
+          "ci95_high": 0.25,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "accuracy": {
+        "before": 9.05,
+        "after": 8.95,
+        "delta_abs": -0.1,
+        "delta_pct": -1.1,
+        "weight": 0.25,
+        "category": "neutral",
+        "predicted_delta_abs": null,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": -0.1,
+          "pooled_se": 0.0,
+          "ci95_low": -0.1,
+          "ci95_high": -0.1,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "spanish_purity": {
+        "before": 4.45,
+        "after": 4.85,
+        "delta_abs": 0.4,
+        "delta_pct": 8.99,
+        "weight": 0.15,
+        "category": "neutral",
+        "predicted_delta_abs": null,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": 0.4,
+          "pooled_se": 0.0,
+          "ci95_low": 0.4,
+          "ci95_high": 0.4,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "tone": {
+        "before": 9.0,
+        "after": 8.55,
+        "delta_abs": -0.45,
+        "delta_pct": -5.0,
+        "weight": 0.15,
+        "category": "neutral",
+        "predicted_delta_abs": null,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": -0.45,
+          "pooled_se": 0.0,
+          "ci95_low": -0.45,
+          "ci95_high": -0.45,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "format_compliance": {
+        "before": 8.45,
+        "after": 8.1,
+        "delta_abs": -0.35,
+        "delta_pct": -4.14,
+        "weight": 0.2,
+        "category": "target",
+        "predicted_delta_abs": 0.3,
+        "predicted_delivery_pct": -116.7,
+        "significance": {
+          "delta_abs": -0.35,
+          "pooled_se": 0.0,
+          "ci95_low": -0.35,
+          "ci95_high": -0.35,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "weighted_avg": {
+        "before": 8.32,
+        "after": 8.28,
+        "delta_abs": -0.04,
+        "delta_pct": -0.48,
+        "significance": {
+          "delta_abs": -0.04,
+          "pooled_se": 0.0,
+          "ci95_low": -0.04,
+          "ci95_high": -0.04,
+          "significant": false,
+          "n_runs": 1
+        }
+      }
+    },
+    "composite": {
+      "alpha": 0.85,
+      "quality_delta_norm": -0.004,
+      "cost_delta_norm": 0.0343,
+      "value": 0.0017
+    }
+  },
+  "targeted_analysis": {
+    "target_dims": [
+      {
+        "dim": "format_compliance",
+        "predicted_delta_abs": 0.3,
+        "delivered_delta_abs": -0.35,
+        "delivery_pct": -116.7,
+        "ci95": [
+          -0.35,
+          -0.35
+        ],
+        "significant": false
+      }
+    ],
+    "at_risk_dims": []
+  },
+  "floor_breaches": [
+    {
+      "type": "target_dim_regression",
+      "dim": "format_compliance",
+      "delta_abs": -0.35
+    }
+  ],
+  "summary_table": [
+    {
+      "metric": "weighted_cost",
+      "before": 45376.8,
+      "after": 43818.8,
+      "delta_pct": -3.43,
+      "ci95": [
+        -1557.9,
+        -1557.9
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.completeness",
+      "category": "neutral",
+      "before": 9.4,
+      "after": 9.65,
+      "delta_pct": 2.66,
+      "delta_abs": 0.25,
+      "predicted": null,
+      "delivery_pct": null,
+      "ci95": [
+        0.25,
+        0.25
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.accuracy",
+      "category": "neutral",
+      "before": 9.05,
+      "after": 8.95,
+      "delta_pct": -1.1,
+      "delta_abs": -0.1,
+      "predicted": null,
+      "delivery_pct": null,
+      "ci95": [
+        -0.1,
+        -0.1
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.spanish_purity",
+      "category": "neutral",
+      "before": 4.45,
+      "after": 4.85,
+      "delta_pct": 8.99,
+      "delta_abs": 0.4,
+      "predicted": null,
+      "delivery_pct": null,
+      "ci95": [
+        0.4,
+        0.4
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.tone",
+      "category": "neutral",
+      "before": 9.0,
+      "after": 8.55,
+      "delta_pct": -5.0,
+      "delta_abs": -0.45,
+      "predicted": null,
+      "delivery_pct": null,
+      "ci95": [
+        -0.45,
+        -0.45
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.format_compliance",
+      "category": "target",
+      "before": 8.45,
+      "after": 8.1,
+      "delta_pct": -4.14,
+      "delta_abs": -0.35,
+      "predicted": 0.3,
+      "delivery_pct": -116.7,
+      "ci95": [
+        -0.35,
+        -0.35
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.weighted_avg",
+      "before": 8.32,
+      "after": 8.28,
+      "delta_pct": -0.48,
+      "delta_abs": -0.04,
+      "ci95": [
+        -0.04,
+        -0.04
+      ],
+      "significant": false
+    },
+    {
+      "metric": "composite",
+      "value": 0.0017,
+      "alpha": 0.85,
+      "components": {
+        "quality_delta_norm": -0.004,
+        "cost_delta_norm": 0.0343
+      }
+    }
+  ],
+  "decision": {
+    "action": "REVERT",
+    "primary_reason": "hard_floor_breached",
+    "reasons": [
+      "floor: target_dim_regression"
+    ],
+    "composite": 0.0017
+  },
+  "repetition_advice": {
+    "should_repeat": true,
+    "reason": "composite=+0.0017 within noise zone (±0.015); accumulate runs for statistical mean"
+  }
+}

@@ -4,7 +4,23 @@ Execute tasks in order: O7, O8, O9.
 
 ---
 
+## Mandatory pre-execution template (A/B/C + meta.yaml)
+
+**Before this phase is approved**, each OX below must have three sections filled in (using the format established in `docs/PHASE_2_TASKS.md` and `docs/TEST_PROTOCOL.md`):
+
+- **A. Concept (intuitivo)** — qué problema resuelve, analogía si ayuda. 2-4 frases.
+- **B. Técnica** — qué cambia concretamente: archivos, rutas, mecánica.
+- **C. Mejoras esperadas + justificación** — predicción cuantitativa para cada dimensión del rubric (`weighted_cost`, `completeness`, `accuracy`, `spanish_purity`, `tone`, `format_compliance`, `weighted_avg`) con razonamiento. Esta sección es un compromiso con la predicción; tras correr el test se compara predicted-vs-actual.
+
+**Plus: `tests/prompts/OX/meta.yaml`** (decision_version 2.0 — see [TEST_PROTOCOL.md](TEST_PROTOCOL.md) §meta.yaml). Required fields: `target_dims` / `at_risk_dims` / `neutral_dims`, `predicted_deltas` (cost + per-dim abs), `optimization_type`, `allow_repetition`. The script reads meta.yaml to compute composite score and trigger hard-floor breaches (e.g. `target_dim_regression` if a declared target dim drops). Section C is the human narrative; meta.yaml is the machine-readable mirror — they must agree.
+
+Las secciones que siguen contienen `Purpose` / `Implementation` / `Verification` heredadas. Antes de aprobar Phase 3, expandir cada OX con A/B/C + meta.yaml (ver O4/O5/O6 en `PHASE_2_TASKS.md` como referencia).
+
+---
+
 ## O7: Agent Orchestration (8 hours)
+
+> **TODO**: rellenar A/B/C antes de aprobar Phase 3.
 
 ### Purpose
 Create an autonomous agent script that periodically audits vault health and reports findings.
@@ -95,6 +111,8 @@ Create an autonomous agent script that periodically audits vault health and repo
 
 ## O8: Auto-Linking System (4 hours)
 
+> **TODO**: rellenar A/B/C antes de aprobar Phase 3.
+
 ### Purpose
 Automatically insert cross-references when new atoms are created.
 
@@ -154,6 +172,8 @@ Automatically insert cross-references when new atoms are created.
 ---
 
 ## O9: Query Caching (6 hours)
+
+> **TODO**: rellenar A/B/C antes de aprobar Phase 3.
 
 ### Purpose
 Automatically cache frequently answered questions and implement similarity-based retrieval.

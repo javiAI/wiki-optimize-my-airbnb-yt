@@ -1,0 +1,22 @@
+{
+  "question_id": "Q4",
+  "question": "¿Debo activar Instant Book desde el principio?",
+  "level": 1,
+  "response": "Sí, actívalo desde el día uno. Es una de las palancas de ranking más medibles que tienes y el coste real es bajo si configuras los filtros correctos.\n\n1. **Activa Instant Book ya con guardrails firmes**: exige Government ID verificado, sin reseñas negativas previas y aceptación explícita de tus house rules. Con ese filtro, el volumen de huéspedes problemáticos baja ~95% mientras conservas el boost de ranking [[notes/ranking--instant-book-acceptance-signal]].\n\n2. **Entiende qué señal envías a Airbnb**: Instant Book equivale a un acceptance rate del 100% automático. Cuando trabajas solo con request-to-book, cada rechazo o request expirado baja tu acceptance effective y Airbnb lo penaliza en search ranking [[notes/ranking--instant-book-acceptance-signal]].\n\n3. **Cuantifica el coste de no activarlo**: hay evidencia directa de un anfitrión que desactivó Instant Book y midió una caída de ~25% en first-page impressions — la métrica que más impacta conversion [[notes/ranking--instant-book-acceptance-signal]]. Es visibility gratis que estarías regalando.\n\n4. **Reduce tu friction score interno**: Airbnb mantiene una métrica oculta (\"friction score\") que penaliza declines, cancelaciones y disputas escaladas. Instant Book reduce mecánicamente los declines, lo que baja tu friction y protege tu ranking [[notes/ranking--friction-score-penalty]].\n\n5. **Encaja en el conjunto de factores accionables 2026**: Instant Book activo es uno de los 10 factores de ranking accionables que el autor identifica, junto con minimum stay bajo, profile 100%, never cancel y safety features. Si vas a optimizar ranking, este es de los pocos que dependen 100% de un toggle en tu cuenta [[notes/ranking--factors-2026]].\n\n6. **No sustituyas vetting por miedo**: si te preocupa la calidad del huésped, recuerda que con Government ID + sin malas reseñas + house rules ya filtras lo crítico. Para casos límite, el guest profile (reseñas, fecha de alta, verifications, ID, descripción) te da árbol de decisión claro incluso con IB activo [[notes/hospitality--guest-profile-vetting-framework]].\n\n7. **Caveat de mercado**: en mercados saturados Airbnb pondera el acceptance rate más fuerte como tie-breaker; en mercados nuevos pesa menos. En ambos casos, dejar el boost sobre la mesa no compensa [[notes/ranking--instant-book-acceptance-signal]].\n\nRegla práctica: enciende Instant Book con los tres requirements desde el primer día. Si en 60-90 días detectas un patrón de huéspedes problemáticos que tus guardrails no filtran, ajusta los criterios — no apagues el toggle.",
+  "atoms_cited": [
+    "[[notes/ranking--instant-book-acceptance-signal]]",
+    "[[notes/ranking--friction-score-penalty]]",
+    "[[notes/ranking--factors-2026]]",
+    "[[notes/hospitality--guest-profile-vetting-framework]]"
+  ],
+  "sources_cited": [
+    "[[sources/2026-02-05--how-airbnb-search-actually-works-in-2026-copy-what-i-do]]",
+    "[[sources/2024-02-23--this-tool-will-get-you-ranking-1-in-airbnb-intellihost-revie]]",
+    "[[sources/2026-04-01--what-airbnb-employees-actually-think-of-hosts]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}
