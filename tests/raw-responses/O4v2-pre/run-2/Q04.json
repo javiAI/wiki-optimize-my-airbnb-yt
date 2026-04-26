@@ -1,0 +1,38 @@
+{
+  "question_id": "Q04",
+  "question": "Un huésped post-estancia me amenaza con dejarme una reseña mala si no le devuelvo dinero. ¿Qué hago?",
+  "category": "C",
+  "response": "No negocies. Eso es review manipulation explícita y, aunque el enforcement de Airbnb es laxo, la threat te da paper trail para defenderte. Aceptar el refund no garantiza una reseña positiva (el huésped puede reneger tras cobrar) y enseña el patrón a otros.\n\n1. Captura screenshot inmediato del mensaje con la amenaza explícita en el chat de Airbnb (no WhatsApp, no email — sólo el chat de la plataforma cuenta como evidencia) [[notes/reviews--refund-threat-manipulation]].\n2. Reporta el caso a Airbnb customer service como \"review manipulation\" adjuntando los screenshots; pide que se anule la posibilidad de reseña de esa reservación o, si ya se publicara, que se remueva por violación de TOS [[notes/reviews--refund-threat-manipulation]].\n3. Responde al huésped en el mismo chat, educadamente y sin ceder: *\"Entiendo tu solicitud de reembolso. No puedo ofrecerlo bajo las condiciones que has planteado. Tu reseña es bienvenida — aceptaré cualquier feedback honesto que dejes.\"* Esa redacción mantiene la profesionalidad y refuerza el paper trail de que rechazaste un trade [[notes/reviews--refund-threat-manipulation]].\n4. Si Airbnb CS te llama presionando para que cedas (patrón confirmado en 2025-2026: \"incessant\" follow-ups), responde con la misma frase: \"Tengo screenshots de review manipulation\" y pide escalar a supervisor. No cedas en el primer follow-up [[notes/reviews--refund-threat-manipulation]].\n5. En paralelo, asume que la reseña negativa puede aterrizar de todas formas — el proceso de remoción 2026 está prácticamente roto incluso con evidencia clara [[notes/reviews--removal-process-broken-2025]]. Activa contramedidas de dilución: empuja volumen de reseñas en las siguientes reservas y refuerza el flujo de mensajes (4 días pre-check-in, mid-stay, reciprocity 3-6h post-checkout) [[notes/reviews--more-dilutes-negative]].\n6. Si después de la estancia hay un agravio legítimo y el huésped abre la puerta a negociar refund por su cuenta (sin amenaza explícita), entonces aplica el playbook inverso: ofrece el reembolso neutralmente y pregunta su expectativa de reseña; si él propone literalmente el trade por chat, eso sí permite remoción [[notes/reviews--refund-for-review-trade-2026-loophole]]. Pero ese es otro escenario — no éste.\n\nPrincipio rector: en este caso eres el atacado, no el atacante. La regla es rechazar + reportar, nunca pagar al chantajista.",
+  "atoms_cited": [
+    "[[notes/reviews--refund-threat-manipulation]]",
+    "[[notes/reviews--removal-process-broken-2025]]",
+    "[[notes/reviews--more-dilutes-negative]]",
+    "[[notes/reviews--refund-for-review-trade-2026-loophole]]"
+  ],
+  "sources_cited": [
+    "[[sources/qv05SED0Z9E]]",
+    "[[sources/3sFGalw_CzY]]",
+    "[[sources/wjAwMKuhxec]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": "none",
+    "conflicting_atoms": [],
+    "topic": null,
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-23] Refund-for-review: guest attack vs host loophole"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "none",
+    "rationale": null,
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

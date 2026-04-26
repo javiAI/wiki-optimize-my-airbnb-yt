@@ -1,0 +1,45 @@
+{
+  "question_id": "Q06",
+  "question": "Estamos en 2026. ¿Cómo funciona hoy el sistema de remoción de reseñas en Airbnb?",
+  "category": "T",
+  "response": "En 2026 el sistema oficial sigue listando 3 motivos válidos de remoción —extortion, house-rule retaliation y revelación de info privada—, pero el enforcement se rompió tras el policy update de mid-2025: aunque tu caso encaje, el flujo (submit + 1 appeal) lo procesa lo que parece ser un sistema automatizado que deniega rápidamente incluso con evidencia clara [[reviews--removal-process-broken-2025]]. La conclusión operativa: trata cualquier reseña negativa como permanente, salvo que se den las condiciones del único path fiable que aún funciona.\n\n1. **Asume permanencia y vuelca recursos a prevención**: refuerza el flujo automatizado de mensajes (4 días pre-check-in, mid-stay, reciprocity 3-6h post-checkout) y deja paper trail desde el primer minuto del check-in. Es el ROI real en 2026 [[reviews--removal-process-broken-2025]].\n\n2. **Aplica el loophole del refund-for-review cuando aplique**: si un huésped tuvo bad stay y likely deja reseña negativa, ofrece el refund neutralmente y pregunta su expectativa de reseña. El objetivo es que el huésped escriba por chat de Airbnb una frase tipo \"si me reembolsas, no dejo reseña\" o \"dejo 5 estrellas\". Esa frase activa la policy de review manipulation y Airbnb sí remueve. Importante: el guest debe proponer el trade, tú solo preguntas — si lo ofreces tú es entrapment y compliance lo rechaza [[reviews--refund-for-review-trade-2026-loophole]].\n\n3. **Documenta y submitea solo si hay paper trail real**: Resolution Center → \"Review removal request\" → motivo \"Review manipulation\" → adjunta screenshots del chat de Airbnb (no WhatsApp ni email). Respuesta típica 48-72h. Confidence medium: el propio creador anticipa que Airbnb puede cerrar este path en próximos updates [[reviews--refund-for-review-trade-2026-loophole]].\n\n4. **Si el huésped es quien amenaza con reseña mala salvo que reembolses, NO negocies**: screenshot inmediato de la amenaza + report a Airbnb por extortion. Pagar al chantajista no garantiza nada y CS presiona \"incessantly\" para que cedas — aguanta [[reviews--refund-threat-manipulation]].\n\n5. **Fallback de bajo éxito si el loophole no aplica pero tienes evidencia clara**: una llamada a CS con UNA sola razón (la más fuerte), buscando rep US-based fuera de horario 8am-5pm PT/ET. Combina con damage claim si hubo daño real (señal de \"fairness\" sube odds desde una base baja). Budget máximo: 2 llamadas × 30 min; si no hay señal positiva en la primera, abandona [[reviews--removal-call-playbook]].\n\n6. **En paralelo siempre, activa dilution**: una reseña 1-estrella sobre 10 hunde el rating; sobre 100 apenas se nota. Empuja volumen de bookings y de petición de reseñas — es la única defensa garantizada contra una negativa permanente [[reviews--more-dilutes-negative]].\n\n⚠️ **Nota — evolución temporal**: Antes (hasta 2025-06), [[reviews--three-removal-reasons]] funcionaba: si el caso encajaba en extortion / retaliation / private info, CX aprobaba la remoción. Desde 2025-07, tras el policy update de mid-2025 documentado en `wjAwMKuhxec` y `qv05SED0Z9E`, prevalece [[reviews--removal-process-broken-2025]]: el flujo está efectivamente roto y CX deniega incluso con evidencia clara. Hoy: trata reseñas negativas como permanentes, aplica el loophole del refund-for-review cuando se cumplan las condiciones, y dilución vía volumen siempre. Detalle en [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[reviews--removal-process-broken-2025]]",
+    "[[reviews--three-removal-reasons]]",
+    "[[reviews--refund-for-review-trade-2026-loophole]]",
+    "[[reviews--refund-threat-manipulation]]",
+    "[[reviews--removal-call-playbook]]",
+    "[[reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/qv05SED0Z9E]]",
+    "[[sources/wjAwMKuhxec]]",
+    "[[sources/3sFGalw_CzY]]",
+    "[[sources/9tauPokD4Hc]]",
+    "[[sources/zih3JqcBRAE]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[reviews--three-removal-reasons]]",
+      "[[reviews--removal-process-broken-2025]]"
+    ],
+    "topic": "reviews",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-22] Review removal: pre-2025 vs post-2025"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[reviews--removal-process-broken-2025]]",
+    "secondary_atom": "[[reviews--three-removal-reasons]]",
+    "resolution_criterion": "temporal_supersession",
+    "rationale": "El policy update de mid-2025 (hito documentado: sources wjAwMKuhxec 2025-07-15 y qv05SED0Z9E 2025-08-02) supersede al claim pre-2025 de los 3 motivos válidos. Score §5: recency +0.40 + specificity +0.20 a favor de removal-process-broken-2025. El atom viejo se conserva como contexto histórico (los 3 motivos siguen siendo los reasons oficiales en la policy; lo que se rompió es el enforcement), no como recomendación competidora actual.",
+    "temporal_narrative_used": true
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

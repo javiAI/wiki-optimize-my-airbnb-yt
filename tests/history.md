@@ -6,6 +6,52 @@ Single source of truth para descripción y estado: [docs/OPTIMIZATIONS.md](../do
 
 ---
 
+## 2026-04-26 — O4 v2: smart resolver + temporal narrator + auto-curate → IMPLEMENT (user override)
+
+Reescritura completa de §4.5 del kernel + RESPONSE_TEMPLATES.md + post-processor `scripts/apply-proposed-contradictions.py`. Validada con custom 15-question battery + custom 6-dim rubric.
+
+**Diseño**:
+- 5-tier resolution hierarchy: `temporal_supersession` → `contextual_scope` → `confidence_tier` → `authority_tier` → `specificity_tier`. Aplicar en orden, primer criterio que decida gana.
+- Temporal narrative sub-template (ANTES / DESDE / HOY) cuando criterio = `temporal_supersession`. Standard caveat sub-template para los demás criterios.
+- Auto-emit de `proposed_contradictions[]` cuando se detecta HIGH/MEDIUM no documentado en meta. `scripts/apply-proposed-contradictions.py` consolida en `meta/contradictions.md` entre runs (DRY-RUN por defecto, `--apply` para escribir).
+- Surface decision table (4 casos) según `documented_in_meta` × `pregunta toca dim rival`.
+
+**Methodology fix (Path A)**: el agent template del run-1 (guided) llevaba la jerarquía + reglas de proposed_contradictions spelled-out, lo que enmascaraba el upgrade del kernel. Se renombró a `_custom_agent_template_guided.md` (referencia ceiling, 9.41) y se creó un template stripped que solo delega al kernel (`§10.7 + §4.5`). Re-corrido del pre-test con stripped template (run-2) dio el verdadero baseline 9.08.
+
+**Resultados (custom-o4v2-1.0, 6-dim rubric)**:
+
+| Dim (peso) | Pre run-2 (stripped) | Post run-1 (kernel v2) | Δ |
+|---|---|---|---|
+| conflict_detection (20%) | 9.00 | 9.33 | +0.33 |
+| resolution_clarity (25%) | 9.07 | 9.13 | +0.06 |
+| **temporal_narrative (20%)** | **8.73** | **9.93** | **+1.20** |
+| context_awareness (15%) | 9.40 | 9.40 | 0.00 |
+| proposed_contradiction_quality (15%) | 9.27 | 9.60 | +0.33 |
+| tone_format (5%) | 9.27 | 8.93 | −0.34 |
+| **weighted_avg** | **9.08** | **9.40** | **+0.32** |
+
+Cost: avg tokens 50,150 → 54,850 (+9.4%, expected — la jerarquía empuja a leer más meta + ejecutar el ciclo detect → classify → resolve → surface → curate). Composite v2.0 ≈ +0.013 (IMPLEMENT bajo el framework estándar también).
+
+**Decisión**: nominal `ITERATE` (Δ +0.32 dentro del band [0.2, 0.5)). User override → **IMPLEMENT** porque:
+1. Target dim `temporal_narrative` ganó +1.20 y queda a 0.07 del ceiling teórico.
+2. `proposed_contradiction_quality` +0.33 con auto-curate validado en Q08 (entrada bien formada para `calendar-strategy` vs `pricelabs-bootstrap`, no documentado en meta — listo para consolidar).
+3. `tone_format` −0.34 está muy por debajo del floor 0.5; el peso (5%) lo hace ruido.
+
+**Auto-curation pipeline validado**: dry-run de `scripts/apply-proposed-contradictions.py --label O4v2-post --run 1` muestra 1+ entrada nueva propuesta; consolidación queda pendiente como follow-up (revisión humana antes de aplicar).
+
+**Behavioral observations**:
+- T-category (Q01, Q06, Q11): temporal evolution caveat aplicado consistentemente con milestone references (mid-2025 policy update).
+- C-category (Q03, Q05, Q14): contextual_scope correctamente identificado, con `primary_atom`/`secondary_atom: null` cuando no hay ganador universal.
+- D-category (Q02): specificity_tier aplicado con rationale detallado.
+- M-category (Q08, Q14): debilidad — el kernel surfacea solo 1 de los 2-3 conflictos esperados, faltando cumplir §4.5.7 multi-caveat. Posible afinamiento futuro.
+- U-category (Q09, Q12, Q13, Q15): no false-positive conflict invention.
+
+**Activos**: kernel `CLAUDE.md` §4.5 reescrito; `queries/RESPONSE_TEMPLATES.md` con sub-templates A (temporal) y B (standard); `scripts/apply-proposed-contradictions.py` (post-processor con dedupe vía sorted normalized atom-pair tuples); `tests/prompts/O4v2/` (custom battery infra + meta.yaml + custom evaluator); `tests/raw-responses/O4v2-pre/` (run-1 guided ceiling 9.41 + run-2 stripped baseline 9.08); `tests/raw-responses/O4v2-post/run-1/` (9.40); `tests/comparisons/O4v2-post-vs-O4v2-pre.json`.
+
+**Próximo**: O5 — Response Format Templates (regime-based: factual / tactical / taxonomic) en `queries/RESPONSE_TEMPLATES.md`.
+
+---
+
 ## 2026-04-26 — Restructure: principio "estructural-only en Phases 1-4" + Phase 5 Atom Regeneration
 
 Tras O3 re-test (n=2) y la decisión REVERT por `target_dim_regression`, hemos consolidado un principio operativo y reorganizado el plan completo.

@@ -1,0 +1,48 @@
+{
+  "comparison": "O4v2-post-vs-O4v2-pre",
+  "rubric_version": "custom-o4v2-1.0",
+  "pre": {
+    "label": "O4v2-pre",
+    "run": "run-2",
+    "aggregate": {
+      "conflict_detection": 9.0,
+      "resolution_clarity": 9.07,
+      "temporal_narrative": 8.73,
+      "context_awareness": 9.4,
+      "proposed_contradiction_quality": 9.27,
+      "tone_format": 9.27,
+      "weighted_avg": 9.08
+    }
+  },
+  "post": {
+    "label": "O4v2-post",
+    "run": "run-1",
+    "aggregate": {
+      "conflict_detection": 9.33,
+      "resolution_clarity": 9.13,
+      "temporal_narrative": 9.93,
+      "context_awareness": 9.4,
+      "proposed_contradiction_quality": 9.6,
+      "tone_format": 8.93,
+      "weighted_avg": 9.4
+    }
+  },
+  "deltas": {
+    "conflict_detection": 0.33,
+    "resolution_clarity": 0.06,
+    "temporal_narrative": 1.2,
+    "context_awareness": 0.0,
+    "proposed_contradiction_quality": 0.33,
+    "tone_format": -0.34
+  },
+  "weighted_delta": 0.32,
+  "decision": "IMPLEMENT",
+  "decision_source": "user_override",
+  "reason": "weighted_avg delta +0.320 nominally maps to ITERATE band [0.2, 0.5); user promoted to IMPLEMENT because target dim temporal_narrative gained +1.20 (8.73 → 9.93, near ceiling) and proposed_contradiction_quality gained +0.33 with the auto-curate path validated (Q08 well-formed entry). tone_format -0.34 stays well within the 0.5 floor.",
+  "auto_decision": "ITERATE",
+  "thresholds": {
+    "implement": 0.5,
+    "iterate": 0.2,
+    "floor_drop_per_target_dim": 0.5
+  }
+}

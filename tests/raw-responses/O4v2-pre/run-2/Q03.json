@@ -1,0 +1,43 @@
+{
+  "question_id": "Q03",
+  "question": "En mi listado, ¿debería poner descuento o premium para jueves y domingos?",
+  "category": "C",
+  "response": "Depende del booking pattern real de tu mercado. No hay regla universal: la decisión la dicta lo que ya hacen tus huéspedes, no el calendario.\n\n1. **Mira tus últimos 30 bookings confirmados antes de tocar nada** [[notes/pricing--track-own-booking-lead-time]]. Cuenta cuántos llegan jueves→domingo (o viernes→lunes) y cuántos siguen el patrón clásico viernes→domingo. Esa proporción es la señal.\n\n2. **Si el patrón Thu→Sun ya está establecido (>50% de las reservas), aplica premium**: redefine los días de weekend en PriceLabs marcando jueves+viernes+sábado+domingo como weekend [[notes/pricing--weekend-days-definition]]. PriceLabs aplicará automáticamente el premium a esos días adicionales. Estás cobrando por una demanda que ya existe, no creándola.\n\n3. **Si tus reservas siguen siendo viernes→domingo y quieres extender el weekend, aplica descuento**: day-of-week customization en PriceLabs con Thu -10-15% y Sun -10-15% [[notes/pricing--thu-sun-weekend-extension]]. El objetivo es inclinar la balanza al huésped que duda entre 2 y 3 noches y absorber jueves/domingos huérfanos en estancias más largas.\n\n4. **Excepción**: en mercados con demanda fuerte business/airport/capital con tráfico entre semana, no apliques descuento Thu/Sun aunque el patrón actual sea viernes→domingo: el descuento te cuesta revenue sin cambiar comportamiento [[notes/pricing--thu-sun-weekend-extension]].\n\n5. **Combina con adjacency factor**: si tienes el -50% adjacency activado [[notes/pricing--adjacency-factor]], se complementa con cualquiera de las dos estrategias (premium o descuento) sin colisionar.\n\n6. **Verifica a las 4-6 semanas**: revisa la distribución de check-ins post-cambio. Si el patrón se desplazó hacia Thu→Sun, considera transicionar de descuento a premium (weekend redefinition). El descuento es la palanca para *cambiar* el patrón; el premium es la palanca para *capturar* uno ya establecido.\n\nUbicación de los settings: PriceLabs → Customizations → Weekend Days (para premium vía redefinición) o Day-of-Week Adjustment (para descuento puntual). No mezclar las dos en el mismo día.\n\n⚠️ **Nota**: [[notes/pricing--thu-sun-weekend-extension]] sugiere descuento Thu/Sun para incentivar la extensión del weekend; [[notes/pricing--weekend-days-definition]] discrepa proponiendo marcarlos como weekend para cobrar premium.\n\n- **Confianza**: A es high; B es high. Ninguno es \"principal\" universal: la decisión es contextual al booking pattern del mercado, no al score (ambas fuentes son del mismo canal y ventana temporal similar).\n- **Cuándo aplica B (premium)**: si >50% de tus últimos 30 bookings ya son Thu→Sun o Fri→Mon. Cuándo aplica A (descuento): si la mayoría siguen siendo Fri→Sun y quieres mover el patrón.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[notes/pricing--track-own-booking-lead-time]]",
+    "[[notes/pricing--weekend-days-definition]]",
+    "[[notes/pricing--thu-sun-weekend-extension]]",
+    "[[notes/pricing--adjacency-factor]]"
+  ],
+  "sources_cited": [
+    "[[sources/CbIZETKeV-U]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/HsCIAq2TPMI]]",
+    "[[sources/9Yk_IF97QdM]]",
+    "[[sources/zGkc_U9qC1k]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[notes/pricing--thu-sun-weekend-extension]]",
+      "[[notes/pricing--weekend-days-definition]]"
+    ],
+    "topic": "pricing",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-22] Thu/Sun: descuento vs premium"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "context-dependent (market booking pattern); score no desempata — ambas fuentes high authority, ventana temporal similar, popularity comparable",
+    "rationale": "Según meta/contradictions, no hay ganador universal. La decisión depende del booking pattern real del mercado: si >50% de los últimos 30 bookings ya son Thu→Sun/Fri→Mon, gana premium (weekend-definition); si la mayoría siguen siendo Fri→Sun y se quiere cambiar el patrón, gana descuento (extension). El conflicto es de aplicabilidad contextual, no de veracidad.",
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

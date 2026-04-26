@@ -1,0 +1,48 @@
+{
+  "question_id": "Q01",
+  "question": "¿Cómo remuevo una reseña negativa que claramente viola las políticas de Airbnb?",
+  "category": "T",
+  "response": "Antes de explicar el proceso, lo importante: desde mediados de 2025 Airbnb actualizó su flujo de remoción y hoy es **virtualmente imposible** quitar una reseña negativa, incluso con evidencia clara de violación de políticas. Los appeals se deniegan con velocidad sospechosa (probablemente AI-driven) [[notes/reviews--removal-process-broken-2025]]. Asume que la reseña es permanente y trabaja en paralelo dos vías: el intento formal (low success rate) y la dilución por volumen.\n\n1. **Verifica si encajas en el ÚNICO loophole fiable de 2026**: si el huésped tuvo mala estancia y está dispuesto a negociar refund, condúcelo por chat de Airbnb a que él proponga el trade explícitamente (\"si me devuelves, no dejo reseña / dejo 5 estrellas\"). Esa frase del huésped es violation de TOS y Airbnb sí remueve. El script del anfitrión debe ser **neutro y por pregunta**, no por oferta directa, para evitar que compliance lo lea como entrapment [[notes/reviews--refund-for-review-trade-2026-loophole]].\n\n2. **Si no aplica el loophole, prepara el caso formal sabiendo que la base de éxito es baja**. Los 3 motivos oficialmente válidos siguen siendo: extortion (el huésped amenazó con reseña mala si no había refund), house-rule retaliation (reseña tras enforcement de regla publicada antes de la reserva) y private info (la reseña expone datos personales) [[notes/reviews--three-removal-reasons]]. Reúne screenshots del chat de Airbnb (no WhatsApp ni email — solo el paper trail nativo cuenta) y la fecha de publicación de las house rules anterior a la reserva.\n\n3. **Submission por Resolution Center → \"Request review removal\"**, motivo único, una sola razón (la más fuerte). No metas 7 razones; el agente necesita una. Tras el rechazo automático, usa tu único appeal disponible.\n\n4. **Fallback: llamada telefónica con el playbook clásico**. Llama fuera de 8am-5pm PT/ET o en fin de semana para aumentar la probabilidad de hablar con un empleado de Airbnb Inc. (acento americano nativo) en vez de call center offshore. Da UNA sola razón, tono factual y calmado, y reintenta 2 veces cambiando hora/día. Presupuesto máximo: 1 hora total — si no hay señal positiva en la primera llamada, abandona [[notes/reviews--removal-call-playbook]].\n\n5. **Si anticipas que aún no ha llegado la reseña pero sospechas que será negativa**, deja tú primero una reseña al huésped (solo hechos, eliminando todo lo subjetivo — \"despicable\" fuera, \"demanded a discount\" dentro) [[notes/reviews--facts-only-negative-review]] y abre damage claim **solo si hay daño real** documentado. Airbnb es ligeramente más propenso a remover dos reseñas negativas \"in the name of fairness\" y el damage claim añade señal de conflicto legítimo [[notes/reviews--damage-claim-for-removal-odds]].\n\n6. **Nunca pagues a third-party services** que ofrecen remoción de reseñas. Daniel reporta una \"potential repercussion\" no detallada públicamente que puede llegar a desactivación de cuenta [[notes/reviews--dont-pay-removal-services]].\n\n7. **Estrategia paralela y prioritaria: dilución por volumen**. Una 1-estrella sobre 10 reseñas hunde el rating; sobre 100, apenas se nota (4.6 vs 4.96). Mientras tramitas la remoción, fuerza el flujo de bookings sin sacrificar precio y activa los touchpoints de reciprocity para empujar reseñas nuevas [[notes/reviews--more-dilutes-negative]]. Esta es la única vía con ROI fiable en 2026.\n\n**Asignación realista de esfuerzo**: 70% en dilución y prevención futura, 20% en el loophole si aplica, 10% en submission formal + llamada. Si la reseña no encaja en uno de los 3 motivos válidos y no hay loophole, salta directo a dilución.\n\n⚠️ **Nota**: [[notes/reviews--removal-process-broken-2025]] sugiere asumir reseñas negativas como permanentes desde el update de Airbnb mid-2025; [[notes/reviews--three-removal-reasons]] discrepa con la idea de que hay 3 motivos que sí funcionan vía Resolution Center.\n\n- **Confianza**: A (removal-process-broken-2025) es high; B (three-removal-reasons) es high. A es la recomendación principal por recency (sources 2025-07/08 vs pre-2025) y por specificity (el autor documenta sus propios casos rechazados con evidence clara, no general advice).\n- **Cuándo aplica B**: como referencia histórica del proceso formal y cuando tu caso encaja literalmente en uno de los 3 motivos oficiales (extortion, house-rule retaliation, private info) — los 3 reasons siguen siendo los criterios oficiales en policy, pero el enforcement post-2025 los deniega frecuentemente. Úsalo como base para preparar el submission, no como expectativa de éxito.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[notes/reviews--removal-process-broken-2025]]",
+    "[[notes/reviews--refund-for-review-trade-2026-loophole]]",
+    "[[notes/reviews--three-removal-reasons]]",
+    "[[notes/reviews--removal-call-playbook]]",
+    "[[notes/reviews--facts-only-negative-review]]",
+    "[[notes/reviews--damage-claim-for-removal-odds]]",
+    "[[notes/reviews--dont-pay-removal-services]]",
+    "[[notes/reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/qv05SED0Z9E]]",
+    "[[sources/wjAwMKuhxec]]",
+    "[[sources/3sFGalw_CzY]]",
+    "[[sources/9tauPokD4Hc]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/uwdAHCmhNn4]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[notes/reviews--removal-process-broken-2025]]",
+      "[[notes/reviews--three-removal-reasons]]"
+    ],
+    "topic": "reviews",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-22] Review removal: pre-2025 vs post-2025"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[notes/reviews--removal-process-broken-2025]]",
+    "secondary_atom": "[[notes/reviews--three-removal-reasons]]",
+    "resolution_criterion": "temporal_supersession",
+    "rationale": "removal-process-broken-2025 supersede a three-removal-reasons por recency (sources 2025-07/08 reportando fallos directos tras el policy update mid-2025 vs pre-2025) y por specificity (el autor documenta sus propios casos rechazados con evidence clara). El atom antiguo se mantiene como contexto histórico oficial — los 3 reasons siguen siendo los criterios formales válidos según policy, pero el enforcement se rompió. La regla operativa derivada en meta/contradictions explicita: responder primero con removal-process-broken-2025 (realista) y mencionar three-removal-reasons solo para el proceso formal.",
+    "temporal_narrative_used": true
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

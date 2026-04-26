@@ -1,0 +1,42 @@
+{
+  "question_id": "Q12",
+  "question": "¿Vale la pena invertir en construir direct booking o me quedo solo en Airbnb?",
+  "category": "U",
+  "response": "Respuesta corta: por defecto, **quédate en Airbnb**. Direct booking solo compensa si cumples al menos UNA de estas condiciones: (1) gestionas 12+ propiedades, (2) operas en mercado luxury ($500+/noche con clientela VIP), (3) tu repeat business histórico es ≥30%, o (4) ya eres influencer con audiencia propia [[notes/direct-booking--skip-unless-conditions]]. Sin una de esas, el retorno neto raramente justifica la inversión en marketing, tech stack y procesamiento de pagos.\n\nLas únicas 2 razones genuinas para empujar direct son cash flow (cobras al instante vs 24-48h de Airbnb) y escapar del review tyranny (no depender del rating-algoritmo para visibilidad). Las otras razones populares (\"evito fees\", \"control total\", \"brand building\", \"descuentos exclusivos\") son fear-driven, no data-driven [[notes/direct-booking--two-real-reasons]].\n\nTen muy presente lo que Airbnb te da gratis y que tendrías que reemplazar: review solicitation automática (en direct, tasa de reseñas cae al 20-30%), trust badge (Airbnb = confianza default; tu marca = unknown) y SEO orgánico heredado del dominio (tu sitio empieza de cero) [[notes/direct-booking--invisible-airbnb-value]]. Estos tres servicios no se replican con $500 en ads.\n\nSi cumples condición y decides avanzar, sigue este orden:\n\n1. **Arranca por el PMS, no por el website ni por Airbnb**. El PMS es el hub (Hostfully, Guesty, Hospitable); Airbnb, Vrbo, sitio propio y Stripe son spokes. Aplica desde la propiedad #1 — switching costs crecen exponencialmente con el histórico de reservas, reseñas y email list [[notes/direct-booking--pms-first-architecture]].\n2. **Ejecuta solo las 3 jugadas de mínimo esfuerzo / máximo retorno**: (a) Google My Business (gratis, captura búsquedas \"hotel [ciudad]\"), (b) menciona tu marca en las reseñas que tú dejas a tus huéspedes, (c) instala retargeting pixel (Meta + Google Ads, $30-50/mes) [[notes/direct-booking--minimum-moves]]. Todo lo demás (SEO content, email flows, partnerships con influencers) es 80% de esfuerzo por 20% de retorno hasta que tengas tráfico base.\n3. **Captura emails con WiFi captive portal (StayFi o equivalente)**. Cada huésped introduce nombre + email + teléfono al conectarse: una reserva de 2 personas rinde 2-4 emails; una estancia larga con visitantes, 10-30. La email list es el asset de marketing más valioso para direct y es portable entre plataformas [[notes/direct-booking--wifi-captive-portal-email-capture]]. Stack mínimo: $20-30/mes por listing.\n4. **Usa el website propio como sitio WordPress + tema hospitality**, no el builder integrado del PMS. Si en 2 años cambias de PMS, no quieres perder todo lo construido [[notes/direct-booking--pms-first-architecture]].\n5. **Si ya estás listado en 4+ plataformas con distribución 70/20/5/5, elimina las dos minoritarias**. Parte de ese 20% se transfiere al 70% (calendar más disponible) y te conviertes en experto del canal principal. Direct se mantiene incluso con <10% porque no paga comisión y alimenta repeat-guest pipeline; pero si direct sigue <2% tras 12 meses con esfuerzo activo, replantea si el tráfico realmente existe [[notes/direct-booking--multi-platform-concentration]].\n\n**Regla operativa**: si eres hobbyist o tienes 1-3 propiedades sin ninguno de los 4 perfiles arriba, quédate en Airbnb y enfoca el tiempo en pricing, listing optimization y reseñas. Direct te robaría horas con retorno marginal. Si encajas en el perfil, arranca por PMS desde el primer día y limítate al 20% de acciones con 80% del retorno hasta tener señal real de tráfico propio.",
+  "atoms_cited": [
+    "[[notes/direct-booking--skip-unless-conditions]]",
+    "[[notes/direct-booking--two-real-reasons]]",
+    "[[notes/direct-booking--invisible-airbnb-value]]",
+    "[[notes/direct-booking--pms-first-architecture]]",
+    "[[notes/direct-booking--minimum-moves]]",
+    "[[notes/direct-booking--wifi-captive-portal-email-capture]]",
+    "[[notes/direct-booking--multi-platform-concentration]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/w8cuYma09zY]]",
+    "[[sources/YI7E_q53bRU]]",
+    "[[sources/zDz2XogOarw]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": "none",
+    "conflicting_atoms": [],
+    "topic": null,
+    "documented_in_meta": false,
+    "meta_section": null
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "none",
+    "rationale": null,
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

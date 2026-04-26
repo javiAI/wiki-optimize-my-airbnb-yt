@@ -1,0 +1,76 @@
+{
+  "question_id": "Q08",
+  "question": "Acabo de publicar mi anuncio. Plan completo para los primeros 60 días: precio, mínimo de noches, reseñas, ranking.",
+  "category": "M",
+  "response": "Plan operativo para tus primeros 60 días, con foco en acumular las primeras 3-5 reseñas rápido y luego transicionar a un régimen de optimización normal.\n\n**Días 0-10 — Lanzamiento y bootstrap**\n\n1. Conecta PriceLabs y acepta el `base_price` recomendado sin modificar (decisión de 30 segundos, no 30 minutos): aún no tienes data propia para batir al algoritmo [[pricing--new-listing-pricelabs-bootstrap]].\n2. Cleaning fee: alinéala con la media de 3-5 comps directos (mismo radio, mismo tamaño), no con tu coste real. Si tu coste excede esa banda, mete la diferencia en la base [[pricing--cleaning-fee-match-comp]].\n3. Mínimo de noches = **1 noche**. Cada noche que subas el mínimo elimina huéspedes elegibles del search; con un anuncio nuevo necesitas todas las búsquedas posibles [[ranking--minimum-stay-visibility]].\n4. Optimiza las **big three** antes de publicar: fotos (la portada tiene que ser la mejor + distinta del resto del market), título (brand o comodidades, nunca adjetivos vacíos), summary (las 2 primeras líneas) [[listing-optimization--big-three]].\n5. Activa Instant Book y todas las safety features (smoke, CO, extintor, botiquín, cámara exterior). Reduce fricción + señal de \"100% acceptance\" para el algoritmo [[ranking--instant-book-acceptance-signal]].\n\n**Días 0-30 — Conseguir las primeras 3 reseñas**\n\n6. Bloquea el calendario excepto las próximas **3-5 semanas**. Concentrar la demanda en pocas fechas genera momentum: más reservas por unidad de tiempo = mejor señal al algoritmo [[occupancy--new-listing-calendar-strategy]].\n7. Configura los **9 mensajes automatizados** desde el día 1: inquiry auto-reply, confirmación, 4 días pre-check-in, día del check-in, ~18h post-check-in (wellness check), mid-stay, 1 día pre-check-out, 3-6h post-check-out (reciprocidad), día 10 (recordatorio si no escribió reseña). Setup ~2h, después 0 mantenimiento [[hospitality--nine-automated-messages]].\n8. En el mensaje de bienvenida, calibra explícitamente la expectativa: \"Nuestro objetivo es una experiencia 5 estrellas. Si algo falla durante tu estancia, dímelo de inmediato para arreglarlo.\" El huésped te escribirá ANTES de que el problema se convierta en reseña baja [[reviews--calibrate-five-star-arrival]].\n9. Mensaje 3-6h post-check-out: \"Te dejaré una reseña de 5 estrellas, espero que hagas lo mismo.\" Reciprocidad real — el autor reporta que esto solo dobla el ratio de reseñas completadas [[reviews--reciprocity-post-checkout]].\n10. **NO anuncies que el precio es de descuento** ni etiquetes \"new listing sale\". El huésped sin reseñas no tiene referencia: asume que el precio es el valor real. Mencionar descuento señaliza desesperación y, peor, sugiere quid-pro-quo (violación de ToS de Airbnb) [[pricing--dont-announce-discount-to-new-guests]].\n\n**Día 10 — Primer ajuste**\n\n11. Revisa la ocupación de los próximos 30 días:\n    - <35% reservado → bajar base **5-10%**.\n    - 35-65% → mantener.\n    - >65% → subir base **5-10%**.\n    Repite cada 10 días [[pricing--new-listing-pricelabs-bootstrap]].\n12. No subas el mínimo de noches lejos en el calendario. Si quieres protegerte de orphan nights, usa premium del 10% + mínimo bajo, no min-stay alto [[pricing--no-increase-min-nights-far-out]].\n\n**Días 30-60 — Transición a régimen normal**\n\n13. Al alcanzar **3 reseñas**: abre el calendario completo, normaliza el mínimo a 2 noches (3 en weekends si tu market lo permite), sube el precio gradualmente hacia paridad con comps. No extiendas la fase agresiva más allá de 3 reseñas — pierdes revenue sin ganancia marginal de ranking [[occupancy--new-listing-calendar-strategy]].\n14. A partir del día 30, pasa a la rutina semanal de 30 segundos los miércoles: comparar ocupación vs target 50% y mover base ±5% como máximo [[pricing--five-percent-adjustments]].\n15. Volumen de reseñas > puntuación pura. Una reseña mediocre se diluye con volumen; el algoritmo premia más reseñas más que ratings perfectos [[ranking--more-reviews-beats-higher-rating]].\n16. Wishlists es el ÚNICO factor de ranking confirmado oficialmente por Airbnb. Optimiza fotos para que el huésped guarde el anuncio aunque aún no reserve. Bonus: añade tu propio anuncio a una wishlist tuya (30 segundos, micro-boost gratis) [[ranking--wishlists-confirmed-factor]] [[listing-optimization--wishlist-your-own-listing]].\n\n**Qué NO hacer en estos 60 días**\n\n- No actives Smart Pricing de Airbnb: optimiza para conversion del huésped, no para tu revenue [[ranking--smart-pricing-suppression]].\n- No uses promociones nativas \"X% off\" de Airbnb (1000 vistas, 0 reservas en tests del autor). Si quieres bajar precio, bájalo de verdad [[ranking--airbnb-promotions-dont-work]].\n- No persigas Superhost específicamente: no es factor de ranking, solo filtro de huésped [[ranking--superhost-zero-boost]].\n\n⚠️ **Nota**: [[pricing--new-listing-pricelabs-bootstrap]] sugiere aceptar el `base_price` recomendado por PriceLabs como punto de partida y ajustar ±5-10% cada 10 días según ocupancia 30-day; [[occupancy--new-listing-calendar-strategy]] discrepa con un precio inicial **30% por debajo de comparables** combinado con calendario restringido a 3-5 semanas hasta 3 reseñas.\n\n- **Confianza**: A (`pricelabs-bootstrap`) es medium; B (`new-listing-calendar-strategy`) es high. B es la recomendación principal por confidence superior y por ser la estrategia explícitamente diseñada para acumular reseñas rápido en la fase 0-30 días.\n- **Cuándo aplica A**: si ya tienes 1-2 reseñas o si tu market es de alta demanda donde el `base_price` de PriceLabs ya parte de un nivel competitivo; entonces el ±5-10% cada 10 días es suficiente sin necesidad de descuento agresivo.\n- **Detalle**: ver [[meta/contradictions]] (este conflicto aún no está formalmente resuelto en meta).",
+  "atoms_cited": [
+    "[[pricing--new-listing-pricelabs-bootstrap]]",
+    "[[pricing--cleaning-fee-match-comp]]",
+    "[[ranking--minimum-stay-visibility]]",
+    "[[listing-optimization--big-three]]",
+    "[[ranking--instant-book-acceptance-signal]]",
+    "[[occupancy--new-listing-calendar-strategy]]",
+    "[[hospitality--nine-automated-messages]]",
+    "[[reviews--calibrate-five-star-arrival]]",
+    "[[reviews--reciprocity-post-checkout]]",
+    "[[pricing--dont-announce-discount-to-new-guests]]",
+    "[[pricing--no-increase-min-nights-far-out]]",
+    "[[pricing--five-percent-adjustments]]",
+    "[[ranking--more-reviews-beats-higher-rating]]",
+    "[[ranking--wishlists-confirmed-factor]]",
+    "[[listing-optimization--wishlist-your-own-listing]]",
+    "[[ranking--smart-pricing-suppression]]",
+    "[[ranking--airbnb-promotions-dont-work]]",
+    "[[ranking--superhost-zero-boost]]"
+  ],
+  "sources_cited": [
+    "[[sources/WUIrpYpbQ5E]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/L4zWHcLrJIc]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "MEDIUM",
+    "conflicting_atoms": [
+      "[[pricing--new-listing-pricelabs-bootstrap]]",
+      "[[occupancy--new-listing-calendar-strategy]]"
+    ],
+    "topic": "pricing",
+    "documented_in_meta": false,
+    "meta_section": null
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[occupancy--new-listing-calendar-strategy]]",
+    "secondary_atom": "[[pricing--new-listing-pricelabs-bootstrap]]",
+    "resolution_criterion": "confidence (high > medium); ambos son atoms de mismo topic (pricing/listing nuevo) con prescripciones distintas para la fase 0-30 días",
+    "rationale": "occupancy--new-listing-calendar-strategy tiene confidence=high (3 fuentes convergentes: Ek8m0ZAhMgA, 7DrT9dlf2q0, 9IcUCiUcsFg) y es explícitamente la estrategia diseñada para acumular las primeras 3 reseñas. pricelabs-bootstrap tiene confidence=medium (1 sola fuente WUIrpYpbQ5E) y se enfoca en cómo iterar el base price asumiendo que ya estás operando. Por confidence priority del kernel, A primario.",
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [
+    {
+      "title": "New-listing pricing: PL recommendation vs 30% below comps",
+      "atoms": [
+        "[[pricing--new-listing-pricelabs-bootstrap]]",
+        "[[occupancy--new-listing-calendar-strategy]]"
+      ],
+      "topic": "pricing",
+      "severity": "MEDIUM",
+      "relation": "Mismo escenario (listing recién publicado, días 0-30) con dos prescripciones de pricing diferentes: aceptar el base de PriceLabs sin tocar (30s decisión) vs. precio 30% por debajo de comps con calendario restringido hasta 3 reseñas.",
+      "proposed_resolution": "Score §5 favorece occupancy--new-listing-calendar-strategy por confidence (high vs medium) y 3 fuentes vs 1. Resolución: A es default para fase 0 hasta 3 reseñas; B (pricelabs-bootstrap) aplica a partir de la 1ª-3ª reseña o en markets donde PL ya parte de un nivel competitivo. No es contradicción absoluta — son fases distintas del mismo arco — pero el solapamiento en días 0-10 requiere documentación formal.",
+      "evidence": "Ambos atoms hablan de 'listing nuevo' como contexto. Bootstrap dice 'acepta base_price recomendado, no overthink'. Calendar-strategy dice '30% por debajo de comps + calendario 3-5 semanas hasta 3 reseñas'. Los dos no pueden aplicarse simultáneamente en día 0."
+    }
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

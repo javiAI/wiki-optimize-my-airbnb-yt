@@ -1,0 +1,48 @@
+{
+  "question_id": "Q01",
+  "question": "¿Cómo remuevo una reseña negativa que claramente viola las políticas de Airbnb?",
+  "category": "T",
+  "response": "Realidad operativa 2026: aunque la reseña encaje en una violación clara de políticas (extortion, retaliation por house-rule, info privada), el proceso de remoción está prácticamente roto desde la actualización de mid-2025. Casos con evidencia concreta están siendo denegados por un sistema que parece AI-driven, incluso en appeal. Asume que la reseña es permanente salvo que tengas el escenario muy específico del loophole 2026, y orienta el esfuerzo a diluir el daño con volumen [[reviews--removal-process-broken-2025]].\n\n1. Verifica primero si encajas en el ÚNICO path fiable 2026: el guest debe haber escrito por chat de Airbnb una frase del tipo \"acepto refund a cambio de no dejar review / dejar 5 estrellas\". Si la tienes en screenshot, abre Resolution Center → \"Review removal request\", motivo \"Review manipulation / refund-for-review exchange\", adjunta la conversación completa. Es la red line absoluta de la TOS y Airbnb retira en 48-72h [[reviews--refund-for-review-trade-2026-loophole]].\n\n2. Si no tienes esa frase pero el incidente está fresco, condúcela neutralmente sin proponer tú el trade. Pregunta: \"I'm willing to offer a refund to resolve this. Before I process it, I want to confirm: what's your expectation regarding the review — will you still leave one, and if so, what rating?\". Mantén todo en el chat de Airbnb (nada de WhatsApp, email o SMS). Si el guest responde con la propuesta explícita, capturas la evidencia y aplicas el paso 1 [[reviews--refund-for-review-trade-2026-loophole]].\n\n3. Como fallback de bajo éxito (y solo si hay daño real documentado), combina dos tácticas que suben las probabilidades desde una base ya muy baja: (a) deja tú reseña negativa fáctica al guest — Airbnb tiende a remover dos negativas en pares por \"fairness\" — y (b) abre damage claim si hay daño físico verificable. NUNCA inventes daño, eso es fraude contractual y desactivación segura [[reviews--damage-claim-for-removal-odds]].\n\n4. Si decides llamar a soporte, juega el playbook en frío: UNA sola razón (la más fuerte, no siete), llamadas fuera de 8am-5pm PT/ET o fin de semana para subir la probabilidad de un rep onshore con acento americano nativo (no call center), tono factual y calmado. Reintenta como mucho dos veces — más allá es tiempo desperdiciado. La línea Superhost filtra mejor que el soporte genérico [[reviews--removal-call-playbook]].\n\n5. Si la reseña es tuya hacia el guest (parte del paso 3), redacta SOLO hechos. Nada subjetivo: \"they demanded a discount\" sí, \"they were despicable\" no. Ancla la primera y última frase con los datos más fuertes; cierra con \"For these reasons I'm uninterested in hosting this group again\". Las reseñas emocionales las elimina Airbnb; las fácticas sobreviven y dejan paper trail en el perfil del guest [[reviews--facts-only-negative-review]].\n\n6. NUNCA pagues a servicios externos que prometen remover reseñas. La práctica está documentada como riesgo de penalización en cuenta y no entrega resultados consistentes [[reviews--dont-pay-removal-services]].\n\n7. En paralelo, acepta que la reseña probablemente se queda y activa la única estrategia que mueve el rating de verdad: empuja volumen. 1 negativa sobre 10 reseñas hunde el promedio (4.6); la misma sobre 100 apenas se nota (4.96). Acelera el flujo de bookings y la solicitud de reseñas pos-checkout sin tocar precio [[reviews--more-dilutes-negative]].\n\n⚠️ **Nota — evolución temporal**: Antes (hasta 2025-06), [[reviews--three-removal-reasons]] funcionaba: si tu caso encajaba en extortion / house-rule retaliation / private info, CX aprobaba la remoción con la evidencia adecuada. Desde 2025-07, tras el policy update de mid-2025, [[reviews--removal-process-broken-2025]] documenta que el enforcement se rompió — incluso casos con evidencia clara están siendo denegados rápidamente (probable filtro AI). Hoy: tratar reseñas negativas como permanentes, intentar el loophole 2026 si encaja y diluir vía volumen. Detalle en [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[reviews--removal-process-broken-2025]]",
+    "[[reviews--refund-for-review-trade-2026-loophole]]",
+    "[[reviews--damage-claim-for-removal-odds]]",
+    "[[reviews--removal-call-playbook]]",
+    "[[reviews--facts-only-negative-review]]",
+    "[[reviews--dont-pay-removal-services]]",
+    "[[reviews--more-dilutes-negative]]",
+    "[[reviews--three-removal-reasons]]"
+  ],
+  "sources_cited": [
+    "[[sources/qv05SED0Z9E]]",
+    "[[sources/wjAwMKuhxec]]",
+    "[[sources/3sFGalw_CzY]]",
+    "[[sources/9tauPokD4Hc]]",
+    "[[sources/uwdAHCmhNn4]]",
+    "[[sources/zih3JqcBRAE]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[reviews--removal-process-broken-2025]]",
+      "[[reviews--three-removal-reasons]]"
+    ],
+    "topic": "reviews",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-22] Review removal: pre-2025 vs post-2025"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[reviews--removal-process-broken-2025]]",
+    "secondary_atom": "[[reviews--three-removal-reasons]]",
+    "resolution_criterion": "temporal_supersession",
+    "rationale": "La pregunta asume el modelo pre-2025 (violación de política → remoción). El atom broken-2025 supera al de three-removal-reasons por hito documentado: el policy update de Airbnb de mid-2025 rompió el enforcement de los 3 motivos clásicos. Recency +0.40 y specificity +0.20 favorecen broken-2025. El atom viejo se preserva como contexto histórico, no como recomendación competidora actual.",
+    "temporal_narrative_used": true
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

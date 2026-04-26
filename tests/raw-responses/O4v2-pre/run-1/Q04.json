@@ -1,0 +1,41 @@
+{
+  "question_id": "Q04",
+  "question": "Un huésped post-estancia me amenaza con dejarme una reseña mala si no le devuelvo dinero. ¿Qué hago?",
+  "category": "C",
+  "response": "No negocies. La amenaza es review manipulation, una violación explícita de la política de Airbnb. Aceptar el refund alimenta el patrón y NO garantiza una reseña positiva: el huésped puede cobrar y dejarte la mala igual [[reviews--refund-threat-manipulation]].\n\n1. **Captura evidencia inmediata**. Screenshot del mensaje con la amenaza explícita, dentro del chat de Airbnb (no WhatsApp ni email — solo el paper trail nativo cuenta para el case) [[reviews--refund-threat-manipulation]].\n\n2. **Reporta a Airbnb como \"review manipulation\"**. Resolution Center → adjunta los screenshots con la frase del huésped (\"si no me devuelves X, te dejo mala reseña\" o el espejo \"si me devuelves X, te dejo 5 estrellas\"). Esa frase literal es la red line de la TOS [[reviews--refund-threat-manipulation]].\n\n3. **Rechaza el refund con un mensaje neutral y por escrito en el chat**:\n   *\"Entiendo que solicitas un reembolso. No puedo ofrecerlo en las condiciones que describes. Tu reseña es bienvenida; aceptaré el feedback honesto que dejes.\"* Esto deja constancia de que tu negativa es por la condición (la amenaza), no por el refund en sí [[reviews--refund-threat-manipulation]].\n\n4. **Anticipa presión de Customer Service**. En 2025-2026 el CS de Airbnb llama \"sin parar\" empujando al anfitrión a ceder. Responde a cada llamada con la misma línea: *\"Tengo screenshots de review manipulation. No voy a procesar el refund.\"* Si el agente insiste, escala a supervisor [[reviews--refund-threat-manipulation]].\n\n5. **Plan B si la reseña mala se publica igual**. Asume que removerla post-publicación es prácticamente imposible en 2026 (CX rechaza incluso casos con evidencia clara) [[reviews--removal-process-broken-2025]]. Tu palanca real es **diluir con volumen**: empuja reciprocity post-checkout en tus próximas reservas para acumular 5* y enterrar la negativa [[reviews--more-dilutes-negative]].\n\n6. **Si redactas tu reseña al huésped**, hazlo solo con hechos (no adjetivos, no juicios). Frase ancla en la primera y la última línea. Las reseñas emocionales del anfitrión Airbnb las remueve; las factuales no [[reviews--facts-only-negative-review]].\n\n**Por qué esta es la jugada correcta**: ceder al chantaje (a) no asegura la reseña positiva — hay casos documentados de huéspedes que pidieron refund + privilegios futuros y aun así dejaron la negativa, (b) entrena al huésped y al boca a boca a repetir el patrón contra otros anfitriones, y (c) el refund queda manipulado, así que tampoco te exonera del daño en la reseña [[reviews--refund-threat-manipulation]].\n\nFuentes: [[sources/2025-08-02--why-i-had-to-give-a-100-refund-to-my-airbnb-guest]], [[sources/2025-04-29--why-is-every-10th-review-so-important-on-airbnb]].\n\n⚠️ **Nota**: [[reviews--refund-threat-manipulation]] sugiere rechazar y reportar cuando el huésped propone el trade; [[reviews--refund-for-review-trade-2026-loophole]] discrepa con conducir al huésped a proponer el trade tú mismo para luego reportarlo y remover una reseña ya negativa.\n\n- **Confianza**: A es high; B es medium. A es la recomendación principal aquí porque tu situación es **defensiva** (el huésped inicia la amenaza), no ofensiva post-incident.\n- **Cuándo aplica B**: solo si la estancia ya fue mala, el huésped aún no ha amenazado, tú decides ofrecer un refund neutral y preguntas por la expectativa de reseña — y el huésped responde literalmente con el trade. Es ataque entrante (rechazar) vs jugada del anfitrión post-stay (inducir documentación). No las mezcles.\n- **Detalle**: ver [[meta/contradictions]] (\"Refund-for-review: guest attack vs host loophole\", 2026-04-23).",
+  "atoms_cited": [
+    "[[reviews--refund-threat-manipulation]]",
+    "[[reviews--removal-process-broken-2025]]",
+    "[[reviews--more-dilutes-negative]]",
+    "[[reviews--facts-only-negative-review]]",
+    "[[reviews--refund-for-review-trade-2026-loophole]]"
+  ],
+  "sources_cited": [
+    "[[sources/2025-08-02--why-i-had-to-give-a-100-refund-to-my-airbnb-guest]]",
+    "[[sources/2025-04-29--why-is-every-10th-review-so-important-on-airbnb]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "MEDIUM",
+    "conflicting_atoms": [
+      "[[reviews--refund-threat-manipulation]]",
+      "[[reviews--refund-for-review-trade-2026-loophole]]"
+    ],
+    "topic": "reviews",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-23] Refund-for-review: guest attack vs host loophole"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[reviews--refund-threat-manipulation]]",
+    "secondary_atom": "[[reviews--refund-for-review-trade-2026-loophole]]",
+    "resolution_criterion": "contextual_scope",
+    "rationale": "La pregunta describe un ataque entrante (huésped amenaza al anfitrión = extortion). Eso encaja exactamente con el scope defensivo de refund-threat-manipulation (confidence high). El atom rival aplica al espejo invertido: anfitrión ofrece refund neutralmente post-bad-stay y conduce al huésped a verbalizar el trade (confidence medium, jugada ofensiva). Mismo principio TOS, situaciones distintas. La meta-doc resuelve explícitamente que no son contradicción sino espejos.",
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

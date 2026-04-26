@@ -1,0 +1,41 @@
+{
+  "question_id": "Q09",
+  "question": "¿Activo Instant Book si quiero ser Superhost?",
+  "category": "U",
+  "response": "Sí, actívalo — pero el marco de la pregunta tiene un problema: Instant Book y Superhost no compiten entre sí. Instant Book es una palanca real de ranking; Superhost es un badge de marketing que el algoritmo de Airbnb ignora. Decidir IB en función de \"proteger Superhost\" es optimizar la variable equivocada.\n\n1. Activa Instant Book con guardrails firmes: government ID verified, sin reseñas negativas previas, aceptación explícita de las normas de la casa. Con ese filtro el volumen de huéspedes problemáticos cae ~95% mientras conservas la señal de 100% de aceptación que Airbnb pondera en search [[ranking--instant-book-acceptance-signal]].\n\n2. Asume el coste de no tenerlo activo. Cuando el autor desactivó IB en un listing comparado con IntelliHost, perdió ~25% de impresiones de primera página. Eso es visibilidad regalada al competidor que sí lo tiene activo [[ranking--instant-book-acceptance-signal]].\n\n3. Olvida el badge como objetivo en sí mismo. Superhost no es un factor del algoritmo — es un filtro que el huésped activa en búsqueda (\"Superhost only\"). Lo que sí pesa son las métricas subyacentes (rating 4.8+, response rate, never-cancel), y esas se construyen ejecutando bien, no politiqueando reviews [[ranking--superhost-zero-boost]].\n\n4. Nunca canceles una reserva aceptada por miedo a un huésped marginal. La penalización de Airbnb por cancelación del anfitrión es severa y persistente — meses de daño por una sola cancelación. Los guardrails del paso 1 son precisamente lo que evita llegar a ese punto [[ranking--never-cancel]].\n\n5. Si aun así te entra una solicitud que no encaja, usa el árbol de vetting estándar: 3+ reseñas positivas = aceptar; 0 reseñas + 5 secciones de perfil completas + mensaje específico = aceptar; 0-2 secciones = pedir que complete perfil antes de confirmar [[hospitality--guest-profile-vetting-framework]].\n\nEn corto: Instant Book con guardrails es mandatory para el top 1% de visibilidad, y el Superhost se mantiene solo si la operación está en orden — no al revés. Si una decisión choca entre \"mantener el badge\" y \"ejecutar correctamente\", prioriza la ejecución; el badge se recupera en un trimestre.",
+  "atoms_cited": [
+    "[[ranking--instant-book-acceptance-signal]]",
+    "[[ranking--superhost-zero-boost]]",
+    "[[ranking--never-cancel]]",
+    "[[hospitality--guest-profile-vetting-framework]]"
+  ],
+  "sources_cited": [
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/j5emxo6P7No]]",
+    "[[sources/I-Xk22Mp8eE]]",
+    "[[sources/wqgfoP-V8m0]]",
+    "[[sources/A0SRoZcUpAM]]",
+    "[[sources/KQIArm9UfQ0]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": "none",
+    "conflicting_atoms": [],
+    "topic": null,
+    "documented_in_meta": false,
+    "meta_section": null
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "none",
+    "rationale": null,
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

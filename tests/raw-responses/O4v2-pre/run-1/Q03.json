@@ -1,0 +1,43 @@
+{
+  "question_id": "Q03",
+  "question": "En mi listado, ¿debería poner descuento o premium para jueves y domingos?",
+  "category": "C",
+  "response": "Depende del booking pattern real de tu mercado. No es una decisión universal: hay dos estrategias válidas y opuestas, y el dato que decide es la distribución de los últimos 30 bookings confirmados.\n\n1. Exporta los últimos 30 bookings y mira los días de check-in y check-out. Si más del 50% ya son Thu→Sun o Fri→Mon, el patrón de weekend extendido ya está establecido en tu mercado [[notes/pricing--weekend-days-definition]].\n\n2. Si el patrón es weekend extendido (Thu-Sun ya domina): redefine los weekend days en PriceLabs como Thu+Fri+Sat+Sun (Customizations → Weekend Days). PriceLabs aplicará premium automático a Thu y Sun tratándolos como Fri/Sat. Cobras premium sobre un patrón que el mercado ya valida [[notes/pricing--weekend-days-definition]].\n\n3. Si el patrón sigue siendo weekend estándar (Fri-Sun, 2 noches): aplica day-of-week customization Thu -10-15% y Sun -10-15%, dejando Fri/Sat sin tocar. El descuento empuja a los huéspedes en el margen entre 2 y 3 noches a extender, capturando revenue que se perdería [[notes/pricing--thu-sun-weekend-extension]].\n\n4. No hagas las dos a la vez. Son customizations en los mismos días en direcciones opuestas; activarlas simultáneamente cancela la señal y rompe el principio de máximo 5 customizations activas [[notes/pricing--customizations-max-5]].\n\n5. No apliques el descuento Thu/Sun en mercados con demanda fuerte de business travel, aeropuertos o capitales con tracción weekday: ahí Thu y Sun ya son días premium por sí mismos [[notes/pricing--thu-sun-weekend-extension]].\n\n6. Verifica el resultado dos semanas después: revisa BLT y occupancy a 7 días vista. Si la occupancy en Thu/Sun mejora sin canibalizar Fri/Sat, la decisión está bien calibrada. Ajusta base ±5% si hace falta [[notes/pricing--five-percent-adjustments]].\n\n⚠️ **Nota**: [[notes/pricing--thu-sun-weekend-extension]] sugiere descuento Thu/Sun -10-15% para incentivar weekend extension; [[notes/pricing--weekend-days-definition]] discrepa con marcar Thu/Sun como weekend days en PriceLabs (premium).\n\n- **Confianza**: A es high; B es high. Ninguno es principal por defecto: la decisión es contextual, no jerárquica. El score §5 no desempata (misma authority, ventana de publicación similar, 2025-09 a 2025-10-22).\n- **Cuándo aplica B**: cuando >50% de tus bookings ya son Thu→Sun o Fri→Mon (premium sobre patrón establecido). A aplica cuando el mercado sigue en weekend estándar Fri-Sun y quieres cambiar el patrón.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[notes/pricing--weekend-days-definition]]",
+    "[[notes/pricing--thu-sun-weekend-extension]]",
+    "[[notes/pricing--customizations-max-5]]",
+    "[[notes/pricing--five-percent-adjustments]]"
+  ],
+  "sources_cited": [
+    "[[sources/CbIZETKeV-U]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/HsCIAq2TPMI]]",
+    "[[sources/9Yk_IF97QdM]]",
+    "[[sources/zGkc_U9qC1k]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[notes/pricing--thu-sun-weekend-extension]]",
+      "[[notes/pricing--weekend-days-definition]]"
+    ],
+    "topic": "pricing",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-22] Thu/Sun: descuento vs premium"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[notes/pricing--weekend-days-definition]]",
+    "secondary_atom": "[[notes/pricing--thu-sun-weekend-extension]]",
+    "resolution_criterion": "contextual_scope",
+    "rationale": "Ambos atoms son high confidence, mismo canal (authority igual), ventana de publicación similar (2025-09 a 2025-10-22), y el score §5 no desempata. La resolución documentada en meta/contradictions es contextual: el booking pattern del mercado decide. Si >50% de bookings ya son Thu→Sun/Fri→Mon, weekend-definition gana (premium sobre patrón establecido); si el mercado sigue en Fri-Sun estándar y se quiere cambiar, thu-sun-extension gana (descuento incentivador). No hay primario absoluto.",
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -25,7 +25,7 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 | O1 | 1 | Hierarchical Indices | structural | ✅ complete | **−25.3%** | −1.2% | **+0.0293** | IMPLEMENT ⚠ | 4h |
 | O2 | 1 | Fix Q4 Contradiction | atom_specific | ⏭ skipped | — | — | — | premise_stale | 0.5h |
 | O3 | 5 | Language Consistency | atom_content | ⛔ deferred | −3.4% (vault state in place) | +0.067 (n=2) | +0.0088 | **REVERT** (target_dim_regression) → diferida | 2h |
-| O4 | 2 | Contradiction Detection L1 | structural | ⏸ not_started | — | — | — | — | 3h |
+| O4 | 2 | Contradiction Detection v2 (smart resolver + temporal narrator + auto-curate) | structural | ✅ complete | +9.4% | +0.32 (custom rubric) | n/a (custom rubric) | **IMPLEMENT** (user override; nominal ITERATE) | 3h |
 | O5 | 2 | Response Format Templates | structural | ⏸ not_started | — | — | — | — | 2.5h |
 | O6 | 5 | Executable Checklists | atom_content | ⛔ deferred | — | — | — | — → diferida | 1.5h |
 | O7 | 3 | Agent Orchestration | structural | ⏸ not_started | — | — | — | — | 8h |
@@ -57,6 +57,8 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 | baseline | 1      | 60,776.8      | 8.42         | 9.60         | 8.95     | 4.90    | 8.80 | 8.65   | —          |
 | O1       | 1      | 45,376.75     | 8.32         | 9.40         | 9.05     | 4.45    | 9.00 | 8.45   | [O1-vs-baseline.json](../tests/comparisons/O1-vs-baseline.json) |
 | O3       | 2      | 44,458 (SE 639) | 8.39 (SE 0.107) | 9.65    | 9.00 (SE 0.05) | 5.12 (SE 0.27) | 8.78 (SE 0.22) | 8.20 (SE 0.10) | [O3-vs-O1.json](../tests/comparisons/O3-vs-O1.json) (latest n=2) |
+| O4v2-pre | 1      | 50,150.5      | 9.08 (custom 6-dim) | n/a        | n/a       | n/a       | n/a  | n/a    | true baseline (kernel-only stripped template), 15 questions custom battery |
+| O4v2-post| 1      | 54,849.8      | 9.40 (custom 6-dim) | n/a        | n/a       | n/a       | n/a  | n/a    | [O4v2-post-vs-O4v2-pre.json](../tests/comparisons/O4v2-post-vs-O4v2-pre.json) |
 
 **Histórico de comparaciones**: `tests/comparisons/history/<from>-vs-<to>__n<N>.json` preserva cada iteración (n=1, n=2, …) sin sobreescribir. Ver `tests/comparisons/history/O3-vs-O1__n1.json` y `__n2.json`.
 
@@ -69,7 +71,7 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 | Phase | Nombre | Status | Tasks | Completed | Skipped | Deferred |
 |-------|--------|--------|-------|-----------|---------|----------|
 | 1 | Critical Path | ✅ complete | O1 | O1 | O2 | O3 |
-| 2 | Quality Foundation (Structural) | ⏳ pending_approval | O4, O5 | — | — | O6 |
+| 2 | Quality Foundation (Structural) | ⏳ in_progress (50%) | O4, O5 | O4 | — | O6 |
 | 3 | Automation | ⏸ not_started | O7, O8, O9 | — | — | — |
 | 4 | Integration | ⏸ not_started | O10, O11, O12 | — | — | — |
 | 5 | Atom Regeneration | ⏸ not_started | O3, O6 | — | — | — |
@@ -86,9 +88,9 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 
 **O3: Language Consistency** ⛔ deferred → Phase 5 — ver descripción en Phase 5.
 
-### Phase 2 — Quality Foundation (Structural) (pending_approval) ← **siguiente**
+### Phase 2 — Quality Foundation (Structural) (in_progress, 50%) ← **siguiente: O5**
 
-**O4: Contradiction Detection L1** — Heurística que detecta conflictos semánticos al leer atoms durante query (no solo en lint). Si dos atoms del mismo topic tienen claims opuestos sin resolver en `meta/contradictions.md`, se incluye caveat en la respuesta. Estructural: lógica del kernel.
+**O4 v2: Contradiction Detection (smart resolver + temporal narrator + auto-curate)** ✅ — Reescritura completa de §4.5 del kernel: 5-tier resolution hierarchy (`temporal_supersession` → `contextual_scope` → `confidence_tier` → `authority_tier` → `specificity_tier`); ANTES/DESDE/HOY temporal narrative sub-template; auto-emit de `proposed_contradictions[]` para conflictos no documentados; `scripts/apply-proposed-contradictions.py` consolida en `meta/contradictions.md` entre runs. Tested con custom 15-question battery + 6-dim rubric (custom-o4v2-1.0): weighted_avg 9.08 → 9.40 (+0.32); target dim `temporal_narrative` 8.73 → 9.93 (+1.20, near ceiling); cost +9.4%. Decisión: **IMPLEMENT** (user override del nominal ITERATE band; target-dim win decisivo). Ver [O4v2-post-vs-O4v2-pre.json](../tests/comparisons/O4v2-post-vs-O4v2-pre.json).
 
 **O5: Response Format Templates** — Templates canónicos por régimen (factual / tactical / taxonomic) en `queries/RESPONSE_TEMPLATES.md`. Reduce cognitive load. **Aprovechar para añadir reglas anti-anglicismos** (apunta al `spanish_purity` floor). Estructural: nuevo artifact + referencia en CLAUDE.md §10.7.
 

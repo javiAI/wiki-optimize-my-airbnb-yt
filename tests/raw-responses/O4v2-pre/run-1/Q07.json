@@ -1,0 +1,48 @@
+{
+  "question_id": "Q07",
+  "question": "¿Cómo fijo el precio para una propiedad de 8 huéspedes: flat-price todo-incluido o base bajo más extra-guest-fee?",
+  "category": "C",
+  "response": "Para una propiedad con capacidad real de 8, la recomendación por defecto en 2026 es **base bajo + extra-guest fee** activado a partir del 4º huésped, no el flat-price todo-incluido. La razón es doble: capturas más demanda (filtro \"fits 8+\" abierto) y mantienes leverage operativo contra over-occupancy [[notes/pricing--extra-guest-fee-leverage]].\n\n1. **Fija max-guests al cap real** = 8 (camas + sofá-cama incluidos). Sin esto, ninguna estrategia activa el filtro de búsqueda \"fits 6+/8+\" [[notes/listing-optimization--max-guests-expands-pool]].\n\n2. **Calcula la base** para el caso típico (familia de 4), no para 8. Usa el método estándar: base = nightly rate del día promedio del mes promedio [[notes/pricing--base-price-definition]], confirmado contra Airbnb Insights con target +20-30% sobre similar listings [[notes/pricing--insights-dashboard-benchmark]].\n\n3. **Activa el extra-guest fee desde el 4º huésped** con la regla por tipo de cama [[notes/pricing--extra-guest-charge-tiers]]:\n   - 2º huésped en bedroom compartida → 50% del per-guest rate.\n   - Huésped en air mattress / sofá → 25%.\n   - Ejemplo: base $250 para 4 → $30-40 por huésped 5-6-7 (bedroom compartida) y $20-25 por el 8º (sofá).\n\n4. **Pon siempre algún fee aunque sea nominal**. La sección \"extra guest charge\" tiene efecto de filter-match en el motor de búsqueda incluso si el importe es bajo. Si la dejas en $0 sin activarla, Airbnb no te muestra en búsquedas de grupos grandes [[notes/pricing--extra-guest-charge-tiers]].\n\n5. **Usa el fee como deterrente, no solo como ingreso**. Documentar \"$30-100 por huésped extra\" en el listing te da base contractual para enforcement vía Airbnb Resolution Center si llegan 8 declarando 4 [[notes/pricing--extra-guest-fee-leverage]].\n\n6. **Holiday y high-demand**: bloquea orphan nights en fechas premium con min-stay específico por fecha en PriceLabs (3 noches Christmas/NYE), no tocando la base [[notes/pricing--holiday-specific-date-min-stay]].\n\n7. **Revisa semanalmente**: target 50% ocupación a BLT días vista; si te sales del rango 40-60%, mueve la base ±5%, no más [[notes/pricing--occupancy-target-blt]] [[notes/pricing--five-percent-adjustments]].\n\n**Cuándo invertir la decisión y usar flat-price todo-incluido**:\n- Listing nuevo sin reseñas: prioriza llenar calendario rápido. Flat-price para 8 te rankea mejor en búsquedas de grupos grandes durante las primeras 3-5 reseñas [[notes/ranking--price-for-max-occupancy]].\n- Property robusta sin riesgo de over-occupancy (sin vecinos sensibles, sin regulación de aforo) y mercado con demanda dominante de grupos completos.\n- Fase bootstrap puro: tras alcanzar tracción, transiciona al modelo base + extra-guest fee.\n\n⚠️ **Nota**: [[notes/pricing--extra-guest-fee-leverage]] sugiere base bajo + extra-guest fee ~$100 post-4º para abrir filtro \"fits 8+\" y crear leverage anti over-occupancy; [[notes/ranking--price-for-max-occupancy]] discrepa con flat-price todo incluido para maximizar ranking en búsquedas de grupos grandes (el precio computado por Airbnb sube cuando hay extra-fees, lo que penaliza ranking en filtros de 6+/8+).\n\n- **Confianza**: A es medium; B es high. A ([[notes/pricing--extra-guest-fee-leverage]]) es la recomendación principal por recency (fuente 2024-2025 vs 2020-06 de B) y por reflejar la visión más actualizada del mismo autor post-rediseño de filtros Airbnb.\n- **Cuándo aplica B**: listing nuevo sin reseñas que necesita bootstrap rápido de ocupación; property que tolera 8 huéspedes sin daño y mercado con demanda dominante de grupos completos. En esos casos, flat-price todo-incluido durante 3-5 reseñas y luego transitar al modelo de A.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[notes/pricing--extra-guest-fee-leverage]]",
+    "[[notes/pricing--extra-guest-charge-tiers]]",
+    "[[notes/listing-optimization--max-guests-expands-pool]]",
+    "[[notes/pricing--base-price-definition]]",
+    "[[notes/pricing--insights-dashboard-benchmark]]",
+    "[[notes/pricing--holiday-specific-date-min-stay]]",
+    "[[notes/pricing--occupancy-target-blt]]",
+    "[[notes/pricing--five-percent-adjustments]]",
+    "[[notes/ranking--price-for-max-occupancy]]"
+  ],
+  "sources_cited": [
+    "[[sources/p7QYOoQfgzc]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/QhHlfDSUtys]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/r9WLMIljcSk]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[notes/pricing--extra-guest-fee-leverage]]",
+      "[[notes/ranking--price-for-max-occupancy]]"
+    ],
+    "topic": "pricing / ranking — extra-guest-fee vs flat-price para max-occupancy",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-24] Price-for-max-occupancy vs extra-guest-fee-leverage"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[notes/pricing--extra-guest-fee-leverage]]",
+    "secondary_atom": "[[notes/ranking--price-for-max-occupancy]]",
+    "resolution_criterion": "temporal_supersession",
+    "rationale": "extra-guest-fee-leverage proviene de fuentes 2024-2025 (batch-12) que reflejan el comportamiento del filtro 'fits 8+' tras el rediseño de Airbnb. price-for-max-occupancy se basa en r9WLMIljcSk (2020-06), pre-rediseño de filtros. Score §5 da +0.40 a leverage por recency + autoridad equivalente. Además aporta scope adicional (anti over-occupancy enforcement) ausente en el atom rival. Se aplica como default 2026; el atom secundario sigue válido para listings nuevos en bootstrap.",
+    "temporal_narrative_used": true
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

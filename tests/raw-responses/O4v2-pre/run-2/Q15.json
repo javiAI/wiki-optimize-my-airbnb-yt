@@ -1,0 +1,52 @@
+{
+  "question_id": "Q15",
+  "question": "Mi listing perdió posiciones en search. ¿Qué reviso primero?",
+  "category": "U",
+  "response": "Antes de tocar nada del precio, sigue el orden diagnóstico de coste creciente: listing primero, hospitality segundo, precio al final. El 80-90% de las caídas en search se resuelven en las dos primeras capas sin sacrificar revenue [[notes/listing-optimization--three-step-troubleshooting]].\n\n1. **Confirma que el listing es realmente visible**. Copia la URL en una ventana incógnito (sin login) y busca tu ciudad sin fechas. Si no apareces, el problema es publicación/probation/pin de mapa, no ranking. Revisa pin específico (no bubble), advance-notice, mínimo de noches y safety features faltantes [[notes/listing-optimization--incognito-listing-visibility-test]].\n\n2. **Mira el conversion rate en Insights**, no las views. Airbnb rankea por bookings ÷ impressions, y si subes views sin convertir, el algoritmo te throttlea activamente las próximas semanas [[notes/ranking--conversion-over-views]]. Benchmarks: <0.2% sostenido = revisar fotos/título/precio; 0.3-0.4% típico; ≥1% = estás infra-precio, sube base [[notes/ranking--conversion-rate-benchmarks]].\n\n3. **Re-optimiza las big three (capa 1 — listing)**: foto principal (¿sigue siendo la más diferenciada del market?), título (brand o amenities, no adjetivos) y las primeras dos líneas del summary. Estas tres palancas solas duplican conversion en listings de coaching del autor [[notes/listing-optimization--big-three]]. Aprovecha y haz la re-optimización completa de 10 minutos (título + cover + summary + amenities ticked + safety features); toca hacerla 2-3 veces al año [[notes/listing-optimization--reoptimize-biannual]].\n\n4. **Descarta micro-edits como solución**. Cambiar un punto en la descripción, rotar las dos últimas fotos o subir un dólar el precio NO mueve ranking desde 2017. Cualquier PMS o servicio que venda \"rank booster\" basado en eso es humo; no pierdas tiempo ahí [[notes/ranking--small-updates-myth-busted]].\n\n5. **Revisa señales directas controlables**: minimum stay bajo (más búsquedas elegibles), Instant Book activo (señal de 100% acceptance), y verifica que no hayas cancelado ninguna reserva reciente — la penalización por host-cancel es severa y persistente meses [[notes/ranking--never-cancel]]. Estos factores estructurales pesan más que cualquier ajuste cosmético [[notes/ranking--factors-2026]].\n\n6. **Capa 2 — hospitality**. Response time <1h, mensajes automáticos activos, y trato impecable en reservas recientes (el friction-score interno penaliza declines, disputes y CS contacts) [[notes/listing-optimization--three-step-troubleshooting]].\n\n7. **Solo entonces, capa 3 — pricing**. Si el conversion sigue bajo tras las capas 1-2, considera un ajuste táctico: bajar la base $5-10 dispara un boost inmediato del algoritmo (\"Airbnb loves low prices\") y sirve como medida cortoplacista hasta recomponer reviews/ocupación [[notes/ranking--lower-price-immediate-boost]]. No bajes precio antes de auditar fotos: bajar 20% es 20% de revenue para siempre; arreglar una foto cuesta cero.\n\nIgnora el dashboard de \"similar listings\" como benchmark accionable — Airbnb no revela los criterios de match, solo úsalo como señal direccional [[notes/ranking--similar-listings-metric-opaque]].",
+  "atoms_cited": [
+    "[[notes/listing-optimization--three-step-troubleshooting]]",
+    "[[notes/listing-optimization--incognito-listing-visibility-test]]",
+    "[[notes/ranking--conversion-over-views]]",
+    "[[notes/ranking--conversion-rate-benchmarks]]",
+    "[[notes/listing-optimization--big-three]]",
+    "[[notes/listing-optimization--reoptimize-biannual]]",
+    "[[notes/ranking--small-updates-myth-busted]]",
+    "[[notes/ranking--never-cancel]]",
+    "[[notes/ranking--factors-2026]]",
+    "[[notes/ranking--lower-price-immediate-boost]]",
+    "[[notes/ranking--similar-listings-metric-opaque]]"
+  ],
+  "sources_cited": [
+    "[[sources/1_mswIQixGc]]",
+    "[[sources/iQFK03Gcyn0]]",
+    "[[sources/76G3CGbJLk0]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/Xq93AT-S00c]]",
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/-bAg5_sDWNk]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/WJZKSbwluuA]]",
+    "[[sources/cTffAvSy_XA]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": "none",
+    "conflicting_atoms": [],
+    "topic": null,
+    "documented_in_meta": false,
+    "meta_section": null
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "none",
+    "rationale": null,
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

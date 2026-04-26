@@ -1,0 +1,199 @@
+{
+  "label": "O4v2-post",
+  "run": 1,
+  "rubric_version": "custom-o4v2-1.0",
+  "evaluator_model": "claude-opus-4-7",
+  "evaluated_at": "2026-04-26T00:00:00Z",
+  "questions": {
+    "Q01": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 10,
+        "temporal_narrative": 10,
+        "context_awareness": 9,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.75,
+      "notes": "Detects pre-2025 vs broken-2025 conflict (HIGH), correctly invokes temporal_supersession, rationale cites the mid-2025 policy update milestone and score deltas (recency +0.40, specificity +0.20). Temporal narrative complete (Antes hasta 2025-06 / Desde 2025-07 / Hoy). Cites all 5 expected atoms plus integrates loophole and call-playbook as scope-limited fallbacks. No spurious proposed_contradictions (already documented)."
+    },
+    "Q02": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 10,
+        "temporal_narrative": 10,
+        "context_awareness": 9,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.75,
+      "notes": "Detects 5% vs 10% conflict (HIGH, documented). Applies specificity_tier with the exact rationale meta documents: QhHlfDSUtys explicitly rejects 10% and gives causal reasoning (signal isolation), while awyuwVxioOQ uses 10% only as didactic example. Caveat correctly notes edge cases (occupancy >90% or <15%) and the Y7HmIeY8WR0 8%-chunk evidence. No temporal narrative invented (correctly). Tightly worded."
+    },
+    "Q03": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 10,
+        "temporal_narrative": 10,
+        "context_awareness": 10,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.85,
+      "notes": "Detects Thu/Sun conflict (HIGH, documented). Correctly applies contextual_scope with primary=null and secondary=null (no universal winner) — best practice for scope splits. Provides explicit decision signal (last 30 bookings >50% Thu->Sun threshold). Caveat well structured. Cites both expected atoms; doesn't force temporal narrative."
+    },
+    "Q04": {
+      "scores": {
+        "conflict_detection": 8,
+        "resolution_clarity": 8,
+        "temporal_narrative": 10,
+        "context_awareness": 9,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 8.85,
+      "notes": "Reports conflict_detected.found=false despite documented_in_meta=true for the refund-threat/refund-for-review pair. Defensible because the question's scope only activates the threat atom (mirror is inactive here), but the response could have briefly noted the mirror-inverse for completeness (it does cite removal-process-broken-2025 as collateral). Cites refund-threat-manipulation as expected. No false temporal narrative."
+    },
+    "Q05": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 10,
+        "temporal_narrative": 10,
+        "context_awareness": 10,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.85,
+      "notes": "Detects refund-for-review-trade vs refund-threat as mirror-inverted (HIGH, documented). Applies contextual_scope correctly: scope of question matches loophole side, threat side as scope rival. Caveat well-structured (cuándo aplica B). Cites both expected atoms plus removal-broken-2025 as default. Notes loophole closure risk. Strong context awareness — explicitly distinguishes who initiates trade."
+    },
+    "Q06": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 10,
+        "temporal_narrative": 10,
+        "context_awareness": 9,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.75,
+      "notes": "Question explicitly time-anchored ('Estamos en 2026'). Detects pre-2025 vs broken-2025 conflict, applies temporal_supersession with full Antes/Desde/Hoy narrative referencing source IDs (wjAwMKuhxec, qv05SED0Z9E). Correctly preserves three-removal-reasons as historical context, not competing recommendation. Integrates loophole + call-playbook + dilution as scope-limited supplements."
+    },
+    "Q07": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 9,
+        "temporal_narrative": 10,
+        "context_awareness": 10,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.6,
+      "notes": "Detects price-for-max-occupancy vs extra-guest-fee-leverage (HIGH, documented). Applies contextual_scope with primary=extra-guest-fee-leverage as default 2026 (recency-justified). Caveat captures both scopes (new listing vs mature). Could have framed primary/secondary asymmetry slightly more cautiously since meta documents it as scope-split rather than winner — but overall sound. Cites both expected atoms."
+    },
+    "Q08": {
+      "scores": {
+        "conflict_detection": 7,
+        "resolution_clarity": 8,
+        "temporal_narrative": 9,
+        "context_awareness": 8,
+        "proposed_contradiction_quality": 9,
+        "tone_format": 8
+      },
+      "weighted_avg": 8.05,
+      "notes": "Multi-question expecting 3 conflicts (max-occupancy-vs-extra-fee + 5%-vs-10% + new-listing zone). Surfaced ONE undeclared conflict (calendar-strategy vs PL bootstrap) with well-formed proposed_contradictions entry. Did NOT surface the documented max-occupancy-vs-extra-fee or 5%-vs-10% conflicts despite citing the relevant atoms (more-reviews-beats-higher-rating, five-percent-adjustments via reciprocity flow). Misses required multi-conflict caveat structure."
+    },
+    "Q09": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 9,
+        "temporal_narrative": 10,
+        "context_awareness": 10,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 10
+      },
+      "weighted_avg": 9.7,
+      "notes": "Undeclared zone, no false-positive conflict invented. Reframes the question (IB and Superhost are not competing variables) — strong context_awareness. Clean response with numbered steps, [[atom]] cites. No proposed_contradictions (correctly: nothing to propose). No forced temporal narrative."
+    },
+    "Q10": {
+      "scores": {
+        "conflict_detection": 8,
+        "resolution_clarity": 8,
+        "temporal_narrative": 10,
+        "context_awareness": 9,
+        "proposed_contradiction_quality": 7,
+        "tone_format": 9
+      },
+      "weighted_avg": 8.4,
+      "notes": "Undeclared zone — could have proposed a contradiction around min-stay 1 vs 2-3 nights since the response itself navigates between those values (base 2 + holiday spikes 3-5 + orphan 1). The response is internally coherent but misses opportunity to formalize tension as proposed_contradictions[]. No false detection. Clean format."
+    },
+    "Q11": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 10,
+        "temporal_narrative": 10,
+        "context_awareness": 10,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.85,
+      "notes": "Multi-question, prioritizes dilution (high-confidence) over removal (broken default + low-odds fallback) — exactly the expected_resolution. Detects review-removal conflict, applies temporal_supersession with full narrative. Cites all 4 expected atoms (more-dilutes-negative, removal-process-broken-2025, removal-call-playbook, damage-claim-for-removal-odds) plus loophole and refund-threat. Excellent operational sequencing (30-day plan)."
+    },
+    "Q12": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 9,
+        "temporal_narrative": 10,
+        "context_awareness": 10,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.7,
+      "notes": "Undeclared zone, no false conflict. Strong gating logic (4 entry conditions). Honest about 'invisible Airbnb value' (dependencies). No spurious caveats. Clean response with relevant atoms in direct-booking topic. No forced temporal narrative."
+    },
+    "Q13": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 9,
+        "temporal_narrative": 10,
+        "context_awareness": 9,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 8
+      },
+      "weighted_avg": 9.45,
+      "notes": "Undeclared zone, no false conflict invented. Prioritized response (base layer + filter-match fixes). All citations use full path 'notes/listing-optimization--...' — slightly verbose vs canonical [[atom-slug]] but functional. Closing 'Fuentes principales' line is somewhat informal. No proposed_contradictions (correctly: no genuine tension surfaced)."
+    },
+    "Q14": {
+      "scores": {
+        "conflict_detection": 7,
+        "resolution_clarity": 8,
+        "temporal_narrative": 10,
+        "context_awareness": 9,
+        "proposed_contradiction_quality": 9,
+        "tone_format": 9
+      },
+      "weighted_avg": 8.4,
+      "notes": "Multi-question expecting 3 simultaneous pricing conflicts. Surfaced ONLY Thu/Sun (contextual_scope, well-handled). Did NOT surface 5%-vs-10% (uses 5% directly without caveat) and did NOT surface max-occupancy-vs-extra-fee (cites extra-guest-charge-tiers but not ranking--price-for-max-occupancy as rival). Cites 4 of 5 expected atoms (missing ranking--price-for-max-occupancy). Misses one-caveat-per-active-conflict requirement of §4.5.7."
+    },
+    "Q15": {
+      "scores": {
+        "conflict_detection": 10,
+        "resolution_clarity": 9,
+        "temporal_narrative": 10,
+        "context_awareness": 10,
+        "proposed_contradiction_quality": 10,
+        "tone_format": 9
+      },
+      "weighted_avg": 9.7,
+      "notes": "Undeclared zone, no false conflict. Strong reframing (search-rank-unknowable, conversion-over-views). Prioritized 8-step diagnosis with concrete benchmarks. Doesn't force a contradiction where none surfaces from the shortlist. Clean format, [[atom]] cites consistent."
+    }
+  },
+  "aggregate": {
+    "conflict_detection": 9.33,
+    "resolution_clarity": 9.13,
+    "temporal_narrative": 9.93,
+    "context_awareness": 9.40,
+    "proposed_contradiction_quality": 9.60,
+    "tone_format": 8.93,
+    "weighted_avg": 9.40
+  },
+  "global_observations": "Strong O4v2 performance: temporal_supersession is consistently and correctly applied with structured Antes/Desde/Hoy narratives (Q01, Q06, Q11). Contextual_scope is well-handled with explicit primary=null when meta declares no universal winner (Q03). Single-conflict probes are near-flawless (Q01-Q07, Q09, Q11-Q13, Q15). The main weakness is multi-conflict questions (Q08, Q14): the agent surfaces only one of the 2-3 expected conflicts, missing the §4.5.7 'one caveat per active conflict' requirement. Q08 demonstrates good auto-curate behavior (well-formed proposed_contradictions for an undeclared tension). No false-positive conflicts invented in undeclared zones (Q09, Q10, Q12, Q13, Q15). Q10 missed an opportunity to propose a min-stay contradiction. Tone consistent and §10.7-compliant; no 'cabe destacar', actionable numbered steps, [[atom]] cites throughout."
+}

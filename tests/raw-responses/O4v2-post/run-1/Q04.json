@@ -1,0 +1,36 @@
+{
+  "question_id": "Q04",
+  "question": "Un huésped post-estancia me amenaza con dejarme una reseña mala si no le devuelvo dinero. ¿Qué hago?",
+  "category": "C",
+  "response": "Es chantaje explícito y viola la policy de review manipulation de Airbnb. No negocies. El protocolo es defensivo y rápido [[reviews--refund-threat-manipulation]].\n\n1. **Captura evidencia ya**. Screenshot del mensaje donde el huésped condicione la reseña al reembolso, dentro del chat de Airbnb (no WhatsApp ni email — solo el paper trail nativo cuenta) [[reviews--refund-threat-manipulation]].\n2. **Reporta a Airbnb como \"review manipulation\"**. Abre Resolution Center / contacta CS adjuntando los screenshots y pide que se invalide la reseña por adelantado. Sé consciente de que CS te va a presionar \"incessantly\" para que cedas y reembolses; mantén la línea y, si insisten, escala a supervisor con la misma frase: \"I have screenshots of review manipulation\" [[reviews--refund-threat-manipulation]].\n3. **Rechaza el reembolso con tono neutro**. Responde por chat algo como: *\"I understand you're asking for a refund. I'm not able to offer that based on the conditions you've described. Your review is always welcome — I'll accept whatever honest feedback you leave.\"* Esto deja por escrito que rechazas el trade y no cierras la puerta a una reseña honesta [[reviews--refund-threat-manipulation]].\n4. **No esperes que Airbnb remueva la reseña si la deja**. Desde el policy update de mid-2025 el proceso de remoción está prácticamente roto: incluso con evidence clara, CX deniega submission y appeal [[reviews--removal-process-broken-2025]]. Asume que si publica reseña negativa, se queda.\n5. **Activa estrategia de dilución**. Si la reseña sale, no la combates: empuja volumen de bookings y reciprocity post-checkout para que el rating absorba el impacto. La matemática manda — una 1-estrella sobre 100 reviews mueve el promedio un 0,8% [[reviews--more-dilutes-negative]].\n6. **Cierra prevención hacia adelante**. Para futuras estancias, refuerza reset de expectativas ante cualquier cambio mid-stay y reciprocity message 3-6h post-checkout. Es lo que evita que la próxima amenaza llegue [[reviews--refund-threat-manipulation]].\n\nPor qué NO ceder, aunque la tentación sea pagar y olvidar:\n\n- Aceptar enseña al huésped (y a otros por boca-a-oreja) que el patrón funciona. Habrá más requests futuros.\n- No hay garantía de reseña positiva tras pagar — el huésped puede reneger una vez tiene el dinero.\n- El reembolso ya manipulado no te exonera del daño de la reseña ante Airbnb.\n\nFuentes: [[sources/2025-08-02--why-i-had-to-give-a-100-refund-to-my-airbnb-guest]] (qv05SED0Z9E, 03:38-04:41), [[sources/2025-04-29--why-is-every-10th-review-so-important-on-airbnb]] (3sFGalw_CzY, 04:16-04:38).",
+  "atoms_cited": [
+    "[[reviews--refund-threat-manipulation]]",
+    "[[reviews--removal-process-broken-2025]]",
+    "[[reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/2025-08-02--why-i-had-to-give-a-100-refund-to-my-airbnb-guest]]",
+    "[[sources/2025-04-29--why-is-every-10th-review-so-important-on-airbnb]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": "none",
+    "conflicting_atoms": [],
+    "topic": null,
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-23] Refund-for-review: guest attack vs host loophole"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "none",
+    "rationale": null,
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

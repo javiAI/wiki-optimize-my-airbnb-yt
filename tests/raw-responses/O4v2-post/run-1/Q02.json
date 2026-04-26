@@ -1,0 +1,45 @@
+{
+  "question_id": "Q02",
+  "question": "¿Cuánto debería ajustar mi base price cada semana, 5% o 10%?",
+  "category": "D",
+  "response": "Mueve el base price en incrementos del **5%** semanales como regla por defecto, no del 10%.\n\n1. Cada miércoles, abre PriceLabs (o Airbnb Insights) y mira tu occupancy real a tus días de Booking Lead Time (BLT) [[pricing--weekly-30-seconds-routine]]. 30 segundos por listing.\n2. Si estás dentro de la **green zone 40-60%** al BLT (target 50%), no toques nada — una sola reserva larga puede mover la occupancy 5-15%, así que reaccionar dentro de esa banda es ruido, no señal [[pricing--tolerance-band-40-60]].\n3. Si tu occupancy real está **por encima del 60%** al BLT → sube el base **+5%**. Si está **por debajo del 40%** → baja **-5%**. Una sola palanca, una sola dirección, semana a semana [[pricing--five-percent-adjustments]].\n4. **Por qué 5% y no 10%**: con un movimiento del 10% no puedes aislar la señal del precio del ruido natural del calendario en una semana — pierdes la capacidad de aprender qué movió la aguja. Con 5% el sistema converge sin ahogar bookings en curso ni generar colas de last-minute que no puedas servir [[pricing--five-percent-adjustments]].\n5. Si tras **3 semanas consecutivas** fuera de la green zone el ajuste del 5% no mueve la occupancy, el problema no es el precio: revisa fotos, título, reseñas y customizations (ver [[listing-optimization--three-step-troubleshooting]]).\n\n**Edge case justificable del 10%**: occupancy extrema (>90% o <15% al BLT). En ese escenario, un único ajuste del 10% para volver al rango operativo, y la siguiente semana retomas el 5%. No lo hagas como rutina.\n\n⚠️ **Nota**: [[pricing--five-percent-adjustments]] sugiere ajustes semanales del 5% (rechazo explícito del 10%); la fuente `awyuwVxioOQ` discrepa con ajustes del 10% como ejemplo didáctico desde el mismo canal.\n- **Confianza**: A es high; el counter-claim queda en medium dentro del propio atom. A es la recomendación principal por **specificity**: `QhHlfDSUtys` rechaza literalmente el 10% y razona por qué (aislar señal de ruido), mientras `awyuwVxioOQ` usa el 10% solo como cifra ilustrativa del concepto raise/lower.\n- **Cuándo aplica el 10%**: occupancy extrema (>90% o <15% al BLT), una sola vez, para volver al rango operativo. Práctica real del propio autor en `Y7HmIeY8WR0` (chunks de $15 sobre base $190 ≈ 8%) sugiere que la banda aceptable es 5-10% según volatilidad del market.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[pricing--five-percent-adjustments]]",
+    "[[pricing--weekly-30-seconds-routine]]",
+    "[[pricing--tolerance-band-40-60]]",
+    "[[pricing--occupancy-target-blt]]",
+    "[[listing-optimization--three-step-troubleshooting]]"
+  ],
+  "sources_cited": [
+    "[[sources/QhHlfDSUtys]]",
+    "[[sources/2IU2POJxkis]]",
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/FlsOvJxmk28]]",
+    "[[sources/awyuwVxioOQ]]",
+    "[[sources/Y7HmIeY8WR0]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[pricing--five-percent-adjustments]]",
+      "[[pricing--five-percent-adjustments#counter-claim-awyuwVxioOQ]]"
+    ],
+    "topic": "pricing",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-23] Base price adjustment size: 5% vs 10%"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[pricing--five-percent-adjustments]]",
+    "secondary_atom": "[[pricing--five-percent-adjustments#counter-claim-awyuwVxioOQ]]",
+    "resolution_criterion": "specificity_tier",
+    "rationale": "A igual recency, popularity y authority (mismo canal), specificity desempata: QhHlfDSUtys rechaza literal y explícitamente el 10% y da el razonamiento causal (aislar signal de noise en una semana). awyuwVxioOQ usa el 10% como cifra didáctica para enseñar la mecánica raise/lower, no como prescripción del tamaño óptimo. La regla que rechaza explícitamente la alternativa gana por specificity (§4.5.3 criterio 5).",
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

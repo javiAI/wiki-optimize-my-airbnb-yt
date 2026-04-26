@@ -1,0 +1,42 @@
+{
+  "question_id": "Q10",
+  "question": "¿Cuál es el mínimo de noches recomendado para temporada alta en un mercado turístico?",
+  "category": "U",
+  "response": "Regla general en mercado turístico de temporada alta: **mantén el mínimo base bajo (1 o 2 noches) y sube el mínimo solo en fechas concretas de pico** (festivos, puentes, eventos). Subir el mínimo de forma generalizada lejos en el calendario reduce el pool de huéspedes elegibles sin compensación real [[notes/pricing--no-increase-min-nights-far-out]].\n\n1. **Mínimo base: 1-2 noches todo el año**, también en temporada alta. Un mínimo bajo expande las búsquedas en las que apareces; subirlo a 3+ por defecto te invisibiliza para una parte importante de la demanda [[notes/ranking--minimum-stay-visibility]].\n\n2. **Sube el mínimo solo en fechas-pico específicas** vía PriceLabs > Date Specific Customizations (no en el mínimo base, que el seasonal profile no sobreescribe) [[notes/pricing--holiday-specific-date-min-stay]]:\n   - Navidad (24-26 dic) y Nochevieja (30 dic - 1 ene): **mínimo 3 noches**.\n   - Puentes y fines de semana festivos en mercado turístico: **2-3 noches**.\n   - Spring break en mercados de playa/ski: **3-5 noches** durante las 2 semanas pico.\n   - Eventos locales (festivales, finales deportivas, conciertos grandes): **2-3 noches** en las fechas exactas.\n\n3. **Para desincentivar reservas de 1 noche sin perder visibilidad**, sube la cleaning fee (150-250 USD según tamaño) en lugar de subir el mínimo. La fee se diluye sobre estancias largas y filtra a los huéspedes de 1 noche con mayor wear ratio [[notes/cleaning-ops--fee-deters-one-night]].\n\n4. **Cuando aparezca una noche huérfana** entre dos reservas en plena temporada, baja el mínimo a 1 noche solo para esa fecha y aplica un premium del 20% sobre el precio recomendado. El huésped que busca 1 noche es menos sensible al precio [[notes/pricing--orphan-night-strategy]].\n\n5. **Cadencia operativa**: configura los mínimos de fechas-pico **6-9 meses antes**, idealmente en enero para todo el año. PriceLabs permite guardar rangos personalizados reutilizables [[notes/pricing--holiday-specific-date-min-stay]].\n\n**Por qué funciona**: la demanda en holidays y eventos pico es inelástica — los huéspedes pagan 2-3× la base y aceptan estancias más largas. Subir el mínimo en esas fechas bloquea noches huérfanas alrededor del pico y captura el premium real, sin sacrificar visibilidad el resto del año.",
+  "atoms_cited": [
+    "[[notes/pricing--no-increase-min-nights-far-out]]",
+    "[[notes/ranking--minimum-stay-visibility]]",
+    "[[notes/pricing--holiday-specific-date-min-stay]]",
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/pricing--orphan-night-strategy]]"
+  ],
+  "sources_cited": [
+    "[[sources/GZeFviVCFxw]]",
+    "[[sources/9Yk_IF97QdM]]",
+    "[[sources/VHQNoDMgLBE]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/PG3EGrwFzsI]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": "none",
+    "conflicting_atoms": [],
+    "topic": "pricing",
+    "documented_in_meta": false,
+    "meta_section": null
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "none",
+    "rationale": "No hay conflicto activo. La aparente tensión entre 'mantener mínimo bajo' (ranking--minimum-stay-visibility, pricing--no-increase-min-nights-far-out) y 'subir mínimo en holidays' (pricing--holiday-specific-date-min-stay) está resuelta por scope dentro del propio atom de holidays, que se declara como excepción explícita a la regla general (fechas concretas vs. far-out genérico).",
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

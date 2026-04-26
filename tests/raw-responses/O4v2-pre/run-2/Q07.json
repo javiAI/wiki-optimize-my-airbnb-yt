@@ -1,0 +1,43 @@
+{
+  "question_id": "Q07",
+  "question": "¿Cómo fijo el precio para una propiedad de 8 huéspedes: flat-price todo-incluido o base bajo más extra-guest-fee?",
+  "category": "C",
+  "response": "Para una propiedad de 8 huéspedes, la decisión depende de qué optimices y del estado del listing. La estrategia por defecto en 2026 es **base bajo + extra-guest fee** porque (1) abre el filtro \"fits 8+\" capturando grupos grandes, (2) el precio per-night que ve un huésped en search es más bajo para grupos pequeños (mejora conversión 2-4 huéspedes) y (3) genera leverage anti over-occupancy [[pricing--extra-guest-fee-leverage]]. El flat-price todo-incluido tiene su lugar, pero como táctica de empuje cuando el listing necesita ocupancia rápido.\n\n1. **Pon max-guests al cap real de la propiedad** (8) y activa la sección \"Extra guest charge\" siempre, aunque el fee sea simbólico. Sin esa sección activa Airbnb no te muestra en búsquedas de grupos grandes [[pricing--extra-guest-charge-tiers]].\n\n2. **Define base price para 4 huéspedes**, no para 8. La base cubre el caso típico (familia/pareja). A partir del 4º huésped activa el extra-guest fee [[pricing--extra-guest-fee-leverage]].\n\n3. **Calibra el extra-guest fee por tipo de cama** (no flat $100 ciego):\n   - Segundo huésped en bedroom compartida: 50% del per-guest implícito.\n   - Huésped en sofá-cama o air mattress: 25%.\n   Ejemplo: base $300 / 4 huéspedes = $75 per-guest implícito → fee bedroom compartida ~$35-40, sofá-cama ~$20 [[pricing--extra-guest-charge-tiers]].\n\n4. **Si tu propiedad es frágil, hay vecinos sensibles al ruido o regulaciones de max-people**, sube el extra-guest fee a la zona alta ($75-100) por encima del 4º. Funciona como deterrente: el huésped que ve \"$100/extra guest\" rara vez intenta meter +4 sin declararlos, y si lo hace tienes base contractual para resolution request en Airbnb [[pricing--extra-guest-fee-leverage]].\n\n5. **Cuándo cambiar a flat-price todo-incluido**: si el listing es nuevo, lucha por bookings o necesitas reseñas rápido. Flat-price (ej. $300 todo incluido para 8) penaliza revenue per-booking pero rankea mejor en searches con filtro \"fits 8+\" porque el precio mostrado es más bajo que base + extras acumulados. Úsalo táctico hasta acumular 3-5 reseñas y volver al esquema base + extra-fee [[ranking--price-for-max-occupancy]].\n\n6. **Revisa la cleaning fee en paralelo**: debe igualar la media del comp set, no tu coste real de turnover. Subir base y bajar cleaning hace que el precio per-night en search baje [[pricing--cleaning-fee-match-comp]].\n\n7. **Mide el resultado a 30 días**: si la ocupancia <50% al BLT objetivo y los grupos grandes no entran, prueba flat-price 2 semanas. Si el revenue per booking sube y la ocupancia se mantiene, base + extra-fee es tu equilibrio.\n\n⚠️ **Nota**: [[pricing--extra-guest-fee-leverage]] sugiere base bajo + extra-guest fee como default 2026; [[ranking--price-for-max-occupancy]] discrepa con flat-price todo incluido para mejor ranking en filtros \"fits 8+\".\n- **Confianza**: A es medium; B es high. A es la recomendación principal por recency (batch-12 2024-2025 vs 2020-06 de B) y por reflejar la visión actualizada del autor post-redesign del filtro de Airbnb.\n- **Cuándo aplica B**: listing nuevo con urgencia de reseñas, o property que tolera max-guests sin daño en market competitivo donde el ranking importa más que el revenue per booking.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[pricing--extra-guest-fee-leverage]]",
+    "[[pricing--extra-guest-charge-tiers]]",
+    "[[ranking--price-for-max-occupancy]]",
+    "[[pricing--cleaning-fee-match-comp]]"
+  ],
+  "sources_cited": [
+    "[[sources/p7QYOoQfgzc]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/r9WLMIljcSk]]",
+    "[[sources/QhHlfDSUtys]]",
+    "[[sources/PkyeXZhobVQ]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[pricing--extra-guest-fee-leverage]]",
+      "[[ranking--price-for-max-occupancy]]"
+    ],
+    "topic": "pricing",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-24] Price-for-max-occupancy vs extra-guest-fee-leverage"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[pricing--extra-guest-fee-leverage]]",
+    "secondary_atom": "[[ranking--price-for-max-occupancy]]",
+    "resolution_criterion": "score §5 (recency + specificity) + scope-based decision tree de meta/contradictions",
+    "rationale": "extra-guest-fee-leverage gana por score (~+0.40 delta, batch-12 2024-2025 vs r9WLMIljcSk 2020-06) y refleja la visión actualizada del autor post-redesign del filtro 'fits 8+'. price-for-max-occupancy se mantiene como secundario aplicable a listings nuevos con urgencia de reseñas o markets donde el ranking en filtros de grupo importa más que revenue per booking, según el decision tree documentado en meta/contradictions.",
+    "temporal_narrative_used": true
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

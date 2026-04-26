@@ -1,0 +1,43 @@
+{
+  "question_id": "Q07",
+  "question": "¿Cómo fijo el precio para una propiedad de 8 huéspedes: flat-price todo-incluido o base bajo más extra-guest-fee?",
+  "response": "Para una propiedad de 8 huéspedes, el default 2026 es **base bajo + extra-guest-fee desde el 4º** [[pricing--extra-guest-fee-leverage]]. Solo cambia a flat-price todo-incluido si tu listing está luchando por bookings o aún no acumula reseñas, en cuyo caso `flat-price` rankea mejor en filtros de grupo grande [[ranking--price-for-max-occupancy]].\n\n1. Configura **max guests = 8** en Airbnb (Rooms and spaces → Guests). Sin tocar este cap real, ningún filtro \"fits 6+/8+\" se activa [[listing-optimization--max-guests-expands-pool]].\n\n2. Fija un **base price para 4 huéspedes** (la familia típica). Calcula el rate per-guest implícito: si base $300 / 4 = $75/persona; el `extra-guest-fee` ≈ 50% de ese rate, en torno a **$30-50 por huésped extra** desde el 5º [[pricing--extra-guest-fee-leverage]].\n\n3. Aplica los **tiers por tipo de cama** dentro del extra-fee: 50% del per-guest rate si comparte bedroom existente, 25% si va a sofá o air-mattress. Ej. base $200 (2-bed): 3º guest +$50 (bed compartido), 4º +$50, 5º sofá +$25 [[pricing--extra-guest-charge-tiers]].\n\n4. **Activa siempre** la sección \"Extra guest charge\" aunque cobres $0 desde el 5º al inicio. Su mera presencia es **filter-match** para búsquedas de grupos; sin activarla, Airbnb te excluye de \"fits 6+/8+\" aun con max=8 [[pricing--extra-guest-charge-tiers]].\n\n5. Justificación de la doble función: (a) el filtro \"fits 8+\" capta familias y celebraciones (las reservas $1.000+/noche que de otro modo no te encuentran); (b) el fee documentado da leverage anti over-occupancy — si declaran 4 y aparecen 8, tienes base contractual para resolution request o cancelación [[pricing--extra-guest-fee-leverage]].\n\n6. Excepción **flat-price todo-incluido**: si eres listing nuevo sin reseñas, o estás en slow season pidiendo bookings de cualquier tamaño, fija precio plano para 8 durante 3-5 reseñas y luego transiciona a base + extra-fee [[ranking--price-for-max-occupancy]].\n\n⚠️ **Nota**: [[pricing--extra-guest-fee-leverage]] sugiere base bajo + extra-fee ≈$30-100 desde el 5º; [[ranking--price-for-max-occupancy]] discrepa con flat-price todo-incluido al máximo para mejor ranking en filtros \"fits 8+\".\n\n- **Confianza**: A es medium; B es high. A es la recomendación principal por scope (revenue + leverage anti over-occupancy en property que ya convierte) y por recency (sources 2024-2025 vs 2020).\n- **Cuándo aplica B**: listing nuevo sin reseñas, slow season que exige llenar calendar, o property que tolera max guests sin daño real y compite en mercado fragmentado de grupos pequeños vs grandes.\n- **Detalle**: ver [[meta/contradictions]].",
+  "category": "C",
+  "atoms_cited": [
+    "[[pricing--extra-guest-fee-leverage]]",
+    "[[pricing--extra-guest-charge-tiers]]",
+    "[[ranking--price-for-max-occupancy]]",
+    "[[listing-optimization--max-guests-expands-pool]]"
+  ],
+  "sources_cited": [
+    "[[sources/p7QYOoQfgzc]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/QhHlfDSUtys]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/r9WLMIljcSk]]"
+  ],
+  "conflict_detected": {
+    "found": true,
+    "severity": "HIGH",
+    "conflicting_atoms": [
+      "[[pricing--extra-guest-fee-leverage]]",
+      "[[ranking--price-for-max-occupancy]]"
+    ],
+    "topic": "pricing",
+    "documented_in_meta": true,
+    "meta_section": "[2026-04-24] Price-for-max-occupancy vs extra-guest-fee-leverage"
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": "[[pricing--extra-guest-fee-leverage]]",
+    "secondary_atom": "[[ranking--price-for-max-occupancy]]",
+    "resolution_criterion": "contextual_scope",
+    "rationale": "Ambos atoms aplican bajo condiciones distintas: extra-guest-fee-leverage optimiza revenue + leverage anti over-occupancy en property que ya convierte; price-for-max-occupancy optimiza ranking en filtros de grupo cuando el listing necesita bookings de cualquier tamaño (nuevo, slow season). Meta lo documenta como split por scope, no por veracidad. extra-guest-fee-leverage es default 2026 por recency (batch-12 vs 2020) y por aplicar al caso por defecto de un host con property madura.",
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

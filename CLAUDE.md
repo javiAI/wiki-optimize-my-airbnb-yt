@@ -1,10 +1,10 @@
 ---
 automation:
-  version: "3.3"
+  version: "3.4"
   current_phase: 2
   phase_status: "in_progress"
-  last_update: "2026-04-26T12:00:00Z"
-  notes: "Restructure 2026-04-26: principio de optimización = SOLO estructural/automatización (generaliza a otras bóvedas). Atom-content opts (O3, O6, futuras) movidas a nueva Phase 5 'Atom Regeneration' donde se regeneran los 156 átomos desde cero con el contrato consolidado de todas las opts estructurales. O3 reverted (decision v2.0: target_dim_regression). Vault keep-as-is (no git rollback posible). Test framework v2 (decision v2.0, composite α=0.85, hard floors, comparison history en tests/comparisons/history/<from>-vs-<to>__n<N>.json). Vault read-only para agentes."
+  last_update: "2026-04-26T18:00:00Z"
+  notes: "Restructure 2026-04-26: principio de optimización = SOLO estructural/automatización (generaliza a otras bóvedas). Atom-content opts (O3, O6, futuras) movidas a nueva Phase 5 'Atom Regeneration' donde se regeneran los 156 átomos desde cero con el contrato consolidado de todas las opts estructurales. O3 reverted (decision v2.0: target_dim_regression). Vault keep-as-is (no git rollback posible). Test framework v2 (decision v2.0, composite α=0.85, hard floors, comparison history en tests/comparisons/history/<from>-vs-<to>__n<N>.json). Vault read-only para agentes. O4 v2 (2026-04-26) IMPLEMENT (user override of nominal ITERATE band): smart-resolver de 5 tiers + temporal narrator + auto-curate de proposed_contradictions. Custom 6-dim rubric (custom-o4v2-1.0): weighted_avg 9.08 → 9.40 (+0.32); target dim temporal_narrative 8.73 → 9.93 (+1.20). Cost +9.4% (50,150 → 54,850 avg tokens). Composite v2.0 ≈ +0.013 (IMPLEMENT)."
 
 phases:
   phase_1:
@@ -19,9 +19,9 @@ phases:
     name: "Quality Foundation (Structural)"
     status: "in_progress"
     tasks: [O4, O5]
-    completed: []
+    completed: [O4]
     deferred: [O6]
-    progress: 0
+    progress: 50
   phase_3:
     name: "Automation"
     status: "not_started"
@@ -46,7 +46,7 @@ optimizations:
   O1: { name: "Hierarchical Indices", phase: 1, hours: 4, status: "complete", cost_delta_pct: -25.3, quality_delta: 0, class: "structural" }
   O2: { name: "Fix Q4 Contradiction", phase: 1, hours: 0.5, status: "skipped", reason: "premise_stale", class: "atom_specific" }
   O3: { name: "Language Consistency", phase: 5, hours: 2, status: "deferred", reason: "atom_content_opt; decision v2.0 REVERT (target_dim_regression on format_compliance); to be re-incorporated as a generation-time rule in Phase 5 (atom regeneration), not as a retroactive audit", class: "atom_content" }
-  O4: { name: "Contradiction Detection L1", phase: 2, hours: 3, status: "in_progress", class: "structural" }
+  O4: { name: "Contradiction Detection v2 (smart resolver + temporal narrator + auto-curate)", phase: 2, hours: 3, status: "complete", quality_delta_custom_rubric: 0.32, cost_delta_pct: 9.4, target_dim: "temporal_narrative", target_dim_delta: 1.20, decision: "IMPLEMENT (user override; nominal ITERATE on weighted_avg, but target-dim near ceiling)", rubric_used: "custom-o4v2-1.0", class: "structural" }
   O5: { name: "Response Format Templates", phase: 2, hours: 2.5, status: "not_started", class: "structural" }
   O6: { name: "Executable Checklists", phase: 5, hours: 1.5, status: "deferred", reason: "atom_content_opt; modifies atom procedures into Dataview checklists, belongs to atom regeneration phase", class: "atom_content" }
   O7: { name: "Agent Orchestration", phase: 3, hours: 8, status: "not_started", class: "structural" }
@@ -210,24 +210,66 @@ stale_if: <condición>
 
 ---
 
-## 4.5 Conflict Check (query-time, real-time)
+## 4.5 Conflict Check (query-time, real-time) — O4v2
 
-Antes de redactar la respuesta, para cada `[[atom]]` del shortlist:
+Antes de redactar la respuesta, para cada `[[atom]]` del shortlist ejecuta el ciclo **detect → classify → resolve → surface → curate**.
 
-1. Escanear `MOC/<topic>.md` en busca de otros atoms con el mismo `topic` y `claim` opuesto.
-2. Cross-check `meta/contradictions.md` — ¿está resuelto?
-3. Si hay conflicto NO resuelto: incluir caveat al final de la respuesta, **no descartar** ni el atom seleccionado ni el rival.
+### 4.5.1 Detect
 
-**Severity**: HIGH (mismo topic, contradicción explícita) | MEDIUM (mismo topic, evidencia conflictiva) | LOW (topic relacionado, recomendación distinta). Solo HIGH y MEDIUM se muestran al usuario; LOW se ignora.
+Escanear `MOC/<topic>.md` y los `conflicts_with` declarados en cada atom del shortlist. Cross-check `meta/contradictions.md` para saber si el conflicto ya está documentado y si tiene resolución registrada.
 
-**Caveat format** (template canónico, ver `queries/RESPONSE_TEMPLATES.md`):
-```
-⚠️ **Nota**: [[atom-A]] sugiere X; [[atom-B]] discrepa.
-Confianza: A (high) > B (medium). Aplica B si <condición>.
-Ver [[meta/contradictions]].
-```
+### 4.5.2 Classify severity
 
-**Confidence priority**: si los confidences difieren, la respuesta principal usa el atom de mayor confidence; el caveat menciona al rival. Si son iguales, la respuesta se queda con la fuente más reciente (`last_verified`).
+- **HIGH**: mismo topic, claim opuesto explícito (ej. "5%" vs rechazo explícito de "5%").
+- **MEDIUM**: mismo topic, prescripción/evidencia divergente sin oposición literal (ej. flat-price vs base+fee).
+- **LOW**: topic relacionado, recomendación distinta — ignorar silenciosamente.
+
+Solo HIGH y MEDIUM disparan los pasos siguientes.
+
+### 4.5.3 Resolve — jerarquía obligatoria
+
+Aplicar criterios EN ESTE ORDEN. El primero que decida gana. No saltar criterios.
+
+1. **temporal_supersession**: un atom supera a otro por hito documentado (policy update, market shift) o por `recency` >0.30 abs en el score §5. El atom nuevo es primario; el viejo se conserva como contexto histórico → narrar evolución (§4.5.6).
+2. **contextual_scope**: ambos atoms aplican bajo condiciones distintas (market type, listing-state, host-stage). Ningún ganador universal; describir cuándo usar cada uno.
+3. **confidence_tier**: a igual scope, `confidence: high` gana sobre `medium`/`low`.
+4. **authority_tier**: a igual confidence, mayor `channel_authority` gana.
+5. **specificity_tier**: si todo empata, gana el atom con prescripción más específica (rechazo explícito de la alternativa, números concretos, condiciones acotadas).
+
+El criterio aplicado se registra en `conflict_resolution_applied.resolution_criterion` del output JSON.
+
+### 4.5.4 Surface — cuándo emitir caveat
+
+| Estado del conflicto | Acción |
+|---|---|
+| Documentado en meta + ganador claro + pregunta NO toca dimensión rival | Usa primario, **sin caveat**. |
+| Documentado en meta + ganador claro + pregunta TOCA dimensión rival | Caveat informativo (atajo: la condición de aplicabilidad del rival). |
+| Documentado en meta sin ganador único (market-dependent / scope) | Caveat estándar con condiciones. |
+| NO documentado | Caveat estándar + entrada en `proposed_contradictions[]` (§4.5.5). |
+
+`conflict_detected.found` debe ser `true` siempre que el conflicto sea **activo** en la respuesta — no `false` por el simple hecho de estar documentado en meta. La presencia en meta solo afecta la decisión de surface (qué caveat) y de curate (si proponer entrada nueva o no).
+
+### 4.5.5 Curate — auto-emit de proposed_contradictions
+
+Cuando se detecta conflicto HIGH o MEDIUM **no documentado** en `meta/contradictions.md`, el campo `proposed_contradictions[]` del JSON DEBE incluir una entrada con:
+
+- `atoms`: ambos `[[atom-A]]`, `[[atom-B]]`
+- `topic`: topic compartido
+- `severity`: HIGH | MEDIUM
+- `relation`: `direct` | `temporal` | `contextual` | `mirror`
+- `proposed_resolution`: criterio aplicado + ganador propuesto (≤80 palabras)
+- `evidence`: observación específica que motivó el flag (≤80 palabras)
+
+NO añadir entradas para conflictos ya documentados — duplicaría meta. El script `scripts/apply-proposed-contradictions.py` consolida estas entradas en `meta/contradictions.md` entre runs.
+
+### 4.5.6 Caveat format (templates en `queries/RESPONSE_TEMPLATES.md`)
+
+- **Estándar** (no temporal): bloque ⚠️ Nota con primario/rival, condición de aplicabilidad, link a meta.
+- **Temporal evolution** (cuando criterio = `temporal_supersession`): tres elementos obligatorios — ANTES (estado pre + cita rival), DESDE (transición + hito + razón), HOY (estado actual + cita primaria). Máx 3 frases. El atom viejo aparece como contexto histórico, no como recomendación competidora.
+
+### 4.5.7 Multi-conflicto
+
+Si el shortlist toca 2+ conflictos distintos (ej. una pregunta de pricing global cruza 5%-vs-10%, Thu/Sun, max-occupancy-vs-extra-fee), surface UN caveat por conflicto activo, en orden de relevancia para la pregunta. No agruparlos en un solo bloque difuso.
 
 ---
 

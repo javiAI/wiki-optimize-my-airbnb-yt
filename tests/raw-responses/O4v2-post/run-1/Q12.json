@@ -1,0 +1,42 @@
+{
+  "question_id": "Q12",
+  "question": "¿Vale la pena invertir en construir direct booking o me quedo solo en Airbnb?",
+  "category": "U",
+  "response": "Respuesta directa: para la mayoría de anfitriones, **no vale la pena**. Quédate en Airbnb (y eventualmente Vrbo) hasta que cumplas una condición de entrada concreta. Construir direct booking es un proyecto de marketing, tech y operaciones que pocos hosts amortizan.\n\n1. **Aplica el gate de entrada antes de invertir un euro**. Solo construye direct booking si cumples al menos UNA: (a) gestionas 12+ propiedades, (b) operas en mercado luxury con clientela VIP, (c) tienes histórico de repeat ≥30%, o (d) ya eres influencer con audiencia propia. Sin esto, el ahorro del 15% de Airbnb se evapora en ads, Stripe, fraud risk y soporte 24/7 [[direct-booking--skip-unless-conditions]].\n\n2. **Sé honesto sobre tus 2 razones reales**. Solo hay dos motivos genuinos para empujar direct: cash flow inmediato (cobras al instante vs 24-48h Airbnb) y escapar del review tyranny (no dependes del rating-algoritmo). Lo demás —\"control\", \"brand\", \"evito fees\"— suele ser fear-driven, no data-driven [[direct-booking--two-real-reasons]].\n\n3. **Presupuesta los 3 servicios invisibles que Airbnb te regala**. Si vas direct, tienes que reemplazar: (i) review solicitation automática (en direct, la tasa de reseña cae al 20-30%), (ii) trust badge default (tu marca es desconocida), y (iii) SEO orgánico heredado del dominio de Airbnb. Estos no se replican con $500 en ads; requieren años [[direct-booking--invisible-airbnb-value]].\n\n4. **Si entras, arranca por el PMS, no por la web**. Configura un PMS como hub (Hostfully, Guesty, Hospitable) desde la primera propiedad. Spokes: Airbnb, Vrbo, web propia (WordPress + tema hospitality, NO el builder del PMS), Stripe. Así puedes cambiar de OTA o de PMS sin perder reviews, SEO ni base de datos de huéspedes [[direct-booking--pms-first-architecture]].\n\n5. **Limita el esfuerzo inicial al 80/20**. Solo 3 jugadas: (i) Google My Business listado como \"lodging\" (1 hora, $0), (ii) menciona el nombre de tu marca en las reseñas que tú dejas a huéspedes (donde lo permita el ToS de Airbnb), (iii) instala Meta Pixel + Google Ads tag para retargeting con $30-50/mes [[direct-booking--minimum-moves]].\n\n6. **Captura emails desde el día 1 con un captive portal de WiFi**. Instala StayFi (~$5-15/mes por listing) + email tool (MailerLite/ConvertKit, ~$10-20/mes). Cada huésped y sus acompañantes introducen email + nombre + teléfono al conectar. Una reserva de 2 personas rinde 2-4 emails; estancias largas o eventos, 10-30. La lista de email es tuya, no de Airbnb [[direct-booking--wifi-captive-portal-email-capture]].\n\n7. **Cuando ya tengas web operativa, simplifica la distribución**. Si te listas en Airbnb + Booking + Vrbo + direct y la distribución es 70/20/5/5, elimina las dos minoritarias: el calendar libre transfiere bookings al canal mayor y reduce overhead. Excepción: direct merece quedarse aun con <10% porque sin comisión y con repeat-guest pipeline. Pero si direct sigue <2% tras 12 meses con esfuerzo activo, replantéalo [[direct-booking--multi-platform-concentration]].\n\nResumen operativo: si eres anfitrión hobbyista o de 1-3 propiedades sin nicho luxury ni repeat alto, **quédate en Airbnb** y dedica ese tiempo a pricing, fotos y reseñas. Si ya cumples el gate, arranca por PMS + GMB + StayFi y mide bookings con UTM antes de invertir en SEO, ads o creators.",
+  "atoms_cited": [
+    "[[direct-booking--skip-unless-conditions]]",
+    "[[direct-booking--two-real-reasons]]",
+    "[[direct-booking--invisible-airbnb-value]]",
+    "[[direct-booking--pms-first-architecture]]",
+    "[[direct-booking--minimum-moves]]",
+    "[[direct-booking--wifi-captive-portal-email-capture]]",
+    "[[direct-booking--multi-platform-concentration]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/w8cuYma09zY]]",
+    "[[sources/YI7E_q53bRU]]",
+    "[[sources/zDz2XogOarw]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": "none",
+    "conflicting_atoms": [],
+    "topic": null,
+    "documented_in_meta": false,
+    "meta_section": null
+  },
+  "conflict_resolution_applied": {
+    "primary_atom": null,
+    "secondary_atom": null,
+    "resolution_criterion": "none",
+    "rationale": null,
+    "temporal_narrative_used": false
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}
