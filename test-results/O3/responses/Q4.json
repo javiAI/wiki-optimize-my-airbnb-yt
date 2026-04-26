@@ -1,0 +1,24 @@
+{
+  "question_id": "Q4",
+  "question": "¿Debo activar Instant Book desde el principio?",
+  "level": 1,
+  "response": "Sí, actívalo desde el día uno. La evidencia disponible apunta a que Instant Book (IB) es una de las palancas estructurales de ranking, no una decisión cosmética; mantenerlo apagado cuesta visibilidad medible y no compra seguridad real si configuras los guardrails correctos.\n\n1. **Actívalo de entrada y trátalo como configuración por defecto.** Tener IB enviado como señal equivale a comunicar a Airbnb un acceptance rate del 100%, que es uno de los factores directos del ranking en 2026 [[ranking--instant-book-acceptance-signal]]. Es además uno de los 10 factores accionables agrupados por el autor en la categoría de señales directas [[ranking--factors-2026]].\n\n2. **Cuantifica el coste de no activarlo.** Una desactivación medida con IntelliHost mostró una caída de aproximadamente el 25% en first-page impressions del listing tras apagar IB [[ranking--instant-book-acceptance-signal]] (source_id: I-Xk22Mp8eE). En un listing nuevo, sin reviews todavía, renunciar a ese 25% es renunciar al runway que necesitas para arrancar el funnel.\n\n3. **Configura los guardrails en el mismo paso en que lo activas.** Los tres requisitos que el autor recomienda son: government ID verificado, sin malas reviews y aceptación explícita de las house rules [[ranking--instant-book-acceptance-signal]]. Con esos filtros, el volumen de guests problemáticos cae ~95% sin perder el boost de ranking.\n\n4. **No sustituyas IB por vetting manual ‘por seguridad’.** El árbol de decisión de vetting manual (5 secciones del perfil, 3+ reviews = accept, etc.) es para casos sin IB pre-approval; con IB bien configurado, esos mismos criterios actúan automáticamente y cubren ~90% de los bookings [[hospitality--guest-profile-vetting-framework]]. Mantener request-to-book ‘por precaución’ implica además declinar o dejar expirar requests, lo que baja tu acceptance efectivo.\n\n5. **Recuerda el coste oculto de declinar.** Airbnb mantiene internamente un friction score (declines, cancelaciones de host, disputas escaladas, contactos de guests con CS) que suprime ranking de forma silenciosa; IB activo reduce declines y por tanto reduce friction [[ranking--friction-score-penalty]]. En un listing nuevo, donde aún no tienes reviews ni señales de demanda fuertes, evitar penalizaciones invisibles es especialmente crítico.\n\n6. **Una sola regla irrenunciable: nunca canceles una reserva ya aceptada.** El IB con guardrails sirve precisamente para no aceptar lo que tendrías que cancelar después; la cancelación de host es penalización severa y persistente [[ranking--instant-book-acceptance-signal]].\n\nResumen operativo: activa IB el mismo día que publicas el listing, marca los tres requisitos (ID, sin malas reviews, house rules), y no toques request-to-book salvo casos de borde concretos (evento de alto riesgo, propiedad de lujo extremo). El upside (hasta ~25% de first-page impressions, señal de 100% acceptance, menor friction score) supera con holgura el riesgo residual filtrado por los guardrails.",
+  "atoms_cited": [
+    "[[notes/ranking--instant-book-acceptance-signal]]",
+    "[[notes/ranking--factors-2026]]",
+    "[[notes/hospitality--guest-profile-vetting-framework]]",
+    "[[notes/ranking--friction-score-penalty]]"
+  ],
+  "sources_cited": [
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/I-Xk22Mp8eE]]",
+    "[[sources/j5emxo6P7No]]",
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/A0SRoZcUpAM]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

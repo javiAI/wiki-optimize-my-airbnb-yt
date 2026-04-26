@@ -1,0 +1,28 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 2,
+  "response": "Tu respuesta pública es un anuncio para Future Potential Guests (FPG), no una conversación con el guest que escribió la reseña. Optimízala para el lector, no para tu ego.\n\n1. **Espera 24-48h antes de redactar**. Match emotional intensity +10% aplica a comms con guest, pero en reply pública el sesgo a evitar es la indignación: cualquier asomo emocional ahuyenta FPGs y refuerza el ataque. Redacta cuando estés frío [[notes/reviews--emotional-intensity-plus-10]].\n\n2. **Usa el principio facts-only invertido**: igual que en la review que TÚ escribes sobre un guest, en la reply pública mantén SOLO hechos verificables. Nada subjetivo, nada de \"el guest mintió\" ni \"fue grosero\". Hechos: \"Llegó a las 2am\", \"el problema reportado fue X y se resolvió en Y horas\". Lo subjetivo te deja como defensivo; los hechos te dejan como profesional [[notes/reviews--facts-only-negative-review]].\n\n3. **Ancla la primera frase con el hecho que más te favorece**. Los FPGs leen primera y última frase y rellenan el medio (mismo patrón que reviews). Ejemplo: \"Lamento que tu estancia no cumpliera expectativas. El aire acondicionado reportado el día 2 fue reparado en 3 horas y se aplicó un crédito de $50.\" [[notes/reviews--facts-only-negative-review]].\n\n4. **Estructura de 3 frases máximo**:\n   - Reconocimiento neutro (\"Lamento que...\").\n   - 1-2 hechos concretos que contextualicen o desmonten la queja sin atacar.\n   - Cierre orientado al futuro (\"Hemos ajustado X para futuros guests\").\n\n5. **Reframe como micro-ad de mejora continua**, igual que haces con reviews 5★. Si la queja era ruido → menciona los NoiseAware nuevos. Si era limpieza → menciona el cambio de cleaner o la nueva checklist. Cada reply pública es un signal a FPG de que escuchas y mejoras [[notes/hospitality--host-response-to-review-as-marketing]].\n\n6. **Nunca**: contradecir frontalmente al guest, llamarle mentiroso, mencionar refunds o disputas internas, usar mayúsculas, exclamaciones, ni sarcasmo. Una reply emocional pesa el doble que la review original por la asimetría de bias negativo: el FPG ya está más cauto al ver una negativa, una respuesta defensiva confirma su miedo [[notes/reviews--negative-bias-asymmetric]].\n\n7. **No pelees la batalla en la reply, pelea por volumen**. La reply limita el daño; la solución estructural es diluir la negativa con más reviews 5★. Una negativa sobre 10 hunde el rating; sobre 100 apenas se nota. Tras postear la reply, prioriza ocupación rápida y captura de reviews (mensaje reciprocity post-checkout) [[notes/reviews--more-dilutes-negative]].\n\n8. **Si la review viola TOS** (extortion, retaliation, info privada del host) o tienes evidencia de un trade refund-por-review por chat → no respondas públicamente todavía; intenta removal primero. Post-2025 el proceso está roto en general, pero la única vía fiable 2026 es el loophole de refund-for-review documentado por chat. Reply pública SOLO si removal falla, porque una vez respondida cristaliza la review en el listing [[notes/reviews--removal-process-broken-2025]] [[notes/reviews--refund-for-review-trade-2026-loophole]].\n\n**Plantilla operativa** (3 frases, neutral, factual):\n> \"Lamento que [issue] no estuviera al nivel esperado. [Hecho 1: lo que ocurrió y cómo se respondió en tiempo real]. Hemos [acción concreta de mejora] para asegurar que futuros huéspedes disfruten al máximo.\"\n\nObjetivo: que el FPG cierre la review pensando \"este host es profesional, no defensivo\" y siga leyendo las 5★ siguientes.",
+  "atoms_cited": [
+    "[[notes/reviews--facts-only-negative-review]]",
+    "[[notes/reviews--emotional-intensity-plus-10]]",
+    "[[notes/hospitality--host-response-to-review-as-marketing]]",
+    "[[notes/reviews--negative-bias-asymmetric]]",
+    "[[notes/reviews--more-dilutes-negative]]",
+    "[[notes/reviews--removal-process-broken-2025]]",
+    "[[notes/reviews--refund-for-review-trade-2026-loophole]]"
+  ],
+  "sources_cited": [
+    "[[sources/uwdAHCmhNn4]]",
+    "[[sources/qzm28u64294]]",
+    "[[sources/UPMR-gfpQLs]]",
+    "[[sources/wjAwMKuhxec]]",
+    "[[sources/qv05SED0Z9E]]",
+    "[[sources/zih3JqcBRAE]]"
+  ],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 7,
+    "accuracy": 8
+  }
+}

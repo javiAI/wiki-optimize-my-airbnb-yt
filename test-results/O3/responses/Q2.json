@@ -1,0 +1,29 @@
+{
+  "question_id": "Q2",
+  "question": "¿Cuántas fotos subo y cuál pongo de portada?",
+  "level": 1,
+  "response": "**Cuántas fotos subir (mínimos por tamaño):**\n\n1. Studio: mínimo 20 fotos. 1-bedroom: 25. 2-bedroom: 35. Suma +10 por cada bedroom adicional (3-bed = 45, 4-bed = 55) [[notes/listing-optimization--photo-count-by-bedroom-size]].\n2. Máximo útil ≈ 1.8× el mínimo. Si tu fotógrafo entrega 2× o más, descarta las peores: son ángulos random sin propósito y diluyen el listing [[notes/listing-optimization--photo-count-by-bedroom-size]].\n3. Aplica la regla **una foto por *space*, no por room**: una sala con reading-corner + sofá-TV son 2 spaces → 2 fotos; una kitchen con isla + bar son 2 spaces. Cada foto debe tener un único focal point (test: si un amigo no identifica el subject en 3 segundos, sobra) [[notes/listing-optimization--one-photo-per-space]].\n4. Sweet spot práctico: 20–30 fotos curadas. Más allá es ruido; el guest típicamente ve 10–15 fotos antes de decidir, así que la #35 es invisible [[notes/listing-optimization--photo-ordering]].\n\n**Cuál poner de portada (cover photo):**\n\n5. La cover debe cumplir **dos reglas simultáneas**: (1) ser tu mejor foto y (2) diferenciarse visualmente del resto del market. Si todos los listings cercanos muestran el living frontal, el tuyo igual = scroll-fatigue del guest. Necesitas un *pattern interrupt* en la SERP [[notes/listing-optimization--cover-photo-differentiation]].\n6. Proceso de selección: abre Airbnb search en tu market con check-in dates reales, screenshot la primera página (5–10 covers visibles), y pregunta si tu cover se funde con ese mosaico. Si sí, cambia. Candidatas fuertes: hero angle única (drone, low-angle, detail shot), amenity rara en el market (pool si <10% lo tiene), staging con vida (taza de café, libro abierto, velas) [[notes/listing-optimization--cover-photo-differentiation]].\n7. Evita los anti-patterns: exterior genérico, living room frontal, fotos sterile sin elementos humanos. La emoción gana al \"clean shot\" [[notes/listing-optimization--cover-photo-differentiation]].\n\n**Orden del top-5 (donde se gana o se pierde la conversión):**\n\n8. Las 5 primeras fotos deben ser **5 spaces distintos**, no 5 ángulos del mismo living. Orden recomendado: (1) hero exterior/vista, (2) amenity headline (hot tub, pool, firepit), (3) living staged, (4) master bedroom, (5) kitchen. Reordenar es gratis y de las palancas más infrautilizadas [[notes/listing-optimization--photo-ordering]].\n9. La cover + título + primeras 2 líneas del summary son **the big three**: el autor reporta haber duplicado conversion modificando sólo estos 3 elementos en listings de coaching [[notes/listing-optimization--big-three]].\n\n**Test rápido para A/B casero:**\n\n10. En low-season, cambia la cover cada 2 semanas y compara impressions/conversion en el Insights Dashboard. Airbnb tarda ~7 días en re-indexar [[notes/listing-optimization--cover-photo-differentiation]].",
+  "atoms_cited": [
+    "[[notes/listing-optimization--photo-count-by-bedroom-size]]",
+    "[[notes/listing-optimization--cover-photo-differentiation]]",
+    "[[notes/listing-optimization--photo-ordering]]",
+    "[[notes/listing-optimization--one-photo-per-space]]",
+    "[[notes/listing-optimization--big-three]]"
+  ],
+  "sources_cited": [
+    "[[sources/S-dc_mCqOhY]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/AtQ1oDITk4c]]",
+    "[[sources/1aVXQPBnPg0]]",
+    "[[sources/a3TfQj3jgJc]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/t5bZYS_i06M]]",
+    "[[sources/PHz6KUMKSVc]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

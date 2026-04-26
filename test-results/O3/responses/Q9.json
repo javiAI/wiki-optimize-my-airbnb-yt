@@ -1,0 +1,33 @@
+{
+  "question_id": "Q9",
+  "question": "¿Qué amenities destaco y cuáles no aportan al booking?",
+  "level": 2,
+  "response": "Los amenities trabajan en tres capas. Destaca solo lo que active filtros de Airbnb, genere mención en review o suba rate y occupancy a la vez; el resto es coste sin retorno.\n\n**Capa 1 — Base layer irrenunciable (~$260-$820 total)**\n\n1. Instala los 9 esenciales y márcalos: large showerhead, hooks junto a la puerta, plastic hangers, Bluetooth speaker, tapas para sartenes, tijeras, variedad de asientos cómodos, lámparas de mesilla (≥1 por cama), self check-in con digital lock (no smart lock). Cualquier ausencia = host no ha dormido en su propio listing [[notes/listing-optimization--essential-amenities-checklist]].\n2. Activa TODAS las safety features aplicables (smoke, CO, extintor, botiquín, cámara exterior). Airbnb prioriza listings completos para reducir su liability — kit de <$200 con lift de ranking material [[notes/listing-optimization--safety-features-select-all]].\n3. Auditar bathroom/bedroom count y amenities filtrables (kitchen, TV, workspace, parking, washer/dryer): si tienes 3 baños marcados como 2, desapareces de todos los searches con filtro \"3+\". Caso documentado: +12% revenue solo recontando [[notes/listing-optimization--bathroom-filter-match]].\n4. Asegura ≥1 king bed: activa el filtro \"king bed\" de Airbnb. Solo el booker deja review, así que basta con que esa persona duerma bien [[notes/listing-optimization--king-bed-filter-hack]].\n5. Sube el max guests al máximo real (4→8 en un 4-bed) para entrar en filtros \"fits 6+/8+\" — bookings de grupo a $1,000+/noche que antes no aparecían [[notes/listing-optimization--max-guests-expands-pool]].\n\n**Capa 2 — Amenities únicas (\"review fuel\")**\n\n6. Añade 2-3 elementos sorprendentes con vida útil larga y zero maintenance: telescopio (si tienes outdoor + cielo limpio), hammock plegable, reverse osmosis water filter, showerhead 3-spout, copper silverware, fancy drinkware. Coste $50-300 one-time. La pregunta operativa NO es \"¿lo usará?\" sino \"¿lo MENCIONARÁ en la review?\" — alargan reviews y activan tags [[notes/listing-optimization--unique-amenities-review-fuel]].\n7. Añade dimmable lights (solo ~3% de Airbnbs los tienen — moat barato), blackout curtains, dos firmezas de almohada por persona, monitores top, TV grande [[notes/listing-optimization--amenity-longevity-low-maintenance]].\n\n**Capa 3 — Match al price point**\n\n8. Calibra al tier: budget ($50-120) básicos limpios + WiFi rápido; mid ($120-300) coffee maker decente, smart TV con streaming, workspace; premium ($300+) Nespresso, robes, premium toiletries, algo único (sauna, view, art). Premium SIN amenities premium = review baja en \"value\" [[notes/listing-optimization--amenities-match-price-point]].\n\n**Por qué este orden — el efecto compound**\n\nLos amenities suben rate Y occupancy simultáneamente. Es multiplicativo, no aditivo: caso real water park = $642→$1,116 (+74% rate) AND 50%→62% occupancy = +115% revenue real, no +74%. Si modelas ROI solo como rate bump subestimas el impacto [[notes/listing-optimization--amenities-rate-plus-occupancy-compound]].\n\n**Lo que NO aporta al booking (descartar)**\n\n- **Hot tubs**: el autor los probó. Alta maintenance (chemicals, breakdowns), no diferencian suficiente para justificar el coste operativo [[notes/listing-optimization--amenity-longevity-low-maintenance]].\n- **Daily cleaning**: coste operativo alto sin 5-star lift.\n- **Smart locks (Wi-Fi/app)**: dan más problemas que el digital lock simple ($129) — descartar a favor de keypad [[notes/listing-optimization--essential-amenities-checklist]].\n- **Amenities luxury en listing budget**: cargan coste sin retornar revenue (no hay willingness-to-pay) [[notes/listing-optimization--amenities-match-price-point]].\n- **Amenities que compras pero NO pones en fotos ni description**: si no son visibles en P2 (search preview), el 70% de FPGs no las ven y pierdes la señal completa [[notes/listing-optimization--unique-amenities-review-fuel]].\n- **Cámaras interiores**: violación de política, incluso declaradas [[notes/listing-optimization--safety-features-select-all]].\n\n**Acción inmediata (esta semana)**\n\nFotografía con el móvil tu propio listing escaneando los 9 esenciales + safety + filtros (bath/bed count, kitchen, TV, parking). Cualquier hueco: compra y marca. Coste total <$1,000, payback en 1-3 reservas. El resto (review fuel + price-point match) viene después.",
+  "atoms_cited": [
+    "[[notes/listing-optimization--essential-amenities-checklist]]",
+    "[[notes/listing-optimization--safety-features-select-all]]",
+    "[[notes/listing-optimization--bathroom-filter-match]]",
+    "[[notes/listing-optimization--king-bed-filter-hack]]",
+    "[[notes/listing-optimization--max-guests-expands-pool]]",
+    "[[notes/listing-optimization--unique-amenities-review-fuel]]",
+    "[[notes/listing-optimization--amenity-longevity-low-maintenance]]",
+    "[[notes/listing-optimization--amenities-match-price-point]]",
+    "[[notes/listing-optimization--amenities-rate-plus-occupancy-compound]]"
+  ],
+  "sources_cited": [
+    "[[sources/4VBSa0I5PIA]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/iFZnEXouqx8]]",
+    "[[sources/CbIZETKeV-U]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "question_id": "Q10",
+  "question": "Recibo un mensaje de pre-booking que me huele mal. ¿Cómo lo gestiono sin perder al guest si es legítimo?",
+  "level": 2,
+  "response": "1. **Aplica el vetting de 5 secciones antes de responder.** Abre el perfil del guest y revisa: reviews de otros hosts, fecha de join, verifications, government ID y about-me. Regla de decisión: 3+ reviews positivas → accept; 0 reviews + las 5 secciones completas → accept; 0 reviews + 3-4 secciones + mensaje específico (nombres, propósito, fechas) → accept; 0-2 secciones → pide completar perfil antes de confirmar (filtra 80% de problemas sin rechazarlo) [[hospitality--guest-profile-vetting-framework]].\n\n2. **Responde dentro del chat de Airbnb, nunca off-platform.** Si el guest empuja a WhatsApp/email para 'aclarar dudas', redirígelo: 'Para tener todo el detalle accesible, escríbeme aquí en el chat del Airbnb'. Sin record textual, cualquier disputa posterior la resuelve Airbnb a favor de la versión que ellos sí graban [[hospitality--communication-on-platform-only]].\n\n3. **Pídele información concreta — el filtro natural.** Pregunta open-ended pero específica: propósito del viaje, número exacto de adultos/niños, hora estimada de check-in. Un guest legítimo responde sin fricción; un guest problemático evade, vagúa o se ofende. La calidad del segundo mensaje vale más que el primero para clasificar.\n\n4. **Identifica las red flags duras.** Cuatro señales objetivas para escalar a cancelación: (a) intento de overbook declarado (reserva 4, anuncia 12 'para birthday'), (b) negativa a pagar el extra-guest fee listado, (c) payment failure no resuelto en 24h, (d) tono hostil o acusatorio desde el inicio ('me estás cobrando de más'). Si aparece UNA, ya no es 'me huele mal' — es red flag accionable [[hospitality--cancel-problem-booking-pre-checkin]].\n\n5. **Si confirma red flag, cancela penalty-free antes del check-in.** Airbnb permite cancelación sin penalty en: party intent, unauthorized guests, payment failure, violación pre-stay de house rules. Proceso: usa el link 'cancel without penalty' del email de Airbnb (no el botón genérico de cancel del listing); si el form no lo ofrece, escala a soporte y pide 'US-based rep'. Screenshot del email como paper trail. Esto NO cuenta como cancellation negativa para ranking [[hospitality--cancel-problem-booking-pre-checkin]].\n\n6. **Si no hay red flag dura pero el feeling persiste, acepta con guardrails.** Confirma reglas en escrito por el chat: número de guests, prohibición de party, hora de check-in/out, quiet hours. Activa documentación: turnover video pre-stay + 18h auto-message con instrucciones (paper trail si luego hay disputa). Considera live check-in (tú, cleaner o concierge) — reduce probabilidad de review negativa porque al guest le cuesta más 'hurt a human' visto cara a cara.\n\n7. **Anti-pattern explícito.** No aceptes 'para evitar lío' cuando las señales son claras: el daño post-check-in (review negativa + posible daño físico + refund dispute) es siempre peor que la incomodidad de cancelar pre-stay. Regla operativa: 'I would rather cancel than take a reservation at 30% discount with a problem guest' [[hospitality--cancel-problem-booking-pre-checkin]].\n\nResolution rate target: <0.5% de bookings con disputa abierta. Si superas 1%, el problema no es este guest — es tu vetting o tu listing expectations.",
+  "atoms_cited": [
+    "[[hospitality--guest-profile-vetting-framework]]",
+    "[[hospitality--cancel-problem-booking-pre-checkin]]",
+    "[[hospitality--communication-on-platform-only]]"
+  ],
+  "sources_cited": [
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/XnDOXWniPaU]]",
+    "[[sources/qzm28u64294]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

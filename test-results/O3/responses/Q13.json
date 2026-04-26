@@ -1,0 +1,33 @@
+{
+  "question_id": "Q13",
+  "question": "¿Cuál es el message flow ideal desde booking hasta post-checkout?",
+  "level": 3,
+  "response": "El flow óptimo se construye sobre un framework de 4 fases (pre-booking, post-booking pre-stay, arrival window, post-stay) con la regla operativa: dar la info justo cuando el guest la necesita, no antes ni después. Sobre ese framework se implementan 9 mensajes automatizados que cubren ~95% de necesidades del guest y suben el review-completion rate de ~70% (baseline Airbnb) a ~90%.\n\n**Secuencia operativa (9 touchpoints)**:\n\n1. **Inquiry auto-reply (M1)** — Respuesta inmediata a cualquier inquiry o pre-approval. Impacta response-rate y response-time, ambos signals de ranking. Mantener <100 palabras [[notes/hospitality--nine-automated-messages]].\n\n2. **Booking confirmation (M2)** — Al confirmar reserva: agradecimiento + promesa explícita de \"enviaré info detallada 3 días antes del check-in\". Sin walls of text, sin checkout rules, sin parking. Solo planificación de viaje [[notes/hospitality--reservation-flow-framework]].\n\n3. **4 días pre-checkin (M3)** — Aquí el truco \"3 prometidos / 4 enviados\": prometiste 3 días, disparas a 4 → cubre timezones + evita panic \"where's my info?\". Contenido: address, self-checkin method, WiFi name+password, teléfono de emergencia, saludo personalizado [[notes/reviews--four-days-pre-checkin-message]].\n\n4. **Day-of checkin (M4)** — Recordatorio compacto: address + código + cualquier instrucción crítica de acceso. Activado el día del check-in.\n\n5. **~18h post-checkin / wellness check (M5)** — El mensaje que casi nadie envía y que más previene 3★. Template: *\"Hope everything is great so far — any issues, please let me know before it becomes a real problem.\"* Captura quejas menores (bombilla, toalla, WiFi) antes de que maduren en review negativo [[notes/reviews--mid-stay-message]].\n\n6. **Mid-stay (M6)** — Solo en estancias 4+ noches. Check-in cordial sin pedir nada. En estancias cortas, fusiónalo con M5.\n\n7. **~18h pre-checkout (M7)** — Tres filtros estrictos: (a) positive framing (\"take perishables\" no \"don't leave food\"), (b) 50% relevance rule (cada línea ≥50% específica del checkout, lo demás strip), (c) zero chores (no laundry, no vacuum, no dishwasher). El guest no es cleaner [[notes/hospitality--checkout-message-principles]].\n\n8. **3-6h post-checkout / reciprocity (M8)** — El mensaje de mayor ROI del flow. Texto: *\"Thanks for staying — I'll be leaving you a 5-star review. If you enjoyed your stay, I'd really appreciate you doing the same.\"* Activa reciprocity (Cialdini). El autor atribuye a ESTE mensaje su 90%+ review rate. No enviar si hubo issue real durante el stay [[notes/reviews--reciprocity-post-checkout]].\n\n9. **Day 10 post-checkout / nudge condicional (M9)** — Solo si Airbnb indica que el guest no ha dejado review todavía. Copy: *\"Just a friendly reminder — I'd love to hear your thoughts about your stay if you have 60 seconds.\"*\n\n**Configuración técnica obligatoria**:\n\n- **Quiet hours 9am-9pm hora LOCAL del guest** en el PMS. Si tu mensaje llega a las 2am local, queda enterrado bajo notificaciones de otros hosts. Crítico para guests de otra timezone [[notes/hospitality--enforce-message-time-restrictions]].\n\n- **Tool stack**: Airbnb native solo da 3 triggers (booking, check-in, check-out) — insuficiente. Necesitas PMS 3rd-party (Hospitable, Hostfully, Guesty) que soporte 11-13 templates (los 9 base + 2-4 edge cases) [[notes/hospitality--airbnb-native-messaging-inferior]].\n\n**Reglas de oro**:\n\n- Ningún mensaje >100 palabras. Si tu copy supera, divide en mensajes separados a sus triggers correctos.\n- Off-cycle override: si algo cambia mid-stay (pool down, amenity rota), dispara mensaje fuera de schedule inmediatamente. Silencio = $100 problem que escala a 100% refund.\n- Setup inicial ~2h, después 0 mantenimiento. Single highest-leverage automation del negocio.",
+  "atoms_cited": [
+    "[[notes/hospitality--nine-automated-messages]]",
+    "[[notes/hospitality--reservation-flow-framework]]",
+    "[[notes/reviews--four-days-pre-checkin-message]]",
+    "[[notes/reviews--mid-stay-message]]",
+    "[[notes/hospitality--checkout-message-principles]]",
+    "[[notes/reviews--reciprocity-post-checkout]]",
+    "[[notes/hospitality--enforce-message-time-restrictions]]",
+    "[[notes/hospitality--airbnb-native-messaging-inferior]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/wqgfoP-V8m0]]",
+    "[[sources/qv05SED0Z9E]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/8wPfwSkU3QE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/lGnosQY0qEA]]",
+    "[[sources/Vix4ZHhtL5A]]",
+    "[[sources/ayX3w5FoNCo]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "question_id": "Q5",
+  "question": "¿Cómo consigo mis primeras reseñas?",
+  "level": 1,
+  "response": "Tu objetivo no es la review perfecta: es **velocidad y volumen** hasta acumular las primeras 3-5 reviews. Sin rating, tu listing equivale a tier <4.5 (invisible para guests experimentados), así que la prioridad absoluta es salir de cero cuanto antes [[notes/reviews--four-point-eight-threshold-disregard]]. El algoritmo trata el conteo de reviews como señal #1 de ranking; 100 reviews @4.8 ganan a 20 @5.0 [[notes/ranking--more-reviews-beats-higher-rating]].\n\n**1. Configura el calendar agresivamente las primeras semanas.** Bloquea todas las fechas excepto 3-5 semanas próximas, fija min-stay = 1 noche y precio 30% por debajo de comparables. Mantén esta config hasta tener 3 reviews; después abre calendar completo, normaliza min-stay a 2-3 y subes precio gradualmente [[notes/occupancy--new-listing-calendar-strategy]]. Concentrar la demanda en pocas fechas fuerza bookings consecutivos (señal de momentum) y 1-noche maximiza el pool de búsquedas elegibles.\n\n**2. Acepta el base price recomendado por PriceLabs sin overthink.** Decisión de 30 segundos, no 30 minutos: pre-launch no tienes data propia, no vas a ser más listo que el algoritmo de PL. Deja correr 10 días y entonces ajusta ±5-10% según occupancy real (>65% sube, <35% baja). No metas un -20% adicional \"por si acaso\" sobre el descuento del calendar new-listing: te auto-saboteas y no aprendes [[notes/pricing--new-listing-pricelabs-bootstrap]].\n\n**3. Mete contacto humano en la primera reserva sí o sí.** El driver #1 de un 5-estrellas es contacto humano (concierge, live check-in, o \"local friend\"). La automatización 100% techy techa en 4-estrellas, no 5 [[notes/reviews--human-contact-primary-driver]]. Para la primera reserva en concreto, el live check-in es crítico: la primera review marca el tone de las siguientes y es mucho más difícil dejar mala review a un humano que a una pantalla [[notes/hospitality--live-checkin-review-protective]]. Si vives cerca, hazlo tú; si no, paga $20-40 a un cleaner o concierge entrenado.\n\n**4. Calibra la expectativa de 5 estrellas en la llegada.** Mensaje literal en el chat de Airbnb (queda log): *\"Our goal is a 5-star experience. If anything falls short, please tell me immediately so I can fix it.\"* Doble efecto: el guest te escribe a ti antes que a la review si hay un problema, y le recalibras la noción de que un 4 en Airbnb es nota baja [[notes/reviews--calibrate-five-star-arrival]].\n\n**5. Activa la reciprocidad 3-6h post-checkout.** Mensaje: *\"Thanks for staying — I'll be leaving you a 5-star review. If you enjoyed your stay, I'd appreciate the same.\"* El autor atribuye a este mensaje pasar de ~70% review-completion baseline a ~90%, prácticamente doblando la tasa [[notes/reviews--reciprocity-post-checkout]]. Solo lo envías si genuinamente vas a darle 5; no es bluff.\n\n**6. No declines guests cuestionables por miedo a una review baja.** En esta fase, una review mediocre se diluye con volumen futuro y aún suma al conteo (que es lo que mueve ranking) [[notes/ranking--more-reviews-beats-higher-rating]]. El miedo a la primera review es el error clásico que retrasa la salida de cero.\n\n**Métrica de salida**: cuando llegues a 3 reviews, abre calendar, sube min-stay a 2-3 y vuelve a paridad de precio con comps. A partir de ahí pasas a routine semanal de pricing y dejas de operar en modo bootstrap.",
+  "atoms_cited": [
+    "[[notes/reviews--four-point-eight-threshold-disregard]]",
+    "[[notes/ranking--more-reviews-beats-higher-rating]]",
+    "[[notes/occupancy--new-listing-calendar-strategy]]",
+    "[[notes/pricing--new-listing-pricelabs-bootstrap]]",
+    "[[notes/reviews--human-contact-primary-driver]]",
+    "[[notes/hospitality--live-checkin-review-protective]]",
+    "[[notes/reviews--calibrate-five-star-arrival]]",
+    "[[notes/reviews--reciprocity-post-checkout]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/WUIrpYpbQ5E]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/_twgnZtv0Ps]]",
+    "[[sources/j5emxo6P7No]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/w8t9YWltsm4]]",
+    "[[sources/t5bZYS_i06M]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}
