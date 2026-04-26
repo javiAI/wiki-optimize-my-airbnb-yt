@@ -89,63 +89,26 @@ Execute tasks in order. After each task completes, the system updates CLAUDE.md 
 
 ---
 
-## O2: Fix Q4 Contradiction (0.5 hours)
+## O2: Fix Q4 Contradiction — SKIPPED (2026-04-26)
 
-### Steps
+**Status**: SKIPPED. Premise stale.
 
-1. **Identify contradiction**
-   - Open `meta/contradictions.md`
-   - Find entry marked "Q4 orphan-night pricing" (likely at bottom)
-   - Read both conflicting atoms mentioned
+### Why skipped
 
-2. **Read both atoms fully**
-   - Atom A: likely says "raise price for orphan nights"
-   - Atom B: likely says "discount price for orphan nights"
-   - Note: Each atom's `sources:` section, dates, confidence levels
+This task was originally written assuming:
+- The v1 question set (Q4 = orphan-night pricing question)
+- A specific entry in `meta/contradictions.md` titled "Q4 orphan-night pricing" with two atoms in active conflict (raise vs discount)
 
-3. **Apply scoring heuristic (§5 of CLAUDE.md kernel)**
-   - **Recency**: Newer source wins (check `published` in source frontmatter)
-   - **Popularity**: Views-based popularity (check `views:` in source)
-   - **Specificity**: Is orphan-night the main topic (1.0) or tangential (0.5)?
-   - **Authority**: Channel authority (all "high" by default unless overridden)
-   - Calculate: score = 0.40·recency + 0.30·popularity + 0.20·specificity + 0.10·authority
-   - Winner: atom with higher score
+Verified state on 2026-04-26 (post-O1):
+- **v2.0 question set** (active baseline): Q4 is now "¿Debo activar Instant Book desde el principio?". The orphan-night question moved to Q6.
+- **`meta/contradictions.md`** has 6 entries (Thu/Sun, review-removal pre/post-2025, refund-for-review scope, broken-vs-loophole, 5%-vs-10% adjustment, max-occupancy-vs-extra-fee). **No entry exists for orphan-night pricing.**
+- **Only one orphan-night atom exists**: [[notes/pricing--orphan-night-strategy]] (drop min stay + 20% premium, `confidence: high`, `conflicts_with: []`). Internally consistent.
 
-4. **Update winning atom**
-   - Keep the atom with higher score as "primary"
-   - Add caveats from losing atom if valuable (ej: "applies mainly if property has high seasonality")
-   - Extend `sources:` to include the losing atom's sources (with annotation: "note: conflicting view in [[other-atom]]")
-   - Update `conflicts_with:` to link to the other atom (one-way is ok, but bidirectional is clearer)
-   - Update `last_verified: 2026-04-25`
+There is no contradiction to resolve. Skipping is the correct action.
 
-5. **Update losing atom (optional but recommended)**
-   - Mark as "deprecated" in the claim: "DEPRECATED — see [[winning-atom]]. Original claim: ..."
-   - OR: Reframe as "minority viewpoint" if there's legitimate disagreement
-   - Keep for reference, but de-emphasize
+### What to do instead
 
-6. **Update `meta/contradictions.md`**
-   - Find the Q4 orphan-night entry
-   - Mark status: "RESOLVED (2026-04-25)"
-   - Add resolution note: "Chose atom X (score 9.4 vs 8.1) based on recency + popularity. Source: [[source-id]]"
-
-7. **Git commit**
-   ```bash
-   git add vault/notes/orphan-nights*.md vault/meta/contradictions.md
-   git commit -m "O2: Fix orphan-night contradiction (chose [[pricing--raise-orphan-nights]])"
-   ```
-
-8. **Update CLAUDE.md YAML**
-   - Set O2 status: "completed"
-   - Set phase_1 progress: 2/3
-
-### Verification Checklist
-- [ ] Both atoms read and understood
-- [ ] Score calculated for each source
-- [ ] Winning atom identified (higher score)
-- [ ] Winning atom updated with caveat + extended sources
-- [ ] Losing atom marked as deprecated or reframed
-- [ ] `meta/contradictions.md` entry marked "RESOLVED"
-- [ ] Git commit made
+If a real contradiction surfaces in a future ingest batch, file it as `OX` in the next phase docs (do not retrofit O2). Phase 1 progress goes O1 → O3 (skipping O2).
 
 ---
 
