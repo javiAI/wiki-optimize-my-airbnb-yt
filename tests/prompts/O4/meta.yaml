@@ -1,0 +1,43 @@
+# O4: Contradiction Detection L1
+# Real-time conflict flagging during QUERY (§4.5). When the shortlist contains
+# atoms from the same topic with opposing claims (and no resolution in
+# meta/contradictions.md), the response includes a caveat block. Severity HIGH/
+# MEDIUM is shown; LOW is silently ignored.
+
+label: O4
+description: "Contradiction Detection L1 (real-time conflict flagging at query-time)"
+optimization_type: kernel_logic
+
+target_dims: [accuracy, completeness]
+at_risk_dims: [tone, weighted_cost]
+neutral_dims: [spanish_purity, format_compliance]
+
+predicted_deltas:
+  cost: +2.0           # +50-200 tokens per query for MOC scan; small fraction of queries trigger caveat
+  accuracy: +0.3       # detecting conflicts prevents asserting disputed claims as fact
+  completeness: +0.4   # caveats add genuine extra coverage on conflicting topics
+  tone: -0.1           # ⚠️ caveat may feel alarmist; mitigated by warm wording in template
+
+predictions_justification: |
+  Most of the 20 test queries do NOT touch known contradictions, so the
+  +50-200 tokens per query MOC scan only "fires" on ~3-5 queries. Cost
+  prediction is conservative (+2%) — could be 0 to +3%.
+
+  Accuracy and completeness are the targets: when the agent surfaces a
+  caveat instead of asserting a disputed claim, both dims improve. If the
+  detected conflicts are not actually relevant to the query, accuracy/
+  completeness will not move and the optimization should ITERATE.
+
+  Tone at risk: the ⚠️ symbol can read as alarmist. The template explicitly
+  prefers "discrepa" over "contradice" and ends with a constructive
+  pointer to meta/contradictions. If tone drops more than -0.2 abs the
+  template needs softening before O5.
+
+  format_compliance neutral: the caveat block is appended at the end and
+  matches the §10.7 contract (no intro, [[atom]] cites, etc.).
+
+  spanish_purity neutral: the change is logical, not lexical. The caveat
+  template is in Spanish ("Nota", "Confianza", "Cuándo aplica B",
+  "discrepa") so should not introduce anglicisms.
+
+allow_repetition: true

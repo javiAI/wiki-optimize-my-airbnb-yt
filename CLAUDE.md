@@ -2,8 +2,8 @@
 automation:
   version: "3.3"
   current_phase: 2
-  phase_status: "pending_approval"
-  last_update: "2026-04-26T11:30:00Z"
+  phase_status: "in_progress"
+  last_update: "2026-04-26T12:00:00Z"
   notes: "Restructure 2026-04-26: principio de optimización = SOLO estructural/automatización (generaliza a otras bóvedas). Atom-content opts (O3, O6, futuras) movidas a nueva Phase 5 'Atom Regeneration' donde se regeneran los 156 átomos desde cero con el contrato consolidado de todas las opts estructurales. O3 reverted (decision v2.0: target_dim_regression). Vault keep-as-is (no git rollback posible). Test framework v2 (decision v2.0, composite α=0.85, hard floors, comparison history en tests/comparisons/history/<from>-vs-<to>__n<N>.json). Vault read-only para agentes."
 
 phases:
@@ -17,7 +17,7 @@ phases:
     progress: 100
   phase_2:
     name: "Quality Foundation (Structural)"
-    status: "pending_approval"
+    status: "in_progress"
     tasks: [O4, O5]
     completed: []
     deferred: [O6]
@@ -46,7 +46,7 @@ optimizations:
   O1: { name: "Hierarchical Indices", phase: 1, hours: 4, status: "complete", cost_delta_pct: -25.3, quality_delta: 0, class: "structural" }
   O2: { name: "Fix Q4 Contradiction", phase: 1, hours: 0.5, status: "skipped", reason: "premise_stale", class: "atom_specific" }
   O3: { name: "Language Consistency", phase: 5, hours: 2, status: "deferred", reason: "atom_content_opt; decision v2.0 REVERT (target_dim_regression on format_compliance); to be re-incorporated as a generation-time rule in Phase 5 (atom regeneration), not as a retroactive audit", class: "atom_content" }
-  O4: { name: "Contradiction Detection L1", phase: 2, hours: 3, status: "not_started", class: "structural" }
+  O4: { name: "Contradiction Detection L1", phase: 2, hours: 3, status: "in_progress", class: "structural" }
   O5: { name: "Response Format Templates", phase: 2, hours: 2.5, status: "not_started", class: "structural" }
   O6: { name: "Executable Checklists", phase: 5, hours: 1.5, status: "deferred", reason: "atom_content_opt; modifies atom procedures into Dataview checklists, belongs to atom regeneration phase", class: "atom_content" }
   O7: { name: "Agent Orchestration", phase: 3, hours: 8, status: "not_started", class: "structural" }
@@ -210,6 +210,27 @@ stale_if: <condición>
 
 ---
 
+## 4.5 Conflict Check (query-time, real-time)
+
+Antes de redactar la respuesta, para cada `[[atom]]` del shortlist:
+
+1. Escanear `MOC/<topic>.md` en busca de otros atoms con el mismo `topic` y `claim` opuesto.
+2. Cross-check `meta/contradictions.md` — ¿está resuelto?
+3. Si hay conflicto NO resuelto: incluir caveat al final de la respuesta, **no descartar** ni el atom seleccionado ni el rival.
+
+**Severity**: HIGH (mismo topic, contradicción explícita) | MEDIUM (mismo topic, evidencia conflictiva) | LOW (topic relacionado, recomendación distinta). Solo HIGH y MEDIUM se muestran al usuario; LOW se ignora.
+
+**Caveat format** (template canónico, ver `queries/RESPONSE_TEMPLATES.md`):
+```
+⚠️ **Nota**: [[atom-A]] sugiere X; [[atom-B]] discrepa.
+Confianza: A (high) > B (medium). Aplica B si <condición>.
+Ver [[meta/contradictions]].
+```
+
+**Confidence priority**: si los confidences difieren, la respuesta principal usa el atom de mayor confidence; el caveat menciona al rival. Si son iguales, la respuesta se queda con la fuente más reciente (`last_verified`).
+
+---
+
 ## 5-9. Core: Score, Naming, Rules, Commands, Checklist
 
 **Score**: `score = 0.40·recency + 0.30·popularity + 0.20·specificity + 0.10·authority`
@@ -303,3 +324,4 @@ Audience: host. Tone: consultant.
 - Allow: PriceLabs, Airbnb, WiFi, PMS
 - Forbid: filler adjectives, "cabe destacar", summaries
 - Cite numbers with source_id
+- **Conflict caveat (§4.5)**: si el conflict-check arroja HIGH/MEDIUM, añade el bloque ⚠️ al final de la respuesta (template en `queries/RESPONSE_TEMPLATES.md`). No omitir.
