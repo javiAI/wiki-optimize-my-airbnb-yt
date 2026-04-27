@@ -9,7 +9,7 @@ description: "Contradiction Detection L1 (real-time conflict flagging at query-t
 optimization_type: kernel_logic
 
 target_dims: [accuracy, completeness]
-at_risk_dims: [tone, weighted_cost]
+at_risk_dims: [tone]
 neutral_dims: [spanish_purity, format_compliance]
 
 predicted_deltas:

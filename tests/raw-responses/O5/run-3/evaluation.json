@@ -1,0 +1,188 @@
+{
+  "label": "O5",
+  "run": 3,
+  "rubric_version": "1.0",
+  "evaluator_notes": "Batch O5 run-3 muestra una adopción muy consistente del response contract §10.7: regímenes A/B/C bien etiquetados, ceilings respetados (mayoría de B en 350-550 palabras, C en 700-950), una cita por paso/celda, casi sin filler ni anglicismos. Spanish purity sólida en todo el batch — 'host'/'guest'/'review' raramente aparecen. Se ven caveats de conflicto bien estructurados en Q1, Q5, Q7. Algunas respuestas estratégicas (Q9, Q12, Q17) introducen secciones extra (\"Qué NO añadir\", \"Filtros eliminatorios\", \"Heurísticas de pre-screening\", \"Decisión cuantitativa final\") que no están en las plantillas canónicas C — tropiezo menor de format compliance pero alta utilidad informativa. Calidad de citas y plausibilidad técnica muy alta en todo el batch.",
+  "evaluations": {
+    "Q1": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "A bien acotado con caveat HIGH bien resuelto por confidence_tier. Cumple A=250 (~230 palabras incl. caveat).",
+      "violations": ["Sección 'Cuándo aplica' y 'Por qué' opcionales presentes (permitido por template)"]
+    },
+    "Q2": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Régimen A pero introduce sección extra 'Cómo elegir la portada en 4 pasos' que empuja hacia formato B; word count rozando ceiling A=250.",
+      "violations": ["Sección extra no canónica para régimen A", "Posible ligera sobrelongitud (~270 palabras)"]
+    },
+    "Q3": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "B con 5 pasos bien estructurados, una cita por paso, secciones canónicas presentes. Marcado level=3 correcto.",
+      "violations": ["Ligero exceso retórico en por qué funciona el conjunto"]
+    },
+    "Q4": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "A excelente: dato concreto, condiciones de aplicabilidad, contraindicación operativa, citas precisas. Bajo el ceiling.",
+      "violations": []
+    },
+    "Q5": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "B de 6 pasos con caveat de conflicto bien resuelto. ~600 palabras al límite del ceiling B.",
+      "violations": ["6 pasos en lugar de los 3-5 sugeridos por template B"]
+    },
+    "Q6": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "B sólido con 4 palancas técnicas precisas. Algunos acentos eliminados en cuerpo (tipico, aplicacion) — issue de codificación menor.",
+      "violations": ["Acentos faltantes en algunas palabras (tipico, aplicacion, etc.)", "Uso de 'wear & tear' (anglicismo evitable)"]
+    },
+    "Q7": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "B con 5 pasos y caveat MEDIUM bien resuelto por contextual_scope. Términos como 'right-sized' y 'flash' son anglicismos.",
+      "violations": ["'right-sized' (anglicismo)", "'flash' (huésped flash, podría ser 'huésped de paso')"]
+    },
+    "Q8": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "B excelente: 5 pasos accionables, una cita por paso, secciones canónicas, tono empático y profesional. Sin trailing summary.",
+      "violations": []
+    },
+    "Q9": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "Marcado como level=3 (B) pero el contenido tiene 6 pasos + sección extra 'Qué NO añadir' + 'Resultado esperado' — más cercano a C. Excede ceiling B=600 (~700 palabras).",
+      "violations": ["Excede ceiling B=600 palabras", "6 pasos en lugar de 3-5", "Sección 'Qué NO añadir' no canónica"]
+    },
+    "Q10": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "B de 5 pasos perfectamente formateado, citas precisas, lenguaje profesional, ejemplos concretos.",
+      "violations": []
+    },
+    "Q11": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "B técnico con 5 pasos bien ordenados (base → mínimo → adjacency → gradual → far-out). Citas múltiples en algunos pasos pero todas pertinentes.",
+      "violations": ["Algunos pasos con 2 citas en lugar de 1 estricta"]
+    },
+    "Q12": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "C con tabla comparativa de 8 filas y decision-tree por situación. Buen formato pero la sección 'Próximos pasos' es completa y útil. Cerca de ceiling C=1000.",
+      "violations": ["Tabla con 8 filas (canónico es 3-5 ejes)", "Algunos términos en inglés en tabla ('fits 6+', 'fits 8+')"]
+    },
+    "Q13": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "B excelente: 6 pasos del flujo de mensajería, citas precisas, expectativa cuantificada. Sin filler.",
+      "violations": ["6 pasos en lugar de 3-5 (justificable por la naturaleza del flujo)"]
+    },
+    "Q14": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "B robusto con 5 pasos analíticos, banda de objetivos y caveat de opacidad. Cumple ceiling.",
+      "violations": ["Caveat al final fuera de plantilla estricta de B"]
+    },
+    "Q15": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "C ejemplar: tabla comparativa por ejes, decision-tree con 6 ramas, próximos pasos. Citas precisas.",
+      "violations": []
+    },
+    "Q16": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 10,
+      "notes": "C bien estructurado: tabla con 6 ejes × 3 perfiles, decision-tree por situación, próximos pasos. Bajo ceiling C=1000.",
+      "violations": ["'Hub' y 'spokes' son anglicismos técnicos (aceptables en contexto PMS)"]
+    },
+    "Q17": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "C extenso con tabla, secciones extra ('Filtros eliminatorios', 'Heurísticas de pre-screening', 'Decisión cuantitativa final', 'Próximos pasos'). Excede ceiling C=1000 (~1050+). Acentos faltantes en varias palabras (mercado, año).",
+      "violations": ["Excede ceiling C=1000", "Múltiples secciones extra no canónicas", "Acentos faltantes (preferencia, año, posicionamiento, etc.)"]
+    },
+    "Q18": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 9,
+      "notes": "C completo con tabla por ejes, decision-tree, sección de 5 preguntas obligatorias, declaración explícita de límite del scope (estructura societaria fuera de bóveda). Excelente honestidad epistémica.",
+      "violations": ["Sección '5 preguntas obligatorias' útil pero fuera de plantilla canónica C"]
+    },
+    "Q19": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "C ejemplar: tabla comparativa por fase (1, 2-3, 4-5), decision-tree por umbral, próximos pasos accionables. Citas por celda y por rama.",
+      "violations": []
+    },
+    "Q20": {
+      "completeness": 10,
+      "accuracy": 10,
+      "spanish_purity": 10,
+      "tone": 10,
+      "format_compliance": 10,
+      "notes": "B bien construido con 5 palancas compound, citas precisas, números cuantificados (4.93-4.97, +10-18%, etc.). Tono consultivo cálido sin filler.",
+      "violations": []
+    }
+  }
+}

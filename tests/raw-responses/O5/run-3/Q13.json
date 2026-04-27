@@ -1,0 +1,30 @@
+{
+  "question_id": "Q13",
+  "question": "¿Cuál es el message flow ideal desde booking hasta post-checkout?",
+  "level": 3,
+  "response": "**Diagnóstico**: el flujo ideal son 9 mensajes automatizados que cubren cuatro fases del ciclo de la reserva (pre-reserva, post-reserva, ventana de llegada, post-estancia). La lógica subyacente: dar la información cuando el huésped la necesita, ni antes ni después [[hospitality--reservation-flow-framework]]. Requiere un PMS de terceros (Hospitable, Hostfully, Guesty); el messaging nativo de Airbnb solo permite tres triggers temporales [[hospitality--airbnb-native-messaging-inferior]].\n\n**Pasos**:\n\n1. **Configurar los 9 touchpoints en el PMS** [[hospitality--nine-automated-messages]] — (1) auto-respuesta a inquiry, (2) confirmación de reserva con mensaje breve y promesa de info detallada \"3 días antes\", (3) info logística completa, (4) day-of con dirección y código de entrada, (5) bienvenida 18h post-entrada (wellness check), (6) revisión a mitad de estancia, (7) instrucciones de salida 18h antes, (8) reciprocidad 3-6h post-salida, (9) recordatorio de reseña en día 10 si no la dejó.\n\n2. **Enviar la info logística 4 días antes de la entrada** [[reviews--four-days-pre-checkin-message]] — dirección, método de auto-entrada, WiFi, teléfono de emergencia. Truco: prometer \"3 días antes\" y disparar a 4 días genera sorpresa positiva y cubre zonas horarias.\n\n3. **Lanzar el wellness check ~18h post-entrada** [[reviews--mid-stay-message]] — \"¿Todo bien hasta ahora? ¿Falta algo?\". Captura quejas pequeñas (bombilla, toalla, WiFi) antes de que maduren en una reseña de 3 estrellas.\n\n4. **Enviar instrucciones de salida 18h antes con tres filtros** [[hospitality--checkout-message-principles]] — encuadre positivo (\"llévate los perecederos\" no \"no dejes comida\"), 50% relevancia mínima a la salida (no repetir normas de la casa), cero tareas (nada de aspirar, lavandería, vaciar lavavajillas).\n\n5. **Disparar el mensaje de reciprocidad 3-6h post-salida** [[reviews--reciprocity-post-checkout]] — \"Te dejaré 5 estrellas, espero que hagas lo mismo\". Solo si el huésped la merece. El autor lo atribuye al salto de 70% a 90% de tasa de reseña completada.\n\n6. **Aplicar restricciones horarias 9am-9pm hora local del huésped** [[hospitality--enforce-message-time-restrictions]] — Airbnb muestra solo la notificación más reciente; un mensaje a las 2am queda enterrado bajo el del siguiente anfitrión.\n\n**Por qué funciona el conjunto**: cada mensaje llega cuando el huésped lo necesita y nunca antes, lo que reduce fricción y elimina las preguntas tipo \"¿a qué hora puedo entrar?\". El wellness check intercepta quejas recuperables; la salida positiva evita resentimiento; la reciprocidad cierra el embudo de reseñas. Los nueve juntos previenen el 80% de las preguntas rutinarias y son señal de posicionamiento (Airbnb premia tasa y tiempo de respuesta).\n\n**Resultado esperado**: tasa de reseña completada ~90% (vs. baseline Airbnb ~70%), reducción del 80% en mensajes manuales entrantes, calificación promedio sostenida en 4.9+ con suficiente volumen.\n\n**Fuentes**: [[sources/PHz6KUMKSVc]], [[sources/xT4BHg26ZFE]], [[sources/zih3JqcBRAE]], [[sources/8wPfwSkU3QE]], [[sources/o_KqQkQKk1M]], [[sources/lGnosQY0qEA]], [[sources/Vix4ZHhtL5A]]",
+  "atoms_cited": [
+    "[[hospitality--reservation-flow-framework]]",
+    "[[hospitality--nine-automated-messages]]",
+    "[[hospitality--airbnb-native-messaging-inferior]]",
+    "[[reviews--four-days-pre-checkin-message]]",
+    "[[reviews--mid-stay-message]]",
+    "[[hospitality--checkout-message-principles]]",
+    "[[reviews--reciprocity-post-checkout]]",
+    "[[hospitality--enforce-message-time-restrictions]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/8wPfwSkU3QE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/lGnosQY0qEA]]",
+    "[[sources/Vix4ZHhtL5A]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

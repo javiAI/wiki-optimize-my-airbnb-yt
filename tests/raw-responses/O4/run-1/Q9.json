@@ -1,0 +1,37 @@
+{
+  "question_id": "Q9",
+  "question": "¿Qué amenities destaco y cuáles no aportan al booking?",
+  "level": 2,
+  "response": "Las amenities funcionan en tres capas: (a) capa base irrenunciable, (b) filtros de Airbnb que te hacen visible o invisible, (c) \"review fuel\" que diferencia. Lo que NO aporta son las amenities de alta maintenance o las luxury fuera de tu price point.\n\n**Destaca estas (orden de prioridad):**\n\n1. **Base irrenunciable (<$823 total, todas afectan rating + repeat)**: large showerhead, hooks junto a la puerta, plastic hangers (no de tela), Bluetooth speaker, tapas para sartenes, tijeras, variedad de asientos cómodos, lámparas de mesilla (≥1 por cama), self check-in con digital lock $129 [[listing-optimization--essential-amenities-checklist]]. Si te faltan 3 o más, el problema no es la amenity — es que no has dormido en tu propio Airbnb.\n\n2. **Filtros de búsqueda (invisible si fallan)**: audita y marca correctamente bathrooms (incluye half-baths como 0.5), kitchen, TV, workspace, parking gratis, washer/dryer, fast WiFi. Un caso real: corregir bathroom count de 2 a 3 = +12% revenue por reaparecer en searches \"3+ baths\" [[listing-optimization--bathroom-filter-match]]. Sube max guests al máximo real (camas + baños + espacio) para activar filtros \"fits 6+/8+\" [[listing-optimization--max-guests-expands-pool]]. Asegura ≥1 king bed para activar el filtro \"king bed\" [[listing-optimization--king-bed-filter-hack]]. Marca todas las safety features aplicables (smoke, CO, extintor, first aid, cámara exterior) — Airbnb promueve listings con liability reducida [[listing-optimization--safety-features-select-all]].\n\n3. **Filtro larga vida + cero maintenance**: dimmable lights (solo ~3% de Airbnbs los tienen, moat barato), blackout curtains (non-negotiable), almohadas multi-firmness, king bed, monitores top-tier, TV grande [[listing-optimization--amenity-longevity-low-maintenance]].\n\n4. **\"Review fuel\" — amenities únicas que obligan a mencionarlas en la reseña**: telescopio (si tienes vista al cielo), hammock plegable, filtro de osmosis inversa, showerhead 3-spouts, cubertería de cobre, vajilla fancy adaptada al tier. Coste $50-300 one-time, generan menciones orgánicas que alargan reseñas y suben rating [[listing-optimization--unique-amenities-review-fuel]].\n\n5. **Compound rate + occupancy**: amenities premium suben tarifa Y ocupación a la vez (efecto multiplicativo, no aditivo). Caso documentado de water park: rate +74%, ocupacion +24%, revenue +115% real [[listing-optimization--amenities-rate-plus-occupancy-compound]].\n\n6. **Convertir dead space en amenity**: cualquier esquina vacía (rincón = reading nook; pasillo = gallery wall; balcón pequeño = morning coffee spot). $50-200 por conversión, aparece en fotos y descripción [[listing-optimization--dead-space-to-amenity]].\n\n**Lo que NO aporta (descarta o re-evalua):**\n\n- **Hot tubs**: alta maintenance (químicos, limpieza, breakdowns), no diferencia suficiente, riesgo de caída de revenue compound si se rompe [[listing-optimization--amenity-longevity-low-maintenance]].\n- **Smart locks (Wi-Fi/app)**: dan más problemas que el digital lock simple. App que el huésped no quiere instalar, fallan si cae el WiFi, baterias duran 3-6 meses, firmware updates rompen la integración. Usa digital lock con keypad ($129, 0 problemas en 10 años) [[listing-optimization--digital-lock-not-smart]].\n- **Amenities luxury en listings budget**: Nespresso + robes + premium toiletries en un listing de $80/noche cargan coste sin retornar revenue. Y al revés: un listing de $500 sin esas amenities se percibe overpriced y baja el atributo \"value\" [[listing-optimization--amenities-match-price-point]].\n- **Daily cleaning como amenity**: coste operativo alto sin lift de 5 estrellas [[listing-optimization--amenity-longevity-low-maintenance]].\n- **Amenities compradas y NO mostradas**: si las tienes pero no aparecen en fotos ni texto, el ~70% de huéspedes no las verá. La regla: cada amenity \"review fuel\" debe tener foto dedicada [[listing-optimization--unique-amenities-review-fuel]].\n\n**Framework mental para decidir cualquier amenity nueva:** la pregunta no es \"¿el huésped la usará?\" sino \"¿la MENCIONARÁ en la reseña?\". Si la respuesta es no, probablemente no aporta al booking.",
+  "atoms_cited": [
+    "[[listing-optimization--essential-amenities-checklist]]",
+    "[[listing-optimization--bathroom-filter-match]]",
+    "[[listing-optimization--max-guests-expands-pool]]",
+    "[[listing-optimization--king-bed-filter-hack]]",
+    "[[listing-optimization--safety-features-select-all]]",
+    "[[listing-optimization--amenity-longevity-low-maintenance]]",
+    "[[listing-optimization--unique-amenities-review-fuel]]",
+    "[[listing-optimization--amenities-rate-plus-occupancy-compound]]",
+    "[[listing-optimization--dead-space-to-amenity]]",
+    "[[listing-optimization--digital-lock-not-smart]]",
+    "[[listing-optimization--amenities-match-price-point]]"
+  ],
+  "sources_cited": [
+    "[[sources/4VBSa0I5PIA]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/iFZnEXouqx8]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/CbIZETKeV-U]]",
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/ayX3w5FoNCo]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -8,9 +8,11 @@ REGLAS ABSOLUTAS DE LECTURA (vault read-only):
    - {vault_path}/notes/
    - {vault_path}/MOC/
    - {vault_path}/sources/
+   - {vault_path}/meta/ (incluye contradictions.md, RESPONSE_TEMPLATES.md, videos.md, glossary.md)
 2. PROHIBIDO leer {vault_path}/queries/ (caché de respuestas previas)
 3. PROHIBIDO leer otros prompts o respuestas en {repo_path}/tests/
 4. NO uses contexto de sesiones anteriores
+4b. OBLIGATORIO antes de redactar: leer {vault_path}/meta/RESPONSE_TEMPLATES.md (contiene las plantillas canónicas A/B/C citadas en CLAUDE.md §4.6 y §10.7)
 
 REGLAS ABSOLUTAS DE ESCRITURA (sólo en repo):
 5. Escribes UN único archivo JSON en EXACTAMENTE esta ruta:

@@ -1,0 +1,22 @@
+{
+  "question_id": "Q10",
+  "question": "Recibo un mensaje de pre-booking que me huele mal. ¿Cómo lo gestiono sin perder al guest si es legítimo?",
+  "level": 3,
+  "response": "**Diagnóstico**: hablamos de una consulta previa a la reserva (sin confirmar todavía) o de una reserva recién confirmada con señales raras. La regla es separar señal de ruido vetando el perfil y forzando concreción del huésped antes de aceptar o cancelar.\n\n**Pasos**:\n\n1. **Vetar el perfil contra las 5 secciones que importan** [[hospitality--guest-profile-vetting-framework]] — reseñas, fecha de alta, verificaciones, ID gubernamental y descripción. Con 3+ reseñas positivas: aceptar sin más. Con 0 reseñas y las 5 secciones completas: aceptar. Con 0-2 secciones: pedir que complete el perfil antes de confirmar; filtra el 80% de problemas potenciales.\n\n2. **Forzar concreción en el chat de Airbnb** [[hospitality--reservation-flow-framework]] — responder con preguntas específicas en una sola tanda: propósito del viaje, número exacto de huéspedes, hora aproximada de entrada y si han leído las normas críticas (no fiestas, máximo huéspedes, no fumar). Mensaje genérico tipo \"hi when can I check in\" tras 0-2 secciones de perfil = bandera roja; respuesta concreta y coherente = legítimo.\n\n3. **Mantener TODO en la plataforma** [[hospitality--communication-on-platform-only]] — nada de WhatsApp ni llamada para la conversación de vetting. Si Airbnb o el huésped llaman, devolver al chat: \"prefiero seguir por aquí para tener el rastro escrito\". Sin rastro escrito, en una disputa posterior pierdes tú.\n\n4. **Identificar señales de alarma concretas antes de confirmar** [[hospitality--cancel-problem-booking-pre-checkin]] — intento de overbook (reserva para 4, anuncia 12), negativa a pagar la tarifa de huésped extra, fallo de pago no resuelto en 24h, hostilidad inicial (\"me has subido el precio\") o silencio 24h+ tras tu mensaje. Una sola bandera puede ser ruido; dos o más = patrón.\n\n5. **Decidir: confirmar o cancelar sin penalización** [[hospitality--cancel-problem-booking-pre-checkin]] — si las respuestas son específicas y el perfil cuadra, confirmar normal. Si persisten 2+ banderas, usar el enlace \"cancel without penalty\" que Airbnb envía en supuestos cubiertos (fiesta declarada, fallo de pago, normas violadas pre-estancia). Captura del email como rastro. Si el formulario no ofrece la opción, escalar a soporte; pedir representante con base en EE. UU. para casos complejos.\n\n**Por qué funciona el conjunto**: el vetting filtra el grueso sin fricción, las preguntas concretas separan al huésped legítimo despistado del problemático real, el rastro en plataforma te protege en la disputa, y la cancelación sin penalización elimina el riesgo cuando el patrón es claro. Aceptar \"para evitar lío\" cuando hay señales es peor: el daño posterior (reseña negativa, daño físico, reembolso) supera siempre el ingreso de esa reserva.\n\n**Resultado esperado**: tasa de reclamaciones de reembolso por debajo del 0,5% de reservas; cancelaciones sin penalización solo cuando el patrón de banderas es inequívoco; mayoría de huéspedes \"raros\" se autoresuelven al pedir concreción y completar perfil.\n\n**Fuentes**: [[sources/KQIArm9UfQ0]], [[sources/XnDOXWniPaU]], [[sources/qzm28u64294]]",
+  "atoms_cited": [
+    "[[hospitality--guest-profile-vetting-framework]]",
+    "[[hospitality--reservation-flow-framework]]",
+    "[[hospitality--communication-on-platform-only]]",
+    "[[hospitality--cancel-problem-booking-pre-checkin]]"
+  ],
+  "sources_cited": [
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/XnDOXWniPaU]]",
+    "[[sources/qzm28u64294]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

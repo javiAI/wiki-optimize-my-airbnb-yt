@@ -1,0 +1,23 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 2,
+  "response": "Tu respuesta pública NO es para el huésped que se quejó: es un anuncio dirigido al Future Potential Guest (FPG) que escaneará tus reseñas en 20 segundos antes de reservar. Trátala como tal.\n\n1. **Espera 24-48h antes de redactar**. Una reseña negativa pesa de forma desproporcionada — el 100% de huéspedes con mala experiencia escriben, frente al ~60% con buena experiencia, así que el daño relativo es alto y conviene responder en frío, no en caliente [[reviews--negative-bias-asymmetric]].\n\n2. **Solo hechos, cero subjetividad**. Si la reseña dice \"el sitio estaba sucio\", NO contestes \"eso es falso\" ni \"el huésped fue grosero\". Responde con datos verificables: \"La limpiadora documentó la salida con vídeo el [fecha] a las [hora]; cualquier huésped puede solicitarlo\". Subjetivo se lee como defensivo y dispara red flags al FPG. La regla de \"facts only\" es la misma que rige la redacción de reseñas en sentido contrario [[reviews--facts-only-negative-review]].\n\n3. **No matchees la intensidad emocional del huésped en público**. La regla de +10% de intensidad emocional aplica al canal privado (mensajería Airbnb durante o tras la estancia), NO a la respuesta pública en el listing. En público, tono profesional y plano [[reviews--emotional-intensity-plus-10]].\n\n4. **Estructura en 3 frases máximo**:\n   - **Frase 1 (anchor)**: reconocimiento breve + hecho concreto que neutralice la queja (\"Lamentamos que la experiencia no cumpliera expectativas; la propiedad pasó inspección verificable el día del check-in\").\n   - **Frase 2 (acción)**: qué cambió a raíz del feedback, aunque sea menor (\"Hemos añadido una segunda revisión post-check-in los viernes\").\n   - **Frase 3 (cierre forward-looking)**: una mejora real que el FPG note como signal positivo (\"Los próximos huéspedes recibirán [amenity nuevo / proceso nuevo]\"). Esto convierte la respuesta en un micro-anuncio, mismo principio que aplicas a reseñas 5★ pero invertido en tono [[hospitality--host-response-to-review-as-marketing]].\n\n5. **NO repitas la queja literal**. Cada vez que escribes \"sentimos que el WiFi fuera lento\" estás amplificando el negativo en SEO interno y reforzándolo en la mente del FPG. Reformula hacia el fix: \"Hemos actualizado el router a [Mbps verificable]\".\n\n6. **NO ofrezcas refunds ni compensaciones en público**. Cualquier oferta económica visible te convierte en target de extorsión por futuros huéspedes. Si hay refund pendiente, ciérralo en privado [[reviews--refund-threat-manipulation]].\n\n7. **NO publiques nada que el huésped pueda usar para escalar**. Nombres propios, números de reserva, detalles que identifiquen a terceros — todo eso puede activar reportes de policy violation contra ti. Mantén la respuesta property-centric, no guest-centric.\n\n8. **Después de publicar, el siguiente paso NO es seguir defendiéndote**: es empujar volumen de reseñas nuevas. Una reseña 1★ sobre 10 reseñas hunde tu rating; la misma sobre 100 apenas se nota. Activa el flujo de mensajes (recordatorio post-checkout 3-6h, mensaje de reciprocidad) para que las próximas 5-10 reservas dejen reseña [[reviews--more-dilutes-negative]].\n\n9. **Audita el fix real**. Si la queja fue accuracy o cleanliness, asume que el problema es estructural hasta probar lo contrario. Una reseña negativa pública sin acción correctiva detrás es una bandera para el FPG; con acción correctiva visible (frase 3 del paso 4), es un signal de host responsable que paradójicamente puede mejorar conversion.",
+  "atoms_cited": [
+    "[[reviews--negative-bias-asymmetric]]",
+    "[[reviews--facts-only-negative-review]]",
+    "[[reviews--emotional-intensity-plus-10]]",
+    "[[hospitality--host-response-to-review-as-marketing]]",
+    "[[reviews--refund-threat-manipulation]]",
+    "[[reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/2024-09-05--how-to-write-a-negative-review-on-airbnb-for-a-bad-guest]]",
+    "[[sources/2022-10-10--airbnb-seo-how-does-an-airbnb-guest-find-your-listing-in-air]]"
+  ],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 7,
+    "accuracy": 8
+  }
+}

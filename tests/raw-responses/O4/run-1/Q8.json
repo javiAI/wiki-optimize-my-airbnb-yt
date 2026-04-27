@@ -1,0 +1,27 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 2,
+  "response": "Tu respuesta pública no es para el huésped que la dejó: es un micro-anuncio dirigido al Future Potential Guest que está escaneando tus reseñas en 20 segundos antes de decidir si reserva. Tratala así.\n\n1. Espera 24-48h antes de redactar. Vas a escribir caliente y eso se nota; la respuesta queda permanente y los lectores futuros pesan lo negativo más que lo positivo (asimetría de sesgo) [[notes/reviews--negative-bias-asymmetric]].\n\n2. Solo hechos, cero subjetividad. Nada de \"esto es injusto\", \"el huésped fue irrespetuoso\" ni adjetivos emocionales. Reformula cada queja en un dato verificable. Ejemplo: en vez de \"exigió descuento de forma agresiva\" → \"solicitó un reembolso parcial el día 1 por un tema ya descrito en la ficha\". Esta misma disciplina aplica al review que tú dejas del huésped y a tu reply público [[notes/reviews--facts-only-negative-review]].\n\n3. Ancla la primera y la última frase. El FPG lee el principio y el final; el medio lo escanea. Frase 1: el hecho factual más fuerte que reposiciona el contexto (ej. \"Recibimos al grupo con check-in personalizado y todos los amenities anunciados estaban operativos\"). Frase final: cierre neutro orientado a futuros huéspedes (ej. \"Seguimos refinando el proceso de bienvenida con cada estancia\") [[notes/reviews--facts-only-negative-review]].\n\n4. Matchea la intensidad emocional del huésped y súbela 10%, no 30%. Si su queja es nivel 5 de molestia, tu empatía es nivel 6, no nivel 9. Reconoces sin sobreactuar y sin sonar a copy-paste corporativo [[notes/reviews--emotional-intensity-plus-10]].\n\n5. Estructura sugerida (4-6 líneas, máximo):\n   - Reconocimiento breve y específico de lo que el huésped sintió (1 línea, sin admitir culpa que no exista).\n   - 1-2 hechos que reposicionen la situación sin contradecirlo frontalmente.\n   - 1 acción concreta tomada o cambio implementado a raíz del feedback (esto convierte la respuesta en señal positiva para el FPG).\n   - Cierre neutro orientado al futuro huésped, no al que dejó la reseña.\n\n6. Convierte la respuesta en información útil para el FPG. Igual que en reseñas 5★ extraes un insight y lo amplificas, en una negativa el equivalente es mostrar tu mecanismo de mejora: \"a partir de esta estancia añadimos X / cambiamos el proveedor Y / el manual ahora aclara Z\". El lector futuro escanea y registra: \"este anfitrión itera\". Es la versión defensiva del response-as-marketing [[notes/hospitality--host-response-to-review-as-marketing]].\n\n7. Lo que NUNCA va en la respuesta: discutir hechos punto por punto, citar mensajes privados, mencionar reembolsos negociados, lenguaje legal o referencias a TOS, sarcasmo, ironía, ni invitaciones a contactarte fuera de plataforma. Cualquiera de esos te puede activar suspensión por TOS y, peor aún, espanta al FPG más rápido que la propia reseña.\n\n8. No persigas la remoción como plan A. Desde la actualización de 2025, el proceso de removal está prácticamente roto: el submit y el appeal único se deniegan incluso con evidencia clara. Asume la reseña como permanente y enfoca energía en el reply público + volumen [[notes/reviews--removal-process-broken-2025]].\n\n9. La palanca real post-negativa es volumen, no esconder. 1 reseña de 1★ sobre 10 hunde el rating; sobre 100 apenas se nota. Después de publicar tu reply, fuerza el flujo: aprieta el reciprocity message post-checkout, activa el mid-stay para capturar issues antes de que se conviertan en reseñas, y mantén pricing para no comprar bookings baratos que también vienen con problemas [[notes/reviews--more-dilutes-negative]].\n\n10. Caso especial: si la reseña incluye chantaje (huésped que escribió \"acepto reembolso a cambio de cambiar la reseña\") o información privada/extorsión, ese sí es uno de los pocos paths que aún puede prosperar; documenta el chat y reporta antes de responder públicamente.\n\nRegla mental: tu respuesta no convence al huésped enfadado, ni siquiera lo intenta. Convence al próximo que está dudando entre tu listing y el de al lado.",
+  "atoms_cited": [
+    "[[notes/reviews--negative-bias-asymmetric]]",
+    "[[notes/reviews--facts-only-negative-review]]",
+    "[[notes/reviews--emotional-intensity-plus-10]]",
+    "[[notes/hospitality--host-response-to-review-as-marketing]]",
+    "[[notes/reviews--removal-process-broken-2025]]",
+    "[[notes/reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/UPMR-gfpQLs]]",
+    "[[sources/uwdAHCmhNn4]]",
+    "[[sources/qzm28u64294]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/wjAwMKuhxec]]",
+    "[[sources/qv05SED0Z9E]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

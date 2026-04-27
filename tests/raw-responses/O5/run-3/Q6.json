@@ -1,0 +1,25 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 3,
+  "response": "**Diagnóstico**: las noches huérfanas (1-2 noches sueltas entre reservas) son el caso de uso clásico de cuatro palancas combinadas en PriceLabs y mensajería al huésped. El error tipico es bajar la tarifa para \"salir del hueco\": pierdes ingresos y atraes al huésped peor. La estrategia correcta combina automatización (adjacency + gradual last-minute) con intervención puntual (orphan-night specific + extender estancia actual).\n\n**Pasos**:\n\n1. **Activar adjacency factor en PriceLabs** [[notes/pricing--adjacency-factor]] — modo percent, -25% a -50% dentro de 1 día de cualquier reserva existente. Es la palanca #1: baja automáticamente el precio de los días pegados a una reserva, donde la demanda cae por estructura. Empezar en -25%; si los huecos siguen sin llenarse, subir a -40% y luego -50%.\n2. **Aplicar orphan-night customization para cada hueco aislado** [[notes/pricing--orphan-night-strategy]] — para huecos de 1 noche entre dos reservas (ej. un miercoles solitario), usar Date-Specific Customization en PriceLabs con dos cambios simultaneos: (a) bajar la estancia minima a 1 noche solo para esa fecha y (b) aplicar premium de +20% sobre el precio recomendado. El huesped que busca 1 noche es menos sensible al precio (business traveler, layover), asi que el premium filtra y monetiza.\n3. **Configurar gradual last-minute discount con piso al 50% del base** [[notes/pricing--gradual-last-minute-discount]] — curva suave que empieza en tu Booking Lead Time (BLT) y desciende hasta el dia de entrada. Captura demanda de ultimo momento antes que la competencia, que sigue en step-discounts. Modo percent gradual, no fixed. Los huecos cercanos (T-7 a T-0) se llenan solos cuando la curva ya esta activa.\n4. **Enviar mensaje de extension al huesped actual 1-2 dias antes de la salida** [[notes/occupancy--extend-offer-message]] — si las fechas posteriores al checkout siguen libres y la siguiente reserva no llega ese mismo dia, ofrecer extender con 20% de descuento sobre las noches adicionales. Tasa de aceptacion tipica: 30%. Captura el hueco con un huesped ya conocido (menos riesgo de wear & tear que un booking nuevo de 1 noche).\n\n**Por que funciona el conjunto**: adjacency baja el precio donde la demanda estructural cae; orphan-night libera el filtro de min-stay y cobra premium al perfil que si quiere 1 noche; gradual last-minute roba demanda a la competencia antes de su cliff; el mensaje de extension cierra los huecos restantes con un huesped de bajo riesgo. Las cuatro palancas no se solapan: adjacency es ambiental, orphan es quirurgica por fecha, gradual es temporal cerca del BLT, y la extension es relacional. Juntas convierten huecos de 1-2 noches de problema cronico a residuo marginal.\n\n**Resultado esperado**: ocupacion +10-20 puntos en 4-6 semanas sobre el baseline previo (caso documentado: 60% → 82% en seis semanas solo activando adjacency). Los huecos sueltos restantes se monetizan a tarifa premium (+20% sobre recomendado) en lugar de quedar vacios.\n\n**Fuentes**: [[sources/zGkc_U9qC1k]], [[sources/dnpAlGP8ta8]], [[sources/PG3EGrwFzsI]], [[sources/Ek8m0ZAhMgA]], [[sources/CyddkOVq6WM]], [[sources/dfwvylpxJyI]]",
+  "atoms_cited": [
+    "[[notes/pricing--adjacency-factor]]",
+    "[[notes/pricing--orphan-night-strategy]]",
+    "[[notes/pricing--gradual-last-minute-discount]]",
+    "[[notes/occupancy--extend-offer-message]]"
+  ],
+  "sources_cited": [
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/CyddkOVq6WM]]",
+    "[[sources/dfwvylpxJyI]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

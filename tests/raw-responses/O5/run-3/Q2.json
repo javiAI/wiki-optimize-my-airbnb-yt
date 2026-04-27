@@ -1,0 +1,20 @@
+{
+  "question_id": "Q2",
+  "question": "¿Cuántas fotos subo y cuál pongo de portada?",
+  "level": 1,
+  "response": "**Respuesta directa**: Sube el mínimo según el tamaño del anuncio — studio 20, 1 dormitorio 25, 2 dormitorios 35, +10 por dormitorio adicional — con un techo útil de ~1.8× ese mínimo (sweet spot 20-30 fotos curadas) [[listing-optimization--photo-count-by-bedroom-size]]. De portada pon (1) tu mejor foto y (2) que rompa el patrón visual de la competencia en tu mercado [[listing-optimization--cover-photo-differentiation]].\n\n**Cuándo aplica**: universal para anuncios en Airbnb, Booking y Vrbo. Si tu fotógrafo entrega ≥2× el mínimo, descarta las peores: son ángulos repetidos que diluyen.\n\n**Por qué**: el huésped solo ve 10-15 fotos antes de decidir, así que más allá del mínimo hay rendimiento decreciente; y la portada es un pattern interrupt en el feed de búsqueda — si se funde con el mosaico del mercado, el huésped scrollea sin clicar.\n\n**Cómo elegir la portada en 4 pasos**: (1) abre la búsqueda de Airbnb en tu mercado con tus fechas, (2) captura la primera página (5-10 portadas visibles), (3) comprueba si la tuya se funde con ese mosaico, (4) si se funde, cambia a una candidata con ángulo único, comodidad rara en el mercado (jacuzzi, piscina si <10% lo tienen) o staging con vida (taza de café, libro abierto). Evita exterior genérico y plano frontal del salón.\n\n**Fuentes**: [[sources/2024-12-08--listing-optimization-photo-count-by-size]], [[sources/2024-11-15--cover-photo-differentiation]]",
+  "atoms_cited": [
+    "[[listing-optimization--photo-count-by-bedroom-size]]",
+    "[[listing-optimization--cover-photo-differentiation]]"
+  ],
+  "sources_cited": [
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/dc_mCqOhY]]",
+    "[[sources/a3TfQj3jgJc]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

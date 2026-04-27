@@ -6,6 +6,56 @@ Single source of truth para descripción y estado: [docs/OPTIMIZATIONS.md](../do
 
 ---
 
+## 2026-04-27 — O5: Response Format Templates v3 → IMPLEMENT (composite +0.0606)
+
+Cierre de Phase 2. Reescritura del kernel §4.6 + §10.7 con regimes A/B/C, ceilings duros (250/600/1000), pre-output checklist, tabla anti-anglicismo expandida vía mining sistemático, refiner-loop infrastructure.
+
+**Diseño**:
+- **3 regimes con secciones obligatorias** en `meta/RESPONSE_TEMPLATES.md` (movido a `meta/` para vault read-only de agentes):
+  - A. Narrow Factual (≤250w): Respuesta directa + Fuentes (mínimo); Cuándo aplica + Por qué opcionales.
+  - B. Tactical Multi-Palanca (≤600w): Pasos 3-5 (1 cita por paso) + Por qué funciona + Resultado esperado + Fuentes.
+  - C. Taxonomic-Broad (≤1000w): Panorama + Comparativa (tabla) + Cómo elegir (decision-tree) + Fuentes.
+- **Regime detection** por verbos y heurísticas (§4.6.1). Empate A/B → A; B/C → ejecuta mañana=B / decide=C.
+- **Pre-output checklist** de 6 puntos obligatorio antes del JSON: cuenta palabras vs ceiling, relectura anti-anglicismo, 1 `[[atom]]` por paso/celda, source_id por número, sin intro/trailing summary, caveat ⚠️ al final.
+- **Mining pipeline para tabla §10.7**: `scripts/mine-anglicismos.py` extrae candidatos de `violations[]` en evaluator JSON, dedupea contra tabla existente (con stem matching), filtra paths/spanish/whitelist, propone lista para revisión humana → append a tabla. Análogo al pipeline `apply-proposed-contradictions.py` de O4. Mineo inicial sobre 10 evaluation.json: 10 candidatos, 9 aceptados (skip checkout/checkin: ya en tabla y comunes en español).
+- **Refiner-loop infrastructure**: `scripts/run-test-suite.py --refine --label OX --run N` detecta Qs con cualquier dim < threshold (default 7), backupea Q*.json → Q*.original.json, escribe `refine-prompts/Q*.md` desde `tests/prompts/_refiner_template.md` con violations + dim scores + evaluator notes. Refiner agent reescribe priorizando dims fallidas. NO se disparó en run-3 (cero Qs <7).
+
+**Resultados (5-dim std rubric, n=1, 20Q estándar)**:
+
+| Dim (peso) | pre-O5 | O5 (run-3) | Δ abs | Δ % |
+|---|---|---|---|---|
+| completeness (25%) | 9.80 | 9.95 | +0.15 | +1.53% |
+| accuracy (25%) | 9.40 | 9.60 | +0.20 | +2.13% |
+| **spanish_purity (15%)** | **5.60** | **9.85** | **+4.25** | **+75.89%** |
+| tone (15%) | 9.00 | 9.40 | +0.40 | +4.44% |
+| **format_compliance (20%)** | **8.25** | **9.10** | **+0.85** | **+10.30%** |
+| **weighted_avg** | **8.64** | **9.60** | **+0.96** | **+11.05%** |
+
+Cost weighted: 54,438 → 61,899 (+13.7%). Composite v2.0 (α=0.85): **+0.0606** → IMPLEMENT (composite_positive). Cero floor breaches.
+
+**Targeted analysis**:
+- `format_compliance` (target): predicted +1.0, delivered +0.85 (delivery 85%).
+- `spanish_purity` (target): predicted +2.0, delivered +4.25 (delivery 212.5%).
+- `tone` (at_risk): predicted −0.1, delivered +0.40 — el at-risk subió en lugar de caer.
+
+**Decisión**: IMPLEMENT directo. Hard floors: ninguno. Targets cumplidos. At-risk no regresionó. Cost +13.7% absorbido por la ganancia masiva en quality (composite final +0.0606 vs threshold +0.005).
+
+**Activos**:
+- Kernel: `CLAUDE.md` §4.6 (regime detection + section enforcement + ceiling enforcement) + §10.7 (tabla expandida 52→61 + pre-output checklist).
+- Templates: `meta/RESPONSE_TEMPLATES.md` (movido desde `queries/` para vault read-only).
+- Scripts: `scripts/mine-anglicismos.py` (mining sistemático con SUGGESTION_MARKERS regex para no confundir propuestas con anglicismos).
+- Test infra: `scripts/run-test-suite.py --refine` + `tests/prompts/_refiner_template.md`.
+- Tests: `tests/raw-responses/O5/run-3/` (20 Q*.json + tokens.json + evaluation.json), `tests/comparisons/O5-vs-pre-O5.json`.
+
+**Lecciones**:
+- Mover los templates a `meta/` (en lugar de `queries/`) los vuelve legibles bajo el constraint vault read-only — error sutil del diseño inicial detectado en run-1.
+- El mining pipeline cambia el modelo mental de "tabla anti-anglicismo": pasa de "lista manual que mantenemos a mano" a "índice consolidado de evidence empírica del evaluator". Extensión natural a otras bóvedas.
+- Refiner-loop infrastructure preventiva: queda lista para futuras opts donde el ceiling sea más difícil de alcanzar de un solo intento.
+
+**Phase 2 cerrada**: O4 (IMPLEMENT) + O5 (IMPLEMENT). O6 deferida a Phase 5 (atom_content). Siguiente: Phase 3 — Automation (O7 vault-agent, O8 auto-link, O9 query-cache).
+
+---
+
 ## 2026-04-26 — O4 v2: smart resolver + temporal narrator + auto-curate → IMPLEMENT (user override)
 
 Reescritura completa de §4.5 del kernel + RESPONSE_TEMPLATES.md + post-processor `scripts/apply-proposed-contradictions.py`. Validada con custom 15-question battery + custom 6-dim rubric.

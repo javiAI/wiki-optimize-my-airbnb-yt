@@ -1,0 +1,30 @@
+{
+  "question_id": "Q3",
+  "question": "¿Qué pongo en el título y las primeras líneas del summary?",
+  "level": 1,
+  "response": "El título y las dos primeras líneas del summary son, junto con las fotos, las palancas de mayor ROI del listing: bien hechas pueden duplicar la conversión [[notes/listing-optimization--big-three]]. Ese es tu único disparo para que el huésped haga click desde la grid y no rebote.\n\n**Título — pasos accionables**:\n\n1. Escoge UNA de dos rutas: tu **brand name** (solo si tienes repeat guests >15%, varios listings en el mismo mercado o posicionamiento luxury >$500/noche) **O** tus **2-3 amenities diferenciales** concretas (hot tub, ocean view, pool, sauna). Si tienes 1 solo listing en mid-market, ve siempre por amenities [[notes/listing-optimization--title-brand-or-amenities]].\n2. Prohíbe los adjetivos genéricos: \"cozy\", \"charming\", \"beautiful\", \"stylish\". Son ruido y no convierten. Cada caracter del título debe sumar señal [[notes/listing-optimization--title-brand-or-amenities]].\n3. No repitas lo que la foto de portada ya muestra. Si tu cover es una playa, no escribas \"Beachfront house\"; escribe \"Hot Tub + BBQ + Ocean View\". El título tiene que **añadir** info que la foto no da [[notes/listing-optimization--title-brand-or-amenities]].\n4. Mete los diferenciales en los **primeros 50 caracteres**. En móvil el título se trunca ahí; lo que va al final no se lee. Escribe el título, abre la app de Airbnb en tu teléfono y verifica live qué se muestra antes del corte [[notes/listing-optimization--title-brand-or-amenities]].\n5. Test de calidad: ¿podrías elegir tu propio listing en una grid de 30 thumbnails leyendo solo el título? Si la respuesta es no, reescríbelo.\n\nEjemplos fuertes: *\"Sunset House — Hot Tub + Ocean View\"*, *\"Villa Aurora: Pool, Sauna, 2mi from Downtown\"*. Ejemplos débiles: *\"Cozy Retreat in Nashville\"*, *\"Beautiful Home, Great Location\"*.\n\n**Primeras líneas del summary — pasos accionables**:\n\n6. Asume que si el huésped está leyendo el texto es porque **todavía no está convencido** tras ver fotos, título y precio. Es tu último cierre antes del bounce: tiene que diferenciar, no rellenar [[notes/listing-optimization--text-for-still-shopping]].\n7. Arranca con **bullets**, no párrafos, y carga los diferenciadores arriba. Lidera con las amenidades **que la foto no puede mostrar**: colchón memory foam, WiFi 300 Mbps, TV 65\" 4K, monitor 27\" para nómadas, espresso machine, lavadora-secadora. Eso es lo que cierra la duda [[notes/listing-optimization--text-for-still-shopping]].\n8. Cero adjetivos vacíos y cero descripción de lo que ya se ve en las fotos (decoración, sofá, vistas). Sustituye \"stylish experience in centrally located place\" por specs concretas con números: WiFi en Mbps, distancias en metros/minutos, tamaño de TV, número de camas [[notes/listing-optimization--description-concrete-over-poetic]].\n9. Incluye 1-2 elementos de **no-friction** que reducen objeciones: \"self check-in con cerradura digital\", \"sin reglas de checkout\", \"24/7 video security solo en exterior\". Y si la ubicación lo permite, una distancia concreta (\"5 min andando al parque X\", \"10 min en coche al aeropuerto\") [[notes/listing-optimization--text-for-still-shopping]].\n10. Si tu propiedad tiene un negativo real (escaleras, ruido de calle, piscina compartida, sin parking), **menciónalo en los primeros 3 bullets** con un reframe honesto: *\"Hillside location, 42 stairs — great for staying in shape and guaranteed privacy\"*. Esconderlo te trae reseñas de 1-3 estrellas por expectativa rota; nombrarlo filtra al huésped equivocado antes del booking [[notes/listing-optimization--turn-negatives-into-positives]].\n11. Evita el CTA \"send us a message\". Más mensajes pre-booking = menos reservas. El huésped dudoso que escribe rara vez reserva [[notes/listing-optimization--text-for-still-shopping]].\n12. Tope total de la descripción: ~500 palabras. Menos es mejor si todo es específico [[notes/listing-optimization--description-concrete-over-poetic]].\n\nRegla mental: el título es \"por qué hago click\"; las dos primeras líneas del summary son \"por qué reservo en lugar de seguir buscando\". Si las dos cumplen, el resto del listing convierte casi solo.",
+  "atoms_cited": [
+    "[[notes/listing-optimization--big-three]]",
+    "[[notes/listing-optimization--title-brand-or-amenities]]",
+    "[[notes/listing-optimization--text-for-still-shopping]]",
+    "[[notes/listing-optimization--description-concrete-over-poetic]]",
+    "[[notes/listing-optimization--turn-negatives-into-positives]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/MajEZ2en-Qk]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/IGd6LzHUmDw]]",
+    "[[sources/TFFssjYQLhY]]",
+    "[[sources/WQxUX4NGqlc]]",
+    "[[sources/ulUJsbj3FIc]]",
+    "[[sources/wqgfoP-V8m0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

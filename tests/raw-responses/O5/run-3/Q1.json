@@ -1,0 +1,22 @@
+{
+  "question_id": "Q1",
+  "question": "Acabo de publicar mi anuncio. ¿Qué precio inicial pongo?",
+  "level": 1,
+  "response": "**Respuesta directa**: Fija tu tarifa inicial entre **25% y 30% por debajo de la competencia** durante las primeras semanas, hasta acumular 3 reseñas [[notes/occupancy--new-listing-calendar-strategy]]. Acompaña ese precio con calendario abierto solo 3-5 semanas vista, estancia mínima de 1 noche y tarifa de limpieza igualada a la media de tus referentes [[notes/pricing--cleaning-fee-match-comp]]. Nunca etiquetes el precio bajo como \"oferta de anuncio nuevo\": señaliza desesperación y reduce conversión [[notes/pricing--dont-announce-discount-to-new-guests]].\n\n**Cuándo aplica**: anuncio sin reseñas, primeros 30-60 días. Una vez alcances 3 reseñas, sube tarifa a paridad con la competencia y abre calendario completo.\n\n**Por qué**: el descuento acelera conversión, la conversión acelera reseñas, y las reseñas son la palanca real de posicionamiento durante el bootstrap.\n\n**Fuentes**: [[sources/Ek8m0ZAhMgA]], [[sources/7DrT9dlf2q0]], [[sources/9IcUCiUcsFg]]\n\n⚠️ **Nota**: [[notes/occupancy--new-listing-calendar-strategy]] sugiere bajar 25-30% manualmente durante el bootstrap; [[notes/pricing--new-listing-pricelabs-bootstrap]] discrepa y propone aceptar el precio base recomendado por PriceLabs sin modificar y ajustar ±5-10% al día 10.\n\n- **Confianza**: A es high; B es medium. A es la recomendación principal por confidence_tier y porque maximiza velocidad de reseñas en los primeros 60 días.\n- **Cuándo aplica B**: si tienes PriceLabs integrado desde el día 1 y prefieres delegar la calibración inicial al algoritmo en lugar de gestionarla manualmente.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[notes/occupancy--new-listing-calendar-strategy]]",
+    "[[notes/pricing--cleaning-fee-match-comp]]",
+    "[[notes/pricing--dont-announce-discount-to-new-guests]]",
+    "[[notes/pricing--new-listing-pricelabs-bootstrap]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

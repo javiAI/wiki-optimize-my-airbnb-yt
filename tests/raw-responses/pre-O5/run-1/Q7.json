@@ -1,0 +1,23 @@
+{
+  "question_id": "Q7",
+  "question": "¿Cuándo subo el cleaning fee y cuándo lo bajo?",
+  "level": 2,
+  "response": "El cleaning fee no es un coste a recuperar: es una palanca de pricing y conversion. La regla operativa es match-comp, no cost-based. Aquí tienes los disparadores concretos.\n\n**Cuándo SUBIR el cleaning fee**\n\n1. **Tu fee actual está por debajo de la media de tus comps directos** (3-5 listings, radio 0,5 mi, mismo tamaño). Sube hasta esa media ±10%. Por debajo dejas dinero sobre la mesa sin ganar visibility extra. [[notes/pricing--cleaning-fee-match-comp]]\n\n2. **Quieres mantener minimum 1-night pero desincentivar reservas de 1 sola noche** (party risk + wear ratio alto). Un fee de $200 sobre 1 noche se percibe como $200/noche; sobre 4 noches son $50/noche. Filtras por price-sensitivity sin hacerte invisible al ~30% de guests que filtran 1-night. [[notes/cleaning-ops--fee-deters-one-night]]\n\n3. **Tu propiedad es house de 4+ habitaciones o vacation rental con piscina/jacuzzi**: el turnover real lo justifica y el guest lo espera ($150-300 para house, $200-400 para vacation rental). Por debajo de ese rango pareces sub-pricing, no bargain. [[notes/cleaning-ops--fee-depends-on-property]]\n\n4. **Pasaste a pagar a tu cleaner un 20-30% por encima de market** (estrategia pay-more-manage-less). El fee absorbe el coste real del cleaner mejor remunerado; OK que esté ligeramente por encima del comp si el servicio lo refleja. [[notes/cleaning-ops--fee-depends-on-property]]\n\n**Cuándo BAJAR el cleaning fee**\n\n1. **Tu fee está 2× o más vs comps directos.** Sales del search en filtros por total price y matas conversion, aunque tu coste real lo justifique. El autor lo vivió: bajó de $110 a $80 y reactivó bookings. La diferencia entre coste real y media-de-comps va a la **base price**, no al fee. [[notes/pricing--cleaning-fee-match-comp]]\n\n2. **Tienes studio o 1-bed urbano y conversion floja.** El cleaning time es bajo y el fee visible penaliza más que aporta. Rango target: $0-30. El penthouse del autor (4-bed, top 1% market occupancy) corre con $0 cleaning fee. No es \"nunca pongas fee\", es: right-size al mercado. [[notes/cleaning-ops--fee-depends-on-property]]\n\n3. **Bookings cayendo + competition con fees menores.** Antes de tocar la base, baja el fee para alinearlo con la media. Es el ajuste con menor coste de señal (bajar base señaliza desesperación; ajustar fee no). [[notes/pricing--cleaning-fee-match-comp]]\n\n**Lo que NO debes hacer**\n\n1. **NO elimines el fee subiendo el nightly rate para compensar** (la trampa de Rob Built). El budget filter de Airbnb discrimina por nightly, no por total: si tu nightly sube de $600 a $682 absorbiendo el cleaning, desapareces del search del guest que filtra \"hasta $600/noche\" aunque el total sea idéntico. [[notes/cleaning-ops--dont-split-fee-into-nightly]]\n\n2. **NO traspases el cleaning al management fee para \"esconderlo\".** Airbnb suma ambos en el total visible de P2: el precio efectivo no baja y reduces tu pool de FPGs. El cleaning se percibe como justificado; el management como arbitrario. [[notes/pricing--cleaning-vs-management-fee-trap]]\n\n**Workflow trimestral (5 minutos)**\n\n1. Abre 3-5 listings comparables (mismo tamaño, 0,5 mi).\n2. Apunta sus cleaning fees → calcula la media.\n3. Si tu fee se sale ±10% de esa media → ajusta.\n4. Revisa coste real del turnover (cleaner pay + supplies). Si supera la media de comps, la diferencia va a la base, no al fee.\n5. Si tienes minimum 1-night activo y problemas de party/wear → considera fee alto en el extremo superior del rango como filtro táctico.",
+  "atoms_cited": [
+    "[[notes/pricing--cleaning-fee-match-comp]]",
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/cleaning-ops--fee-depends-on-property]]",
+    "[[notes/cleaning-ops--dont-split-fee-into-nightly]]",
+    "[[notes/pricing--cleaning-vs-management-fee-trap]]"
+  ],
+  "sources_cited": [
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/giuHVqw_y4k]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

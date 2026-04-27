@@ -1,0 +1,45 @@
+{
+  "question_id": "Q11",
+  "question": "¿Cómo configuro PriceLabs para que el dynamic pricing funcione bien (min stay, last-minute, base)?",
+  "level": 3,
+  "response": "PriceLabs no es una herramienta pasiva. La causa #1 de \"PriceLabs no me funciona\" es saltar a customizations sin tener los básicos calibrados. Ve en este orden estricto: básicos primero, customizations después.\n\n1. Conoce tu Booking Lead Time (BLT) antes de tocar nada. Ábrelo en Airbnb Insights (sección reservations); media típica ~30 días, rango 20-100 según mercado. El BLT es el parámetro maestro: define dónde anclas tu occupancy target [[pricing--booking-lead-time-definition]].\n\n2. Fija tu base price. Es el nightly rate en un día promedio de un mes promedio, no el precio que te gustaría cobrar. Si el listing es nuevo, acepta el base recomendado por PriceLabs en 30 segundos, deja pasar 10 días con data real, y entonces ajusta ±5-10% según si la occupancy a 30 días se acerca al 50% [[pricing--new-listing-pricelabs-bootstrap]].\n\n3. Define minimum y maximum coherentes con la base. Regla de sanity check: minimum ≤ ½ base. Si tu base es 200, tu minimum no debería pasar de 100; si lo subes más, el gradual last-minute discount se queda sin recorrido y bloqueas la flexibilidad de PriceLabs en low season [[pricing--minimum-half-of-base]].\n\n4. Ancla tu occupancy target en 50% a BLT días vista. Si BLT=30, quieres 50% de occupancy en la ventana de los próximos 30 días. Por encima → sube base; por debajo → baja base. Esa es la métrica que PriceLabs te ayuda a hitear, no el revenue directo [[pricing--occupancy-target-blt]].\n\n5. Activa máximo 5 customizations. Más de 5 se multiplican entre sí y los precios se vuelven impredecibles. Las imprescindibles:\n\n   - Gradual last-minute discount: curva suave que empieza el día BLT y baja hasta tu minimum (50% de base) el día de check-in. Modo \"percent gradual\", no fixed ni step. Esta es la palanca que te roba bookings a la competencia que sigue a precio full a 20 días vista [[pricing--gradual-last-minute-discount]].\n   - Adjacency factor: -50% en modo percent, dentro de 1 día de cualquier reserva existente. Es la customization más infrautilizada y la primera que reviso cuando alguien dice que \"el algoritmo está roto\". No actives \"also apply on weekends\" [[pricing--adjacency-factor]].\n   - Far-out premium al 10%, no al 19% que viene por defecto. El default deja tus fechas lejanas inalcanzables y matas bookings tempranos. Si lo afinas: empieza el ramp en 1.5×BLT y planita en torno al +10% [[pricing--far-out-premium-10-percent]].\n   - Day-of-week / weekend-definition: redefine en PriceLabs qué días son weekend según tu mercado real (no asumas Fri-Sat).\n   - Orphan-night strategy: cuando una noche queda aislada entre reservas, baja el min stay a 1 + premium del +20% sobre recommended (Date-Specific customization). El que reserva 1 noche es menos price-sensitive [[pricing--orphan-night-strategy]].\n\n6. Min stay: NO subas el min nights en fechas far-out. Reduces el pool de huéspedes potenciales sin compensación; mejor min bajo (1-2) + far-out premium del 10%. Excepción única: holidays muy específicos (NYE, Super Bowl, 4 de julio) usando \"Date Specific\" en PriceLabs, no en base [[pricing--no-increase-min-nights-far-out]].\n\n7. Para customizations por fecha (holidays, eventos): usa \"% recommended\", no precio absoluto. Así el dynamic pricing sigue funcionando por debajo y no congelas el precio.\n\n8. Rutina semanal de 30 segundos por listing: cada miércoles, abre PriceLabs, mira occupancy a BLT días vista, y mueve la base ±5% si estás fuera de la green zone 40-60%. Nada de saltos del 15-20%: pierdes la capacidad de aprender qué movió el resultado [[pricing--weekly-30-seconds-routine]] [[pricing--five-percent-adjustments]].\n\nResumen del orden: BLT → base → minimum (≤½ base) → max → conectar las 5 customizations (gradual last-minute, adjacency -50%, far-out +10%, day-of-week, orphan/date-specific) → revisar miércoles a 30s/listing. Si añades una sexta customization, desactiva otra antes [[pricing--customizations-max-5]] [[pricing--two-step-method]].",
+  "atoms_cited": [
+    "[[pricing--two-step-method]]",
+    "[[pricing--booking-lead-time-definition]]",
+    "[[pricing--base-price-definition]]",
+    "[[pricing--new-listing-pricelabs-bootstrap]]",
+    "[[pricing--minimum-half-of-base]]",
+    "[[pricing--occupancy-target-blt]]",
+    "[[pricing--customizations-max-5]]",
+    "[[pricing--gradual-last-minute-discount]]",
+    "[[pricing--adjacency-factor]]",
+    "[[pricing--far-out-premium-10-percent]]",
+    "[[pricing--orphan-night-strategy]]",
+    "[[pricing--no-increase-min-nights-far-out]]",
+    "[[pricing--weekly-30-seconds-routine]]",
+    "[[pricing--five-percent-adjustments]]",
+    "[[pricing--pricelabs-not-passive]]"
+  ],
+  "sources_cited": [
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/HsCIAq2TPMI]]",
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/9Yk_IF97QdM]]",
+    "[[sources/GZeFviVCFxw]]",
+    "[[sources/grAeEiwAJ0k]]",
+    "[[sources/D0OkZ7wGu6o]]",
+    "[[sources/WUIrpYpbQ5E]]",
+    "[[sources/yPgZaf14MP0]]",
+    "[[sources/79k3wAdhzH4]]",
+    "[[sources/ORu0MApiZhw]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/FlsOvJxmk28]]",
+    "[[sources/QhHlfDSUtys]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 2,
+  "response": "Las noches huérfanas son uno de los pocos casos en pricing donde la respuesta intuitiva (\"baja el precio para llenarlas\") es la equivocada. El guest que busca 1 noche aislada es menos sensible al precio (business traveler, layover, evento concreto) y la fricción real que te impide reservarlo no es el precio, es el minimum stay. Aplica este orden:\n\n1. **Suelta el minimum stay y sube precio para esa fecha concreta.** Date-Specific Customization en PriceLabs: drop min stay a 1 noche + premium del ~20% sobre el recommended price para la fecha aislada. Mantienes la fricción que filtra al guest correcto y eliminas la única fricción que le bloqueaba reservar [[pricing--orphan-night-strategy]].\n\n2. **Manda el extend-offer al guest actual antes de que se vaya.** 1-2 días antes del check-out (algunos hosts prueban hasta 8 días antes), mensaje al guest ofreciendo extender con 20% off las noches adicionales. Take rate típico ~30%. El guest ya está cómodo, no quiere volver a buscar, y percibe el descuento como trato exclusivo. Solo enviar si la fecha sigue libre y no hay reserva entrando ese mismo día [[occupancy--extend-offer-message]].\n\n3. **Si el hueco es de 2 noches y cae jueves o domingo**, aplica day-of-week customization en PriceLabs con Thu -10-15% / Sun -10-15%. El descuento Thu/Sun \"empuja\" al guest del weekend a estirar la estancia (Thu→Sun o Fri→Mon), absorbiendo la noche huérfana en una reserva más larga. No aplicar si tu market tiene demanda fuerte Thu/Sun (business travel, capitales con weekday demand) [[pricing--thu-sun-weekend-extension]].\n\n4. **Previene huérfanas alrededor de holidays.** El error que crea la mayoría de huérfanas malas es dejar min-stay 1-noche en fechas de demanda alta. Configura en PriceLabs Date Specific Customizations: 3 noches en Christmas (Dec 24-26) y NYE (Dec 30 - Jan 1), 2-3 noches en holiday weekends. Bloquea la huérfana antes de que aparezca y captura premium real [[pricing--holiday-specific-date-min-stay]].\n\n5. **Si te pasa de forma sistemática (no solo gaps puntuales), revisa el setup base.** Significa que tu min-stay general no encaja con el booking pattern del market. Diagnóstico: exporta las últimas 30 reservas, mira la distribución de duración. Si la mayoría son 2 noches y tu min-stay es 2, cualquier reserva de 3 noches te genera huérfana. Considera bajar a min 1 + creative discount (sube base +20-30% y aplica length-of-stay discount del mismo % a 2+ noches; las 1-noche pagan premium, las 2+ pagan precio normal) [[pricing--creative-discount-trick]].\n\n**Lo que NO funciona:**\n\n- Bajar precio sin tocar min-stay: pierdes margen y sigues sin reservar (el blocker es el min-stay, no el precio).\n- Subir el min-stay general para \"evitar\" huérfanas: matas conversion en todo el calendar para resolver un 5-10% de noches.\n- Bajar precio para la huérfana: atraes al peor guest (price-sensitive, 1 noche, más wear & tear) cuando el premium habría filtrado uno mejor.\n\n**Orden de prioridad operativo**: extend-offer al guest actual (cero coste, 30% take rate) → date-specific drop-min + premium si la noche queda → Thu/Sun customization si el patrón se repite. Las huérfanas que sobreviven a las tres palancas son aceptables: forzar el 100% de occupancy te cuesta más en gestión que lo que ganas.",
+  "atoms_cited": [
+    "[[pricing--orphan-night-strategy]]",
+    "[[occupancy--extend-offer-message]]",
+    "[[pricing--thu-sun-weekend-extension]]",
+    "[[pricing--holiday-specific-date-min-stay]]",
+    "[[pricing--creative-discount-trick]]"
+  ],
+  "sources_cited": [
+    "[[PG3EGrwFzsI]]",
+    "[[Ek8m0ZAhMgA]]",
+    "[[79k3wAdhzH4]]",
+    "[[CyddkOVq6WM]]",
+    "[[CbIZETKeV-U]]",
+    "[[HsCIAq2TPMI]]",
+    "[[VHQNoDMgLBE]]",
+    "[[5Cmryzffb5I]]",
+    "[[2wgYACVri6o]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

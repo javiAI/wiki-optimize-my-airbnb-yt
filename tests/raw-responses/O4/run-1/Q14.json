@@ -1,0 +1,34 @@
+{
+  "question_id": "Q14",
+  "question": "¿Cómo interpreto Airbnb Insights y qué KPIs priorizo semanalmente?",
+  "level": 3,
+  "response": "Antes de empezar: si no ves el dashboard completo, activa Professional Hosting Tools (Account → Professional hosting tools → Manage → ON). Es gratuito y desbloquea el funnel de conversion, booking lead time y channel breakdown. Sin esto, vas a ciegas [[tools-tech--airbnb-professional-hosting-tools-activation]].\n\n**Rutina semanal (miércoles, 30 segundos por listing)**\n\n1. Abre Insights y revisa solo tres métricas comparadas contra similar listings: rate (ADR), occupancy y booking lead time (BLT). Las tres deben batir al market simultáneamente. Ganar en una sola engaña: rate alto + occupancy bajo = overpriced; occupancy alto + rate bajo = infra-precio; BLT corto = los huéspedes dudan, aunque rate y occupancy parezcan OK [[pricing--three-metrics-framework]].\n\n2. Ancla operativa: occupancy a BLT días vista. Si tu BLT es 30 días, quieres ~50% reservado en la ventana de los próximos 30 días. Si estás por encima de la banda 40-60%, sube base +5%. Si estás por debajo, bájalo -5%. Nada más [[pricing--occupancy-target-blt]].\n\n3. Target de pricing: rate 20-30% por encima del promedio de similar listings manteniendo occupancy ≥90%. Si tu rate está igual o por debajo del promedio con occupancy alto, estás dejando dinero en la mesa [[pricing--insights-dashboard-benchmark]].\n\n**KPIs por prioridad (qué mirar y en qué orden)**\n\n1. **Conversion rate** (bookings ÷ impressions). Bandas: <0.2% = problema (revisa primera foto, título, primera línea de descripción, precio). 0.3-0.4% = típico, no toques. ≥1% sostenido = subes base ya, estás infra-precio. Caveat importante: una reserva long-term de 30+ días bloquea impressions en ese período, distorsiona el ratio — no interpretes el salto como mejora real [[ranking--conversion-rate-benchmarks]].\n\n2. **Occupancy a BLT** (ver punto 2 arriba). Es la métrica accionable que dispara el ajuste de base price.\n\n3. **Booking lead time vs market**. BLT tuyo > market = señal de value percibido alto, mantén o sube base. BLT tuyo < market = alerta (overpriced o listing sub-óptimo), investiga antes de tocar precio [[pricing--blt-below-competition-signal]].\n\n4. **Returning guests**. Métrica del Insights que Airbnb usa como ranking signal. Casi ningún anfitrión tiene repeats; 1-2 al año ya te pone una desviación estándar por encima de la competencia. Triple payoff: boost de ranking, review rate ~100% (vs 70% baseline), 5 estrellas cuasi-garantizadas [[ranking--repeat-guests-boost]].\n\n5. **Funnel completo cuando hagas cambios** (impressions → first-page → clicks → nights booked). Diagnóstico por nivel: impressions bajo = ranking algorítmico (reviews, cancelaciones); first-page bajo = no pasas el cut (foto, título, precio vs comps); clicks bajo = cover photo o precio no convierten; nights booked bajo = descripción o reseñas frenan. Si gestionas varios listings, IntelliBNB ($16/mes) automatiza este tracking; con un solo listing rara vez justifica el coste [[tools-tech--intellihost-funnel-ranking]].\n\n**Lo que NO debes priorizar**\n\n- **Search rank tier**. Airbnb no tiene un \"search rank\" fijo; cualquier número que veas es opaco y rota por cohorts de demanda. No optimices contra él [[ranking--search-rank-unknowable]].\n- **Similar listings benchmark como target absoluto**. Airbnb no revela los criterios de match (¿geografía? ¿precio? ¿foto?). Úsalo solo como señal direccional y valida manualmente revisando 20-30 listings competitivos en la búsqueda [[ranking--similar-listings-metric-opaque]].\n- **Maximizar views**. Airbnb rankea por conversion, no por volumen. Subir views sin mejorar conversion **daña** el ranking: el algoritmo activamente reduce tus impressions futuras para normalizar el ratio [[ranking--conversion-over-views]].\n\n**Regla de oro de interpretación**: cualquier número del dashboard asúmelo falso hasta que sepas qué hay detrás. Cruza siempre rate + occupancy + BLT antes de mover base price.",
+  "atoms_cited": [
+    "[[tools-tech--airbnb-professional-hosting-tools-activation]]",
+    "[[pricing--three-metrics-framework]]",
+    "[[pricing--occupancy-target-blt]]",
+    "[[pricing--insights-dashboard-benchmark]]",
+    "[[ranking--conversion-rate-benchmarks]]",
+    "[[pricing--blt-below-competition-signal]]",
+    "[[ranking--repeat-guests-boost]]",
+    "[[tools-tech--intellihost-funnel-ranking]]",
+    "[[ranking--search-rank-unknowable]]",
+    "[[ranking--similar-listings-metric-opaque]]",
+    "[[ranking--conversion-over-views]]"
+  ],
+  "sources_cited": [
+    "[[sources/cTffAvSy_XA]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/6Mz5AlyuPcI]]",
+    "[[sources/-bAg5_sDWNk]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

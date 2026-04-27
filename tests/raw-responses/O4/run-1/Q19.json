@@ -1,0 +1,34 @@
+{
+  "question_id": "Q19",
+  "question": "¿Cómo paso de 1 a 5 listings sin perder calidad ni control operativo?",
+  "level": 4,
+  "response": "Pasar de 1 a 5 listings es la transición más peligrosa de la carrera de un anfitrión: dejas de ser operador puro para volverte gestor de personas y sistemas. La regla mental: 1-5 sigue siendo zona self-managed (sweet spot del host-operador), pero solo si entras con SOPs, herramientas y cleaner-eje ya en su sitio antes del listing #2 [[investing--under-15-properties-sweet-spot]].\n\n1. Antes de comprar el #2, audita el #1 a hourly rate real. Divide profit anual entre horas dedicadas: si estás <$50/h con 1 listing y sin automatización, multiplicar por 5 te lleva a 25-50h/semana de operativa pura. Esto te dice si necesitas automatizar primero o escalar primero [[investing--hourly-rate-sanity-check]].\n\n2. Cierra el stack Level 1 antes de tocar el #2. Dynamic pricing (PriceLabs), PMS con automated messaging, digital guidebook y digital lock. Sin esto estable durante 3-6 meses, escalar amplifica caos, no revenue. El PMS es ROI-positivo desde el listing #1 ($15-30/mes ahorra 3-5h/semana) y es no negociable a partir del #2 [[tools-tech--three-level-host-framework]] [[tools-tech--pms-worth-it-single-listing]].\n\n3. Construye al cleaner como eje operativo, no como vendor. Pagar 20-30% por encima del market rate convierte al cleaner en multi-role asset: reporta issues, coordina maintenance, hace live check-in, responde mensajes operativos. Es la pieza que sostiene los listings 2-5 sin que tú estés on-site. Critical: ten siempre un cleaner backup ya conocido — single point of failure si lo pierdes [[cleaning-ops--pay-more-manage-less]] [[cleaning-ops--cleaner-multi-role-remote-ops]].\n\n4. Estandariza los 9 mensajes automatizados y reglas de checkout antes de duplicar. Un solo template-set bien afinado se replica a los 5 listings con tweaks menores; cinco improvisaciones distintas son ingobernables. Mantén máximo 2-3 reglas de checkout por listing — listas de 20 tareas matan reviews [[hospitality--nine-automated-messages]] [[cleaning-ops--minimal-checkout-rules]].\n\n5. Elige cada deal con disciplina cuantitativa, no por door count. Filtros: precio/revenue ≤ 5x y revenue ≥ 2× expenses. Comprar 5 propiedades mediocres genera menos cashflow y mucho más trabajo que 2-3 top-decile bien escogidas. El \"door disease\" (sumar listings por vanidad) es el modo de fallo dominante en este rango [[investing--purchase-to-revenue-ratio-5x]] [[investing--2x-expense-ratio-rule]] [[investing--under-15-properties-sweet-spot]].\n\n6. Property manager solo cuando el time constraint es real, normalmente al listing #3 o #4. El PM no aumenta tu revenue, solo te devuelve tiempo (15-20% fee a cambio de 5-10h/semana). Decision: contrata si tu hourly day-job > tu hourly STR sin PM, o si los 5 listings juntos te empujan más allá de lo que puedes auditar semanalmente [[investing--pm-saves-time-not-revenue]].\n\n7. Si contratas PM, NUNCA lo pongas como host de cuenta. Tu cuenta, tu listing, PM como co-host con permisos limitados (sin payouts, sin authority para borrar). Si el PM cierra, sube fee, o tiene disputa contigo, conservas reviews, ranking y history. Esta protección vale más cuanto más escalas [[investing--never-on-pm-account]].\n\n8. Fase 3-6 meses post-stack Level 1: añade Level 2 (NoiseAware, Waivo) en todos los listings simultáneamente, y cuando llegues a 3+ listings activa Level 3 (IntelliHost para funnel ranking, AllTheRooms para market data). No skipees levels — un listing con noise monitoring pero PMS pobre pierde más por mensajes lentos que lo que gana evitando fiestas [[tools-tech--three-level-host-framework]].\n\nLa secuencia operativa: estabiliza #1 al Level 1 → contrata cleaner premium con backup → compra #2 aplicando filtro 5x → replica el playbook → revisa hourly rate después del #3 para decidir PM → llega al #5 con sistemas, no con improvisación. Si en cualquier punto el hourly rate cae por debajo de tu day-job, frena la expansión y consolida antes de seguir.",
+  "atoms_cited": [
+    "[[investing--under-15-properties-sweet-spot]]",
+    "[[investing--hourly-rate-sanity-check]]",
+    "[[tools-tech--three-level-host-framework]]",
+    "[[tools-tech--pms-worth-it-single-listing]]",
+    "[[cleaning-ops--pay-more-manage-less]]",
+    "[[cleaning-ops--cleaner-multi-role-remote-ops]]",
+    "[[hospitality--nine-automated-messages]]",
+    "[[cleaning-ops--minimal-checkout-rules]]",
+    "[[investing--purchase-to-revenue-ratio-5x]]",
+    "[[investing--2x-expense-ratio-rule]]",
+    "[[investing--pm-saves-time-not-revenue]]",
+    "[[investing--never-on-pm-account]]"
+  ],
+  "sources_cited": [
+    "[[sources/giuHVqw_y4k]]",
+    "[[sources/lr8to3rM1os]]",
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/grAeEiwAJ0k]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/w8t9YWltsm4]]",
+    "[[sources/I8sU6qci4D8]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

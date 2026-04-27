@@ -1,0 +1,33 @@
+{
+  "question_id": "Q13",
+  "question": "¿Cuál es el message flow ideal desde booking hasta post-checkout?",
+  "level": 3,
+  "response": "El flujo ideal son **9 mensajes automatizados** estructurados en 4 fases del reservation flow. La regla maestra: dar info **solo cuando el huésped la necesita** [[hospitality--reservation-flow-framework]]. Mensajes >100 palabras no se leen; divide en touchpoints más pequeños.\n\n**Fase 1 — Post-booking, pre-stay**\n\n1. **Inquiry auto-reply** (instantáneo si el huésped escribe antes de reservar). Confirma recepción + tiempo de respuesta. Activa el response-rate como ranking signal [[hospitality--nine-automated-messages]].\n2. **Booking confirmation** (al confirmar la reserva). Mensaje corto: agradece + promete \"info detallada 3 días antes del check-in\". Nada de walls of text [[hospitality--reservation-flow-framework]].\n\n**Fase 2 — Arrival window**\n\n3. **4 días pre-check-in** (info logística completa): nombre + dirección + método self-checkin + WiFi + teléfono emergencia + \"avísame si necesitas algo\". El truco: prometiste 3 días, envías a 4 → cubre timezones y previene el panic \"¿dónde está mi info?\" [[reviews--four-days-pre-checkin-message]].\n4. **Day-of check-in** (mañana del check-in). Recordatorio del código + dirección + \"bienvenido\". Redundancia útil: el huésped no busca el mensaje #3 entre sus emails [[hospitality--nine-automated-messages]].\n\n**Fase 3 — Durante la estancia**\n\n5. **Day-after check-in / wellness check** (~18h post-check-in). Template: *\"Hope everything is great so far — any issues, please let me know before it becomes a real problem\"*. Captura quejas menores (bombilla fundida, WiFi débil) **antes** de que maduren en reseña de 3★. Es el mensaje que **nadie envía** y el que más reseñas negativas previene [[hospitality--nine-automated-messages]].\n6. **Mid-stay** (mitad de estancias 5+ noches). Check-in proactivo + recordatorio de que estás disponible. En estancias cortas se omite [[reviews--mid-stay-message]].\n\n**Fase 4 — Checkout y post-stay**\n\n7. **18h pre-checkout** (instrucciones de salida). Tres filtros obligatorios: (a) **positive framing** (\"take perishables with you\", no \"don't leave food\"); (b) **regla 50% relevance** — cada línea ≥50% específica al checkout, no repetir house rules; (c) **zero chores** (no laundry, no vacuum, no strip beds) [[hospitality--checkout-message-principles]].\n8. **3-6h post-checkout / reciprocity** (clave para review-rate). Texto literal: *\"Thanks for staying — I'll be leaving you a 5-star review. If you enjoyed your stay, I'd really appreciate you doing the same\"*. El autor atribuye a **este único mensaje** que su review-rate pase de ~70% (baseline Airbnb) a ~90%. No enviar si hubo problema real durante la estancia [[reviews--reciprocity-post-checkout]].\n9. **Día 10 post-checkout / nudge final** (solo si Airbnb indica que aún no dejó reseña). Copy mínimo: *\"Just a friendly reminder — I'd love to hear your thoughts about your stay if you have 60 seconds\"* [[hospitality--nine-automated-messages]].\n\n**3 reglas operativas que sostienen el flow**\n\n- **Quiet hours 9am-9pm hora local del huésped**, configuradas en el PMS. Si tu mensaje llega a las 2am, otro anfitrión envía a las 6am y el tuyo queda enterrado bajo su notificación — Airbnb solo muestra la más reciente [[hospitality--enforce-message-time-restrictions]].\n- **Toda comunicación dentro de Airbnb messaging**. WhatsApp/SMS solo para logística básica de check-in. Cualquier queja, refund o disputa fuerza vuelta al chat de Airbnb (CS solo arbitra sobre lo que está en la plataforma) [[hospitality--communication-on-platform-only]].\n- **Native Airbnb messaging es insuficiente** (solo 3 triggers time-based). Necesitas PMS 3rd-party (Hospitable, Host Tools, Smartbnb) para los 9 touchpoints + keyword detection sobre mensajes entrantes (\"WiFi\" → auto-respuesta con password). Ese keyword-autoresponder es donde está el ahorro real de horas, no en los 9 programados [[hospitality--airbnb-native-messaging-inferior]].\n\n**Setup**: ~2h iniciales en cualquier PMS moderno, después 0 mantenimiento. El flow cubre ~95% de las necesidades del huésped y resuelve ~80% de los \"how do I do X\" inbound.",
+  "atoms_cited": [
+    "[[hospitality--reservation-flow-framework]]",
+    "[[hospitality--nine-automated-messages]]",
+    "[[reviews--four-days-pre-checkin-message]]",
+    "[[reviews--mid-stay-message]]",
+    "[[hospitality--checkout-message-principles]]",
+    "[[reviews--reciprocity-post-checkout]]",
+    "[[hospitality--enforce-message-time-restrictions]]",
+    "[[hospitality--communication-on-platform-only]]",
+    "[[hospitality--airbnb-native-messaging-inferior]]"
+  ],
+  "sources_cited": [
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/wqgfoP-V8m0]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/8wPfwSkU3QE]]",
+    "[[sources/lGnosQY0qEA]]",
+    "[[sources/Vix4ZHhtL5A]]",
+    "[[sources/qzm28u64294]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 2,
+  "response": "Esos huecos (orphan nights) se atacan con palancas combinadas, no bajando precio a ciegas. El error típico es descontar la noche para \"salir de ella\": pierdes margen y atraes al peor perfil de huésped. La jugada correcta es eliminar la fricción de minimum stay manteniendo (o subiendo) el precio.\n\n1. **Baja el minimum stay a 1 noche SOLO en esas fechas concretas y aplica un premium del ~20% sobre el recommended price**. El huésped que busca 1 noche aislada (business traveler, layover, evento) es poco price-sensitive; pagará el premium. En PriceLabs hazlo con Date-Specific Customization únicamente sobre la fecha huérfana. [[notes/pricing--orphan-night-strategy]]\n\n2. **Para huecos de 2 noches, antes de bajar el min stay, revisa si tu mínimo general te está dejando fuera de búsquedas**. Una búsqueda de 2 noches no encuentra tu listing si tu mínimo es 3. Si tu occupancy va por debajo de target, baja el minimum antes de tocar precio. [[notes/ranking--minimum-stay-visibility]]\n\n3. **Activa la \"extend offer\" 1-2 días antes del checkout del huésped que ya tienes**. Mensaje breve ofreciendo 20% off en noches adicionales: take rate típico del 30%. Captura la noche huérfana con un huésped ya conocido (menos riesgo) sin tener que rellanzarla al mercado. Solo dispárala si las fechas siguen libres y la siguiente reserva no llega el mismo día de checkout. [[notes/occupancy--extend-offer-message]]\n\n4. **Si el patrón se repite (Thu o Sun aislados constantemente), aplica day-of-week discount Thu/Sun -10-15%** para incentivar extensión de weekend (Thu→Sun o Fri→Mon). Reduce orphan nights de raíz al absorberlas en estancias más largas. No aplicar en mercados con demanda fuerte business Thu/Sun. [[notes/pricing--thu-sun-weekend-extension]]\n\n5. **Si tu calendar te genera muchos 1-night sueltos sistémicamente, considera el \"creative discount\"**: sube base price +20-30% y añade length-of-stay discount del mismo % para 2+ noches. Las estancias largas ven el precio normal; las de 1 noche pagan el premium automáticamente. Mantienes el filtro de \"min 1 night\" sin regalar margen. [[notes/pricing--creative-discount-trick]]\n\n**Orden de ejecución para tu caso**: empieza por (1) y (3) — son tácticos, sin riesgo y resuelven el hueco inmediato. Luego evalúa (2) y (4) como ajustes estructurales. (5) solo si los huecos de 1 noche son recurrentes y quieres monetizarlos en lugar de evitarlos.",
+  "atoms_cited": [
+    "[[notes/pricing--orphan-night-strategy]]",
+    "[[notes/ranking--minimum-stay-visibility]]",
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/pricing--thu-sun-weekend-extension]]",
+    "[[notes/pricing--creative-discount-trick]]"
+  ],
+  "sources_cited": [
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/79k3wAdhzH4]]",
+    "[[sources/CyddkOVq6WM]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/CbIZETKeV-U]]",
+    "[[sources/HsCIAq2TPMI]]",
+    "[[sources/5Cmryzffb5I]]",
+    "[[sources/2wgYACVri6o]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

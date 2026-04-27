@@ -1,0 +1,26 @@
+{
+  "question_id": "Q2",
+  "question": "¿Cuántas fotos subo y cuál pongo de portada?",
+  "level": 1,
+  "response": "**Cuántas fotos subir** (mínimo por tamaño):\n\n1. Studio: 20 fotos. 1 dormitorio: 25. 2 dormitorios: 35. Suma +10 por cada dormitorio adicional [[listing-optimization--photo-count-by-bedroom-size]].\n2. Techo útil ~1.8x el mínimo (studio ~35, 1-bed ~40, 2-bed ~50). Pasar de ahí diluye: el huésped solo mira 10-15 fotos antes de decidir y el resto es invisible [[listing-optimization--photo-ordering]].\n3. Si tu fotógrafo te entrega 2x el mínimo (ej. 75 en un studio), descarta las peores. Volumen alto suele ser señal de ángulos random sin propósito [[listing-optimization--photo-count-by-bedroom-size]].\n4. Aplica la regla \"un espacio = una foto\". Si una habitación tiene 3 zonas usables (cama + escritorio + reading nook) son 3 fotos, no 1; pero no repitas el mismo living desde 3 ángulos [[listing-optimization--one-photo-per-space]].\n\n**Qué foto poner de portada** (dos reglas que se cumplen a la vez):\n\n5. Tiene que ser tu mejor foto Y visualmente distinta a la competencia del mismo market. Si todos en tu zona muestran el mismo \"living desde la entrada\", tu portada se funde y el huésped pasa de largo. Busca pattern interrupt: ángulo único, amenity rara front-and-center (piscina, hot tub, vista), o staging con vida (taza de café, libro, velas) [[listing-optimization--cover-photo-differentiation]].\n6. Proceso de selección en 4 pasos: abre Airbnb con las fechas de tu market, captura la primera página de resultados (5-10 portadas visibles), comprueba si la tuya se confunde con el mosaico, y cámbiala si sí. Airbnb tarda ~7 días en re-indexar el cambio [[listing-optimization--cover-photo-differentiation]].\n7. Evita estos errores frecuentes en la portada: exterior genérico, living frontal sobre-usado, foto estéril sin props ni vida humana [[listing-optimization--cover-photo-differentiation]].\n\n**Orden de las primeras 5 fotos** (donde se juega la conversión):\n\n8. Las 5 primeras tienen que ser 5 espacios distintos, no 5 ángulos del mismo. Orden recomendado: (1) hero/exterior diferenciador, (2) amenity headline (hot tub, piscina, firepit), (3) living staged, (4) dormitorio principal, (5) cocina [[listing-optimization--photo-ordering]].\n9. Si tu mejor amenity está en posición #30, es invisible. Reordenar es gratis y de las palancas de mayor ROI del listing [[listing-optimization--photo-ordering]].\n10. Revisa el orden 2-3 veces al año: los intereses del market cambian con la estación [[listing-optimization--reoptimize-biannual]].",
+  "atoms_cited": [
+    "[[listing-optimization--photo-count-by-bedroom-size]]",
+    "[[listing-optimization--cover-photo-differentiation]]",
+    "[[listing-optimization--photo-ordering]]",
+    "[[listing-optimization--one-photo-per-space]]",
+    "[[listing-optimization--reoptimize-biannual]]"
+  ],
+  "sources_cited": [
+    "[[sources/S-dc_mCqOhY]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/AtQ1oDITk4c]]",
+    "[[sources/1aVXQPBnPg0]]",
+    "[[sources/a3TfQj3jgJc]]",
+    "[[sources/9IcUCiUcsFg]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "question_id": "Q5",
+  "question": "¿Cómo consigo mis primeras reseñas?",
+  "level": 1,
+  "response": "Las primeras reseñas son una carrera contra el tiempo: Airbnb usa el volumen de reseñas como señal #1 de ranking, así que tu objetivo en los primeros 60 días no es maximizar revenue, sino acumular las primeras 3-5 reseñas lo más rápido posible.\n\n1. **Configura el calendario en modo \"bootstrap\"**: bloquea todas las fechas excepto las próximas 3-5 semanas, fija la estancia mínima en 1 noche y publica a un precio 25-30% por debajo de comparables. Mantén esa configuración hasta tener 3 reseñas, y solo entonces abre el calendario completo y sube precio a paridad con comps [[occupancy--new-listing-calendar-strategy]].\n\n2. **Nunca etiquetes el precio bajo como \"descuento\" ni como \"new listing sale\"**. El huésped sin referencias asume que ese precio es el valor real de tu propiedad; explicarlo señaliza desesperación, rompe la confianza y además roza la prohibición de Airbnb de pedir reseñas a cambio de algo [[pricing--dont-announce-discount-to-new-guests]].\n\n3. **Activa el flujo de 9 mensajes automatizados desde el primer booking**. No es solo una palanca de hospitalidad: la response rate y response time son señales directas al algoritmo, y los 9 mensajes resuelven el 80% de las dudas del huésped sin que tú toques el chat. Cualquier PMS moderno (Hospitable, Hostfully, Guesty) los soporta; setup inicial ~2h [[hospitality--nine-automated-messages]].\n\n4. **Calibra la expectativa de 5 estrellas en el mensaje de bienvenida**. Frase tipo: *\"Nuestra meta es una experiencia de 5 estrellas. Si algo no está a la altura durante tu estancia, dímelo de inmediato para arreglarlo y que ambos terminemos con una buena reseña.\"* Esto recalibra al huésped (muchos dan 4 porque \"no fue perfecto\" sin saber que 4 es nota baja) y le abre canal para escribirte ANTES de la reseña [[reviews--calibrate-five-star-arrival]].\n\n5. **Mensaje wellness ~18h post-checkin**: *\"¿Todo bien hasta ahora? ¿Wifi, agua caliente, algo que falte?\"* Captura quejas pequeñas (bombilla fundida, toalla extra) antes de que maduren en una reseña de 3 estrellas [[reviews--mid-stay-message]].\n\n6. **Mensaje de reciprocidad 3-6h post-checkout**: *\"Gracias por tu estancia, te dejaré una reseña de 5 estrellas. Si disfrutaste, te agradecería mucho que hicieras lo mismo.\"* Dispara reciprocidad (Cialdini): el autor reporta que duplica su review completion rate, llevándola del ~70% baseline al ~90%. Solo enviar si genuinamente le darás 5 estrellas — la promesa pública te compromete [[reviews--reciprocity-post-checkout]].\n\n7. **Inserta contacto humano en algún punto**. El driver #1 de reseñas de 5 estrellas es algún momento humano: tú haciendo live check-in si vives cerca ($0), un \"local friend\" que salude 10 minutos (~$30/estancia) o un cohost (~$50-80/estancia). Self-checkin + chatbot 100% automático tiende a 4 estrellas, no a 5 [[reviews--human-contact-primary-driver]].\n\n8. **No declines huéspedes \"dudosos\" por miedo a una reseña baja**. En esta fase priorizas velocidad de bookings sobre selección perfecta: una reseña baja sobre 100 apenas se nota; una reseña baja sobre 5 sí. La estrategia correcta es empujar volumen, no esconderse [[ranking--more-reviews-beats-higher-rating]] [[reviews--more-dilutes-negative]].\n\n> ⚠️ **Nota sobre pricing en listing nuevo**\n> Recomendación primaria: precio manual a -25/-30% de comps (paso 1) [[occupancy--new-listing-calendar-strategy]]. Variante: si tienes PriceLabs integrado desde el día 1 y prefieres delegar, acepta el base recomendado por PL sin modificar y ajusta ±5-10% al día 10 según ocupancia 30-day [[pricing--new-listing-pricelabs-bootstrap]]. Detalle de scope en [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[occupancy--new-listing-calendar-strategy]]",
+    "[[pricing--dont-announce-discount-to-new-guests]]",
+    "[[hospitality--nine-automated-messages]]",
+    "[[reviews--calibrate-five-star-arrival]]",
+    "[[reviews--mid-stay-message]]",
+    "[[reviews--reciprocity-post-checkout]]",
+    "[[reviews--human-contact-primary-driver]]",
+    "[[ranking--more-reviews-beats-higher-rating]]",
+    "[[reviews--more-dilutes-negative]]",
+    "[[pricing--new-listing-pricelabs-bootstrap]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/_twgnZtv0Ps]]",
+    "[[sources/j5emxo6P7No]]",
+    "[[sources/WUIrpYpbQ5E]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

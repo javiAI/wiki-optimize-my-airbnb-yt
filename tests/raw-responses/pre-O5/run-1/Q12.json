@@ -1,0 +1,28 @@
+{
+  "question_id": "Q12",
+  "question": "¿Qué filtros aplica un guest en search antes de hacer click en mi listing?",
+  "level": 3,
+  "response": "El guest filtra **realmente solo por 4 cosas** antes de que tu listing sea siquiera elegible para aparecer: precio, ubicación, número de bedrooms y número de bathrooms [[listing-optimization--guests-only-care-four-things]]. Todo lo demás (amenities, fotos, título, descripción) trabaja después, sobre el subset que ya pasó esos 4 filtros. Si tu config no encaja, eres invisible — da igual lo bien escrita que esté la descripción.\n\nLas siguientes son palancas concretas, en orden de impacto, para asegurar que cruzas los filtros que el guest está usando ahora mismo:\n\n1. **Audita bathroom y bedroom count en tu listing.** Si tienes 3 bathrooms reales y aparece configurado 2 (muy común cuando hay un half bath / powder room), desapareces de todas las búsquedas con filtro \"3+ bathrooms\". Un caso real del autor: +12% de revenue solo corrigiendo este número en un listing recién comprado. Cuenta los half baths como 0.5 [[listing-optimization--bathroom-filter-match]].\n\n2. **Sube tu max guests al máximo real soportado.** Si tu 4-bedroom está configurado para 4 guests pero tienes camas + bathrooms para 8, estás filtrándote a ti mismo de las búsquedas \"fits 6+\" y \"fits 8+\" que hacen grupos y celebraciones familiares. Subir el max activa esos filtros y abre bookings premium de $1,000+/noche que antes literalmente no podían encontrarte. Requisito: capacidad real (camas, bathrooms, espacio común); subir el número sin la capacidad termina en 1-star por overcrowded [[listing-optimization--max-guests-expands-pool]].\n\n3. **Asegura al menos 1 king bed en algún bedroom.** Airbnb tiene un filtro \"king bed\" que muestra cualquier listing con mínimo uno. Como una sola persona hace el booking y deja la reseña, satisfacer su preferencia de sueño es suficiente; los demás bedrooms pueden ser queens. Es amenity permanente, cero mantenimiento [[listing-optimization--king-bed-filter-hack]].\n\n4. **Auditar bedroom-by-bedroom en \"Rooms and spaces\" 2-3 veces al año.** Por cada bedroom Airbnb te deja marcar tamaño de cama, AC, blackout curtains, baño privado attached y features especiales. El 90% de anfitriones lo configuró al crear el listing y nunca volvió a tocarlo. Cada uno de esos campos es un filtro de search: si no está marcado, no apareces aunque lo tengas físicamente [[listing-optimization--room-details-annual-audit]].\n\n5. **Audita los amenities más filtrados.** Más allá de bedrooms/bathrooms, los filtros que más reducen tu pool si están mal marcados son: kitchen (Airbnb a veces lo desactiva auto si falta oven; force-check manual), TV, workspace / desk, fast WiFi, free parking, washer/dryer y pet-friendly. Cualquiera mal marcado = invisible para un segmento entero del search [[listing-optimization--bathroom-filter-match]].\n\n6. **Vigila el precio que ven los guests sin fechas.** Cuando alguien busca tu ciudad sin meter fechas (la mayoría del tráfico de browsing), Airbnb NO muestra tu base price — muestra el **precio más bajo de las próximas 4 semanas**. Una orphan night con descuento agresivo o un low-season pricing fuerte tira hacia abajo el precio visible en search → afecta directamente el click-through frente a competidores. Si quieres percepción de precio competitivo en browsing, deja al menos una noche cercana con descuento; si quieres proteger valor alto, evita descuentos extremos en esa ventana de 28 días [[listing-optimization--undated-search-price-display]].\n\n**Diagnóstico rápido (10 minutos)**: abre tu listing en ventana incógnito, busca tu ciudad sin fechas y con fechas, aplica los filtros típicos de tu segmento (king bed, fits N, kitchen, TV, parking) y verifica que apareces. Cualquier filtro que esperabas pasar y no apareces = un campo mal marcado que está costando revenue ahora mismo.",
+  "atoms_cited": [
+    "[[listing-optimization--guests-only-care-four-things]]",
+    "[[listing-optimization--bathroom-filter-match]]",
+    "[[listing-optimization--max-guests-expands-pool]]",
+    "[[listing-optimization--king-bed-filter-hack]]",
+    "[[listing-optimization--room-details-annual-audit]]",
+    "[[listing-optimization--undated-search-price-display]]"
+  ],
+  "sources_cited": [
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/Sp15SfAvZJs]]",
+    "[[sources/76G3CGbJLk0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

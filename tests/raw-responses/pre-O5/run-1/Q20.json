@@ -1,0 +1,42 @@
+{
+  "question_id": "Q20",
+  "question": "Mi listing está estable (4.9★, 75% occupancy). ¿Cómo lo llevo al 'elite tier'?",
+  "level": 4,
+  "response": "Estás en buen sitio (4.9 te pone en el top 10% de hosts y 75% de ocupación es sano), pero \"elite tier\" significa otra cosa: rating 4.95+ sostenido (top 1%), conversion >1% en Insights y un foso defensivo que la competencia no pueda copiar en un fin de semana. El plan es de stacking, no de bala mágica: 10% mejor en 10 cosas, no 10× mejor en una [[listing-optimization--ten-percent-better-ten-things]].\n\n**Diagnóstico antes de tocar nada**\n\n1. Abre Insights y mide tu conversion rate (bookings ÷ impressions). 0.3-0.4% es típico, ≥1% es excepcional [[ranking--conversion-rate-benchmarks]]. Con 4.9 y 75% lo más probable es que estés en 0.5-0.9% — bueno, no élite. Esa cifra es tu baseline.\n2. Cuenta tus repeat guests del último año en el dashboard de Insights. Si tienes 0, ahí hay un standard-deviation gap regalado [[ranking--repeat-guests-boost]].\n\n**Pasos para mover el rating de 4.9 a 4.95+ (cada +0.1 ≈ +5% revenue) [[reviews--rating-to-revenue-formula]]**\n\n3. **Activa surprise & delight unannounced cada estancia ($5-15)**: botella de vino local + nota manuscrita, snack regional, flores el día de llegada. La regla dura: no lo anuncies en el listing, si lo anuncias deja de funcionar. El autor atribuye específicamente a esta palanca el salto de 4.7 a 4.95 en su Belmonte Penthouse [[hospitality--surprise-and-delight]].\n4. **Añade goodie bag en checkout (no en arrival)**: bolsa de café local + chocolate + tarjeta, ~$9/huésped, entregado el día de salida porque ése es el momento en que el huésped escribe la reseña. El welcome gift de un stay de 6 días ya está olvidado a la salida; el goodie bag de checkout compra seguro contra la reseña marginal negativa [[hospitality--checkout-goodie-bag]]. Surprise & delight + goodie bag son complementarios, no sustitutos: úsalos los dos.\n5. **Haz un self-stay de 2 noches usando cada amenidad anunciada**. Cocina, lava, ducha caliente larga, ve TV, trabaja en el escritorio. Detecta el 90% de issues offline antes de que un huésped los descubra y los lleve a una reseña [[listing-optimization--two-night-self-stay]]. Repite tras cada cambio mayor y como mínimo 1× al año.\n\n**Pasos para subir conversion rate hacia el 1%+**\n\n6. **Mete \"review fuel\" — amenidades únicas que el huésped se ve obligado a mencionar**: telescopio (si tienes outdoor con cielo limpio), hammock plegable a pared, filtro de agua de osmosis inversa, cabezal de ducha 3-spouts, copper silverware, drinkware fino acorde al tier. Coste $50-300 one-time. Las menciones orgánicas en reseñas alargan el texto (que es ranking signal indirecto) y generan diferenciación contra listings clónicos [[listing-optimization--unique-amenities-review-fuel]]. Cada amenidad nueva debe entrar en fotos + texto del listing; si no es visible en P2, el 70% de huéspedes no la verá.\n7. **Sube reseñas al top del listing como fotos #6-10**: identifica 2-3 reseñas 5★ con elogio específico, screenshot en Airbnb desktop (estrellas + nombre + fecha visibles) y úsalas como fotos del listing. Trae el social proof del fondo del listing (donde casi nadie scrollea) al funnel temprano [[listing-optimization--reviews-to-top-of-listing]]. Update cada 3-6 meses.\n8. **Cuenta el efecto compound de cada amenidad nueva**: una mejora que sube tarifa 20% Y ocupación 10% no te da +30% revenue, te da +32% (1.20 × 1.10 − 1). El error aditivo subestima ROI — un caso real con water park subió revenue +115% combinando ambos efectos [[listing-optimization--amenities-rate-plus-occupancy-compound]]. Úsalo para priorizar qué amenidad-única-cara comprar primero.\n\n**Pasos para construir el foso (donde está el verdadero elite tier)**\n\n9. **Convierte reseñas 5★ en micro-anuncios respondiendo con UN insight + amplificación**, no con \"thanks!\". Reseña dice \"the mattress was so comfortable\" → respuesta: \"Glad you noticed — Casper hybrid 2024, ya pedí el mismo para la habitación de abajo, llega la próxima semana\". Future Potential Guests escanean reseñas en 20s; tu respuesta es un pattern interrupt con info nueva sobre la propiedad [[hospitality--host-response-as-marketing]]. Target: ≥70% de reseñas 5★ con insight específico.\n10. **Induce repeat guests sin sacarlos de la plataforma**. Mensaje ~1 semana post-checkout con código friends & family (10%) + ping en temporadas clave 3-4 meses después. Cada repeat guest dentro de Airbnb te da: ranking boost directo + review rate ~100% (vs 70% baseline) + 5★ casi garantizada. Casi ningún host tiene repeats, así que 1-2/año ya te ponen una desviación estándar por encima [[ranking--repeat-guests-boost]]. Tentación a evitar: arbitrar el repeat off-platform parece más revenue pero pierdes el boost.\n11. **Re-optimiza el listing 2-3× al año (10 minutos)**: foto principal, título, primeras 2 líneas del summary, amenidades nuevas, safety features, house rules. Airbnb detecta listings stale y reduce exposición gradualmente. Es la palanca más infrautilizada del canal [[listing-optimization--reoptimize-biannual]]. Hazlo antes de alta temporada local + a medio año, nunca durante peak.\n\n**Cómo sabes que llegaste**\n\n- Rating ≥4.95 sostenido (top 1%) [[reviews--four-point-eight-threshold-disregard]].\n- Conversion ≥1% en Insights (señal: ya estás infra-precio, sube base) [[ranking--conversion-rate-benchmarks]].\n- 1-2+ repeat guests/año dentro de Airbnb.\n- Reseñas con menciones específicas y largas (review fuel funcionando).\n\nOrden de ejecución para los próximos 90 días: pasos 1-2 (medir) en semana 1; pasos 3-5 (rating, coste bajo, time-cheap) en semanas 2-4; pasos 6-8 (conversion, capex menor) en mes 2; pasos 9-11 (foso) en curso permanente. No bajes precio en ningún momento — la palanca de elite tier es product, no descuento [[listing-optimization--three-step-troubleshooting]].",
+  "atoms_cited": [
+    "[[listing-optimization--ten-percent-better-ten-things]]",
+    "[[ranking--conversion-rate-benchmarks]]",
+    "[[ranking--repeat-guests-boost]]",
+    "[[reviews--rating-to-revenue-formula]]",
+    "[[hospitality--surprise-and-delight]]",
+    "[[hospitality--checkout-goodie-bag]]",
+    "[[listing-optimization--two-night-self-stay]]",
+    "[[listing-optimization--unique-amenities-review-fuel]]",
+    "[[listing-optimization--reviews-to-top-of-listing]]",
+    "[[listing-optimization--amenities-rate-plus-occupancy-compound]]",
+    "[[hospitality--host-response-as-marketing]]",
+    "[[listing-optimization--reoptimize-biannual]]",
+    "[[reviews--four-point-eight-threshold-disregard]]",
+    "[[listing-optimization--three-step-troubleshooting]]"
+  ],
+  "sources_cited": [
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/rxumqj9cw94]]",
+    "[[sources/3sFGalw_CzY]]",
+    "[[sources/rdaoTacPMs0]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/t5bZYS_i06M]]",
+    "[[sources/iFZnEXouqx8]]",
+    "[[sources/UPMR-gfpQLs]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/dV_rvch61FE]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

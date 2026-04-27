@@ -1,0 +1,32 @@
+{
+  "question_id": "Q20",
+  "question": "Mi listing está estable (4.9★, 75% occupancy). ¿Cómo lo llevo al 'elite tier'?",
+  "level": 3,
+  "response": "**Diagnóstico**: 4.9★ ya te coloca en el top 10% y 75% de ocupación es saludable. El salto a tier elite (4.95+ y ocupación 85%+ con tarifas premium) no viene de bajar precio ni de un único cambio: viene de apilar palancas que se refuerzan entre sí, en el orden correcto (anuncio → hospitalidad → tarifa) [[listing-optimization--three-step-troubleshooting]].\n\n**Pasos**:\n\n1. **Inducir huéspedes recurrentes** [[ranking--repeat-guests-boost]] — Airbnb mide returning guests en el panel Insights y lo usa como señal de posicionamiento. Triple beneficio: empuje de ranking, reseña casi garantizada (~100% vs 70% baseline) y 5★ casi seguros. Tras la salida, manda código friends & family con 10% de descuento y haz un seguimiento 3-4 meses después en temporada relevante. La mayoría de anfitriones tiene cero recurrentes, así que 1-2 al año ya es ventaja estructural.\n\n2. **Apilar comodidades únicas (review fuel)** [[listing-optimization--unique-amenities-review-fuel]] — comodidades poco comunes (telescopio si tienes vista al cielo, hamaca plegable, jacuzzi, filtro de agua de osmosis, cubertería de cobre, vajilla cuidada) obligan al huésped a mencionarlas en la reseña. Reseñas más largas pesan más en el algoritmo. Coste $50-300 cada una; impacto compound: suben tarifa Y ocupación simultáneamente, no aditivo (caso documentado: +115% de ingresos al añadir un water park) [[listing-optimization--amenities-rate-plus-occupancy-compound]].\n\n3. **Sumar surprise & delight por estancia** [[hospitality--surprise-and-delight]] — un detalle inesperado (botella local, nota manuscrita, cesta de productos) por $5-15 por reserva. Es la palanca documentada del salto 4.7→4.95 en el caso Belmonte. Aplicando la fórmula +0.1 calificación = +5% ingresos [[reviews--rating-to-revenue-formula]], pasar de 4.9 a 4.95 vale ~+2-3% adicional sin tocar tarifa.\n\n4. **Empujar volumen de reseñas, no perfección** [[ranking--more-reviews-beats-higher-rating]] — el volumen es señal #1 de posicionamiento. Un anuncio con 100 reseñas a 4.9 le gana a uno con 20 reseñas a 5.0. No rechaces huéspedes dudosos por miedo a una 4★, refuerza el flujo de reciprocidad post-salida y los nueve mensajes automáticos para maximizar tasa de respuesta.\n\n5. **Reoptimizar el anuncio dos veces al año** [[listing-optimization--reoptimize-biannual]] — 10 minutos cada seis meses: foto principal, título, primeras dos líneas del summary, comodidades nuevas marcadas, safety features completas. Airbnb detecta anuncios stale y reduce exposición. Es la palanca más infrautilizada y de coste cero. Sumar 10% mejor en 10 cosas pequeñas (luces dimmer, blackout, almohadas duales, monitores) bate al 10× en una sola [[listing-optimization--ten-percent-better-ten-things]].\n\n**Por qué funciona el conjunto**: los recurrentes generan reseñas garantizadas que alimentan volumen; las comodidades únicas alargan reseñas y suben conversión, lo que mejora ranking; el surprise & delight mueve la calificación décima a décima; la reoptimización mantiene el anuncio fresco para que las nuevas comodidades sean visibles. Cada palanca refuerza la siguiente: es compound, no suma.\n\n**Resultado esperado**: en 6-9 meses, calificación 4.93-4.97, ocupación 80-88%, tarifa media +10-18% (combinando lift de comodidades + capacidad de subir base cuando la conversión supere 1% en Insights, banda excepcional [[ranking--conversion-rate-benchmarks]]).\n\n**Fuentes**: [[sources/PVldBDSYpAA]], [[sources/iFZnEXouqx8]], [[sources/NVK0qIJkzNo]], [[sources/Nzmpg8m-imY]], [[sources/2IaHGtiidFU]], [[sources/6ACFgXQ5aEU]]",
+  "atoms_cited": [
+    "[[listing-optimization--three-step-troubleshooting]]",
+    "[[ranking--repeat-guests-boost]]",
+    "[[listing-optimization--unique-amenities-review-fuel]]",
+    "[[listing-optimization--amenities-rate-plus-occupancy-compound]]",
+    "[[hospitality--surprise-and-delight]]",
+    "[[reviews--rating-to-revenue-formula]]",
+    "[[ranking--more-reviews-beats-higher-rating]]",
+    "[[listing-optimization--reoptimize-biannual]]",
+    "[[listing-optimization--ten-percent-better-ten-things]]",
+    "[[ranking--conversion-rate-benchmarks]]"
+  ],
+  "sources_cited": [
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/iFZnEXouqx8]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/1_mswIQixGc]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

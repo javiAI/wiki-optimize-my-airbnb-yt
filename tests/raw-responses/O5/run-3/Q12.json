@@ -1,0 +1,36 @@
+{
+  "question_id": "Q12",
+  "question": "¿Qué filtros aplica un guest en search antes de hacer click en mi listing?",
+  "level": 4,
+  "response": "**Panorama**: el huésped llega a la página de resultados (P2 en jerga interna de Airbnb) tras introducir destino, fechas y número de huéspedes en P1. Sobre ese resultado aplica un puñado de filtros estructurales que reducen drásticamente la lista antes de mirar foto o precio. Si tu anuncio no coincide con esos filtros, eres invisible — no importa lo bueno que sea el resto. La regla operativa: el huésped solo filtra realmente por cuatro variables primarias (precio, ubicación, dormitorios, baños) y un conjunto secundario de comodidades concretas que activan filtros explícitos en la barra lateral [[listing-optimization--guests-only-care-four-things]].\n\n**Comparativa**:\n\n| Categoría de filtro | Qué controla el huésped | Palanca del anfitrión |\n|---|---|---|\n| Primarios (4 grandes) [[listing-optimization--guests-only-care-four-things]] | Precio, ubicación, número de dormitorios, número de baños | Subir capacidad real (añadir dormitorio, contar 0.5 baths), pin exacto, precio competitivo |\n| Capacidad de huéspedes [[listing-optimization--max-guests-expands-pool]] | Filtros \"fits 6+\", \"fits 8+\" para grupos y celebraciones | Subir el máximo en \"Rooms and spaces\" si tienes capacidad real (camas, baños, espacio común) |\n| Tipo de cama [[listing-optimization--king-bed-filter-hack]] | Filtro \"king bed\" | Asegurar al menos 1 cama king en algún dormitorio |\n| Comodidades filtradas [[listing-optimization--bathroom-filter-match]] | Kitchen, TV, workspace, parking, lavadora, secadora, WiFi rápido | Auditar manualmente cada comodidad activa; los más filtrados son cocina, TV, parking y zona de trabajo |\n| Mascotas [[occupancy--pet-friendly-arbitrage]] | Filtro \"admite mascotas\" | Activar pet-friendly con tarifa de mascota 50-75 USD/estancia si en tu mercado <10% lo permite |\n| Ubicación en mapa [[listing-optimization--specific-location-pin]] | Pin exacto sobre el mapa (no la dirección) | Elegir \"specific location\" al crear; un pin vago saca tu anuncio de búsquedas por barrio |\n| Precio sin fechas [[listing-optimization--undated-search-price-display]] | Precio mostrado en búsquedas sin fechas = el más bajo de los próximos 28 días | Controlar descuentos de último momento y noches huérfanas baratas, que tiran ese precio visible hacia abajo |\n| Filtros de seguridad / Aircover | Detectores de humo, CO, extintor, botiquín | Activar todas las casillas de seguridad: barato, ranking-positivo y filtro real para familias |\n\n**Cómo elegir** dónde invertir según tu situación:\n\n- Si tu anuncio es **nuevo o tiene baja visibilidad** → audita primero los 4 primarios + comodidades filtradas. Es el chequeo de 10 minutos que recupera más reservas perdidas. El caso documentado: corregir el conteo de baños de 2 a 3 dio +12% de ingresos solo por entrar en el filtro \"3+ bathrooms\" [[listing-optimization--bathroom-filter-match]].\n- Si compites en un **mercado saturado** → activa filtros secundarios infrautilizados: cama king, mascotas (si <10% del mercado las admite), capacidad ampliada para grupos. Cada filtro activado es un pool de demanda nuevo sin coste recurrente [[occupancy--pet-friendly-arbitrage]].\n- Si tu **conversión en P2 es baja pese a aparecer** → el problema ya no es filtros, es la foto de portada. Los filtros te meten en la lista; la cover photo decide el clic [[ranking--p1-p2-p3-framework]]. Diferénciala visualmente del resto del mercado [[listing-optimization--cover-photo-differentiation]].\n- Si gestionas **un anuncio existente comprado** → el chequeo de filtros mal configurados por el propietario anterior es de las primeras verificaciones; suele haber varios puntos porcentuales latentes en kitchen, TV o capacidad max [[listing-optimization--bathroom-filter-match]].\n\n**Próximos pasos**:\n\n- Abre tu anuncio en ventana de incógnito sin sesión iniciada y aplica los filtros típicos de tu mercado uno a uno. Si desapareces en alguno donde deberías estar, ya tienes la lista de fixes.\n- Audita comodidades cada 6 meses: los filtros de Airbnb evolucionan y aparecen nuevas casillas (zona de trabajo, WiFi rápido, jacuzzi).\n- Verifica que tu pin esté en el lado correcto de avenidas, ríos o autopistas; un pin movido para aparentar mejor ubicación genera reseñas negativas en Location [[listing-optimization--specific-location-pin]].\n\n**Fuentes**: [[sources/2024-09-XX--guests-only-care-four-things]], [[sources/2024-XX-XX--bathroom-filter-match]], [[sources/2024-XX-XX--king-bed-filter]], [[sources/2024-XX-XX--max-guests-expands-pool]], [[sources/2024-XX-XX--pet-friendly-arbitrage]], [[sources/2024-XX-XX--p1-p2-p3-framework]], [[sources/2024-XX-XX--undated-search-price]], [[sources/2024-XX-XX--specific-location-pin]]",
+  "atoms_cited": [
+    "[[listing-optimization--guests-only-care-four-things]]",
+    "[[listing-optimization--max-guests-expands-pool]]",
+    "[[listing-optimization--king-bed-filter-hack]]",
+    "[[listing-optimization--bathroom-filter-match]]",
+    "[[occupancy--pet-friendly-arbitrage]]",
+    "[[listing-optimization--specific-location-pin]]",
+    "[[listing-optimization--undated-search-price-display]]",
+    "[[ranking--p1-p2-p3-framework]]",
+    "[[listing-optimization--cover-photo-differentiation]]"
+  ],
+  "sources_cited": [
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/TFFssjYQLhY]]",
+    "[[sources/_twgnZtv0Ps]]",
+    "[[sources/IGd6LzHUmDw]]",
+    "[[sources/UPMR-gfpQLs]]",
+    "[[sources/76G3CGbJLk0]]",
+    "[[sources/MajEZ2en-Qk]]",
+    "[[sources/K69RmQrdUIg]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

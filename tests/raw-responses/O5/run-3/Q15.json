@@ -1,0 +1,27 @@
+{
+  "question_id": "Q15",
+  "question": "Un guest pide extender estancia mid-stay. ¿Cuándo acepto y cuándo rechazo?",
+  "level": 4,
+  "response": "**Panorama**: una solicitud de extensión a mitad de estancia es, casi siempre, una oportunidad de bajo coste de adquisición: el huésped ya está instalado, no hay rotación intermedia y la fricción comercial es nula. Pero no toda extensión conviene: el filtro depende del comportamiento del huésped durante la estancia, del estado del calendario y del coste de oportunidad de las fechas pedidas. La decisión se reduce a cruzar tres ejes (huésped, calendario, tarifa) y aplicar un árbol de decisión.\n\n**Comparativa**:\n\n| Eje | Aceptar | Aceptar con condiciones | Rechazar |\n|---|---|---|---|\n| Comportamiento del huésped [[notes/hospitality--offer-extension-midstay]] | Buen huésped: comunicación cordial, sin daños ni quejas continuas, respeta normas | Huésped neutro: alguna fricción menor pero recuperable | Huésped problemático: daños, ruido, quejas reiteradas o señales de alarma del vetting [[notes/hospitality--guest-profile-vetting-framework]] |\n| Estado del calendario [[notes/occupancy--extend-offer-message]] | Fechas libres, sin reserva entrante el día de salida | Fechas libres pero crean noche huérfana posterior | Fechas ya reservadas o con reserva pegada al check-out |\n| Tarifa y coste de oportunidad [[notes/hospitality--offer-extension-midstay]] | Tarifa actual cercana o por encima del market actual | Tarifa actual algo baja: aceptar a tarifa de mercado, no extender el precio viejo | Demanda alta para esas fechas con ADR claramente superior |\n| Duración del bloque resultante [[notes/hospitality--long-term-annoyances-become-issues]] | Extensión que mantiene el formato actual (corta sigue corta, larga sigue larga) | Extensión que cruza el umbral de 28+ noches con anuncio preparado | Extensión que cruza a 28+ sin anuncio preparado para larga estancia |\n\n**Cómo elegir**:\n\n- Si el huésped se ha comportado bien y las fechas están libres sin reserva pegada al check-out, acepta y ofrece descuento del 5-10% si tú quieres asegurar la conversión [[notes/hospitality--offer-extension-midstay]]. Si la petición viene del huésped, no rebajes: cobra la tarifa de mercado para esas fechas.\n- Si las fechas están libres pero la extensión deja una noche huérfana posterior, acepta condicionando la última noche al precio que dictaría tu regla de noche huérfana (mínimo 1 noche, +20% sobre el recomendado) o ajusta la longitud para no crear el hueco [[notes/pricing--orphan-night-strategy]].\n- Si la extensión cruza el umbral de 28+ noches y tu anuncio no tiene amenidades de larga estancia (escritorio, blackout curtains, lavadora, segundo calentador, kitchenette completo), rechaza o limita la extensión hasta 27 noches para no generar reseñas tibias por annoyances que solo aparecen en larga estancia [[notes/hospitality--long-term-annoyances-become-issues]].\n- Si el huésped ha mostrado señales de alarma durante la estancia (daños, ruido, quejas continuas, fiesta no declarada, intento de sobreocupación), rechaza la extensión incluso si el calendario está libre. Prolongar al huésped problemático multiplica el riesgo de reseña negativa y de incidente; el mismo principio que aplica a cancelaciones penalty-free pre-entrada se traslada a no renovar exposición [[notes/hospitality--cancel-problem-booking-pre-checkin]].\n- Si las fechas pedidas ya tienen reserva confirmada o están bloqueadas para una reserva entrante con margen de limpieza, rechaza con cortesía: no muevas reservas confirmadas.\n- Si la demanda para esas fechas está claramente por encima del ADR del huésped actual (alta temporada, evento puntual), rechaza la extensión al precio actual y, si quieres, ofrécela a tarifa de mercado actualizada.\n\n**Próximos pasos**:\n\n- Antes de responder, revisa el calendario, los próximos 7-14 días de demanda en tu mercado y el historial de comunicación del huésped.\n- Si aceptas, confirma por escrito en el chat de la plataforma (precio, noches, total) y modifica la reserva desde el panel para dejar rastro escrito.\n- Si rechazas, ofrece una alternativa concreta cuando exista: una salida un día antes o después que sí encaje, o recomendación para que extiendan en otro anuncio si tienes cartera.\n\n**Fuentes**: [[sources/Q9Xz-Hg_9Vg]], [[sources/CyddkOVq6WM]], [[sources/Ek8m0ZAhMgA]], [[sources/KQIArm9UfQ0]], [[sources/PG3EGrwFzsI]], [[sources/XnDOXWniPaU]]",
+  "atoms_cited": [
+    "[[notes/hospitality--offer-extension-midstay]]",
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/hospitality--guest-profile-vetting-framework]]",
+    "[[notes/hospitality--long-term-annoyances-become-issues]]",
+    "[[notes/pricing--orphan-night-strategy]]",
+    "[[notes/hospitality--cancel-problem-booking-pre-checkin]]"
+  ],
+  "sources_cited": [
+    "[[sources/Q9Xz-Hg_9Vg]]",
+    "[[sources/CyddkOVq6WM]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/XnDOXWniPaU]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

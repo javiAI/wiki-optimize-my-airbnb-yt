@@ -54,6 +54,9 @@ COMPARISONS_DIR = TESTS_DIR / "comparisons"
 QUESTIONS_FILE = TESTS_DIR / "questions.yaml"
 AGENT_TEMPLATE_FILE = PROMPTS_DIR / "_agent_template.md"
 EVALUATOR_TEMPLATE_FILE = PROMPTS_DIR / "_evaluator_template.md"
+REFINER_TEMPLATE_FILE = PROMPTS_DIR / "_refiner_template.md"
+
+REFINE_DIM_THRESHOLD = 7   # any rubric dim score < this triggers refinement
 
 VAULT_PATH = os.environ.get(
     "VAULT_PATH",
@@ -232,6 +235,109 @@ def prepare_evaluator(label, run=None):
     print(f"[OK] Prepared evaluator prompt for {label} run-{run}")
     print(f"     Prompt: {evaluator_file}")
     print(f"     Evaluation will land in: {output_path}")
+
+
+# ----------------------------------------------------------------------
+# Refinement (per-Q retry when any dim < threshold)
+# ----------------------------------------------------------------------
+
+def prepare_refinement(label, run=None, threshold=REFINE_DIM_THRESHOLD):
+    """Generate refiner prompts for Qs that scored below threshold on any dim.
+
+    Reads evaluation.json, identifies failing Qs, writes refiner prompts to
+    run_dir/refine-prompts/Q*.md. The orchestrator (Claude) launches refiner
+    agents in parallel; agents back up Q*.json -> Q*.original.json and write
+    refined Q*.json. After refinement, re-run --prepare-evaluator and consolidate.
+    """
+    if run is None:
+        runs = _existing_runs(label)
+        if not runs:
+            print(f"[ERR] No runs found for {label}")
+            sys.exit(1)
+        run = runs[-1]
+
+    run_dir = _run_dir(label, run)
+    eval_file = run_dir / "evaluation.json"
+    if not eval_file.exists():
+        print(f"[ERR] No evaluation.json at {eval_file}; run --prepare-evaluator first")
+        sys.exit(1)
+
+    eval_data = json.loads(eval_file.read_text())
+    evaluator_notes = eval_data.get("evaluator_notes", "")
+
+    # Identify failing Qs
+    failing = []
+    for qid, qeval in eval_data.get("evaluations", {}).items():
+        failing_dims = {d: qeval.get(d) for d in RUBRIC if qeval.get(d, 10) < threshold}
+        if failing_dims:
+            failing.append((qid, qeval, failing_dims))
+
+    if not failing:
+        print(f"[OK] No Qs below threshold {threshold} for {label} run-{run} — no refinement needed")
+        return
+
+    template = REFINER_TEMPLATE_FILE.read_text()
+    refine_dir = run_dir / "refine-prompts"
+    _ensure_under_tests(refine_dir)
+    refine_dir.mkdir(parents=True, exist_ok=True)
+
+    questions = load_questions()
+    prepared = []
+
+    for qid, qeval, failing_dims in failing:
+        q_file = run_dir / f"{qid}.json"
+        if not q_file.exists():
+            print(f"[WARN] {q_file} missing, skipping {qid}")
+            continue
+        original = json.loads(q_file.read_text())
+        qtext = questions["questions"][qid]["text"]
+        qlevel = questions["questions"][qid]["level"]
+
+        failing_dims_str = "\n".join(
+            f"  - {d}: {score}/10 (umbral: {threshold})"
+            for d, score in failing_dims.items()
+        )
+        violations_str = "\n".join(f"  - {v}" for v in qeval.get("violations", []))
+
+        prompt = template.format(
+            qid=qid,
+            question=qtext,
+            level=qlevel,
+            original_response=original.get("response", ""),
+            original_atoms=", ".join(original.get("atoms_cited", [])),
+            original_sources=", ".join(original.get("sources_cited", [])),
+            failing_dims=failing_dims_str,
+            violations=violations_str,
+            evaluator_notes=qeval.get("notes", evaluator_notes),
+            output_path=str(q_file),
+            original_path=str(q_file.with_suffix(".original.json")),
+            vault_path=VAULT_PATH,
+            repo_path=str(REPO_ROOT),
+        )
+
+        # Backup original BEFORE refiner overwrites
+        backup_path = q_file.with_suffix(".original.json")
+        if not backup_path.exists():
+            backup_path.write_text(q_file.read_text())
+
+        prompt_path = refine_dir / f"{qid}.md"
+        prompt_path.write_text(prompt)
+        prepared.append((qid, list(failing_dims.keys())))
+
+    print(f"[OK] Prepared {len(prepared)} refiner prompt(s) for {label} run-{run}")
+    print(f"     Prompts dir: {refine_dir}")
+    print(f"     Failing Qs:")
+    for qid, dims in prepared:
+        print(f"       {qid} -> dims to fix: {', '.join(dims)}")
+    print()
+    print(f"  Backup originals saved as Q*.original.json")
+    print(f"  Refiner agents will OVERWRITE Q*.json with refined versions.")
+    print()
+    print(f"  Next steps:")
+    print(f"    1. Launch {len(prepared)} refiner agent(s) in parallel (one per failing Q)")
+    print(f"    2. python3 scripts/run-test-suite.py --prepare-evaluator --label {label} --run {run}")
+    print(f"    3. Re-launch evaluator agent (re-evaluates all 20 Qs)")
+    print(f"    4. python3 scripts/run-test-suite.py --consolidate --label {label}")
 
 
 # ----------------------------------------------------------------------
@@ -860,6 +966,11 @@ def main():
     parser = argparse.ArgumentParser(description="Test Suite Orchestrator (multi-run + composite)")
     parser.add_argument("--prepare", action="store_true")
     parser.add_argument("--prepare-evaluator", action="store_true", dest="prepare_evaluator")
+    parser.add_argument("--refine", action="store_true",
+                        help="Generate refiner prompts for Qs with any dim < threshold")
+    parser.add_argument("--refine-threshold", type=int, default=REFINE_DIM_THRESHOLD,
+                        dest="refine_threshold",
+                        help=f"Dim score below which a Q triggers refinement (default: {REFINE_DIM_THRESHOLD})")
     parser.add_argument("--consolidate", action="store_true")
     parser.add_argument("--compare", action="store_true")
     parser.add_argument("--check-repetition", action="store_true", dest="check_repetition")
@@ -879,6 +990,11 @@ def main():
             print("[ERR] --label required")
             sys.exit(1)
         prepare_evaluator(args.label, args.run)
+    elif args.refine:
+        if not args.label:
+            print("[ERR] --label required")
+            sys.exit(1)
+        prepare_refinement(args.label, args.run, args.refine_threshold)
     elif args.consolidate:
         if not args.label:
             print("[ERR] --label required")

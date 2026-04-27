@@ -1,0 +1,21 @@
+{
+  "question_id": "Q7",
+  "question": "¿Cuándo subo el cleaning fee y cuándo lo bajo?",
+  "level": 2,
+  "response": "El cleaning fee no es un coste que repercutes — es una palanca de pricing y filtrado de huéspedes. Decide en este orden:\n\n1. **Punto de partida — alinéalo con tus comps, no con tu coste real.** Saca la media de 3-5 cleaning fees de comps directos (0,5 mi de radio, mismo tamaño/tipo) y sitúate en esa media ±10%. Si tu coste real está por encima de esa banda, no lo cobres en el fee: absórbelo en el base price [[notes/pricing--cleaning-fee-match-comp]].\n\n2. **Right-size por tipo de propiedad.** Studio o 1-bed urbano: $0-30 (incluso $0 si compensas con base + ocupancia). 2-3 bed apartment: $50-100. Casa de 4+ habitaciones: $150-300 (aquí el fee es innegociable: el coste de turnover se amortiza sobre menos reservas). Vacation rental con piscina/jacuzzi: $200-400 [[notes/cleaning-ops--fee-depends-on-property]].\n\n3. **Súbelo cuando quieras desincentivar reservas de 1 noche manteniendo el mínimo en 1.** Un fee de $200 sobre 1 noche se percibe como $200/noche extra y filtra al huésped problemático (party risk, ratio de desgaste alto); sobre 4 noches son $50/noche y resulta aceptable. Esto te deja capturar estancias largas y el orphan-night business traveller sin abrir la puerta a 1-nights de baja calidad [[notes/cleaning-ops--fee-deters-one-night]].\n\n4. **Bájalo cuando no entren reservas y tu fee esté por encima de la media de comps.** El caso documentado: bajada de $110 a $80 reactivó bookings tras silencio. Si tu fee está 2× sobre comps, estás saliendo del filtro \"total price\" de huéspedes que sí podrían pagarte el base [[notes/pricing--cleaning-fee-match-comp]].\n\n5. **NUNCA elimines el fee subiendo el nightly rate para \"compensar\"** (el error de Rob Built). El budget filter de Airbnb discrimina por nightly rate, no por total. Si pasas de $600 + $100 cleaning a $682 + $0, desapareces del search del huésped que filtra \"hasta $600/noche\" aunque el total final sea casi idéntico. Cleaning fee y nightly rate son variables separadas con mecánicas de conversión distintas — no las mezcles [[notes/cleaning-ops--dont-split-fee-into-nightly]].\n\n6. **Revisa el fee 1-2 veces al año** o cuando: (a) cambies de cleaner o suban sus tarifas, (b) detectes caída de bookings sin cambio de base price, (c) entren competidores nuevos en tu radio que muevan la media de comps. Insights dashboard de Airbnb o AllTheRooms te dan la media del mercado.\n\n**Regla mental**: el fee sube para filtrar (1-night, party crowd) y baja para alinearte con comps cuando frenas conversión. El coste real va al base price, no al fee.",
+  "atoms_cited": [
+    "[[notes/pricing--cleaning-fee-match-comp]]",
+    "[[notes/cleaning-ops--fee-depends-on-property]]",
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/cleaning-ops--dont-split-fee-into-nightly]]"
+  ],
+  "sources_cited": [
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/7DrT9dlf2q0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}
