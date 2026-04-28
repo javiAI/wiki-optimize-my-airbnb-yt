@@ -1,0 +1,38 @@
+name: "YOUR-VAULT-NAME"
+description: "Brief description of what this vault covers."
+version: "1.0"
+
+source:
+  type: youtube           # youtube | pdf | web | file
+  original_language: en  # Language of source material
+
+languages:
+  enabled: [en]           # Add secondary languages: [en, es] for bilingual
+  primary: en
+  secondary: []           # e.g. [es, fr] — each gets its own wiki/{lang}/ directory
+  detect_from_query: true # Auto-detect language from user's question
+
+topics:
+  # Define your domain topics. Each gets a MOC file and atom subdirectory.
+  # - {id: topic-id, name: "Display Name", description: "What this covers"}
+  - {id: topic1, name: "Topic One", description: "Describe topic one"}
+  - {id: topic2, name: "Topic Two", description: "Describe topic two"}
+
+pipeline:
+  auto_atoms: true        # LLM creates atoms automatically after ingest
+  auto_translate: true    # Auto-create secondary-language atom files
+  auto_link: true         # auto-link.py runs after each atom write
+  deep_links: true        # Compute source deep-link URLs at atom-creation time
+  qa_on_create: true      # atom-qa.py validates every atom on write
+
+qa:
+  completeness: true      # Require: claim, source with url, last_verified
+  url_validation: true    # Verify deep link URL format
+  anglicism_check: []     # Secondary languages to check for anglicisms: e.g. [es]
+  conflict_check: true    # Compare new atoms vs meta/contradictions.md
+
+test:
+  questions_file: "tests/questions.md"
+  parallel_agents: 20
+  evaluator: external
+  rubric_version: "1.0"

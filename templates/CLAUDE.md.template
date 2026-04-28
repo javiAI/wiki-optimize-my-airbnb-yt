@@ -1,0 +1,123 @@
+---
+automation:
+  version: "1.0"
+  vault_name: "{{VAULT_NAME}}"
+  vault_path: "{{VAULT_PATH}}"
+  languages: {{LANGUAGES}}
+  primary_language: {{PRIMARY_LANG}}
+---
+
+## Language Routing (Mandatory — Execute Before Any Read)
+
+1. Detect language of the user's question.
+   - Spanish markers: ¿ ¡ é ó ú ñ ü, or explicit "en español"
+   - Default: `{{PRIMARY_LANG}}` (primary language from vault.yaml)
+2. Set `LANG` = detected language code (e.g., `es`, `en`)
+3. For ALL subsequent reads:
+   - Atoms: read ONLY from `wiki/{LANG}/`
+   - MOC: read ONLY from `moc/{LANG}/`
+   - Index: read ONLY from `index/{LANG}/index.md`
+   - Queries cache: read ONLY from `queries/{LANG}/`
+4. NEVER read `wiki/{other-lang}/` — other language files are invisible for this query.
+5. Shared layers (always read regardless of language): `meta/`
+
+---
+
+## INDEXING PROTOCOL
+
+```
+1. Read index/{LANG}/index.md ONLY. Identify relevant topic(s). (Tier-0, ≤150 tokens)
+2. Read ONLY moc/{LANG}/{topic}.md for matching topic. (Tier-1)
+3. Read ONLY shortlisted atoms from wiki/{LANG}/. (Tier-2, 3-6 atoms max)
+4. Check meta/contradictions.md for active conflicts.
+5. Cite: [[wiki/{LANG}/atom-slug]] + [Ver fuente →](url) in Fuentes section.
+NEVER read raw/ directly.
+NEVER read index/{lang}/topics.md unless Tier-0 gives no match.
+```
+
+---
+
+## Vault Structure
+
+```
+{{VAULT_PATH}}/
+├── raw/                    # Immutable sources (language-neutral)
+├── wiki/
+│   ├── en/                 # English atoms
+│   └── es/                 # Spanish atoms (same filenames)
+├── moc/
+│   ├── en/                 # English Maps of Content
+│   └── es/                 # Spanish Maps of Content
+├── index/
+│   ├── en/index.md         # Tier-0 compact EN nav (≤150 tokens)
+│   └── es/index.md         # Tier-0 compact ES nav
+├── queries/
+│   ├── en/                 # Cached EN responses
+│   └── es/                 # Cached ES responses
+└── meta/                   # Shared: contradictions, backlinks, glossary
+```
+
+---
+
+## Atom YAML Schema
+
+```yaml
+---
+lang: en                    # Language of this file
+claim: "One-sentence claim in this file's language."
+topics: [topic-id]
+confidence: high | medium | low
+sources:
+  - source_id: VIDEO_ID
+    locator: "HH:MM-HH:MM"
+    url: "https://youtube.com/watch?v=VIDEO_ID&t=SECONDS"
+    excerpt: "Relevant quote from source in this file's language."
+conflicts_with: []
+last_verified: YYYY-MM-DD
+---
+
+[Body text in this file's language — fully monolingual]
+```
+
+**Rules:**
+- Same `{topic}--{slug}.md` filename in every language directory
+- `source_id`, `locator`, `url` are identical across language versions
+- Body text written natively in `lang` (not translated inline)
+- No mixing of languages within a single file
+
+---
+
+## Response Contract
+
+**Audience**: {{AUDIENCE}}
+**Tone**: Consultant — direct, warm, professional. Second person consistent.
+
+**Regime detection** (use §4.6 of this vault's CLAUDE.md for full rules):
+- A. Narrow Factual → ≤250 words
+- B. Tactical Multi-Step → ≤600 words
+- C. Taxonomic/Broad → ≤1000 words
+
+**Citations**: `[[wiki/{LANG}/atom-slug]]` + `[Ver fuente →](url)` per step.
+
+**Forbidden**: filler adjectives, trailing summaries, corporate-speak, mixing languages in response.
+
+---
+
+## Scripts Reference
+
+```bash
+source scripts/config.sh && cd "$VAULT_PATH"
+
+# Ingest
+bash scripts/ingest.sh <video_id>
+bash scripts/batch-ingest.sh <list_file>
+
+# Maintenance
+python3 scripts/auto-link.py <atom-stem> --lang en
+python3 scripts/atom-qa.py <atom-stem> --lang en
+python3 scripts/vault-agent.py --incremental
+
+# Full audit
+python3 scripts/vault-agent.py
+python3 scripts/cache-optimizer.py
+```

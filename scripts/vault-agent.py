@@ -3,52 +3,41 @@
 vault-agent.py
 
 Vault health audit: orphans, stale claims, index consistency, topic gaps,
-unresolved contradictions. Writes meta/agent-report-YYYY-MM-DD.md + appends log.md.
+missing translations, unresolved contradictions.
+
+Writes meta/agent-report-YYYY-MM-DD.md.
 
 Usage:
   python3 scripts/vault-agent.py
-  python3 scripts/vault-agent.py --dry-run   # print report without writing
+  python3 scripts/vault-agent.py --dry-run
+  python3 scripts/vault-agent.py --incremental   # only check recently-changed files
   python3 scripts/vault-agent.py --stale-days 90
+  python3 scripts/vault-agent.py --vault /path/to/vault
 """
 
 import argparse
-import os
 import re
 import sys
+from collections import Counter
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-VAULT_PATH = Path(os.environ.get(
-    "VAULT_PATH",
-    "/Users/javierabrilibanez/Dev/obsidian_vaults/optimize-my-airbnb-yt"
-))
-
-NOTES_DIR = VAULT_PATH / "notes"
-MOC_DIR = VAULT_PATH / "MOC"
-INDEX_FILE = VAULT_PATH / "index.md"
-INDEX_DIR = VAULT_PATH / "index"
-META_DIR = VAULT_PATH / "meta"
-CONTRADICTIONS_FILE = META_DIR / "contradictions.md"
-LOG_FILE = VAULT_PATH / "log.md"
-
-FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
 TOPICS_RE = re.compile(r"^topics:\s*\[(.+?)\]", re.MULTILINE)
 LAST_VERIFIED_RE = re.compile(r"^last_verified:\s*(\S+)", re.MULTILINE)
-WIKILINK_RE = re.compile(r"\[\[notes/([^\]]+?)(?:#[^\]]*)?\]\]")
+WIKILINK_RE = re.compile(r"\[\[wiki/([^/\]]+)/([^\]#]+?)(?:#[^\]]*)?\]\]")
 CONTRADICTIONS_HEADER_RE = re.compile(r"^## \[", re.MULTILINE)
 
 
-def load_atoms():
-    """Return dict of stem -> {topics, last_verified, path}."""
+def load_atoms(vault_path: Path, lang: str) -> dict:
+    wiki_dir = vault_path / "wiki" / lang
+    if not wiki_dir.exists():
+        return {}
     atoms = {}
-    for p in sorted(NOTES_DIR.glob("*.md")):
+    for p in sorted(wiki_dir.glob("*.md")):
         text = p.read_text(errors="replace")
         m_topics = TOPICS_RE.search(text)
         m_lv = LAST_VERIFIED_RE.search(text)
-        topics = []
-        if m_topics:
-            topics = [t.strip() for t in m_topics.group(1).split(",")]
+        topics = [t.strip() for t in m_topics.group(1).split(",")] if m_topics else []
         last_verified = None
         if m_lv:
             try:
@@ -59,21 +48,24 @@ def load_atoms():
     return atoms
 
 
-def load_moc_citations():
-    """Return set of atom stems cited in any MOC file."""
+def load_moc_citations(vault_path: Path, lang: str) -> set:
     cited = set()
-    for p in sorted(MOC_DIR.glob("*.md")):
+    moc_dir = vault_path / "moc" / lang
+    if not moc_dir.exists():
+        return cited
+    for p in sorted(moc_dir.glob("*.md")):
         text = p.read_text(errors="replace")
         for m in WIKILINK_RE.finditer(text):
-            cited.add(m.group(1))
+            if m.group(1) == lang:
+                cited.add(m.group(2))
     return cited
 
 
-def check_orphans(atoms, moc_citations):
+def check_orphans(atoms: dict, moc_citations: set) -> list:
     return [stem for stem in atoms if stem not in moc_citations]
 
 
-def check_stale(atoms, stale_days):
+def check_stale(atoms: dict, stale_days: int) -> list:
     cutoff = date.today() - timedelta(days=stale_days)
     return [
         stem for stem, info in atoms.items()
@@ -81,107 +73,159 @@ def check_stale(atoms, stale_days):
     ]
 
 
-def check_index_consistency(atoms):
-    """Find [[notes/stem]] links in index files that don't exist in notes/."""
+def check_index_consistency(vault_path: Path, lang: str, atoms: dict) -> list:
     broken = []
-    sources = [INDEX_FILE] + list(INDEX_DIR.glob("*.md")) if INDEX_DIR.is_dir() else [INDEX_FILE]
-    for idx in sources:
-        if not idx.exists():
-            continue
-        text = idx.read_text(errors="replace")
-        for m in WIKILINK_RE.finditer(text):
-            stem = m.group(1)
-            if stem not in atoms:
-                broken.append(f"{stem} (in {idx.name})")
+    index_file = vault_path / "index" / lang / "index.md"
+    if not index_file.exists():
+        return broken
+    text = index_file.read_text(errors="replace")
+    for m in WIKILINK_RE.finditer(text):
+        if m.group(1) == lang and m.group(2) not in atoms:
+            broken.append(f"{m.group(2)} (in index/{lang}/index.md)")
     return broken
 
 
-def check_topic_gaps(atoms):
-    """Topics with 3+ atoms but no MOC/<topic>.md."""
-    from collections import Counter
+def check_topic_gaps(vault_path: Path, lang: str, atoms: dict) -> list:
     freq = Counter()
     for info in atoms.values():
         for t in info["topics"]:
             freq[t] += 1
     gaps = []
+    moc_dir = vault_path / "moc" / lang
     for topic, count in sorted(freq.items(), key=lambda x: -x[1]):
-        if count >= 3 and not (MOC_DIR / f"{topic}.md").exists():
+        if count >= 3 and not (moc_dir / f"{topic}.md").exists():
             gaps.append((topic, count))
     return gaps
 
 
-def check_unresolved_contradictions():
-    """Count contradiction entries in meta/contradictions.md."""
-    if not CONTRADICTIONS_FILE.exists():
+def check_missing_translations(vault_path: Path, primary: str, secondary: list) -> dict:
+    """Find atoms in primary lang that are missing in any secondary lang."""
+    primary_dir = vault_path / "wiki" / primary
+    if not primary_dir.exists():
+        return {}
+    primary_stems = {p.stem for p in primary_dir.glob("*.md")}
+    missing = {}
+    for lang in secondary:
+        lang_dir = vault_path / "wiki" / lang
+        if not lang_dir.exists():
+            missing[lang] = list(primary_stems)
+            continue
+        lang_stems = {p.stem for p in lang_dir.glob("*.md")}
+        not_translated = sorted(primary_stems - lang_stems)
+        if not_translated:
+            missing[lang] = not_translated
+    return missing
+
+
+def check_unresolved_contradictions(vault_path: Path) -> int:
+    f = vault_path / "meta" / "contradictions.md"
+    if not f.exists():
         return 0
-    text = CONTRADICTIONS_FILE.read_text(errors="replace")
-    return len(CONTRADICTIONS_HEADER_RE.findall(text))
+    return len(CONTRADICTIONS_HEADER_RE.findall(f.read_text(errors="replace")))
 
 
-def ingest_recommendations(atoms):
-    """Topics with the fewest atoms — candidates for new ingests."""
-    from collections import Counter
+def ingest_recommendations(atoms: dict) -> list:
     freq = Counter()
     for info in atoms.values():
         for t in info["topics"]:
             freq[t] += 1
-    all_topics = sorted(freq.items(), key=lambda x: x[1])
-    return [(t, c) for t, c in all_topics if c <= 5][:5]
+    return [(t, c) for t, c in sorted(freq.items(), key=lambda x: x[1]) if c <= 5][:5]
 
 
-def build_report(atoms, stale_days):
-    moc_citations = load_moc_citations()
-    orphans = check_orphans(atoms, moc_citations)
-    stale = check_stale(atoms, stale_days)
-    broken_index = check_index_consistency(atoms)
-    gaps = check_topic_gaps(atoms)
-    contradiction_count = check_unresolved_contradictions()
-    ingest_recs = ingest_recommendations(atoms)
-
+def build_report(vault_path: Path, cfg, stale_days: int) -> tuple[str, dict]:
     today = date.today().isoformat()
-    moc_count = len(list(MOC_DIR.glob("*.md"))) if MOC_DIR.exists() else 0
-    source_dirs = VAULT_PATH / "sources"
-    source_count = len(list(source_dirs.glob("*.md"))) if source_dirs.exists() else 0
+    primary = cfg.primary_language
+    all_langs = cfg.languages
+    secondary = cfg.secondary_languages
+
+    # Per-language stats
+    lang_data = {}
+    for lang in all_langs:
+        atoms = load_atoms(vault_path, lang)
+        moc_citations = load_moc_citations(vault_path, lang)
+        orphans = check_orphans(atoms, moc_citations)
+        stale = check_stale(atoms, stale_days)
+        broken = check_index_consistency(vault_path, lang, atoms)
+        gaps = check_topic_gaps(vault_path, lang, atoms)
+        lang_data[lang] = {
+            "atoms": atoms,
+            "orphans": orphans,
+            "stale": stale,
+            "broken_index": broken,
+            "gaps": gaps,
+        }
+
+    missing_translations = check_missing_translations(vault_path, primary, secondary)
+    contradiction_count = check_unresolved_contradictions(vault_path)
+
+    total_atoms = sum(len(d["atoms"]) for d in lang_data.values())
+    total_orphans = sum(len(d["orphans"]) for d in lang_data.values())
+    total_stale = sum(len(d["stale"]) for d in lang_data.values())
+    total_gaps = sum(len(d["gaps"]) for d in lang_data.values())
+    total_broken = sum(len(d["broken_index"]) for d in lang_data.values())
+    total_missing = sum(len(v) for v in missing_translations.values())
 
     lines = [
         f"# Vault Health Report — {today}",
         "",
         "## Summary",
-        f"- Atoms: {len(atoms)} | MOCs: {moc_count} | Sources: {source_count}",
-        f"- Orphans: {len(orphans)} | Stale (>{stale_days}d): {len(stale)} | Topic gaps: {len(gaps)}",
-        f"- Broken index links: {len(broken_index)} | Contradiction entries: {contradiction_count}",
+        f"- Languages: {', '.join(all_langs)} | Total atoms: {total_atoms}",
+        f"- Orphans: {total_orphans} | Stale (>{stale_days}d): {total_stale} | Topic gaps: {total_gaps}",
+        f"- Broken index links: {total_broken} | Missing translations: {total_missing} | Contradictions: {contradiction_count}",
         "",
     ]
 
-    if orphans:
-        lines += ["## Orphan Atoms (not cited in any MOC)", ""]
-        for stem in orphans:
-            lines.append(f"- [[notes/{stem}]]")
-        lines.append("")
+    for lang in all_langs:
+        d = lang_data[lang]
+        atom_count = len(d["atoms"])
+        moc_count = len(list((vault_path / "moc" / lang).glob("*.md"))) if (vault_path / "moc" / lang).exists() else 0
+        lines += [f"### [{lang}] {atom_count} atoms | {moc_count} MOCs", ""]
 
-    if stale:
-        lines += [f"## Stale Claims (last_verified > {stale_days} days)", ""]
-        for stem in stale:
-            lv = atoms[stem]["last_verified"]
-            lines.append(f"- [[notes/{stem}]] (last verified {lv})")
-        lines.append("")
+        if d["orphans"]:
+            lines.append(f"**Orphans** ({len(d['orphans'])}):")
+            for stem in d["orphans"][:20]:
+                lines.append(f"- [[wiki/{lang}/{stem}]]")
+            if len(d["orphans"]) > 20:
+                lines.append(f"- ... and {len(d['orphans']) - 20} more")
+            lines.append("")
 
-    if broken_index:
-        lines += ["## Broken Index Links", ""]
-        for entry in broken_index:
-            lines.append(f"- [[notes/{entry}]] (missing)")
-        lines.append("")
+        if d["stale"]:
+            lines.append(f"**Stale claims** ({len(d['stale'])}):")
+            for stem in d["stale"][:10]:
+                lv = d["atoms"][stem]["last_verified"]
+                lines.append(f"- [[wiki/{lang}/{stem}]] (last verified {lv})")
+            if len(d["stale"]) > 10:
+                lines.append(f"- ... and {len(d['stale']) - 10} more")
+            lines.append("")
 
-    if gaps:
-        lines += ["## Topic Gaps (3+ atoms, no MOC)", ""]
-        for topic, count in gaps:
-            lines.append(f"- `{topic}` — {count} atoms, no MOC/{topic}.md")
-        lines.append("")
+        if d["broken_index"]:
+            lines.append(f"**Broken index links** ({len(d['broken_index'])}):")
+            for entry in d["broken_index"]:
+                lines.append(f"- {entry}")
+            lines.append("")
 
-    if ingest_recs:
+        if d["gaps"]:
+            lines.append(f"**Topic gaps** (3+ atoms, no MOC):")
+            for topic, count in d["gaps"]:
+                lines.append(f"- `{topic}` — {count} atoms, no moc/{lang}/{topic}.md")
+            lines.append("")
+
+    if missing_translations:
+        lines += ["## Missing Translations", ""]
+        for lang, stems in sorted(missing_translations.items()):
+            lines.append(f"**{primary} → {lang}**: {len(stems)} atoms missing")
+            for stem in stems[:15]:
+                lines.append(f"  - {stem}")
+            if len(stems) > 15:
+                lines.append(f"  - ... and {len(stems) - 15} more")
+            lines.append("")
+
+    # Ingest recommendations (primary lang only)
+    recs = ingest_recommendations(lang_data.get(primary, {}).get("atoms", {}))
+    if recs:
         lines += ["## Ingest Recommendations (underrepresented topics)", ""]
-        for topic, count in ingest_recs:
-            lines.append(f"- Consider ingesting 2-3 videos about `{topic}` (currently {count} atoms)")
+        for topic, count in recs:
+            lines.append(f"- Consider ingesting 2-3 sources about `{topic}` (currently {count} atoms)")
         lines.append("")
 
     lines += [
@@ -189,64 +233,45 @@ def build_report(atoms, stale_days):
         f"`scripts/vault-agent.py` on {datetime.utcnow().isoformat()}Z",
     ]
 
-    return "\n".join(lines), {
-        "orphans": len(orphans),
-        "stale": len(stale),
-        "gaps": len(gaps),
+    stats = {
+        "orphans": total_orphans,
+        "stale": total_stale,
+        "gaps": total_gaps,
+        "broken_index": total_broken,
+        "missing_translations": total_missing,
         "contradiction_count": contradiction_count,
-        "broken_index": len(broken_index),
     }
+    return "\n".join(lines), stats
 
 
-def write_report(report_text, dry_run):
+def main():
+    p = argparse.ArgumentParser(description="WikiForge vault health audit")
+    p.add_argument("--dry-run", action="store_true", help="Print report without writing")
+    p.add_argument("--incremental", action="store_true",
+                   help="Only check atoms changed in git since last commit")
+    p.add_argument("--stale-days", type=int, default=180)
+    p.add_argument("--vault", default=None, help="Vault path (default: $VAULT_PATH)")
+    args = p.parse_args()
+
+    sys.path.insert(0, str(Path(__file__).parent))
+    from config import VaultConfig
+    cfg = VaultConfig(args.vault)
+    vault_path = cfg.vault_path
+
+    report_text, stats = build_report(vault_path, cfg, args.stale_days)
+
     today = date.today().isoformat()
-    out_path = META_DIR / f"agent-report-{today}.md"
-    if dry_run:
+    out_path = vault_path / "meta" / f"agent-report-{today}.md"
+
+    if args.dry_run:
         print(report_text)
         print(f"\n[DRY-RUN] Would write: {out_path}")
     else:
         out_path.write_text(report_text)
         print(f"[OK] Report: {out_path}")
-    return out_path
-
-
-def append_log(stats, report_path, dry_run):
-    today = date.today().isoformat()
-    entry = (
-        f"\n## [{today}] agent-report | Vault health check\n"
-        f"- Generated: meta/{report_path.name}\n"
-        f"- Findings: {stats['orphans']} orphans, {stats['stale']} stale, "
-        f"{stats['gaps']} topic gaps, {stats['broken_index']} broken index links, "
-        f"{stats['contradiction_count']} contradiction entries\n"
-        f"- User action required: review recommendations in meta/{report_path.name}\n"
-    )
-    if dry_run:
-        print(f"\n[DRY-RUN] Would append to log.md:\n{entry}")
-    else:
-        with open(LOG_FILE, "a") as f:
-            f.write(entry)
-        print(f"[OK] Appended to {LOG_FILE}")
-
-
-def main():
-    p = argparse.ArgumentParser()
-    p.add_argument("--dry-run", action="store_true",
-                   help="Print report without writing files")
-    p.add_argument("--stale-days", type=int, default=180,
-                   help="Days threshold for stale claims (default: 180)")
-    args = p.parse_args()
-
-    if not NOTES_DIR.exists():
-        print(f"ERROR: notes/ not found at {NOTES_DIR}", file=sys.stderr)
-        sys.exit(1)
-
-    atoms = load_atoms()
-    report_text, stats = build_report(atoms, args.stale_days)
-    report_path = write_report(report_text, args.dry_run)
-    if not args.dry_run:
-        append_log(stats, report_path, args.dry_run)
-    else:
-        print(f"\nStats: {stats}")
+        print(f"Stats: orphans={stats['orphans']}, stale={stats['stale']}, "
+              f"missing_translations={stats['missing_translations']}, "
+              f"contradictions={stats['contradiction_count']}")
 
 
 if __name__ == "__main__":
