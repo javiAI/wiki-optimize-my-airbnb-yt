@@ -1,0 +1,188 @@
+{
+  "label": "O7",
+  "run": 2,
+  "rubric_version": "1.0",
+  "evaluator_notes": "El batch muestra alta consistencia de formato y cobertura. Las respuestas de régimen A (Q1-Q4) son concisas y bien estructuradas, con algún anglicismo puntual ('guest', 'listing'). Las de régimen B (Q5-Q15) cumplen bien el contrato táctico: pasos numerados, una cita por paso, cierre con 'Por qué funciona' y 'Resultado esperado'. Las de régimen C (Q12, Q16-Q20) son sólidas en tabla + decision-tree, aunque Q12 supera el ceiling de 1000 palabras. Hay un pequeño typo de source_id en Q17 y Q20 que reduce ligeramente accuracy pero no es sistémico. El conjunto muestra buena pureza de español con muy pocos anglicismos evitables.",
+  "evaluations": {
+    "Q1": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta directa, caveat de conflicto MEDIUM bien integrado al final. Estructura A canónica (Respuesta directa + Cuándo aplica + Por qué + Fuentes). El bloque ⚠️ cubre los dos átomos en conflicto con criterio de resolución claro.",
+      "violations": ["Usa 'listing' una vez en 'listing sin reseñas' (menor, aceptable como término técnico contextual)"]
+    },
+    "Q2": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cubre conteo de fotos, portada y orden de primeras 5 — completo para régimen A. La respuesta es más extensa que un Narrow Factual típico (~220-230 palabras) pero no excede el ceiling de 250. Buena cobertura de la pregunta multidimensional.",
+      "violations": ["'guest' aparece en 'El guest que llega al summary' — debería ser 'el huésped que llega'"]
+    },
+    "Q3": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta A bien ejecutada: directa, estructurada, citas inline, dentro del ceiling. La sección 'Cuándo aplica' para la regla de marca es un valor añadido relevante.",
+      "violations": ["'guest' aparece en 'El guest que llega al summary' — debería ser 'el huésped'"]
+    },
+    "Q4": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Respuesta clara y directa. El número del 25% de caída de impresiones está referenciado implícitamente por los source_ids. Falta el campo 'conflict_detected' en el JSON de salida, aunque eso es metadata y no afecta la calidad de la respuesta en sí.",
+      "violations": ["Ausencia del campo 'conflict_detected' en el JSON (no afecta calidad de respuesta pero sí completitud del output)"]
+    },
+    "Q5": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Cinco pasos bien diferenciados, cada uno con cita. 'Por qué funciona el conjunto' y 'Resultado esperado' presentes. El paso 2 del mensaje de calibración con comillas directas es un ejemplo concreto de buena calidad consultora.",
+      "violations": ["'check-in' y 'check-out' usados como términos operativos (aceptables según whitelist contextual)"]
+    },
+    "Q6": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Cuatro pasos bien estructurados con el bloque ⚠️ de conflicto Thu/Sun al final. El conflicto MEDIUM documentado en meta tiene resolución contextual clara: depende del patrón de reservas del mercado. Muy buen ejemplo del ciclo completo conflict-detect/resolve/surface.",
+      "violations": ["'listing' aparece una vez en el bloque de caveat (menor)"]
+    },
+    "Q7": {
+      "completeness": 8,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Cinco pasos con buena cobertura del cuándo subir/bajar. El formato usa '[[notes/cleaning-ops--...]]' con prefijo 'notes/' completo, inconsistente con el resto del batch que omite ese prefijo. El tono es más funcional que cálido, ligeramente más frío que el consultor ideal.",
+      "violations": ["Atoms citados con prefijo 'notes/' completo en lugar del slug corto estándar del resto del batch", "Tono más técnico/funcional que cálido en algunos pasos"]
+    },
+    "Q8": {
+      "completeness": 7,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Buena estructura táctica. El self-assessment declara correctamente confidence:medium por gap documentado en la wiki. Los source_ids tienen formato de fecha/slug diferente al estándar del batch, lo que genera duda sobre su validez, aunque son plausibles. La referencia al 'FPG' (futuro potencial guest/huésped) es lógica pero no se define.",
+      "violations": ["Source IDs con formato no estándar (slug de fecha larga) — plausibles pero no verificables", "FPG no se define aunque es sigla interna usada sin contexto para el lector"]
+    },
+    "Q9": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cobertura excelente: nivel base, filtro longevidad, amenidad narrativa, alineación de precio y seguridad. La sección extra '¿Qué NO destacar?' añade valor real. Respuesta al límite alto del ceiling B (~550 palabras).",
+      "violations": ["Sección extra '¿Qué NO destacar?' no está en las secciones obligatorias de régimen B (añade valor pero desvia del contrato de formato)", "'smart TV' usada (aceptable como término técnico estándar)"]
+    },
+    "Q10": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Estructura táctica sólida: 5 pasos diferenciados, cada uno con atom, 'Por qué funciona' claro y 'Resultado esperado' cuantificado (80%). El script del co-anfitrión en el paso 4 es un ejemplo de concreción consultora de alta calidad.",
+      "violations": ["'listing' aparece una vez en el script del paso 4 ('responsable del listing') — menor"]
+    },
+    "Q11": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Seis pasos bien ejecutados — supera el máximo de 5 sugerido para régimen B pero el paso extra (far-out) es genuinamente diferenciado del resto. El atom [[pricing--customizations-max-5]] aparece solo en el párrafo 'Por qué funciona', no en un paso numerado — menor desviación del contrato 'una cita por paso'.",
+      "violations": ["6 pasos en lugar del máximo de 5 recomendado para régimen B", "[[pricing--customizations-max-5]] referenciado en 'Por qué funciona' sin ser el atom de ningún paso específico"]
+    },
+    "Q12": {
+      "completeness": 10,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Cobertura excepcional de filtros de búsqueda — es la respuesta más completa del batch para una pregunta compleja. Sin embargo, la respuesta excede claramente el ceiling de 1000 palabras para régimen C (estimación: ~1100-1200 palabras). La tabla usa 'guests' en encabezado ('Fits 4+') y 'listing' en múltiples celdas.",
+      "violations": ["Excede el ceiling de 1000 palabras para régimen C", "'guests' aparece en filtros ('Fits 4+', 'Fits 6+', 'Fits 8+') — aceptable como nombre de filtro de Airbnb pero borde", "'listing' y 'listings' aparecen múltiples veces en la tabla (3-4 ocurrencias)"]
+    },
+    "Q13": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Siete pasos bien estructurados para el message flow completo. La cobertura es exhaustiva desde reserva hasta recordatorio día 10. El número de pasos (7) supera el máximo de 5 para régimen B, aunque la pregunta es de naturaleza secuencial donde cada paso es un trigger distinto.",
+      "violations": ["7 pasos en lugar del máximo de 5 recomendado para régimen B", "'self check-in' usado una vez (aceptable como término operativo conocido)"]
+    },
+    "Q14": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Cinco pasos bien ejecutados. El paso inicial de activar Professional Hosting Tools es un prerrequisito acertado. La advertencia sobre la distorsión del porcentaje con reservas largas (paso 2) es un detalle de alta calidad consultora.",
+      "violations": ["'toggle' aparece una vez ('Toggle ON') — anglicismo menor en el contexto de instrucción de UI"]
+    },
+    "Q15": {
+      "completeness": 7,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cinco pasos lógicos para la decisión de extensión mid-stay. El self-assessment declara confidence:medium, coherente con que algunos atoms usados son adyacentes al tema central. El paso 3 usa [[hospitality--long-term-annoyances-become-issues]] para justificar la comparación de precio — la conexión es inferida, no directa.",
+      "violations": ["Atom [[hospitality--long-term-annoyances-become-issues]] usado en paso 3 de forma inferida (no cita directa al tema de extensiones de precio)", "'stay' aparece una vez ('durante el stay') — anglicismo menor"]
+    },
+    "Q16": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Estructura C excelente: panorama contextual, tabla de condiciones, árbol de decisión y próximos pasos con acciones concretas. La tabla de condiciones con los 4 ejes (tamaño, repeat, flujo de caja, tech) es el marco de diagnóstico más útil del batch para una pregunta C.",
+      "violations": ["'listing' aparece 2 veces en 'listing premium' y 'web del anuncio directo' (menor)"]
+    },
+    "Q17": {
+      "completeness": 9,
+      "accuracy": 8,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Estructura C bien ejecutada con tabla discovered/undiscovered. La regla de 5x ratio precio/ingresos como hard filter inicial es un anclaje cuantitativo fuerte. Hay una discrepancia en el source_id 'jKY6djYDsJc' (atoms_cited) vs 'jKY6djYDsZc' (sources_cited) — posible typo.",
+      "violations": ["Typo en source_id: 'jKY6djYDsJc' en sources_cited vs 'jKY6djYDsZc' en el JSON de atoms — pueden ser fuentes distintas o error de transcripción"]
+    },
+    "Q18": {
+      "completeness": 8,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Estructura C clara: panorama, tabla de 5 ejes, árbol de decisión y sección de estructura operativa/legal. El self-assessment declara confidence:medium con nota sobre ausencia de atoms jurídicos — honesto y apropiado. La sección legal advierte explícitamente sobre el límite de cobertura de la wiki.",
+      "violations": ["'property manager' repetido como término de rol (no en lista de prohibiciones — aceptable)", "Punto 4 de estructura legal indica explícitamente que la wiki no tiene átomos jurídicos — gap declarado, no cobertura real"]
+    },
+    "Q19": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Estructura C bien ejecutada con tabla de 3 ejes (stack de herramientas, limpieza, mensajería) por fase de crecimiento. La condición de no abrir el anuncio #2 hasta que el #1 tenga 4.8 y respuesta <1h es un gatekeeping concreto y accionable.",
+      "violations": ["'self-managed' aparece una vez ('5 anuncios self-managed') — anglicismo menor", "'Level' capitalizado como nombre de framework — aceptable como término técnico del sistema"]
+    },
+    "Q20": {
+      "completeness": 8,
+      "accuracy": 8,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Buena estructura C con tabla de 4 ejes y árbol de decisión por síntoma (reseñas cortas → review fuel; conversión estable → repeats; etc.). Los próximos pasos tienen horizonte temporal explícito (esta semana, este mes, cada año) — de alta calidad operativa.",
+      "violations": ["Typo en source_id: 'PVldBDSYpAY' en sources_cited (probable typo de 'PVldBDSYpAA' usado en Q14 para la misma fuente)"]
+    }
+  }
+}

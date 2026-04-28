@@ -1,0 +1,29 @@
+{
+  "question_id": "Q5",
+  "question": "¿Cómo consigo mis primeras reseñas?",
+  "level": 3,
+  "response": "**Diagnóstico**: Para un anuncio nuevo sin historial, las primeras 3 reseñas son el umbral crítico. Sin ellas, el anuncio compite en igualdad de condiciones con listings con calificaciones de 4.9+, lo que deprime la conversión. El objetivo es generarlas lo más rápido posible con la menor fricción para el huésped.\n\n**Pasos**:\n\n1. **Bajar precio al 30% por debajo de la competencia y bloquear el calendario a 3-5 semanas** [[occupancy--new-listing-calendar-strategy]] — Fija estancia mínima de 1 noche y abre solo las próximas 3-5 semanas. El precio bajo acelera la conversión; el calendario concentrado genera momentum de reservas. Mantén esta configuración hasta conseguir 3 reseñas, luego normaliza.\n\n2. **Calibrar la expectativa de 5 estrellas en el mensaje de bienvenida** [[reviews--calibrate-five-star-arrival]] — Incluye una frase explícita: \"Mi objetivo es que tengas una experiencia de 5 estrellas. Si algo no está bien durante tu estancia, dímelo de inmediato para solucionarlo.\" Esto hace que el huésped acuda a ti antes de volcar el problema en la reseña.\n\n3. **Enviar mensaje de seguimiento el día siguiente al check-in** [[reviews--mid-stay-message]] — Pregunta: \"¿Todo bien hasta ahora? ¿Wifi, agua caliente, algún detalle que falte?\" Captura problemas menores antes de que se conviertan en puntos negativos en la calificación.\n\n4. **Enviar mensaje de reciprocidad entre 3 y 6 horas tras el check-out** [[reviews--reciprocity-post-checkout]] — Usa exactamente esta estructura: \"Hola [nombre], gracias por tu estancia — voy a dejarte una reseña de 5 estrellas. Si disfrutaste, te agradecería muchísimo que hicieras lo mismo. ¡Buen viaje!\" Este único mensaje duplica la tasa de reseñas completadas (de ~70% a ~90%).\n\n5. **Añadir contacto humano en al menos un momento de la estancia** [[reviews--human-contact-primary-driver]] — El factor #1 en reseñas de 5 estrellas no es el apartamento: es el contacto humano. Si vives cerca, haz el check-in en persona. Si no, considera un co-anfitrión local que salude al huésped durante los primeros 10 minutos (coste estimado: ~30 USD por estancia). La automatización al 100% tiende a calificaciones de 4 estrellas, no de 5.\n\n**Por qué funciona el conjunto**: el precio bajo y el calendario concentrado atraen reservas rápidas; los mensajes automatizados gestionan expectativas y resuelven fricciones antes de que lleguen a la reseña; la reciprocidad post-salida activa el compromiso social del huésped; el contacto humano genera la emoción que el huésped recordará al escribir.\n\n**Resultado esperado**: 3 reseñas conseguidas en los primeros 30-45 días, con calificación media de 4.8 o superior, suficiente para abrir el calendario completo y subir el precio a la paridad con la competencia.\n\n**Fuentes**: [[sources/Ek8m0ZAhMgA]], [[sources/zih3JqcBRAE]], [[sources/xT4BHg26ZFE]], [[sources/o_KqQkQKk1M]]",
+  "atoms_cited": [
+    "[[occupancy--new-listing-calendar-strategy]]",
+    "[[reviews--calibrate-five-star-arrival]]",
+    "[[reviews--mid-stay-message]]",
+    "[[reviews--reciprocity-post-checkout]]",
+    "[[reviews--human-contact-primary-driver]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/o_KqQkQKk1M]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

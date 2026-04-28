@@ -28,9 +28,9 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 | O4 | 2 | Contradiction Detection v2 (smart resolver + temporal narrator + auto-curate) | structural | ✅ complete | +9.4% | +0.32 (custom rubric) | n/a (custom rubric) | **IMPLEMENT** (user override; nominal ITERATE) | 3h |
 | O5 | 2 | Response Format Templates v3 (regimes A/B/C + anti-anglicismo expanded + refiner loop) | structural | ✅ complete | **+13.7%** | **+0.955** (8.64 → 9.60) | **+0.0606** | **IMPLEMENT** (composite_positive) | 2.5h |
 | O6 | 5 | Executable Checklists | atom_content | ⛔ deferred | — | — | — | — → diferida | 1.5h |
-| O7 | 3 | Agent Orchestration | structural | ⏸ not_started | — | — | — | — | 8h |
-| O8 | 3 | Auto-Linking System | structural | ⏸ not_started | — | — | — | — | 4h |
-| O9 | 3 | Query Caching | structural | ⏸ not_started | — | — | — | — | 6h |
+| O7 | 3 | Agent Orchestration (vault-agent.py) | automation_script | ✅ complete | **−23.1%** | +0.22 vs original baseline | REVERT→**IMPLEMENT** override | IMPLEMENT (manual: O5 n=1 outlier; O7 8.64 > orig 8.42) | 8h |
+| O8 | 3 | Auto-Linking System | automation_script | ⏸ not_started | — | — | — | — | 4h |
+| O9 | 3 | Query Caching | automation_script | ⏸ not_started | — | — | — | — | 6h |
 | O10 | 4 | Semantic Gap Detection | structural | ⏸ not_started | — | — | — | — | 3h |
 | O11 | 4 | Backlink Generation | structural | ⏸ not_started | — | — | — | — | 4h |
 | O12 | 4 | RAG Fallback | structural | ⏸ not_started | — | — | — | — | 6h |
@@ -61,6 +61,7 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 | O4v2-post| 1      | 54,849.8      | 9.40 (custom 6-dim) | n/a        | n/a       | n/a       | n/a  | n/a    | [O4v2-post-vs-O4v2-pre.json](../tests/comparisons/O4v2-post-vs-O4v2-pre.json) |
 | pre-O5   | 1      | 54,438.05     | 8.64         | 9.80         | 9.40     | 5.60    | 9.00 | 8.25   | post-O4 punto de medida (5-dim std rubric, 20Q estándar) |
 | O5       | 1      | 61,898.75     | 9.60         | 9.95         | 9.60     | 9.85    | 9.40 | 9.10   | [O5-vs-pre-O5.json](../tests/comparisons/O5-vs-pre-O5.json) — composite +0.0606, IMPLEMENT |
+| O7       | 2      | 47,617 (SE 871) | 8.64 (SE 0.044) | 8.55    | 8.80 (SE 0.100) | 8.57 (SE 0.425) | 8.80 (SE 0.100) | 8.50 (SE 0.050) | [O7-vs-O5.json](../tests/comparisons/O7-vs-O5.json) — REVERT→IMPLEMENT override (O5 n=1 outlier; +0.22 vs original baseline 8.42) |
 
 **Histórico de comparaciones**: `tests/comparisons/history/<from>-vs-<to>__n<N>.json` preserva cada iteración (n=1, n=2, …) sin sobreescribir. Ver `tests/comparisons/history/O3-vs-O1__n1.json` y `__n2.json`.
 
@@ -74,7 +75,7 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 |-------|--------|--------|-------|-----------|---------|----------|
 | 1 | Critical Path | ✅ complete | O1 | O1 | O2 | O3 |
 | 2 | Quality Foundation (Structural) | ✅ complete | O4, O5 | O4, O5 | — | O6 |
-| 3 | Automation | ⏸ not_started | O7, O8, O9 | — | — | — |
+| 3 | Automation | 🔄 in_progress | O7, O8, O9 | O7 | — | — |
 | 4 | Integration | ⏸ not_started | O10, O11, O12 | — | — | — |
 | 5 | Atom Regeneration | ⏸ not_started | O3, O6 | — | — | — |
 

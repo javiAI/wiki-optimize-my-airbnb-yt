@@ -1,0 +1,25 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 3,
+  "response": "**Diagnóstico**: Los huecos de 1-2 noches entre reservas (noches huérfanas) se generan porque la demanda en esos días cae automáticamente al quedar encajonados. No se llenan solos — hay que atacar la fricción de precio y de estancia mínima de forma coordinada.\n\n**Pasos**:\n\n1. **Activar adjacency factor en PriceLabs** [[pricing--adjacency-factor]] — configura -40% a -50% (en modo percent, no fixed) en los días inmediatamente anteriores y posteriores a cualquier reserva. Es la customización más infrautilizada: un caso documentado subió la ocupación del 60% al 82% en seis semanas solo con este cambio.\n\n2. **Aplicar la estrategia de noche huérfana** [[pricing--orphan-night-strategy]] — en PriceLabs usa Date-Specific customization para esa fecha aislada: (a) baja el minimum stay a 1 noche SOLO para ese día, (b) añade un +20% sobre el precio recomendado. El error clásico es bajar el precio; el huésped de 1 noche es menos sensible al precio pero sí le frena el minimum stay de 2 o 3 noches.\n\n3. **Ofrecer extensión al huésped actual** [[occupancy--extend-offer-message]] — 1-2 días antes del check-out, envía un mensaje ofreciendo las noches disponibles con un 20% de descuento. La tasa de aceptación típica es del 30%: el huésped ya está cómodo, buscar alternativa le cuesta, y el descuento lo percibe como trato exclusivo. Solo aplicar si esas fechas siguen libres.\n\n4. **Configurar descuento Thu/Sun para extender estancias de fin de semana** [[pricing--thu-sun-weekend-extension]] — si tus huecos caen en jueves o domingo, un descuento de -10% a -15% en esos días incentiva que los huéspedes alarguen desde el miércoles o hasta el lunes, convirtiendo el hueco en parte de una estancia más larga.\n\n**Por qué funciona el conjunto**: el adjacency factor baja la fricción de precio de forma automática en todo el calendario; la estrategia de noche huérfana elimina la fricción de estancia mínima para esa fecha específica; la oferta de extensión captura al huésped más probable (el que ya está dentro) antes de que el hueco quede vacío; y el ajuste Thu/Sun reduce la probabilidad de que esos huecos aparezcan en primer lugar.\n\n**Resultado esperado**: reducción visible de noches huérfanas sin llenar en 2-4 semanas; en propiedades con adjacency factor desactivado, el salto de ocupación puede ser de 15-20 puntos porcentuales.\n\n**Fuentes**: [[sources/PG3EGrwFzsI]], [[sources/Ek8m0ZAhMgA]], [[sources/zGkc_U9qC1k]], [[sources/dnpAlGP8ta8]], [[sources/CyddkOVq6WM]]\n\n⚠️ **Nota**: [[pricing--thu-sun-weekend-extension]] sugiere descuento del -10/-15% los jueves y domingos; [[pricing--weekend-days-definition]] discrepa y recomienda marcar esos días como fin de semana (premium) en PriceLabs.\n- **Confianza**: ambos son high; ninguno gana universalmente — la variable decisiva es el patrón de reservas de tu mercado.\n- **Cuándo aplica el descuento Thu/Sun**: si la mayoría de tus reservas son viernes→domingo y quieres empujar extensiones. Si ya recibes reservas habituales jueves→domingo, márcalos como fin de semana y cobra premium.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[pricing--adjacency-factor]]",
+    "[[pricing--orphan-night-strategy]]",
+    "[[occupancy--extend-offer-message]]",
+    "[[pricing--thu-sun-weekend-extension]]",
+    "[[pricing--weekend-days-definition]]"
+  ],
+  "sources_cited": [
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/CyddkOVq6WM]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

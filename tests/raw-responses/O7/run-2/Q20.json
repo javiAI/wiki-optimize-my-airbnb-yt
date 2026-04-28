@@ -1,0 +1,28 @@
+{
+  "question_id": "Q20",
+  "question": "Mi listing está estable (4.9★, 75% occupancy). ¿Cómo lo llevo al 'elite tier'?",
+  "level": 4,
+  "response": "**Panorama**: Con 4.9★ y 75% de ocupación ya superas a la mayoría del mercado. El salto al tier de élite no viene de una sola palanca, sino de acumular ventajas en cuatro ejes — posicionamiento, señales de demanda, pricing de precisión y huéspedes recurrentes — donde cada uno amplifica el resultado de los otros [[notes/listing-optimization--ten-percent-better-ten-things]].\n\n**Comparativa**:\n\n| Eje | Situación actual (estable) | Elite tier | Palanca clave |\n|---|---|---|---|\n| Comodidades y material de reseñas [[notes/listing-optimization--unique-amenities-review-fuel]] | Stack estándar; reseñas de una línea | Amenidades memorables que el huésped menciona por nombre | Añadir 2-3 ítems de \"review fuel\" ($30-300 c/u): vajilla cobre, cabezal 3 chorros, telescopio si hay exterior |\n| Señal de conversión [[notes/ranking--conversion-over-views]] | 75% ocupación visible; impressions OK | Conversión alta → Airbnb distribuye más | Optimizar thumbnail + primeras 5 fotos; reordenar para romper patrón visual del mercado |\n| Huéspedes recurrentes [[notes/ranking--repeat-guests-boost]] | Muy pocos o ninguno | 1-2 repeats/año = ventaja de desviación estándar | Mensaje 7 días post-salida con descuento personalizado + ping en temporada relevante 3-4 meses después |\n| Pricing de precisión [[notes/pricing--three-metrics-framework]] | Rate y ocupación OK; BLT no monitoreado | Las 3 métricas (tarifa, ocupación, BLT) superan al mercado simultáneamente | Revisar BLT en Airbnb Insights; si BLT < mercado, señal de que el precio está demasiado bajo al principio de la ventana |\n\n**Cómo elegir dónde empezar**:\n\n- Si tus reseñas son cortas y genéricas (\"Great place!\") → empieza por **amenidades de review fuel** [[notes/listing-optimization--unique-amenities-review-fuel]]; generan reseñas largas que pesan más en el posicionamiento [[notes/ranking--review-length-affects-rank]].\n- Si tienes buena conversión pero el posicionamiento no sube → activa palanca de **huéspedes recurrentes** [[notes/ranking--repeat-guests-boost]]; casi ningún anfitrión los tiene, así que 1-2/año ya te diferencia.\n- Si tu tarifa está en el rango de la competencia o por debajo → audita las **3 métricas** [[notes/pricing--three-metrics-framework]] y, si hay surge de reservas, sube la base de precio inmediatamente [[notes/pricing--base-price-raise-after-surge]] para consolidar el ranking al tier superior.\n- Si llevas más de 6 meses sin tocar el anuncio → re-optimiza fotos, título y comodidades marcadas (10 min, 2-3×/año) [[notes/listing-optimization--reoptimize-biannual]]; Airbnb penaliza anuncios estancos gradualmente.\n\n**Próximos pasos**:\n\n- Esta semana: compra 1-2 ítems de review fuel (<$100) y añádelos a las fotos antes de la próxima reserva.\n- Este mes: revisa BLT en Insights y compara con el mercado; si BLT < mercado, sube base ±5%.\n- Cada año: envía mensaje de reenganche a los últimos 20 huéspedes en temporada alta con un código de descuento del 10%.\n\n**Fuentes**: [[sources/NVK0qIJkzNo]], [[sources/PVldBDSYpAA]], [[sources/dnpAlGP8ta8]], [[sources/Nzmpg8m-imY]], [[sources/iFZnEXouqx8]]",
+  "atoms_cited": [
+    "[[notes/listing-optimization--ten-percent-better-ten-things]]",
+    "[[notes/listing-optimization--unique-amenities-review-fuel]]",
+    "[[notes/ranking--conversion-over-views]]",
+    "[[notes/ranking--repeat-guests-boost]]",
+    "[[notes/pricing--three-metrics-framework]]",
+    "[[notes/ranking--review-length-affects-rank]]",
+    "[[notes/pricing--base-price-raise-after-surge]]",
+    "[[notes/listing-optimization--reoptimize-biannual]]"
+  ],
+  "sources_cited": [
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/PVldBDSYpAY]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/iFZnEXouqx8]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

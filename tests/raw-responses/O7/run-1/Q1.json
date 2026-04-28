@@ -1,0 +1,21 @@
+{
+  "question_id": "Q1",
+  "question": "Acabo de publicar mi anuncio. ¿Qué precio inicial pongo?",
+  "level": 1,
+  "response": "**Respuesta directa**: Pon tu precio un 25-30% por debajo de los anuncios comparables de tu mercado, con estancia mínima de 1 noche y el calendario abierto solo 3-5 semanas hacia adelante. Mantén esa configuración hasta acumular 3 reseñas [[occupancy--new-listing-calendar-strategy]].\n\n**Por qué**: sin reseñas, el algoritmo de Airbnb da muy poco visibilidad a tu anuncio. El precio bajo acelera la conversión y genera las primeras reseñas rápido, que son la señal de momentum que el algoritmo necesita para empezar a posicionarte [[occupancy--new-listing-calendar-strategy]]. Con el calendario bloqueado, Airbnb concentra la demanda en pocas fechas disponibles y aumenta la probabilidad de que te reserven.\n\n**Cuándo aplica**: durante los primeros bookings, hasta tener 3 reseñas. Pasado ese umbral, abre el calendario completo, normaliza la estancia mínima a 2-3 noches y sube el precio a paridad con la competencia [[occupancy--new-listing-calendar-strategy]].\n\n**Fuentes**: [[sources/Ek8m0ZAhMgA]], [[sources/7DrT9dlf2q0]], [[sources/9IcUCiUcsFg]]\n\n⚠️ **Nota**: [[occupancy--new-listing-calendar-strategy]] recomienda -25-30% respecto a comparables de forma manual; [[pricing--new-listing-pricelabs-bootstrap]] discrepa: si ya tienes PriceLabs conectado desde el día 1, acepta el precio base recomendado por la herramienta sin modificar y ajusta ±5-10% tras 10 días según ocupación real.\n- **Confianza**: el primer atom es high; el segundo es medium. El primero es la recomendación principal porque tiene higher confidence y mayor especificidad (criterio contextual: el PL bootstrap aplica solo si usas PriceLabs desde el primer día).\n- **Cuándo aplica el segundo**: si tienes PriceLabs integrado desde el lanzamiento y prefieres delegar al algoritmo en lugar de fijar el descuento manualmente.\n- **Detalle**: ver [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[occupancy--new-listing-calendar-strategy]]",
+    "[[pricing--new-listing-pricelabs-bootstrap]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/7DrT9dlf2q0]]",
+    "[[sources/9IcUCiUcsFg]]",
+    "[[sources/WUIrpYpbQ5E]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

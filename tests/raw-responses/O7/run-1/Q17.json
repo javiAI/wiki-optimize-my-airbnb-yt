@@ -1,0 +1,27 @@
+{
+  "question_id": "Q17",
+  "question": "¿Cómo evalúo un mercado para invertir en una segunda propiedad (discovered vs undiscovered)?",
+  "level": 4,
+  "response": "**Panorama**: Evaluar un mercado para una segunda propiedad implica dos decisiones secuenciales: elegir entre mercado descubierto (known hot: 30A, Smoky Mountains, Scottsdale) o no descubierto (conjectura propia + baja competencia), y luego aplicar un conjunto de filtros cuantitativos que validan si el mercado y el deal concreto son viables. La preferencia documentada del autor es **mercado no descubierto**: menos competencia, más fácil ser el número 1, precios de compra proporcionales al ingreso, menor riesgo regulatorio [[market-selection--discovered-vs-undiscovered]].\n\n**Comparativa**:\n\n| Eje | Mercado descubierto | Mercado no descubierto |\n|---|---|---|\n| Ejemplos típicos [[market-selection--discovered-vs-undiscovered]] | 30A, Smoky Mountains, Scottsdale, Sedona | Lagos Midwest, destinos turismo médico, zonas rurales sin hype |\n| Ingresos promedio | Alto ($150–300k) | Medio ($60–150k) |\n| Ratio precio/ingreso | 6–10× (viola regla 5×) | 3–5× (cumple regla) |\n| Competencia | Saturada (cientos de anuncios) | Baja (20–100 anuncios) |\n| Dificultad para ser top 1 | Muy alta | Media-baja |\n| Riesgo regulatorio | Alto (ciudades restringiendo STR) | Bajo (muchos rurales sin leyes STR) |\n| Fuente de discovery | Listas \"top 25\" públicas | Conjectura propia + rabbit hole |\n| Calidad de workforce | Variable pero saturada | Sin benchmark; requiere verificar |\n\n**Cómo elegir**:\n\n- Si buscas menor riesgo de saturación, precio de compra proporcional al ingreso y posibilidad de rankear primero con menos esfuerzo → **mercado no descubierto** [[market-selection--discovered-vs-undiscovered]]\n- Si tienes capital grande, ops a escala y buscas demanda base asegurada (destination repeat) aunque sacrifiques ratio precio/ingreso → mercado descubierto (minoría; excepción, no regla)\n- Si el mercado aparece en más de 10 vídeos/blogs recientes con \"best Airbnb market\" → descartarlo; ir a conjectura propia [[investing--conjecture-first-market-research]]\n- Si el mercado tiene >2000 anuncios para población <500k → descubierto; filtrar\n\n**Filtros de validación del mercado** (aplicar en este orden):\n\n1. **Perfil de 5 criterios positivos** [[market-selection--profile-criteria]]: demanda todo el año, infraestructura turística creciendo, gap oferta-demanda activo, workforce local sana, entorno regulatorio estable o clarificándose. Un mercado que no cumple los 5 no entra.\n2. **Filtro geográfico (mercado USA)** [[market-selection--airports-plus-cities-3h-drive]]: ≥3 ciudades de 100k+ residentes + ≥2 aeropuertos dentro de 3h en automóvil. Proxy de demanda diversificada (negocios + ocio + médica).\n3. **Proxy de madurez en Airbnb** [[market-selection--reviews-on-first-page-proxy]]: abrir Airbnb en el mercado, zoom 7 de 18, contar reseñas promedio en primera página. 150–300 reseñas = mercado maduro rentable; <50 = mercado joven o con alta rotación de anfitriones; >300 = posible saturación.\n4. **Filtro de workforce** [[market-selection--avoid-hot-workforce-starved]]: verificar disponibilidad de al menos 2–3 equipos de limpieza operativos. Sin workforce fiable, los números de ingresos son ficción.\n5. **Benchmark al percentil 90** [[investing--90th-percentile-benchmark]]: usar AirDNA o PriceLabs Market Dashboard para ver el percentil 90 de ingresos por número de habitaciones (no el promedio). Esa es la cifra sobre la que modelarás tu proyección.\n6. **Regla 5×** [[investing--purchase-to-revenue-ratio-5x]]: precio de compra ÷ ingresos brutos anuales proyectados (tuyo, percentil 90) ≤ 5. Sobre 5.1×, descartar sin excepción. Es el filtro primario sobre el deal concreto, no sobre el mercado.\n\n**Próximos pasos**:\n- Define tu conjectura de partida (\"¿qué tipo de mercado tiene los mejores huéspedes?\") y abre al menos 25 candidatos antes de filtrar; nunca empieces con listas públicas [[investing--conjecture-first-market-research]].\n- Para cada candidato que pase los filtros 1–4, extrae el percentil 90 en AirDNA o AllTheRooms y calcula el ratio 5× con el precio de compra real antes de contactar al agente.\n\n**Fuentes**: [[sources/gRBPFT97MV8]], [[sources/L5jTvT-Z5JQ]], [[sources/jKY6djYDsZc]], [[sources/2PTub0hub0g]]",
+  "atoms_cited": [
+    "[[market-selection--discovered-vs-undiscovered]]",
+    "[[investing--conjecture-first-market-research]]",
+    "[[market-selection--profile-criteria]]",
+    "[[market-selection--airports-plus-cities-3h-drive]]",
+    "[[market-selection--reviews-on-first-page-proxy]]",
+    "[[market-selection--avoid-hot-workforce-starved]]",
+    "[[investing--90th-percentile-benchmark]]",
+    "[[investing--purchase-to-revenue-ratio-5x]]"
+  ],
+  "sources_cited": [
+    "[[sources/gRBPFT97MV8]]",
+    "[[sources/L5jTvT-Z5JQ]]",
+    "[[sources/jKY6djYDsZc]]",
+    "[[sources/2PTub0hub0g]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

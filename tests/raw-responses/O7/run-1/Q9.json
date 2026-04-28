@@ -1,0 +1,32 @@
+{
+  "question_id": "Q9",
+  "question": "¿Qué amenities destaco y cuáles no aportan al booking?",
+  "level": 3,
+  "response": "**Diagnóstico**: La pregunta es B (táctico multi-palanca): qué destacar y qué descartar son dos decisiones coordinadas. Asumimos un anuncio existente con categoría mid o premium.\n\n**Pasos**:\n\n1. **Verifica que los filtros de búsqueda estén correctamente marcados** [[listing-optimization--bathroom-filter-match]] — antes de destacar nada, audita que cocina, TV, zona de trabajo, parking, lavadora/secadora y número real de baños estén marcados en el editor. Un listing con TV física pero sin el check activo es invisible para todos los huéspedes que filtran por TV. Una corrección de 2 minutos puede valer +12% de ingresos.\n\n2. **Añade al menos una cama king en un dormitorio** [[listing-optimization--king-bed-filter-hack]] — activa el filtro \"king bed\" de Airbnb, que amplía tu pool de búsqueda, y un solo huésped es quien reserva y deja reseña, así que satisfacer a esa persona es suficiente para 5 estrellas.\n\n3. **Prioriza comodidades de vida útil larga y mantenimiento cero** [[listing-optimization--amenity-longevity-low-maintenance]] — cortinas opacas (imprescindibles), luces regulables (solo el 3% de los anuncios las tienen, sin mantenimiento), almohadas multi-firmeza, TV de 100 pulgadas o monitores top. Evita jacuzzis y cerraduras inteligentes por el coste operativo elevado y los fallos frecuentes.\n\n4. **Incorpora al menos 3 de las 9 comodidades esenciales que faltan en la mayoría de anuncios** [[listing-optimization--essential-amenities-checklist]] — ducha grande, ganchos en la entrada, perchas de plástico, altavoz Bluetooth, tapas para ollas, tijeras, variedad de asientos cómodos y lámparas de mesita. Coste total inferior a 200 USD; impacto directo en calificación y reseñas.\n\n5. **Añade una o dos comodidades únicas que generen material para reseñas** [[listing-optimization--unique-amenities-review-fuel]] — telescopio (si hay terraza con poca contaminación lumínica), hamaca plegable, alcachofa de ducha de tres salidas, vajilla de cobre o vasos premium adaptados al precio. Coste entre 30 y 300 USD una sola vez; generan menciones orgánicas en las reseñas que alargan el texto y activan etiquetas de posicionamiento.\n\n**Por qué funciona el conjunto**: primero cierras los huecos de visibilidad (filtros sin marcar = ausencia en búsqueda); luego construyes la capa base que todos los huéspedes esperan (sin ella hay reseñas negativas); y encima añades diferenciadores que generan reseñas largas y fidelización. Las comodidades premium no solo suben la tarifa: también suben la ocupación de forma simultánea y multiplicativa [[listing-optimization--amenities-rate-plus-occupancy-compound]] — un +20% en tarifa y +10% en ocupación produce un incremento real de ingresos del 32%, no del 30%.\n\n**Resultado esperado**: auditoría de filtros + capa base en 1-2 semanas → eliminar ausencias en búsqueda. Comodidades únicas fotografiadas y descritas → menciones en reseñas en las próximas 3-5 estancias.\n\n**Qué NO destacar**: comodidades genéricas sin diferenciación (cafetera estándar, toallas normales, TV básica) no generan mención en reseñas ni activan filtros adicionales. Tampoco destaquen espacios no utilizables: un balcón sin mobiliario cómodo o en clima caliente sin ventilador genera expectativa frustrada y penaliza [[listing-optimization--spaces-concept]].\n\n**Fuentes**: [[sources/4VBSa0I5PIA]], [[sources/6ACFgXQ5aEU]], [[sources/NVK0qIJkzNo]], [[sources/vi_OEWsofXo]], [[sources/iFZnEXouqx8]]",
+  "atoms_cited": [
+    "[[listing-optimization--bathroom-filter-match]]",
+    "[[listing-optimization--king-bed-filter-hack]]",
+    "[[listing-optimization--amenity-longevity-low-maintenance]]",
+    "[[listing-optimization--essential-amenities-checklist]]",
+    "[[listing-optimization--unique-amenities-review-fuel]]",
+    "[[listing-optimization--amenities-rate-plus-occupancy-compound]]",
+    "[[listing-optimization--spaces-concept]]"
+  ],
+  "sources_cited": [
+    "[[sources/4VBSa0I5PIA]]",
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/NVK0qIJkzNo]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/iFZnEXouqx8]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "No se detectaron conflictos HIGH o MEDIUM activos en el shortlist de átomos de comodidades. El atom de mantenimiento descarta jacuzzis consistentemente con el resto del corpus."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

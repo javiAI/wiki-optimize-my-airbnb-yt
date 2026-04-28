@@ -1,0 +1,26 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 3,
+  "response": "**Diagnóstico**: La respuesta pública a una reseña negativa no es para convencer al huésped que la dejó — esa conversación ya terminó. El lector real es el futuro huésped potencial (FPG) que escanea el listado antes de reservar. Redactar con ese lector en mente cambia completamente el tono y la estructura.\n\n**Pasos**:\n\n1. **Igualar la extensión con tus respuestas positivas** [[hospitality--host-response-to-review-as-marketing]] — Si tus respuestas a reseñas de 5★ son de 2-3 líneas, la respuesta a la reseña negativa debe tener la misma extensión. Una respuesta desproporcionalmente larga llama la atención del FPG sobre la reseña negativa justo cuando estás intentando minimizarla.\n\n2. **Abre con empatía, no con defensa** [[reviews--emotional-intensity-plus-10]] — Empezar con \"Lamentamos que tu experiencia no cumpliera las expectativas\" es neutral y profesional. Iniciar con \"En realidad lo que sucedió fue...\" o citar errores del huésped activa señales de alarma en el FPG: un anfitrión que discute públicamente transmite más riesgo que la reseña original.\n\n3. **Nombra la acción correctiva de forma específica** [[hospitality--host-response-to-review-as-marketing]] — En lugar de \"tomamos nota de tus comentarios\", escribe \"hemos instalado una segunda unidad de climatización en la habitación principal\" o \"hemos actualizado el manual de la casa con instrucciones más claras para el jacuzzi\". El FPG lee esto como evidencia de que el problema ya no existe.\n\n4. **Cierra con una invitación hacia adelante** [[reviews--emotional-intensity-plus-10]] — Una frase final como \"Esperamos poder demostrarte nuestra hospitalidad en una futura visita\" convierte la respuesta defensiva en mensaje de confianza. El FPG ve a un anfitrión maduro, no a uno herido.\n\n5. **Actúa en paralelo: empuja volumen** [[reviews--more-dilutes-negative]] — Ninguna respuesta pública neutraliza una reseña de 1★ matemáticamente. La única dilución real viene de acumular más reseñas: una reseña negativa sobre 100 baja el promedio 0,04 puntos; sobre 10 lo baja 0,4. Activar el flujo de mensajes de reciprocidad post-salida es la acción paralela más importante.\n\n**Por qué funciona el conjunto**: la respuesta calibrada en longitud y tono reduce la señal de alarma para el FPG; la acción correctiva específica convierte el defecto en evidencia de mejora; el volumen diluye el peso estadístico. Los tres mecanismos operan en dimensiones distintas y no se sustituyen entre sí.\n\n**Resultado esperado**: el FPG que lee la reseña negativa y la respuesta del anfitrión concluye que el problema fue puntual y ya está resuelto, en lugar de interpretar la reseña como patrón de la propiedad. Impacto en conversión: difícil de aislar, pero el riesgo de la reseña negativa visible cae cuando la respuesta del anfitrión es más profesional que la queja original.\n\n**Fuentes**: [[sources/2025-05-28--my-100k-blueprint-complete-airbnb-hosting-course]], [[sources/2024-12-19--how-to-delete-airbnb-reviews-7-step-guide]]",
+  "atoms_cited": [
+    "[[hospitality--host-response-to-review-as-marketing]]",
+    "[[reviews--emotional-intensity-plus-10]]",
+    "[[reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/2025-05-28--my-100k-blueprint-complete-airbnb-hosting-course]]",
+    "[[sources/2024-12-19--how-to-delete-airbnb-reviews-7-step-guide]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "No hay conflicto activo HIGH/MEDIUM en los atoms usados. El atom hospitality--host-response-to-review-as-marketing referencia reviews--facts-only-negative-review para reseñas <4★, pero esa táctica aplica a la reseña que el anfitrión escribe sobre el huésped, no a la respuesta pública a la reseña del huésped sobre el anfitrión. Scope distinto, no conflicto."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 7,
+    "accuracy": 8,
+    "notes": "La wiki documenta explícitamente un gap en este tema: 'Response templates a reviews negativas ya posteadas — mencionado pero pendiente atom dedicado' (MOC/reviews.md, sección Gaps conocidos). La respuesta se construyó a partir de atoms adyacentes (host-response-as-marketing, emotional-intensity-plus-10, more-dilutes-negative) y de la fuente directa 2025-05-28 (timestamp 17:37) que menciona la táctica de igualar longitudes. Confidence medium porque la cobertura directa del tema es escasa; los pasos son inferidos con solidez pero no están atomizados de forma explícita en la wiki."
+  }
+}

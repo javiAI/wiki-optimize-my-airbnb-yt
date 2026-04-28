@@ -1,0 +1,27 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 3,
+  "response": "**Diagnóstico**: La respuesta pública no borra la reseña (en 2026 el proceso de remoción es prácticamente imposible), pero sí habla a futuros huéspedes que la lean. El objetivo es proyectar profesionalismo, no ganar una discusión.\n\n**Pasos**:\n\n1. **Responde en frío, con hechos, sin emoción** [[reviews--facts-only-negative-review]] — Espera mínimo 24 horas antes de escribir. Usa solo hechos verificables: \"El huésped realizó una reclamación de limpieza el día de entrada; enviamos personal en menos de 2 horas\". Elimina cualquier adjetivo subjetivo. Si suenas a la defensiva, los futuros huéspedes lo perciben.\n\n2. **Iguala el tono del huésped y súbelo +10% en empatía** [[reviews--emotional-intensity-plus-10]] — Si la reseña es agresiva (nivel 7), tu respuesta debe ser empática (nivel 8), nunca a la par. Ejemplo: \"Lamentamos profundamente que la estancia no cumpliera las expectativas. Tomamos muy en serio cada comentario de nuestros huéspedes.\"\n\n3. **Sé breve y termina con un paso concreto** [[reviews--facts-only-negative-review]] — Máx 3-4 frases. Cierra con una acción positiva: \"Hemos revisado el protocolo de limpieza con el equipo para que no se repita.\" No te extiendas — respuestas largas defensivas amplifican el problema ante lectores nuevos.\n\n4. **Empuja volumen de nuevas reseñas en paralelo** [[reviews--more-dilutes-negative]] — La respuesta pública es solo cosmética; la dilución real viene de conseguir más reseñas positivas. Una reseña negativa sobre 10 hunde la calificación; sobre 100 apenas se nota. Activa el flujo de mensajes post-checkout para acelerar el volumen.\n\n**Por qué funciona el conjunto**: la respuesta pública controla el relato para futuros huéspedes (muestra que eres profesional y reactivo), mientras que la estrategia de volumen reduce matemáticamente el peso de la reseña negativa. Son dos planos distintos que se complementan.\n\n**Resultado esperado**: neutralización del impacto visible en 30-60 días si consigues 5-10 nuevas reseñas positivas. La reseña negativa sigue visible, pero pierde peso narrativo.\n\n**Fuentes**: [[sources/uwdAHCmhNn4]], [[sources/qzm28u64294]], [[sources/zih3JqcBRAE]]",
+  "atoms_cited": [
+    "[[reviews--facts-only-negative-review]]",
+    "[[reviews--emotional-intensity-plus-10]]",
+    "[[reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/uwdAHCmhNn4]]",
+    "[[sources/qzm28u64294]]",
+    "[[sources/zih3JqcBRAE]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "notes": "No hay conflictos HIGH/MEDIUM activos entre los atoms usados en esta respuesta. Los conflictos del topic reviews afectan a remoción de reseñas (removal-process-broken-2025 vs three-removal-reasons), que no es el foco de esta pregunta (respuesta pública, no remoción)."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 6,
+    "accuracy": 8,
+    "notes": "El MOC de reviews indica explícitamente que 'Response templates a reviews negativas ya posteadas' es un gap conocido — no hay un atom dedicado a la respuesta pública. La respuesta está construida sintetizando atoms adyacentes (facts-only, emotional-intensity, dilution), lo que reduce la completeness. Accuracy es alta porque los principios aplicados son sólidos y consistentes con las fuentes disponibles."
+  }
+}

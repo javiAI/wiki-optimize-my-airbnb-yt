@@ -1,0 +1,27 @@
+{
+  "question_id": "Q17",
+  "question": "¿Cómo evalúo un mercado para invertir en una segunda propiedad (discovered vs undiscovered)?",
+  "level": 4,
+  "response": "**Panorama**: Evaluar un mercado para una segunda propiedad requiere dos etapas secuenciales: primero decidir el tipo de mercado (descubierto vs no descubierto), y luego aplicar filtros cuantitativos sobre los candidatos que pasen el corte. Los mercados descubiertos (30A, Smoky Mountains, Scottsdale) ofrecen infraestructura madura pero competencia saturada; los no descubiertos ofrecen arbitraje limpio y posición de liderazgo más fácil, con menor riesgo regulatorio [[notes/market-selection--discovered-vs-undiscovered]].\n\n**Comparativa**:\n\n| Eje | Mercado Descubierto | Mercado No Descubierto |\n|---|---|---|\n| Ejemplos | 30A, Smoky Mountains, Scottsdale, Sedona | Lagos del Midwest, ciudades de turismo médico, zonas rurales con demanda propia |\n| Ratio precio/ingresos [[notes/investing--purchase-to-revenue-ratio-5x]] | 6-10× (viola regla de 5×) | 3-5× (cumple regla de 5×) |\n| Competencia | Saturada (cientos de anuncios) | Baja (20-100 anuncios) |\n| Posicionar como top del mercado [[notes/market-selection--discovered-vs-undiscovered]] | Muy difícil (página 15) | Alcanzable (top-5 = 90% ocupación) |\n| Riesgo regulatorio | Alto (ciudades restringiendo alquileres turísticos) | Bajo (muchas zonas rurales sin regulación) |\n| Workforce disponible [[notes/market-selection--avoid-hot-workforce-starved]] | Escasa en mercados calientes | Generalmente estable |\n| Señal de detección | >10 vídeos/blogs recientes en Google + >2.000 anuncios para <500k habitantes | Sin hype en YouTube; locales conocen el atractivo (lago, hospital, empresas) |\n\n**Cómo elegir**:\n\n- Si el ratio precio/ingresos brutos anuales supera 5,1× → descartar sin excepción, sea descubierto o no [[notes/investing--purchase-to-revenue-ratio-5x]]\n- Si el mercado aparece en listas públicas de «mejores mercados para Airbnb» → tratar como descubierto, verificar workforce y regulación antes de avanzar [[notes/market-selection--avoid-hot-workforce-starved]]\n- Si la conjectura es propia (rabbit hole de tipo de huésped, demanda médica, densidad de aeropuertos) → candidato no descubierto; confirmar con proxy de reseñas en primera página Airbnb ≥150 avg al zoom 7/18 [[notes/market-selection--reviews-on-first-page-proxy]]\n- Si el mercado USA supera ≥3 ciudades de 100k+ habitantes y ≥2 aeropuertos en radio de 3 horas → demanda diversificada, continuar con análisis profundo [[notes/market-selection--airports-plus-cities-3h-drive]]\n- Si cumple los 5 criterios de perfil (demanda anual, infraestructura creciendo, brecha oferta-demanda, workforce sana, entorno regulatorio estable o clarificándose) → candidato válido para deal analysis [[notes/market-selection--profile-criteria]]\n\n**Próximos pasos**:\n- Construir lista de ≥25 candidatos desde conjectura propia antes de filtrar; nunca partir de una lista pública [[notes/investing--conjecture-first-market-research]]\n- Para cada candidato que pase los filtros cualitativos, calcular ratio precio/ingresos proyectados con AllTheRooms o AirDNA sobre el percentil 90 del mercado, no el promedio\n- Sólo contactar agente inmobiliario en el paso 6 de 7 del proceso; antes es contraproducente\n\n**Fuentes**: [[sources/gRBPFT97MV8]], [[sources/L5jTvT-Z5JQ]], [[sources/jKY6djYDsZc]], [[sources/2PTub0hub0g]], [[sources/1_mswIQixGc]]",
+  "atoms_cited": [
+    "[[notes/market-selection--discovered-vs-undiscovered]]",
+    "[[notes/investing--purchase-to-revenue-ratio-5x]]",
+    "[[notes/market-selection--avoid-hot-workforce-starved]]",
+    "[[notes/market-selection--reviews-on-first-page-proxy]]",
+    "[[notes/market-selection--airports-plus-cities-3h-drive]]",
+    "[[notes/market-selection--profile-criteria]]",
+    "[[notes/investing--conjecture-first-market-research]]"
+  ],
+  "sources_cited": [
+    "[[sources/gRBPFT97MV8]]",
+    "[[sources/L5jTvT-Z5JQ]]",
+    "[[sources/jKY6djYDsJc]]",
+    "[[sources/2PTub0hub0g]]",
+    "[[sources/1_mswIQixGc]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

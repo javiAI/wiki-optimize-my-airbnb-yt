@@ -1,0 +1,28 @@
+{
+  "question_id": "Q5",
+  "question": "¿Cómo consigo mis primeras reseñas?",
+  "level": 3,
+  "response": "**Diagnóstico**: estas pautas aplican a un anuncio nuevo (0-3 reseñas). El objetivo es convertir los primeros huéspedes lo más rápido posible y asegurarte de que dejen su calificación.\n\n**Pasos**:\n\n1. **Configura el calendario en modo sprint** [[occupancy--new-listing-calendar-strategy]] — bloquea todas las fechas salvo las próximas 3-5 semanas, estancia mínima de 1 noche y precio un 30% por debajo de tus referentes. Mantén esta configuración hasta acumular 3 reseñas; después abre el calendario completo y sube el precio gradualmente.\n\n2. **Calibra la expectativa de 5 estrellas al llegar** [[reviews--calibrate-five-star-arrival]] — en el mensaje de bienvenida escribe algo como: «Mi objetivo es que tengas una experiencia de 5 estrellas. Si algo no está bien durante tu estancia, avísame de inmediato para solucionarlo». Esto consigue dos cosas: el huésped te escribe a ti primero (no a la reseña) si surge un problema, y recalibra que 4 estrellas en Airbnb no es una nota alta.\n\n3. **Envía el mensaje de mitad de estancia** [[reviews--mid-stay-message]] — el día siguiente al check-in pregunta: «¿Todo bien hasta ahora? ¿Falta algo?». Captura incidencias recuperables antes de que se conviertan en punto de crítica en la reseña.\n\n4. **Activa el principio de reciprocidad al hacer el check-out** [[reviews--reciprocity-post-checkout]] — entre 3 y 6 horas después de la salida, envía: «Hola [nombre], gracias por quedarte. Te dejaré una reseña de 5 estrellas. Si disfrutaste la estancia, te agradecería mucho que hicieras lo mismo. ¡Buen viaje!». Este mensaje por sí solo duplica la tasa de reseñas según el autor.\n\n5. **Suma contacto humano en la llegada** [[reviews--human-contact-primary-driver]] — el driver número 1 de las calificaciones de 5 estrellas es el contacto humano. Si vives cerca, haz el check-in en persona; si no, considera un vecino de confianza que salude 10 minutos y dé consejos locales (~30 €/estancia). La automatización 100% tiende a calificaciones de 4 estrellas, no de 5.\n\n**Por qué funciona el conjunto**: el precio bajo en sprint llena el calendario rápido; la calibración y el mensaje de mitad de estancia resuelven problemas antes de que lleguen a la reseña; la reciprocidad post-salida convierte huéspedes satisfechos en reseñadores activos; el contacto humano genera el recuerdo emocional que motiva una calificación máxima.\n\n**Resultado esperado**: 3 reseñas en las primeras 4-6 semanas, con una calificación media ≥4.8 si la propiedad cumple las expectativas del anuncio.\n\n**Fuentes**: [[sources/Ek8m0ZAhMgA]], [[sources/zih3JqcBRAE]], [[sources/xT4BHg26ZFE]]",
+  "atoms_cited": [
+    "[[occupancy--new-listing-calendar-strategy]]",
+    "[[reviews--calibrate-five-star-arrival]]",
+    "[[reviews--mid-stay-message]]",
+    "[[reviews--reciprocity-post-checkout]]",
+    "[[reviews--human-contact-primary-driver]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

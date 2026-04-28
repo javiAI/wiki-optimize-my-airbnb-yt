@@ -1,0 +1,32 @@
+{
+  "question_id": "Q12",
+  "question": "¿Qué filtros aplica un guest en search antes de hacer click en mi listing?",
+  "level": 3,
+  "response": "**Diagnóstico**: La pregunta mapea el embudo de búsqueda en P2 (página de resultados). Antes del click, el huésped aplica filtros que eliminan tu anuncio de su vista. Si tu configuración no coincide, el huésped nunca te ve, sin importar la calidad del anuncio.\n\n**Pasos**:\n\n1. **Verificar los 4 filtros primarios** [[listing-optimization--guests-only-care-four-things]] — Precio, ubicación, número de habitaciones y número de baños son los únicos filtros que amplían o reducen radicalmente el pool de reservas. Subir el máximo de huéspedes o añadir una habitación tiene mayor impacto que cualquier otra mejora.\n\n2. **Auditar y corregir el recuento exacto de baños y comodidades** [[listing-optimization--bathroom-filter-match]] — Si tienes 3 baños pero el anuncio dice 2, desapareces de todas las búsquedas con «3+ baños». Extender la auditoría a cocina completa, TV, zona de trabajo, aparcamiento gratuito, lavadora/secadora: cualquier comodidad sin marcar te hace invisible al segmento que la filtra.\n\n3. **Asegurarte de tener al menos 1 cama king** [[listing-optimization--king-bed-filter-hack]] — Airbnb tiene un filtro «cama king» que muestra cualquier anuncio con ≥1 king. Basta con que una habitación la tenga; la persona que hace la reserva es quien deja la reseña.\n\n4. **Subir el máximo de huéspedes hasta la capacidad real** [[listing-optimization--max-guests-expands-pool]] — Incrementar el máximo activa los filtros «admite 6+», «admite 8+» que usan grupos y familias. Reservas de celebraciones a 1.000 €+/noche son invisibles si tu tope está por debajo de lo que buscan.\n\n5. **Bajar la estancia mínima y activar Instant Book** [[ranking--minimum-stay-visibility]] — Una búsqueda de 2 noches nunca encuentra tu anuncio si tu mínimo es 3. Reducir el mínimo amplía el número de búsquedas elegibles; Instant Book añade además la señal de 100% de tasa de aceptación al algoritmo [[ranking--instant-book-acceptance-signal]], con una pérdida documentada de ~25% de impresiones en primera página al desactivarlo.\n\n**Por qué funciona el conjunto**: Los filtros de P2 son excluyentes: si no los cumples, no apareces, aunque tu foto portada sea perfecta. Cumplir todos amplía el pool de búsquedas que te muestran; la foto portada y el precio son los que convierten ese pool en clicks.\n\n**Resultado esperado**: Corregir los filtros de baños y comodidades, añadir el king y subir el máximo de huéspedes puede recuperar visibilidad en segmentos completos sin tocar precio; anfitriones que lo aplican reportan aumentos de ingresos del 12% solo por corregir el recuento de baños.\n\n**Fuentes**: [[sources/6ACFgXQ5aEU]], [[sources/vi_OEWsofXo]], [[sources/skOuCf48WxU]], [[sources/Nzmpg8m-imY]], [[sources/PkyeXZhobVQ]], [[sources/j5emxo6P7No]]",
+  "atoms_cited": [
+    "[[listing-optimization--guests-only-care-four-things]]",
+    "[[listing-optimization--bathroom-filter-match]]",
+    "[[listing-optimization--king-bed-filter-hack]]",
+    "[[listing-optimization--max-guests-expands-pool]]",
+    "[[ranking--minimum-stay-visibility]]",
+    "[[ranking--instant-book-acceptance-signal]]"
+  ],
+  "sources_cited": [
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/j5emxo6P7No]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

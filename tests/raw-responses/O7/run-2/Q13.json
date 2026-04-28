@@ -1,0 +1,33 @@
+{
+  "question_id": "Q13",
+  "question": "¿Cuál es el message flow ideal desde booking hasta post-checkout?",
+  "level": 3,
+  "response": "**Diagnóstico**: El flow de mensajes automatizados cubre el 80% del trabajo de comunicación si se configura una vez. Requiere un PMS o herramienta de terceros (Hospitable, Hostfully, Guesty) — los mensajes nativos de Airbnb solo ofrecen 3 triggers y no son suficientes para implementarlo completo.\n\n**Pasos**:\n\n1. **Configurar el PMS con restricción horaria 9am-9pm hora local del huésped** [[hospitality--enforce-message-time-restrictions]] — antes de crear ningún template, activa las \"quiet hours\" en el PMS. Airbnb solo muestra la notificación más reciente; un mensaje a las 2am local queda enterrado bajo el del siguiente anfitrión.\n\n2. **Confirmar la reserva con mensaje de bienvenida breve** [[hospitality--reservation-flow-framework]] — tras la reserva, enviar solo lo esencial: agradecimiento + promesa de enviar info logística 3 días antes. Sin adjuntar instrucciones de entrada ni reglas completas — el huésped aún no está en mindset de viaje.\n\n3. **Enviar info logística 4 días antes del check-in** [[reviews--four-days-pre-checkin-message]] — dirección, método de entrada (self check-in), WiFi, teléfono de emergencia. Prometiste \"3 días antes\" en la confirmación; enviar a 4 días es una sorpresa positiva y cubre diferencias de zona horaria. Máximo 100 palabras.\n\n4. **Wellness check el día después del check-in** [[reviews--mid-stay-message]] — mensaje tipo \"¿Todo bien? ¿WiFi, agua caliente, algo que falte?\" Captura problemas menores antes de que maduren en reseña de 3 estrellas. No enviar el día del check-in (el huésped está instalándose).\n\n5. **Mensaje pre-salida 18h antes del checkout** [[hospitality--checkout-message-principles]] — solo instrucciones específicas de salida (llaves en mostrador, ventanas cerradas, llevarse perecederos). Redacción en positivo, sin chores (nada de lavar ropa o aspirar), sin repetir reglas que ya leyeron. Cada línea del mensaje debe ser ≥50% relevante al checkout.\n\n6. **Mensaje de reciprocidad 3-6h post-checkout** [[reviews--reciprocity-post-checkout]] — \"Fue un placer tenerte, te dejaré una reseña de 5 estrellas. Si disfrutaste la estancia, te agradecería que hicieras lo mismo.\" Este único mensaje duplica la tasa de reseñas recibidas (base Airbnb ~70% → ~90% con reciprocity activa). Solo enviarlo si genuinamente darás 5 estrellas.\n\n7. **Recordatorio en día 10 si no hay reseña aún** [[hospitality--nine-automated-messages]] — trigger condicional: si Airbnb indica que el huésped no ha dejado reseña, enviar un recordatorio breve. Copy mínimo: \"Solo un recordatorio amistoso — me encantaría leer tus comentarios sobre la estancia si tienes 60 segundos.\"\n\n**Por qué funciona el conjunto**: cada mensaje llega cuando el huésped necesita esa información específica (lógica del reservation flow), sin sobrecarga. Los puntos 4 y 5 son defensivos — capturan problemas antes de que se conviertan en reseñas negativas. Los puntos 6 y 7 son ofensivos — activan la reciprocidad para convertir buenas estancias en reseñas efectivas.\n\n**Resultado esperado**: tasa de reseñas de 90%+, reducción del 80% de mensajes manuales tipo \"¿cómo entro?\" o \"¿cuál es el WiFi?\", y menos reseñas de 3 estrellas por incidentes no detectados a tiempo.\n\n**Fuentes**: [[sources/xT4BHg26ZFE]], [[sources/zih3JqcBRAE]], [[sources/o_KqQkQKk1M]], [[sources/8wPfwSkU3QE]], [[sources/lGnosQY0qEA]], [[sources/j5emxo6P7No]]",
+  "atoms_cited": [
+    "[[hospitality--enforce-message-time-restrictions]]",
+    "[[hospitality--reservation-flow-framework]]",
+    "[[reviews--four-days-pre-checkin-message]]",
+    "[[reviews--mid-stay-message]]",
+    "[[hospitality--checkout-message-principles]]",
+    "[[reviews--reciprocity-post-checkout]]",
+    "[[hospitality--nine-automated-messages]]"
+  ],
+  "sources_cited": [
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/8wPfwSkU3QE]]",
+    "[[sources/lGnosQY0qEA]]",
+    "[[sources/j5emxo6P7No]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "note": "No se detectaron conflictos HIGH o MEDIUM activos en los átomos del shortlist. Los 7 átomos de messaging flow no tienen entries en meta/contradictions.md."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

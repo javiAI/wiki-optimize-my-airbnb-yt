@@ -1,0 +1,29 @@
+{
+  "question_id": "Q11",
+  "question": "¿Cómo configuro PriceLabs para que el dynamic pricing funcione bien (min stay, last-minute, base)?",
+  "level": 3,
+  "response": "**Diagnóstico**: PriceLabs falla cuando se saltan los básicos o se añaden demasiadas personalizaciones sobre un base mal calibrado. El orden importa: primero básicos, después personalizaciones [[pricing--two-step-method]].\n\n**Pasos**:\n\n1. **Fijar el base price correctamente** [[pricing--base-price-definition]] — Acepta el base recomendado por PriceLabs como punto de partida (decisión de 30 segundos). Es la tarifa de un día promedio en un mes promedio. Si el anuncio es nuevo, déjalo 10 días sin tocar; luego ajusta ±5-10% según si la ocupación en ventana 30-day se acerca al 50% objetivo.\n\n2. **Establecer el mínimo en ≤ 50% del base** [[pricing--minimum-half-of-base]] — Si tu base es $200, el mínimo debe ser $100 o menos. Un mínimo alto (por ejemplo, $150 sobre $200 de base) bloquea la curva de descuento de último momento antes de que sea competitiva. Esto es el error más frecuente que anula todo lo demás.\n\n3. **Activar el descuento gradual de último momento** [[pricing--gradual-last-minute-discount]] — En PriceLabs → Last-Minute Customization → seleccionar \"percent gradual\" (no \"flat\"). La curva debe empezar el día igual a tu BLT (Booking Lead Time) y descender suavemente hasta el mínimo en el día 0. Así robas demanda a los competidores cuando tus fechas aún están a 20 días — ellos siguen en precio completo mientras tú ya descuentas gradualmente.\n\n4. **Activar el adjacency factor en -50%** [[pricing--adjacency-factor]] — Esta es la personalización más infravalorada. Baja el precio de los días inmediatamente antes y después de cada reserva existente, porque la demanda en esas fechas cae en cuanto el huésped no puede encadenarlas. Configurar en modo \"percent\", -50%, dentro de 1 día de reserva. Empieza en -25% y sube si las noches huérfanas no se llenan.\n\n5. **Ajustar el far-out premium al 10%, no al 19% por defecto** [[pricing--far-out-premium-10-percent]] — El default de PriceLabs (+19% desde día 60) disuade reservas tempranas. Bajar a +10% captura al huésped planificador (internacional, familia, eventos) sin perder conversión. El ramp debe empezar en 1,5 veces tu BLT, no de golpe.\n\n6. **Mantener la estancia mínima baja en fechas lejanas** [[pricing--no-increase-min-nights-far-out]] — No subas el mínimo a 3-4 noches para fechas a 60+ días. Reduces el pool de búsquedas sin ganar nada real. La estrategia correcta es: mínimo bajo (1-2 noches) + far-out premium del 10%. Excepción: fechas exactas de festivos grandes (Navidad, Fin de Año) donde un mínimo de 3 noches tiene sentido.\n\n**Por qué funciona el conjunto**: el base calibrado y el mínimo al 50% dan al algoritmo espacio real para moverse; el descuento gradual llena las fechas cercanas antes que la competencia; el adjacency factor rellena las noches huérfanas automáticamente; el far-out moderado captura reservas tempranas sin sacrificar precio. Son capas que se refuerzan sin interferir entre sí — siempre que no superes 5 personalizaciones activas simultáneas [[pricing--customizations-max-5]].\n\n**Resultado esperado**: en 30-45 días, ocupación cerca del 50% en ventana BLT, con tarifa media 10-15% por encima del promedio de la competencia en el panel de Insights de Airbnb.\n\n**Fuentes**: [[sources/dfwvylpxJyI]], [[sources/PG3EGrwFzsI]], [[sources/ORu0MApiZhw]], [[sources/zGkc_U9qC1k]], [[sources/GZeFviVCFxw]], [[sources/9Yk_IF97QdM]]",
+  "atoms_cited": [
+    "[[pricing--two-step-method]]",
+    "[[pricing--base-price-definition]]",
+    "[[pricing--minimum-half-of-base]]",
+    "[[pricing--gradual-last-minute-discount]]",
+    "[[pricing--adjacency-factor]]",
+    "[[pricing--far-out-premium-10-percent]]",
+    "[[pricing--no-increase-min-nights-far-out]]",
+    "[[pricing--customizations-max-5]]"
+  ],
+  "sources_cited": [
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/ORu0MApiZhw]]",
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/GZeFviVCFxw]]",
+    "[[sources/9Yk_IF97QdM]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

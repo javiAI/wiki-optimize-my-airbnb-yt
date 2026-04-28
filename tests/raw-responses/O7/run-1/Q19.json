@@ -1,0 +1,29 @@
+{
+  "question_id": "Q19",
+  "question": "¿Cómo paso de 1 a 5 listings sin perder calidad ni control operativo?",
+  "level": 4,
+  "response": "**Panorama**: escalar de 1 a 5 anuncios es un salto de fase, no solo de volumen. El riesgo real no es la cantidad — es añadir listing 2 antes de que listing 1 esté en modo automático. Cada anuncio nuevo hereda tus procesos actuales: si esos procesos dependen de tu atención manual, el quinto anuncio te costará calidad en todos. La clave es que el stack operativo del primero sea reproducible antes de replicarlo.\n\n**Comparativa**:\n\n| Eje | Fase host-operador (1 anuncio) | Fase portfolio-host (2-5 anuncios) |\n|---|---|---|\n| Stack herramientas [[notes/tools-tech--three-level-host-framework]] | L1 estable: precios dinámicos + PMS + cerradura digital | L1 en todos los anuncios + L3: analytics para ver patrones por property |\n| Gestión limpieza [[notes/cleaning-ops--cleaner-multi-role-remote-ops]] | 1 limpiador multi-rol (20-30% sobre tarifa local) | 1 limpiador por anuncio o red local + 1 limpiador de respaldo por zona |\n| Property management [[notes/investing--pm-saves-time-not-revenue]] | Tú gestionas todo | PM solo si tu tarifa horaria day-job > tarifa STR; el PM preserva ingresos, no los aumenta |\n| Control de cuenta [[notes/investing--never-on-pm-account]] | Tu cuenta Airbnb, tú eres el anfitrión | Cada listing en tu propia cuenta; PM como co-anfitrión, nunca como titular |\n| Prioridad de crecimiento [[notes/investing--under-15-properties-sweet-spot]] | Optimizar primero (listing + calificación + precios): hasta +25%/+40%/+100% en ingresos | Añadir anuncio solo si el anterior tiene calificación ≥4.8 y ocupación estable 60+ días |\n\n**Cómo elegir** (cuándo y cómo añadir cada anuncio):\n\n- Si el anuncio 1 tiene operaciones manuales (mensajes sin automatizar, limpieza coordinada por ti personalmente, precios estáticos) → **no añadir anuncio 2 todavía**; automatizar primero con PMS + precios dinámicos [[notes/tools-tech--pms-worth-it-single-listing]]\n- Si el anuncio 1 lleva 60+ días con calificación ≥4.8, PMS funcionando y limpiador multi-rol consolidado → **añadir anuncio 2** replicando el mismo stack exacto\n- Si al llegar a 3 anuncios el tiempo de gestión supera tus horas disponibles (benchmark: 5h/semana por anuncio sin automatización; 1h/semana con stack completo) → **evaluar PM** usando el sanity check de tarifa horaria [[notes/investing--hourly-rate-sanity-check]]\n- Si decides contratar PM → **siempre en tu propia cuenta Airbnb**; invita al PM como co-anfitrión con permisos de mensajería y calendario, sin acceso a cobros [[notes/investing--never-on-pm-account]]; preferir PMs con <20 anuncios bajo gestión [[notes/investing--pm-fewer-listings-better-attention]]\n- Si el goal es ingresos máximos sin escalar indefinidamente → 2-3 anuncios top-10% de su mercado generan €150k-300k/año de beneficio sin cruzar el umbral de «gestionar personas» que aparece a partir de 15 [[notes/investing--under-15-properties-sweet-spot]]\n\n**Próximos pasos**:\n\n- Antes del anuncio 2: auditar si el anuncio 1 tiene L1 completo (precios dinámicos activos, PMS con 9 mensajes automatizados, self check-in sin fricción)\n- Al añadir cada anuncio: documentar SOP de limpieza y mensajes en el PMS para que el nuevo anuncio arranque sin dependencia de tu memoria\n- A partir del anuncio 3: activar IntelliHost o herramienta equivalente de L3 para detectar patrones de posicionamiento por anuncio y corregir antes de que un anuncio lastre al conjunto\n\n**Fuentes**: [[sources/giuHVqw_y4k]], [[sources/I8sU6qci4D8]], [[sources/grAeEiwAJ0k]], [[sources/qpLzNgYOnho]], [[sources/w8t9YWltsm4]], [[sources/5mzrLmxh-bA]]",
+  "atoms_cited": [
+    "[[notes/investing--under-15-properties-sweet-spot]]",
+    "[[notes/tools-tech--three-level-host-framework]]",
+    "[[notes/cleaning-ops--cleaner-multi-role-remote-ops]]",
+    "[[notes/investing--pm-saves-time-not-revenue]]",
+    "[[notes/investing--never-on-pm-account]]",
+    "[[notes/tools-tech--pms-worth-it-single-listing]]",
+    "[[notes/investing--hourly-rate-sanity-check]]",
+    "[[notes/investing--pm-fewer-listings-better-attention]]"
+  ],
+  "sources_cited": [
+    "[[sources/giuHVqw_y4k]]",
+    "[[sources/I8sU6qci4D8]]",
+    "[[sources/grAeEiwAJ0k]]",
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/w8t9YWltsm4]]",
+    "[[sources/5mzrLmxh-bA]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

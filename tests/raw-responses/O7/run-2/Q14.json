@@ -1,0 +1,29 @@
+{
+  "question_id": "Q14",
+  "question": "¿Cómo interpreto Airbnb Insights y qué KPIs priorizo semanalmente?",
+  "level": 3,
+  "response": "**Diagnóstico**: Asume que tienes activado el toggle de Professional Hosting Tools (sin él, solo ves métricas básicas y no puedes hacer este análisis correctamente). Si no lo tienes, actívalo antes de continuar.\n\n**Pasos**:\n\n1. **Activar Professional Hosting Tools** [[tools-tech--airbnb-professional-hosting-tools-activation]] — Ve a Cuenta → «Professional hosting tools» → Manage → Toggle ON. Desbloquea el panel completo: tasa de conversión por etapa, booking lead time, canal de reservas. Es gratuito y muchos anfitriones operan años sin saberlo.\n\n2. **Leer la tasa de conversión como primer KPI semanal** [[ranking--conversion-rate-benchmarks]] — Interpreta según banda: <0.2% = problema de fotos/título/precio; 0.3-0.4% = rango normal; ≥1% = estás infra-precio, sube base ya. Cuidado: si tienes una reserva de larga estancia activa, esas fechas no generan impresiones y el porcentaje queda distorsionado al alza.\n\n3. **Analizar el funnel por etapa, no el número total** [[ranking--conversion-over-views]] — Airbnb posiciona por conversión, no por volumen de visitas. Si tus impresiones son altas pero los clics son bajos, el problema está en P2 (foto de portada o precio). Si los clics son altos pero las reservas son bajas, el problema está en P3 (descripción, fotos internas, reseñas). Cada etapa del embudo tiene su palanca específica.\n\n4. **Revisar el dato de huéspedes recurrentes** [[ranking--repeat-guests-boost]] — Es el KPI menos vigilado y el de mayor impacto relativo: tener 1-2 huéspedes recurrentes al año ya te sitúa una desviación estándar por encima de la competencia, porque casi ningún anfitrión los tiene. Airbnb lo usa como señal de posicionamiento directa. Un huésped recurrente además deja reseña con probabilidad ~100% y casi siempre de 5 estrellas.\n\n5. **Usar «listings similares» solo como referencia de tendencia** [[ranking--similar-listings-metric-opaque]] — El benchmark de anuncios similares del panel no revela sus criterios de composición (¿vecindad? ¿rango de precio? ¿habitaciones?). No ajustes tu tarifa base para igualar ese número. Úsalo únicamente para detectar cambios de tendencia: si el benchmark sube un 20% en un mes, probablemente hay un evento local o un cambio estacional que debes capturar.\n\n**Por qué funciona el conjunto**: la tasa de conversión te dice si tu anuncio convierte bien dado el tráfico que recibe; el análisis por etapa del embudo te dice dónde está la fuga; los huéspedes recurrentes actúan como palanca de posicionamiento de bajo coste; y la lectura crítica del benchmark evita que tomes decisiones de precio sobre datos opacos.\n\n**Resultado esperado**: en 4-6 semanas de revisión semanal sistemática, identificas el cuello de botella principal del embudo (P2 vs P3) y reduces el tiempo entre diagnóstico y corrección accionable.\n\n**Fuentes**: [[sources/2IaHGtiidFU]], [[sources/cTffAvSy_XA]], [[sources/PVldBDSYpAA]], [[sources/Nzmpg8m-imY]]",
+  "atoms_cited": [
+    "[[tools-tech--airbnb-professional-hosting-tools-activation]]",
+    "[[ranking--conversion-rate-benchmarks]]",
+    "[[ranking--conversion-over-views]]",
+    "[[ranking--repeat-guests-boost]]",
+    "[[ranking--similar-listings-metric-opaque]]"
+  ],
+  "sources_cited": [
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/cTffAvSy_XA]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/Nzmpg8m-imY]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "No se detectaron conflictos HIGH o MEDIUM activos entre los átomos del shortlist para esta pregunta. El atom [[ranking--similar-listings-metric-opaque]] advierte sobre la opacidad del benchmark, pero no está en conflicto con los demás átomos — es un caveat metodológico integrado en el paso 5."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

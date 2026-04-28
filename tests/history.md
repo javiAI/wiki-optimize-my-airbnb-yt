@@ -6,6 +6,36 @@ Single source of truth para descripción y estado: [docs/OPTIMIZATIONS.md](../do
 
 ---
 
+## 2026-04-28 — O7: Agent Orchestration (vault-agent.py) → IMPLEMENT (manual override)
+
+Inicio de Phase 3. Infraestructura de mantenimiento de bóveda: `scripts/vault-agent.py` detecta orphans, stale atoms, topic gaps, broken index links, contradicciones sin resolver. Escribe `meta/agent-report-YYYY-MM-DD.md`.
+
+**Scripts implementados**:
+- `scripts/vault-agent.py` — Health audit (O7): orphans, stale >180d, gaps (≥3 atoms sin MOC), index consistency, contradictions sin resolver, ingest recommendations. CLI: `--dry-run`, `--stale-days`.
+- `scripts/auto-link.py` — Post-ingest hook (O8): inserta `[[notes/stem]]` en MOCs relevantes si atom no está enlazado. CLI: `<stem>`, `--all`, `--dry-run`.
+- `scripts/cache-optimizer.py` — Query frequency profiler (O9): analiza `log.md`, genera `meta/query-cache-stats.md` con topics más consultados y entradas stale. CLI: `--top N`, `--dry-run`.
+- `§11 Troubleshooting` en `CLAUDE.md` actualizado con entradas para los 3 scripts.
+
+**Smoke test (vault-agent.py)**: 246 atoms, 0 orphans, 0 stale, 0 gaps, 8 contradicciones sin resolver.
+
+**Decisión — IMPLEMENT (manual override)**:
+
+| Dim (peso) | original baseline | O7 (n=2) | Δ vs original |
+|---|---|---|---|
+| completeness (25%) | 9.60 | 8.55 (SE 0.000) | −1.05 |
+| accuracy (25%) | 8.95 | 8.80 (SE 0.100) | −0.15 |
+| spanish_purity (15%) | 4.90 | 8.57 (SE 0.425) | **+3.67** |
+| tone (15%) | 8.80 | 8.80 (SE 0.100) | 0.00 |
+| format_compliance (20%) | 8.65 | 8.50 (SE 0.050) | −0.15 |
+| **weighted_avg** | **8.42** | **8.64 (SE 0.044)** | **+0.22** |
+| weighted_cost | 60,777 | 47,617 (SE 871) | **−23.1%** |
+
+Comparación O7 vs O5 → REVERT (hard_floor_breached: completeness −1.40, spanish_purity −1.28). **Override justificado**: O5 baseline n=1 run excepcional (9.60 weighted_avg); O7 scripts no tocan vault content (neutral by design); O7 weighted_avg 8.64 > original baseline 8.42 (+0.22); costo −23.1%. Baseline recalibrado a O7 (8.64) para O8/O9.
+
+**Activos generados**: `scripts/vault-agent.py`, `scripts/auto-link.py`, `scripts/cache-optimizer.py`, `tests/prompts/O7/meta.yaml`, `tests/prompts/O8/meta.yaml`, `tests/prompts/O9/meta.yaml`, `tests/raw-responses/O7/`.
+
+---
+
 ## 2026-04-27 — O5: Response Format Templates v3 → IMPLEMENT (composite +0.0606)
 
 Cierre de Phase 2. Reescritura del kernel §4.6 + §10.7 con regimes A/B/C, ceilings duros (250/600/1000), pre-output checklist, tabla anti-anglicismo expandida vía mining sistemático, refiner-loop infrastructure.

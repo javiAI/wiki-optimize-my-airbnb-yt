@@ -1,0 +1,23 @@
+{
+  "question_id": "Q15",
+  "question": "Un guest pide extender estancia mid-stay. ¿Cuándo acepto y cuándo rechazo?",
+  "level": 3,
+  "response": "**Diagnóstico**: El huésped ya está instalado, lo que le da intención alta y fricción baja para extender. Tu decisión depende de tres variables: el calendario, la calidad del huésped y el precio de mercado actual.\n\n**Pasos**:\n\n1. **Verificar disponibilidad real del calendario** [[occupancy--extend-offer-message]] — Solo puedes aceptar si las noches adicionales están libres Y la siguiente reserva no llega el día de salida del huésped actual. Si hay reserva inmediata tras su checkout, rechaza educadamente: \"Lo siento, tengo huéspedes llegando ese día.\"\n\n2. **Evaluar el perfil del huésped en la estancia actual** [[hospitality--offer-extension-midstay]] — Acepta si es buen huésped (sin ruido, sin quejas, sin daños visibles, comunicación fluida). Rechaza si ha mostrado señales de problema durante el stay: daños menores no reportados, guests adicionales no declarados, mensajes hostiles o queja de limpieza mal gestionada. Un huésped problemático que se queda más tiempo es más riesgo, no más ingresos.\n\n3. **Comparar su tarifa actual con el precio de mercado vigente para esas fechas** [[hospitality--long-term-annoyances-become-issues]] — Si su tarifa por noche es significativamente más baja que el precio actual del mercado, negocia: \"Puedo extenderte con el precio vigente para esas fechas\" o bien ofrece un descuento menor al que pagarías en un booking nuevo (−5% a −10%). Si su tarifa es razonable, acepta al mismo precio o con descuento mínimo para generar goodwill.\n\n4. **Procesar la extensión dentro de la plataforma** [[hospitality--communication-on-platform-only]] — Envía la solicitud de modificación de reserva vía Airbnb (nunca acuerdes off-platform ni aceptes pago directo). Esto protege cobertura de Aircover y genera rastro escrito en caso de disputa.\n\n5. **Actualizar el calendario y confirmar logística de limpieza** [[pricing--orphan-night-strategy]] — Si la extensión cubre una noche que tenías huérfana (aislada entre reservas), acéptala aunque sea a tarifa reducida: elimina el problema de noche sin cubrir y evitas un turno de limpieza extra. Si la extensión crea un hueco nuevo entre el nuevo checkout y la siguiente reserva, evalúa si ese hueco vale la pena.\n\n**Por qué funciona el conjunto**: verificar calendario y huésped en paralelo evita aceptar extensiones que crean conflicto de fechas o que prolongan una mala experiencia. Ajustar el precio al mercado protege tu ADR sin sacrificar la relación con un buen huésped.\n\n**Resultado esperado**: extensiones aceptadas de forma selectiva generan ingresos adicionales sin turno de limpieza extra, con tasa de aceptación esperada del 30% cuando el anfitrión ofrece proactivamente y del 15–20% cuando es el huésped quien pide.\n\n**Fuentes**: [[sources/Q9Xz-Hg_9Vg]], [[sources/Ek8m0ZAhMgA]], [[sources/CyddkOVq6WM]]",
+  "atoms_cited": [
+    "[[occupancy--extend-offer-message]]",
+    "[[hospitality--offer-extension-midstay]]",
+    "[[hospitality--long-term-annoyances-become-issues]]",
+    "[[hospitality--communication-on-platform-only]]",
+    "[[pricing--orphan-night-strategy]]"
+  ],
+  "sources_cited": [
+    "[[sources/Q9Xz-Hg_9Vg]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/CyddkOVq6WM]]"
+  ],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 7,
+    "accuracy": 8
+  }
+}

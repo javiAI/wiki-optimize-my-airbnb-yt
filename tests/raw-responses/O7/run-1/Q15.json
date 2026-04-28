@@ -1,0 +1,26 @@
+{
+  "question_id": "Q15",
+  "question": "Un guest pide extender estancia mid-stay. ¿Cuándo acepto y cuándo rechazo?",
+  "level": 3,
+  "response": "**Diagnóstico**: La petición de extensión llega en mitad de estancia — ya tienes datos reales del huésped (comportamiento, comunicación, señales). Eso convierte la decisión en un filtro de dos ejes: disponibilidad del calendario y calidad del huésped.\n\n**Pasos**:\n\n1. **Verificar disponibilidad antes de responder** [[notes/occupancy--extend-offer-message]] — Comprueba que las fechas solicitadas siguen libres y que no hay otra reserva que llegue el día de salida actual. Si hay reserva entrante ese día: rechaza sin margen de negociación (la limpieza no da margen con 0 minutos de buffer).\n\n2. **Evaluar la calidad del huésped en tiempo real** [[notes/hospitality--offer-extension-midstay]] — Si el huésped ha mostrado señales problemáticas (daños, ruido, quejas continuas, comunicación hostil), rechaza: extender prolonga el riesgo. Si es un buen huésped, la extensión es casi siempre la mejor opción — ya está instalado, conoce la propiedad y el coste de captación de una reserva nueva es mayor.\n\n3. **Comparar el precio pedido con la tarifa de mercado actual** [[notes/hospitality--offer-extension-midstay]] — Si el ADR del booking vigente ya está muy por debajo del mercado actual y el calendario tiene demanda real esas fechas, puedes rechazar educadamente y reofertar al precio de mercado. Si el mercado está flojo, acepta con un descuento moderado (15-25%) y captura la ocupación.\n\n4. **Ofrecer el descuento en la horquilla correcta** [[notes/occupancy--extend-offer-message]] — Si decides aceptar, el punto óptimo de conversión es 15-25% sobre las noches adicionales, con plazo de confirmación de 24 h. Por debajo del 15% el huésped no percibe beneficio; por encima del 25% pierdes margen innecesariamente.\n\n5. **Anticipar annoyances si la extensión supera 28 noches** [[notes/hospitality--long-term-annoyances-become-issues]] — Estancias largas amplifican pequeños defectos (presión de agua baja, contenedor de basura pequeño, sin washer/dryer). Si la extensión lleva al huésped a 28+ noches y el anuncio no está preparado para ese perfil, valora el riesgo de reseña tibia antes de aceptar.\n\n**Por qué funciona el conjunto**: el eje calendario elimina los casos imposibles; el eje calidad del huésped filtra el riesgo; el precio asegura que aceptar valga la pena. Los tres criterios se aplican en menos de 2 minutos con la información que ya tienes.\n\n**Resultado esperado**: tasa de aceptación informada con <5% de extensiones que derivan en problema. Huéspedes buenos que extienden tienen un 30% de probabilidad de aceptar si el descuento está en rango; fuera de rango, la tasa cae a <5%.\n\n**Fuentes**: [[sources/Q9Xz-Hg_9Vg]], [[sources/Ek8m0ZAhMgA]], [[sources/CyddkOVq6WM]]",
+  "atoms_cited": [
+    "[[notes/hospitality--offer-extension-midstay]]",
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/hospitality--long-term-annoyances-become-issues]]"
+  ],
+  "sources_cited": [
+    "[[sources/Q9Xz-Hg_9Vg]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/CyddkOVq6WM]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "notes": "No se detectaron conflictos HIGH ni MEDIUM entre los átomos del shortlist para este tema."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

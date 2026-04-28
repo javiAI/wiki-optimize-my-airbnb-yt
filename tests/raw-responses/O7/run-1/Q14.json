@@ -1,0 +1,26 @@
+{
+  "question_id": "Q14",
+  "question": "¿Cómo interpreto Airbnb Insights y qué KPIs priorizo semanalmente?",
+  "level": 3,
+  "response": "**Diagnóstico**: Airbnb Insights solo muestra su potencial completo si tienes activado el toggle \"Professional Hosting Tools\" (Account → Professional hosting tools → ON). Sin ese paso, ves métricas básicas. Con él activo, el panel revela tasa de conversión por etapa, tiempo de reserva anticipada (TRA) y comparativa con anuncios similares [[tools-tech--airbnb-professional-hosting-tools-activation]].\n\n**Pasos**:\n\n1. **Activa Professional Hosting Tools y úsalo como punto de entrada semanal** [[tools-tech--airbnb-professional-hosting-tools-activation]] — sin ese toggle el panel está incompleto. Toma 2 minutos la primera vez; después es el punto de partida de tu revisión.\n\n2. **Lee primero la tasa de conversión y úsala como diagnóstico del embudo** [[ranking--conversion-rate-benchmarks]] — las bandas son: <0.2% = por debajo del mercado (revisa fotos, precio, título); 0.3-0.4% = típico; ≥1% = excepcional (probablemente estás con precio bajo, sube base ya). No confundas la métrica mostrada con el ranking real: si tienes un bloqueo de larga duración en el calendario, las impresiones caen a cero y el porcentaje se distorsiona.\n\n3. **Compara tu tarifa nocturna con la de anuncios similares y apunta a estar 20-30% por encima** [[pricing--insights-dashboard-benchmark]] — si tu tarifa está igual o por debajo de la media y tu ocupación supera la de referentes similares, estás dejando ingresos sin cobrar. Si tu tarifa supera el promedio pero la ocupación cae, revisa primero las fotos y reseñas antes de bajar precio.\n\n4. **Cada miércoles, revisa ocupación a 7, 30 y 60 días y mueve el precio base ±5% si sales de la zona 40-60% disponible** [[pricing--weekly-30-seconds-routine]] — miércoles es el día óptimo: las reservas del fin de semana ya están asentadas y tienes 2-3 días antes del próximo pico de demanda. Si el anuncio lleva más de 4 semanas seguidas sin ajuste, ya estás trabajando con información obsoleta.\n\n5. **Monitoriza los huéspedes recurrentes como señal de posicionamiento** [[ranking--repeat-guests-boost]] — Airbnb mide esta métrica en Insights y la usa como señal de posicionamiento. La mayoría de anfitriones tiene cero huéspedes recurrentes; tener uno o dos al año ya es una ventaja estadística clara. El triple beneficio: impulso de posicionamiento, reseña casi garantizada (vs 70% en el caso general) y valoración de 5 estrellas cuasi-segura.\n\n**Por qué funciona el conjunto**: la tasa de conversión te dice si el problema está en la visibilidad (parte alta del embudo) o en la página del anuncio (parte baja). El comparativo de tarifa aclara si el precio es el cuello de botella. La revisión semanal de ocupación cierra el ciclo con un ajuste concreto. Los huéspedes recurrentes son la señal que la mayoría ignora y que ofrece ventaja desproporcionada.\n\n**Resultado esperado**: con esta rutina semanal de 5 minutos, identificas en qué punto del embudo se pierde demanda y ajustas una sola variable cada vez. En 4-6 semanas es posible detectar si el problema es de posicionamiento (impresiones bajas), de clic (fotos/precio), o de conversión final (texto/reseñas).\n\n**Fuentes**: [[sources/2IaHGtiidFU]], [[sources/6Mz5AlyuPcI]], [[sources/cTffAvSy_XA]], [[sources/dfwvylpxJyI]], [[sources/PVldBDSYpAA]]\n\n⚠️ **Nota**: [[ranking--similar-listings-metric-opaque]] advierte que Airbnb no revela los criterios que definen «anuncios similares» (puede ser zona, precio, habitaciones u otra combinación). Usa el comparativo como referencia orientativa y valida manualmente en la búsqueda de Airbnb con tus propios filtros antes de tomar decisiones de precio basadas únicamente en ese benchmark. Detalle en [[meta/contradictions]].",
+  "atoms_cited": [
+    "[[tools-tech--airbnb-professional-hosting-tools-activation]]",
+    "[[ranking--conversion-rate-benchmarks]]",
+    "[[pricing--insights-dashboard-benchmark]]",
+    "[[pricing--weekly-30-seconds-routine]]",
+    "[[ranking--repeat-guests-boost]]",
+    "[[ranking--similar-listings-metric-opaque]]"
+  ],
+  "sources_cited": [
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/6Mz5AlyuPcI]]",
+    "[[sources/cTffAvSy_XA]]",
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/PVldBDSYpAA]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

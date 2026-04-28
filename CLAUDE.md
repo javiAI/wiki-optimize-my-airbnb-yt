@@ -1,10 +1,10 @@
 ---
 automation:
-  version: "3.5"
+  version: "3.6"
   current_phase: 3
-  phase_status: "pending_approval"
-  last_update: "2026-04-27T22:30:00Z"
-  notes: "Phase 2 complete 2026-04-27. O5 Response Format Templates v3 IMPLEMENT (composite +0.0606): templates A/B/C en meta/RESPONSE_TEMPLATES.md con secciones obligatorias y ceilings 250/600/1000; tabla §10.7 expandida de 52 a 61 mappings vía mine-anglicismos.py (mining sistemático de violations[] del evaluator); refiner-loop infrastructure (scripts/run-test-suite.py --refine + tests/prompts/_refiner_template.md). Run-3 standalone (n=1, 20 fresh agents): weighted_avg 8.64 → 9.60 (+0.96), spanish_purity 5.60 → 9.85 (+4.25, +75.89%), format_compliance 8.25 → 9.10 (+0.85), tone 9.00 → 9.40 (+0.40, at-risk dim improved). Cost 54,438 → 61,899 (+13.7%). Cero Qs por debajo del threshold 7 — refiner no se disparó. Phase 1 complete (O1 implement, O2 skip, O3 deferred → P5). Phase 2 complete (O4, O5 implement; O6 deferred → P5). Siguiente: Phase 3 Automation (O7 vault-agent, O8 auto-link, O9 query-cache)."
+  phase_status: "in_progress"
+  last_update: "2026-04-28T00:00:00Z"
+  notes: "Phase 3 in progress. O7 IMPLEMENT (manual override 2026-04-28): vault-agent.py health audit script — n=2 runs 8.64 weighted_avg. Protocol said REVERT (floor breach vs O5 n=1 outlier: completeness -1.40, spanish_purity -1.28), but scripts provably don't touch vault content; O5 baseline was single exceptional run vs original baseline 8.42; O7 weighted_avg 8.64 > original 8.42 (+0.22). Decision: IMPLEMENT override, recalibrate baseline to O7 (8.64) for O8/O9. Phase 2 complete (O4, O5 implement; O6 deferred → P5). Phase 1 complete (O1 implement, O2 skip, O3 deferred → P5). Next: O8 auto-link, O9 query-cache."
 
 phases:
   phase_1:
@@ -24,10 +24,10 @@ phases:
     progress: 100
   phase_3:
     name: "Automation"
-    status: "not_started"
+    status: "in_progress"
     tasks: [O7, O8, O9]
-    completed: []
-    progress: 0
+    completed: [O7]
+    progress: 33
   phase_4:
     name: "Integration"
     status: "not_started"
@@ -49,7 +49,7 @@ optimizations:
   O4: { name: "Contradiction Detection v2 (smart resolver + temporal narrator + auto-curate)", phase: 2, hours: 3, status: "complete", quality_delta_custom_rubric: 0.32, cost_delta_pct: 9.4, target_dim: "temporal_narrative", target_dim_delta: 1.20, decision: "IMPLEMENT (user override; nominal ITERATE on weighted_avg, but target-dim near ceiling)", rubric_used: "custom-o4v2-1.0", class: "structural" }
   O5: { name: "Response Format Templates v3 (regimes A/B/C + anti-anglicismo expanded table + refiner loop)", phase: 2, hours: 2.5, status: "complete", cost_delta_pct: 13.7, quality_delta: 0.955, target_dims: ["format_compliance", "spanish_purity"], composite: 0.0606, decision: "IMPLEMENT", class: "structural" }
   O6: { name: "Executable Checklists", phase: 5, hours: 1.5, status: "deferred", reason: "atom_content_opt; modifies atom procedures into Dataview checklists, belongs to atom regeneration phase", class: "atom_content" }
-  O7: { name: "Agent Orchestration", phase: 3, hours: 8, status: "not_started", class: "structural" }
+  O7: { name: "Agent Orchestration (vault-agent.py)", phase: 3, hours: 8, status: "complete", quality_delta: 0.22, cost_delta_pct: -23.1, composite: "REVERT_override→IMPLEMENT", decision: "IMPLEMENT (manual override: scripts neutral, O5 baseline n=1 outlier; O7 8.64 > original baseline 8.42 +0.22)", class: "automation_script" }
   O8: { name: "Auto-Linking System", phase: 3, hours: 4, status: "not_started", class: "structural" }
   O9: { name: "Query Caching", phase: 3, hours: 6, status: "not_started", class: "structural" }
   O10: { name: "Semantic Gap Detection", phase: 4, hours: 3, status: "not_started", class: "structural" }

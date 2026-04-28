@@ -1,0 +1,30 @@
+{
+  "question_id": "Q13",
+  "question": "¿Cuál es el message flow ideal desde booking hasta post-checkout?",
+  "level": 3,
+  "response": "**Diagnóstico**: el flujo cubre el ciclo completo de una reserva — 9 touchpoints automatizados que reducen mensajes manuales al 20% y elevan la tasa de reseñas del 70% al 90%. Requiere un PMS de terceros (Hospitable, Hostfully, Guesty); Airbnb nativo solo ofrece 3 triggers fijos y no sirve para el flujo completo.\n\n**Pasos**:\n\n1. **Confirmación inmediata** [[hospitality--reservation-flow-framework]] — Al confirmar la reserva, enviar un mensaje breve de bienvenida (< 100 palabras) que prometa: \"Te enviaré toda la info de entrada 3 días antes.\" No incluir aún direcciones ni códigos.\n\n2. **Info pre-llegada (4 días antes)** [[reviews--four-days-pre-checkin-message]] — Enviar dirección, método de entrada, WiFi y teléfono de emergencia. La automation se programa para 4 días antes aunque se prometa 3 — el día extra cubre zonas horarias y evita el pánico de \"¿dónde está mi info?\"\n\n3. **Wellness check (día siguiente al check-in)** [[reviews--mid-stay-message]] — No el día de llegada (el huésped está instalándose): al día siguiente. Template: \"¿Todo bien? ¿WiFi, agua caliente, algo que falte?\" Captura problemas menores antes de que maduren en una reseña de 3 estrellas.\n\n4. **Mensaje de pre-checkout (18h antes de la salida)** [[hospitality--checkout-message-principles]] — Tres filtros obligatorios: (a) framing positivo (“lleva los perecederos contigo”, no “no dejes comida”), (b) regla del 50%: cada línea debe ser al menos 50% relevante al checkout, (c) cero tareas de limpieza — las camas y la aspiradora son del personal de limpieza, no del huésped.\n\n5. **Mensaje de reciprocidad (3-6h post-checkout)** [[reviews--reciprocity-post-checkout]] — \"Fue un placer tenerte, te dejaré una reseña de 5 estrellas; si disfrutaste tu estancia, te agradezco mucho que hagas lo mismo.\" Ventana crítica: antes de 2h suena a manipulación; después de 8h el huésped ya olvidó la experiencia. Solo enviarlo si genuinamente le darás 5 estrellas.\n\n**Por qué funciona el conjunto**: cada mensaje entrega la información exacta cuando el huésped la necesita, sin sobrecargar antes ni llegar tarde. El wellness check intercepta problemas antes de que escalen; el pre-checkout framing positivo elimina la fricción de salida; la reciprocidad activa el principio de Cialdini en el momento de máxima gratitud post-experiencia.\n\n**Resultado esperado**: tasa de reseñas ≥ 90% (vs. baseline Airbnb ~70%); reducción del 80% de mensajes manuales tipo \"¿a qué hora puedo entrar?\"; menos disputas post-checkout por instrucciones ambiguas.\n\n**Fuentes**: [[sources/PHz6KUMKSVc]], [[sources/xT4BHg26ZFE]], [[sources/zih3JqcBRAE]], [[sources/8wPfwSkU3QE]], [[sources/o_KqQkQKk1M]]",
+  "atoms_cited": [
+    "[[hospitality--reservation-flow-framework]]",
+    "[[reviews--four-days-pre-checkin-message]]",
+    "[[reviews--mid-stay-message]]",
+    "[[hospitality--checkout-message-principles]]",
+    "[[reviews--reciprocity-post-checkout]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/8wPfwSkU3QE]]",
+    "[[sources/o_KqQkQKk1M]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "active_conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

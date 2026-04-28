@@ -1,0 +1,188 @@
+{
+  "label": "O7",
+  "run": 1,
+  "rubric_version": "1.0",
+  "evaluator_notes": "El batch O7 muestra un nivel de ejecución alto y consistente en completeness, accuracy y tone. Los principales puntos débiles son la pureza del español (anglicismos recurrentes en respuestas de régimen C: 'workforce', 'fee', 'surge', 'rabbit hole', 'funnel', 'SOP', 'feed') y algunas desviaciones de formato en régimen B (secciones extra no previstas en el contrato, mezcla de 'listing' y 'anuncio' en el mismo texto). Las respuestas A tienen la mejor disciplina formal; las C son sólidas en estructura pero más descuidadas en vocabulario.",
+  "evaluations": {
+    "Q1": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta directa con conflicto bien documentado y caveat correcto al final. Usa 'bookings' en el texto de la respuesta (debería ser 'reservas'). Secciones del régimen A cumplidas con buen orden.",
+      "violations": ["'bookings' en lugar de 'reservas' en el cuerpo de la respuesta"]
+    },
+    "Q2": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Régimen A bien ejecutado. Vocabulario limpio (jacuzzi aceptable, 'hotspot' ausente). La regla del máximo de fotos añade valor sin exceder el ceiling.",
+      "violations": []
+    },
+    "Q3": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 10,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Régimen A limpio. Distinción título vs. primeras líneas bien articulada. Datos concretos (50 caracteres en móvil) bien respaldados.",
+      "violations": []
+    },
+    "Q4": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Regime A con cifra clave (~25% pérdida de impresiones) bien contextualizada. 'test documentado' es lenguaje natural aceptable. Sin anglicismos relevantes.",
+      "violations": []
+    },
+    "Q5": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Régimen B bien ejecutado: 5 pasos con átomo por paso, Por qué funciona, Resultado esperado, Fuentes. 'check-in' usado en contexto operativo (aceptable por whitelist). Una cita por paso cumplida.",
+      "violations": []
+    },
+    "Q6": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Buen régimen B. 'case study' es un anglicismo evitable (debería ser 'caso documentado'). Números concretos (60%→82% en 6 semanas) con respaldo de source.",
+      "violations": ["'case study' en lugar de 'caso documentado' o similar"]
+    },
+    "Q7": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "4 pasos bien articulados con lógica sólida. El paso 4 cita el mismo atom que el paso 1 (reutilización aceptable dado el tema). 'ADR' está en la whitelist. Falta un quinto paso o conclusión de 'diagnóstico diferencial' que completaría el régimen.",
+      "violations": ["Diagnóstico no tiene suficiente separación del Paso 1 — se solapa parcialmente"]
+    },
+    "Q8": {
+      "completeness": 7,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "El self-assessment del agente reconoce el gap: no existe atom dedicado a respuesta pública; los atoms usados son adyacentes. Completeness limitada por gap en la wiki, no por negligencia. Paso 2 cita el mismo atom que el paso 1 (reutilización menor).",
+      "violations": ["Reutilización del mismo atom ([[reviews--facts-only-negative-review]]) en pasos 1 y 3", "Gap de completeness reconocido: no hay atom canónico para respuesta pública"]
+    },
+    "Q9": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Sólido en contenido pero con desviaciones de formato: sección 'Qué NO destacar' no está prevista en el contrato de régimen B. La frase inicial del diagnóstico es innecesaria ('La pregunta es B (táctico multi-palanca)'). 'Amenidades' aparece en lugar de 'comodidades' varias veces.",
+      "violations": ["Sección 'Qué NO destacar' no es parte del contrato de régimen B", "El Diagnóstico revela meta-proceso interno ('La pregunta es B') — no debería aparecer en la respuesta final", "'amenidades' en lugar de 'comodidades' (3+ veces)"]
+    },
+    "Q10": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Régimen B sólido. Árbol de decisión bien estructurado. 'rastro escrito' tiene equivalente en whitelist ('paper trail' → 'rastro escrito') — aquí ya se usa la versión correcta.",
+      "violations": []
+    },
+    "Q11": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "5 pasos bien definidos, cada uno con atom propio. 'BLT' (Booking Lead Time) es acrónimo inglés técnico del dominio PriceLabs — aceptable. 'far-out premium' es anglicismo técnico del dominio PriceLabs — aceptable en contexto técnico.",
+      "violations": ["'far-out' aparece en el texto como referencia a funcionalidad PriceLabs — aceptable pero podría traducirse como 'fechas lejanas'"]
+    },
+    "Q12": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Buen régimen B sobre filtros de búsqueda. 'Un listing con TV física' usa 'listing' en lugar de 'anuncio'. 'P2 (página de resultados)' es una referencia técnica interna que puede confundir al host. Diagnóstico usa 'embudo' correctamente.",
+      "violations": ["'listing' en lugar de 'anuncio' (1 vez en el cuerpo)", "Referencia a 'P2' como código interno sin contexto suficiente para el host"]
+    },
+    "Q13": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Régimen B ejemplar: 5 touchpoints secuenciales con atom por paso, Por qué funciona el conjunto con lógica de Cialdini bien citada, Resultado esperado con números. 'check-in/check-out' en contexto operativo es aceptable.",
+      "violations": []
+    },
+    "Q14": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Buen régimen B con caveat ⚠️ al final. 'toggle' es anglicismo evitable (podría ser 'interruptor' o 'opción'). 'Professional Hosting Tools' es nombre propio de Airbnb — aceptable. Caveat correctamente posicionado después de Fuentes.",
+      "violations": ["'toggle' en lugar de 'interruptor' u 'opción'"]
+    },
+    "Q15": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "5 pasos con lógica de decisión clara. 'washer/dryer' es anglicismo evitable (debería ser 'lavadora/secadora'). Usa 'ADR' que está en la whitelist. 'mid-stay' aparece en el enunciado, pero en el cuerpo se usa 'mitad de estancia' — correcto.",
+      "violations": ["'washer/dryer' en lugar de 'lavadora/secadora' (paso 5)"]
+    },
+    "Q16": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 8,
+      "format_compliance": 9,
+      "notes": "Régimen C bien estructurado con tabla, criterios de decisión y próximos pasos. Múltiples anglicismos: 'fee' (5 veces, debería ser 'tarifa' o 'comisión'), 'pixel de retargeting' (debería ser 'píxel de reorientación' o similar), 'host fee/guest fee' como términos técnicos de Airbnb son más aceptables pero 'fee' en contexto genérico no.",
+      "violations": ["'fee' repetido 5+ veces en lugar de 'tarifa' o 'comisión'", "'retargeting' anglicismo evitable", "'host fee' y 'guest fee' — los porcentajes de Airbnb aceptables como términos técnicos pero 'fee' genérico no"]
+    },
+    "Q17": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 8,
+      "format_compliance": 9,
+      "notes": "Régimen C sólido con tabla comparativa completa y filtros de validación secuenciales. 'workforce' aparece 4 veces (debería ser 'mano de obra' o 'personal de limpieza'). 'rabbit hole' es anglicismo evitable. 'hot workforce' — mezcla anglicismo.",
+      "violations": ["'workforce' 4 veces en lugar de 'mano de obra'", "'rabbit hole' anglicismo evitable", "'hot workforce-starved' mezclado en inglés"]
+    },
+    "Q18": {
+      "completeness": 8,
+      "accuracy": 8,
+      "spanish_purity": 6,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Régimen C aceptable pero con varios anglicismos: 'fee' (3 veces), 'STR hourly' (mezcla inglés-español), 'feed operativo' (debería ser 'flujo operativo'), 'day-job' en la tabla. La nota sobre estructura legal es apropiada (reconoce límites de la wiki).",
+      "violations": ["'fee' 3 veces en lugar de 'tarifa'", "'STR hourly' mezcla inglés sin traducción", "'feed operativo' en lugar de 'flujo operativo'", "'day-job' en la tabla comparativa sin traducción"]
+    },
+    "Q19": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Régimen C con buena estructura. Usa 'listing' y 'anuncio' de forma intercambiable (inconsistente — debería ser siempre 'anuncio'). 'SOP' es acrónimo inglés sin explicación. 'self check-in' es aceptable (whitelist Airbnb features).",
+      "violations": ["'listing' mezclado con 'anuncio' a lo largo del texto (inconsistencia)", "'SOP' sin traducción o explicación para el host"]
+    },
+    "Q20": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Régimen C bien estructurado. 'surge' aparece 3 veces (debería ser 'pico de demanda' o 'aumento brusco'). 'funnel P3' usa 'funnel' que debería ser 'embudo'. 'Amenidades' en lugar de 'comodidades' (2 veces). Tabla comparativa excelente.",
+      "violations": ["'surge' 3 veces en lugar de 'pico de demanda'", "'funnel' en lugar de 'embudo'", "'amenidades' en lugar de 'comodidades'"]
+    }
+  }
+}
