@@ -1,0 +1,24 @@
+label: O7
+description: "Agent Orchestration — vault-agent.py para health audits (orphans, stale, gaps, inconsistencies)"
+optimization_type: automation_script
+baseline_label: O5
+
+target_dims: []
+at_risk_dims: []
+neutral_dims: [completeness, accuracy, spanish_purity, tone, format_compliance]
+
+predicted_deltas:
+  cost: 0
+  completeness: 0
+  accuracy: 0
+  spanish_purity: 0
+  tone: 0
+  format_compliance: 0
+  weighted_avg: 0
+
+allow_repetition: true
+notes: >
+  Infraestructura pura de mantenimiento. vault-agent.py no modifica el kernel ni el contenido del
+  vault — genera informes de salud que los agentes de test no leen. Composite esperado ≈ 0.
+  allow_repetition: true para promediar varianza de test si cae en noise zone.
+  IMPLEMENT si no hay floor breaches (comportamiento correcto para scripts neutrales).

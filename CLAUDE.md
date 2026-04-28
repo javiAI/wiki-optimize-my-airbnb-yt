@@ -356,6 +356,12 @@ grep -r "orphan night" index.md MOC/ notes/        # Locate concept
 
 **VAULT_PATH undefined**: Check `scripts/config.sh` has `export VAULT_PATH=...`
 
+**Vault health audit** (O7): `python3 scripts/vault-agent.py` — detecta orphans, stale, gaps, broken index links. Escribe `meta/agent-report-YYYY-MM-DD.md`.
+
+**Post-ingest auto-linking** (O8): `python3 scripts/auto-link.py <atom-stem>` — inserta `[[notes/atom]]` en MOCs relevantes si no estaba. `--all` para backfill completo.
+
+**Cache statistics** (O9): `python3 scripts/cache-optimizer.py` — genera `meta/query-cache-stats.md` con topics más consultados y entradas stale.
+
 ---
 
 # 10. Capa de dominio — Optimize My Airbnb

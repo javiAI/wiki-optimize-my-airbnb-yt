@@ -20,7 +20,31 @@ Las secciones que siguen contienen `Purpose` / `Implementation` / `Verification`
 
 ## O7: Agent Orchestration (8 hours)
 
-> **TODO**: rellenar A/B/C antes de aprobar Phase 3.
+### A. Concepto
+
+La bóveda acumula 156 átomos, 173 fuentes y 12 MOCs sin ningún proceso de mantenimiento automatizado. Con el tiempo aparecen: átomos huérfanos (ningún MOC los cita), claims no verificados desde hace meses, tópicos emergentes que aún no tienen MOC, y entradas del índice que apuntan a archivos borrados. `vault-agent.py` es el "CI del vault": lo ejecutas una vez y obtienes un informe de salud accionable en < 5 segundos.
+
+### B. Técnica
+
+- **Crear `scripts/vault-agent.py`**: script Python que lee el vault (vault read-only desde `$VAULT_PATH`), ejecuta 5 checks (orphans, stale, consistency, gaps, unresolved contradictions) y escribe `meta/agent-report-YYYY-MM-DD.md` + appends `log.md`.
+- **No modifica el kernel ni los átomos**: los agentes de test no leen `meta/agent-report-*.md`, por lo que el impacto en el rubric es neutral por diseño.
+- **Referencia en CLAUDE.md §11** (Troubleshooting → añadir línea sobre el script).
+
+### C. Mejoras esperadas + justificación
+
+Este OX es infraestructura pura de mantenimiento. No modifica el kernel de respuesta ni el contenido de los átomos; por tanto, los agentes de test no cambian de comportamiento. Predicciones:
+
+| Dim | Predicción | Razonamiento |
+|---|---|---|
+| weighted_cost | 0 | No cambia nada que el agente lea |
+| completeness | 0 | Sin cambio de átomos disponibles |
+| accuracy | 0 | Sin cambio de átomos disponibles |
+| spanish_purity | 0 | Sin cambio de kernel §10.7 |
+| tone | 0 | Sin cambio de kernel |
+| format_compliance | 0 | Sin cambio de kernel §4.6 |
+| weighted_avg | 0 | Neutral por diseño |
+
+El test sirve únicamente para confirmar que el script no introduce regresiones (ningún hard floor breach). allow_repetition: false — se acepta en un único run.
 
 ### Purpose
 Create an autonomous agent script that periodically audits vault health and reports findings.
@@ -111,7 +135,30 @@ Create an autonomous agent script that periodically audits vault health and repo
 
 ## O8: Auto-Linking System (4 hours)
 
-> **TODO**: rellenar A/B/C antes de aprobar Phase 3.
+### A. Concepto
+
+Cuando se crea un átomo nuevo, hay que acordarse manualmente de añadirlo a los MOCs relevantes. Si se olvida, el átomo queda huérfano — existe pero ningún agente lo descubre al navegar los MOCs. `auto-link.py` es el "post-ingest hook": dado un nombre de átomo, busca qué MOCs cubren sus tópicos y añade la entrada faltante automáticamente.
+
+### B. Técnica
+
+- **Crear `scripts/auto-link.py`**: lee el YAML frontmatter del átomo (campo `topics`), busca `MOC/<topic>.md` para cada tópico, comprueba si ya existe `[[notes/<atom>]]` en el MOC, y si no, lo añade en la sección correspondiente.
+- **Deduplicación**: antes de insertar, grep por `[[notes/atom-filename]]` para no duplicar.
+- **Invocación**: `python3 scripts/auto-link.py <atom_filename>` — manual post-ingest o futuro cron.
+- **Impacto en tests**: los átomos previamente huérfanos ahora son descubribles por los agentes (navegan MOCs). Pequeña mejora potencial en completeness si algún átomo faltaba en MOC. Si corremos auto-link.py ANTES del test sobre todos los átomos existentes, el efecto es backfill de MOCs.
+
+### C. Mejoras esperadas + justificación
+
+| Dim | Predicción | Razonamiento |
+|---|---|---|
+| weighted_cost | 0 | Sin cambio de token budget |
+| completeness | +0.1 | Átomos huérfanos ahora descubribles — agentes podrían citarlos |
+| accuracy | 0 | No cambia claim content |
+| spanish_purity | 0 | Sin cambio kernel §10.7 |
+| tone | 0 | Sin cambio kernel |
+| format_compliance | 0 | Sin cambio kernel §4.6 |
+| weighted_avg | +0.025 | Mejora marginal vía completeness |
+
+allow_repetition: false — resultado de un único run (delta esperado pequeño, cerca del noise zone).
 
 ### Purpose
 Automatically insert cross-references when new atoms are created.
@@ -173,7 +220,29 @@ Automatically insert cross-references when new atoms are created.
 
 ## O9: Query Caching (6 hours)
 
-> **TODO**: rellenar A/B/C antes de aprobar Phase 3.
+### A. Concepto
+
+Cuando un anfitrión pregunta algo que ya se preguntó antes, el agente re-deriva la respuesta desde cero — gastando tokens y tiempo innecesariamente. `cache-optimizer.py` analiza `log.md`, identifica los tópicos más frecuentes, genera estadísticas de caché y señala qué queries en `queries/` están disponibles para reutilización. El kernel §4.2 ya dice "ir a queries/ primero" — este script asegura que el caché esté poblado y actualizado.
+
+### B. Técnica
+
+- **Crear `scripts/cache-optimizer.py`**: parsea `log.md` buscando líneas `## [YYYY-MM-DD] query`, extrae tópicos, cuenta frecuencia, genera `meta/query-cache-stats.md` con hit-rate, top queries y entradas stale.
+- **No modifica queries/ directamente**: señala qué topics deben cachearse; el agente guarda en queries/ al responder (ya existe el mecanismo en §4.2).
+- **Impacto en tests**: queries/ está en la blacklist de test agents (CLAUDE.md regla 2) → 0 impacto en rubric. El valor es operacional.
+
+### C. Mejoras esperadas + justificación
+
+| Dim | Predicción | Razonamiento |
+|---|---|---|
+| weighted_cost | 0 | queries/ blacklisted en tests |
+| completeness | 0 | Sin cambio |
+| accuracy | 0 | Sin cambio |
+| spanish_purity | 0 | Sin cambio |
+| tone | 0 | Sin cambio |
+| format_compliance | 0 | Sin cambio |
+| weighted_avg | 0 | Neutral por diseño |
+
+allow_repetition: false — confirmar neutralidad en un único run.
 
 ### Purpose
 Automatically cache frequently answered questions and implement similarity-based retrieval.
