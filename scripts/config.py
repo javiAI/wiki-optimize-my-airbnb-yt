@@ -189,9 +189,34 @@ class VaultConfig:
 
 if __name__ == "__main__":
     import json
-    cfg = VaultConfig()
-    print(f"Vault: {cfg.name}")
-    print(f"Languages: {cfg.languages}")
-    print(f"Topics: {cfg.topic_ids}")
-    print(f"wiki/en: {cfg.wiki_dir('en')}")
-    print(f"auto_translate: {cfg.get('pipeline.auto_translate')}")
+    import argparse as _ap
+
+    _p = _ap.ArgumentParser(description="Validate and display vault config")
+    _p.add_argument("--vault", default=None)
+    _p.add_argument("--validate", action="store_true", help="Validate only (exit 0=ok, 1=error)")
+    _p.add_argument("--json", action="store_true", help="Output as JSON")
+    _args = _p.parse_args()
+
+    try:
+        cfg = VaultConfig(_args.vault)
+    except SystemExit as e:
+        print(f"ERROR: config load failed", file=sys.stderr)
+        sys.exit(1)
+
+    summary = {
+        "name": cfg.name,
+        "primary_language": cfg.primary_language,
+        "languages": cfg.languages,
+        "topics": cfg.topic_ids,
+        "source_type": cfg.source_type,
+        "auto_translate": cfg.get("pipeline.auto_translate"),
+        "vault_path": str(cfg.vault_path),
+    }
+
+    if _args.json:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    elif _args.validate:
+        print(f"[OK] vault.yaml valid — {cfg.name} ({', '.join(cfg.languages)})")
+    else:
+        for k, v in summary.items():
+            print(f"{k}: {v}")

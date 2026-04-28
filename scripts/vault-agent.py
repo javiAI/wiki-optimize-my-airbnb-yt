@@ -12,10 +12,15 @@ Usage:
   python3 scripts/vault-agent.py --dry-run
   python3 scripts/vault-agent.py --incremental   # only check recently-changed files
   python3 scripts/vault-agent.py --stale-days 90
+  python3 scripts/vault-agent.py --lang es            # audit only ES
+  python3 scripts/vault-agent.py --lang es,en         # audit ES and EN only
+  python3 scripts/vault-agent.py --since 2026-04-01   # only atoms modified since date
+  python3 scripts/vault-agent.py --output json        # machine-readable stats
   python3 scripts/vault-agent.py --vault /path/to/vault
 """
 
 import argparse
+import json
 import re
 import sys
 from collections import Counter
@@ -132,16 +137,27 @@ def ingest_recommendations(atoms: dict) -> list:
     return [(t, c) for t, c in sorted(freq.items(), key=lambda x: x[1]) if c <= 5][:5]
 
 
-def build_report(vault_path: Path, cfg, stale_days: int) -> tuple[str, dict]:
+def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = None, since: date = None) -> tuple[str, dict]:
     today = date.today().isoformat()
     primary = cfg.primary_language
     all_langs = cfg.languages
     secondary = cfg.secondary_languages
 
+    # Apply language filter
+    if lang_filter:
+        all_langs = [l for l in all_langs if l in lang_filter]
+        secondary = [l for l in secondary if l in lang_filter]
+
     # Per-language stats
     lang_data = {}
     for lang in all_langs:
         atoms = load_atoms(vault_path, lang)
+        # Apply --since filter: only atoms modified after date
+        if since:
+            atoms = {
+                stem: info for stem, info in atoms.items()
+                if info["path"].stat().st_mtime >= since.toordinal() * 86400
+            }
         moc_citations = load_moc_citations(vault_path, lang)
         orphans = check_orphans(atoms, moc_citations)
         stale = check_stale(atoms, stale_days)
@@ -251,6 +267,9 @@ def main():
                    help="Only check atoms changed in git since last commit")
     p.add_argument("--stale-days", type=int, default=180)
     p.add_argument("--vault", default=None, help="Vault path (default: $VAULT_PATH)")
+    p.add_argument("--lang", default=None, help="Comma-separated language codes to audit (e.g. es or es,en)")
+    p.add_argument("--since", default=None, help="Only audit atoms modified since this date (YYYY-MM-DD)")
+    p.add_argument("--output", default="text", choices=["text", "json"], help="Output format")
     args = p.parse_args()
 
     sys.path.insert(0, str(Path(__file__).parent))
@@ -258,7 +277,14 @@ def main():
     cfg = VaultConfig(args.vault)
     vault_path = cfg.vault_path
 
-    report_text, stats = build_report(vault_path, cfg, args.stale_days)
+    lang_filter = [l.strip() for l in args.lang.split(",")] if args.lang else None
+    since_date = date.fromisoformat(args.since) if args.since else None
+
+    report_text, stats = build_report(vault_path, cfg, args.stale_days, lang_filter, since_date)
+
+    if args.output == "json":
+        print(json.dumps(stats, ensure_ascii=False, indent=2))
+        return
 
     today = date.today().isoformat()
     out_path = vault_path / "meta" / f"agent-report-{today}.md"

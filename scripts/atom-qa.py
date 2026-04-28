@@ -180,21 +180,41 @@ def check_anglicisms(body: str, lang: str) -> list[dict]:
         return violations  # Primary language — no anglicism check
 
     body_lower = body.lower()
+    whitelist_lower = {w.lower() for w in ANGLICISM_WHITELIST}
+
     for english, spanish in ANGLICISM_TABLE:
-        # Skip if it's in the whitelist (case-sensitive check)
-        if any(english.lower() == w.lower() for w in ANGLICISM_WHITELIST):
+        if english.lower() in whitelist_lower:
             continue
-        # Word-boundary match
-        pattern = r'\b' + re.escape(english.lower()) + r'\b'
-        if re.search(pattern, body_lower):
+        # Build pattern that also matches common plural/inflected forms
+        base = re.escape(english.lower())
+        pattern = r'\b' + base + r's?\b'
+        m = re.search(pattern, body_lower)
+        if m:
+            found = m.group(0)
             violations.append({
                 "type": "anglicism",
                 "severity": "warning",
-                "message": f'Found "{english}" — use "{spanish}" instead',
-                "auto_fixable": False
+                "message": f'Found "{found}" — use "{spanish}" instead',
+                "word": english,
+                "replacement": spanish,
+                "auto_fixable": True,
             })
 
     return violations
+
+
+def apply_anglicism_fixes(body: str, violations: list[dict]) -> str:
+    """Apply auto_fixable anglicism substitutions to body text."""
+    result = body
+    for v in violations:
+        if not v.get("auto_fixable") or v.get("type") != "anglicism":
+            continue
+        word = v["word"]
+        replacement = v["replacement"]
+        # Replace word and its plural form (case-insensitive, word-boundary)
+        base = re.escape(word)
+        result = re.sub(r'\b' + base + r's?\b', replacement, result, flags=re.IGNORECASE)
+    return result
 
 
 def check_conflicts(stem: str, fm: dict, meta_dir: Path) -> list[dict]:
@@ -295,11 +315,32 @@ def run_all(lang: str, vault_path: Path, source_type: str = "youtube") -> dict:
     return results
 
 
+def fix_atom(stem: str, lang: str, vault_path: Path, source_type: str = "youtube") -> int:
+    """Apply auto_fixable anglicism corrections to an atom file. Returns count of fixes."""
+    wiki_dir = vault_path / "wiki" / lang
+    atom_file = wiki_dir / f"{stem}.md"
+    if not atom_file.exists():
+        return 0
+    text = atom_file.read_text()
+    fm, body = _parse_frontmatter(text)
+    violations = check_anglicisms(body, lang)
+    fixable = [v for v in violations if v.get("auto_fixable")]
+    if not fixable:
+        return 0
+    new_body = apply_anglicism_fixes(body, fixable)
+    # Reconstruct file — find body start position
+    end = text.find("---", 3)
+    frontmatter_raw = text[:end + 3]
+    atom_file.write_text(frontmatter_raw + "\n" + new_body)
+    return len(fixable)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="WikiForge atom QA")
     parser.add_argument("stem", nargs="?", help="Atom stem (e.g. pricing--base-price)")
     parser.add_argument("--lang", default=None, help="Language code (en, es, ...)")
     parser.add_argument("--all", action="store_true", help="Check all atoms")
+    parser.add_argument("--fix", action="store_true", help="Auto-fix anglicism violations in place")
     parser.add_argument("--vault", default=None, help="Vault path (default: $VAULT_PATH)")
     parser.add_argument("--dry-run", action="store_true", help="Don't write QA reports")
     parser.add_argument("--source-type", default="youtube")
@@ -312,9 +353,19 @@ if __name__ == "__main__":
     if args.all:
         langs = [args.lang] if args.lang else cfg.languages
         all_results = {}
+        total_fixes = 0
         for lang in langs:
             print(f"\nChecking {lang}...")
             all_results[lang] = run_all(lang, cfg.vault_path, args.source_type)
+            if args.fix:
+                wiki_dir = cfg.vault_path / "wiki" / lang
+                for atom_file in sorted(wiki_dir.glob("*.md")):
+                    n = fix_atom(atom_file.stem, lang, cfg.vault_path, args.source_type)
+                    if n:
+                        print(f"  [fix] {atom_file.stem} [{lang}]: {n} anglicism(s) corrected")
+                        total_fixes += n
+        if args.fix:
+            print(f"\nTotal fixes applied: {total_fixes}")
 
         total_critical = sum(
             r["critical_count"]
@@ -330,6 +381,10 @@ if __name__ == "__main__":
         lang = args.lang or cfg.primary_language
         report = run_qa(args.stem, lang, cfg.vault_path, args.source_type,
                         write_report=not args.dry_run)
+        if args.fix:
+            n = fix_atom(args.stem, lang, cfg.vault_path, args.source_type)
+            if n:
+                print(f"[fix] {n} anglicism(s) corrected in {args.stem}", file=sys.stderr)
         print(json.dumps(report, ensure_ascii=False, indent=2))
         sys.exit(0 if report.get("pass") else 1)
 

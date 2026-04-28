@@ -10,11 +10,15 @@ Usage: `/query [--lang es] "{question}"`
 
 Steps:
 1. Set LANG from --lang flag (default: primary language from vault.yaml)
-2. Follow the indexing protocol (CLAUDE.md §INDEXING PROTOCOL) using ONLY {LANG} files:
-   a. Read `index/{LANG}/index.md` — identify relevant topic(s)
-   b. Read `moc/{LANG}/{topic}.md` for matching topic(s)
-   c. Read shortlisted atoms from `wiki/{LANG}/` (3-6 max)
-   d. Check `meta/contradictions.md` for active conflicts
+2. **Pre-load atoms via BM25 retrieval (zero navigation tokens)**:
+   ```bash
+   python3 scripts/retrieve.py --query "{question}" --lang {LANG} --vault "$VAULT_PATH" --top 6
+   ```
+   This returns the 6 most relevant atoms pre-loaded as JSON — no index/MOC navigation needed.
+   Read the returned JSON directly as your atom context.
+3. If retrieval returns 0 results OR the question needs broader context:
+   Fall back to manual indexing: read `index/{LANG}/index.md` → `moc/{LANG}/{topic}.md` → atoms
+4. Check `meta/contradictions.md` for active conflicts on cited atoms
 3. Detect response regime (A/B/C per CLAUDE.md §4.6)
 4. Draft response following the regime template from `meta/RESPONSE_TEMPLATES.md`
 5. Apply pre-output checklist (CLAUDE.md §pre-output checklist):

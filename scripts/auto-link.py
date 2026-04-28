@@ -36,14 +36,25 @@ def already_linked(moc_text: str, lang: str, stem: str) -> bool:
     return f"[[wiki/{lang}/{stem}]]" in moc_text or f"[[wiki/{lang}/{stem}#" in moc_text
 
 
-def append_to_moc(moc_path: Path, lang: str, stem: str, claim: str, dry_run: bool) -> bool:
+def append_to_moc(moc_path: Path, lang: str, stem: str, claim: str, dry_run: bool, section: str = None) -> bool:
     text = moc_path.read_text(errors="replace")
     if already_linked(text, lang, stem):
         return False
 
     entry = f"- [[wiki/{lang}/{stem}]] — {claim}"
 
-    if "## Auto-linked" in text:
+    if section:
+        # Insert under specific heading
+        heading = f"## {section}"
+        if heading in text:
+            idx = text.index(heading) + len(heading)
+            # Find end of that section's content (next ## or EOF)
+            next_section = re.search(r'\n##\s', text[idx:])
+            insert_at = idx + next_section.start() if next_section else len(text)
+            new_text = text[:insert_at].rstrip("\n") + f"\n{entry}\n" + text[insert_at:]
+        else:
+            new_text = text.rstrip("\n") + f"\n\n{heading}\n\n{entry}\n"
+    elif "## Auto-linked" in text:
         new_text = text.rstrip("\n") + f"\n{entry}\n"
     else:
         new_text = text.rstrip("\n") + f"\n\n## Auto-linked\n\n{entry}\n"
@@ -56,7 +67,7 @@ def append_to_moc(moc_path: Path, lang: str, stem: str, claim: str, dry_run: boo
     return True
 
 
-def link_atom(stem: str, lang: str, vault_path: Path, dry_run: bool) -> int:
+def link_atom(stem: str, lang: str, vault_path: Path, dry_run: bool, section: str = None) -> int:
     wiki_dir = vault_path / "wiki" / lang
     atom_path = wiki_dir / f"{stem}.md"
     if not atom_path.exists():
@@ -74,7 +85,7 @@ def link_atom(stem: str, lang: str, vault_path: Path, dry_run: bool) -> int:
         moc_path = moc_dir / f"{topic}.md"
         if not moc_path.exists():
             continue
-        if append_to_moc(moc_path, lang, stem, claim, dry_run):
+        if append_to_moc(moc_path, lang, stem, claim, dry_run, section):
             linked += 1
 
     if linked == 0:
@@ -89,6 +100,7 @@ def main():
     p.add_argument("--all", action="store_true", help="Backfill all atoms")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--vault", default=None, help="Vault path (default: $VAULT_PATH)")
+    p.add_argument("--section", default=None, help="Insert under this MOC heading (e.g. 'Básicos')")
     args = p.parse_args()
 
     if not args.atom and not args.all:
@@ -110,14 +122,14 @@ def main():
                 continue
             print(f"\nLinking [{lang}]...")
             for atom_path in sorted(wiki_dir.glob("*.md")):
-                n = link_atom(atom_path.stem, lang, cfg.vault_path, args.dry_run)
+                n = link_atom(atom_path.stem, lang, cfg.vault_path, args.dry_run, args.section)
                 total += n
         print(f"\nTotal new links: {total}")
     else:
         stem = args.atom.removesuffix(".md")
         total = 0
         for lang in langs:
-            n = link_atom(stem, lang, cfg.vault_path, args.dry_run)
+            n = link_atom(stem, lang, cfg.vault_path, args.dry_run, args.section)
             total += n
         print(f"\nNew links added: {total}")
 

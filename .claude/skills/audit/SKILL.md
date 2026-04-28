@@ -1,25 +1,44 @@
 ---
 name: audit
-description: Full vault health audit. Runs vault-agent.py (orphans, stale, missing translations, contradictions) + batch QA report.
-allowed-tools: Bash(python3 scripts/vault-agent.py python3 scripts/atom-qa.py)
+description: Vault-level health audit. Checks structure (orphans, stale, missing translations, contradictions). Does NOT re-run per-atom content checks — use /qa for that.
+allowed-tools: Bash(python3 scripts/vault-agent.py)
 ---
 
-Run a full vault health audit.
+# /audit — Vault Health Audit
 
-Steps:
-1. `python3 scripts/vault-agent.py --vault "$VAULT_PATH"`
-   - Detects: orphans (atoms not in any MOC), stale claims (>180 days), topic gaps, broken index links, missing translations, unresolved contradictions
-   - Writes: `meta/agent-report-{date}.md`
-2. `python3 scripts/atom-qa.py --all --vault "$VAULT_PATH"`
-   - Checks all atoms in all enabled languages
-   - Writes per-atom reports to `meta/qa-reports/`
-3. Summarize findings:
-   - Counts: orphans, stale, missing translations, QA failures
-   - List all CRITICAL QA failures by atom
-   - List missing translations (primary → secondary)
-   - List unresolved contradictions count
-4. Recommend next actions:
-   - If missing translations > 0: suggest running `/translate {stem}` for each
-   - If QA critical failures: list atoms to fix
-   - If orphans > 5: suggest running `python3 scripts/auto-link.py --all`
-   - If stale > 10: suggest prioritizing re-verification of those atoms
+Scope: **vault structure**, not atom content. Complements /qa (which checks atom content).
+
+## /audit vs /qa
+
+| Check | /audit | /qa |
+|-------|--------|-----|
+| Orphan atoms (not in any MOC) | ✅ | ❌ |
+| Stale last_verified | ✅ | ❌ |
+| Missing translations | ✅ | ❌ |
+| Broken index links | ✅ | ❌ |
+| Topic gaps (no MOC) | ✅ | ❌ |
+| Missing claim field | ❌ | ✅ |
+| URL format validation | ❌ | ✅ |
+| Anglicism violations | ❌ | ✅ |
+
+## Usage
+
+```
+/audit                          # Full audit, all languages
+/audit --lang es                # Audit only ES
+/audit --lang es,en             # Audit ES and EN
+/audit --since 2026-04-01       # Only atoms modified since date
+/audit --output json            # Machine-readable stats
+```
+
+## Steps
+
+1. Run: `python3 scripts/vault-agent.py --vault "$VAULT_PATH" [flags]`
+2. Report findings grouped by severity:
+   - **Action required**: orphans > 5, missing translations > 0, broken index links
+   - **Monitor**: stale claims, topic gaps
+   - **Info**: contradiction count, ingest recommendations
+3. Suggest next actions:
+   - Orphans → `python3 scripts/auto-link.py --all --lang {lang}`
+   - Missing translations → `/translate {stem}`
+   - Stale → prioritize re-verification, `/ingest` new sources on that topic
