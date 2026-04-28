@@ -1,0 +1,28 @@
+{
+  "question_id": "Q5",
+  "question": "¿Cómo consigo mis primeras reseñas?",
+  "level": 3,
+  "response": "**Diagnóstico**: estrategia para un anuncio nuevo sin reseñas. El objetivo de los primeros 30-60 días no es maximizar ingresos, sino acumular 3-10 reseñas lo antes posible — ese volumen inicial desbloquea el posicionamiento en búsquedas.\n\n**Pasos**:\n\n1. **Bajar el precio y restringir el calendario** [[occupancy--new-listing-calendar-strategy]] — Pon el precio un 30% por debajo de tus referentes y bloquea todas las fechas excepto las próximas 3-5 semanas. Estancia mínima: 1 noche. Esto concentra la demanda y acelera las reservas. Mantén esta configuración hasta acumular 3 reseñas; después sube precio gradualmente y abre el calendario completo.\n\n2. **Calibrar la expectativa de 5 estrellas al llegar** [[reviews--calibrate-five-star-arrival]] — En el mensaje de bienvenida (o al hacer el check-in), di literalmente: \"Mi objetivo es que tengas una experiencia de 5 estrellas. Si algo no está bien durante tu estancia, dímelo enseguida y lo resuelvo.\" Esto redirige los problemas hacia ti (resolvibles) y recalibra a los huéspedes que creen que 4 estrellas es una nota alta.\n\n3. **Enviar un mensaje de seguimiento el día siguiente al check-in** [[reviews--mid-stay-message]] — Pregunta: \"¿Todo bien hasta ahora? ¿El WiFi, el agua caliente, todo correcto?\" No esperes al final de la estancia. Capturar el problema a tiempo es la diferencia entre un punto de fricción y un punto de dolor que va a la reseña.\n\n4. **Sumar contacto humano en algún momento de la estancia** [[reviews--human-contact-primary-driver]] — El driver número uno de reseñas de 5 estrellas no es la propiedad: es el contacto humano. Si vives cerca, haz el check-in en persona. Si no, coordina a alguien local que salude 10 minutos y dé recomendaciones del barrio. La automatización 100% tiende a 4 estrellas, no a 5.\n\n5. **Enviar el mensaje de reciprocidad 3-6 horas tras el check-out** [[reviews--reciprocity-post-checkout]] — Mensaje: \"Hola [nombre], ha sido un placer tenerte. Te voy a dejar una reseña de 5 estrellas — si disfrutaste la estancia, te agradecería mucho que hicieras lo mismo. ¡Buen viaje!\" Este único mensaje duplica la tasa de reseñas (de ~70% a ~90%). El principio de reciprocidad (Cialdini) funciona. Solo envíalo si genuinamente vas a dar 5 estrellas al huésped.\n\n**Por qué funciona el conjunto**: el precio bajo + calendario restringido genera el volumen de reservas; la calibración de expectativas y el mensaje de seguimiento previenen los puntos de fricción antes de que lleguen a la reseña; el contacto humano crea la emoción memorable; la reciprocidad cierra el loop convirtiendo estancias buenas en reseñas publicadas.\n\n**Resultado esperado**: 3-5 reseñas en los primeros 30-45 días con calificación media ≥4.8, suficiente para abrir el calendario completo y normalizar el precio.\n\n**Fuentes**: [[sources/Ek8m0ZAhMgA]], [[sources/zih3JqcBRAE]], [[sources/xT4BHg26ZFE]]",
+  "atoms_cited": [
+    "[[occupancy--new-listing-calendar-strategy]]",
+    "[[reviews--calibrate-five-star-arrival]]",
+    "[[reviews--mid-stay-message]]",
+    "[[reviews--human-contact-primary-driver]]",
+    "[[reviews--reciprocity-post-checkout]]"
+  ],
+  "sources_cited": [
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/xT4BHg26ZFE]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "No se detectaron conflictos HIGH o MEDIUM entre los átomos del shortlist para esta pregunta. Los átomos de estrategia para primeras reseñas son consistentes entre sí."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

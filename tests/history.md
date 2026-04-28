@@ -6,6 +6,26 @@ Single source of truth para descripción y estado: [docs/OPTIMIZATIONS.md](../do
 
 ---
 
+## 2026-04-28 — O8: Auto-Linking System (auto-link.py) → IMPLEMENT (composite +0.0059)
+
+auto-link.py post-ingest hook: inserta `[[notes/stem]]` en MOCs relevantes cuando un átomo no está enlazado. Backfill completo encontró 0 átomos huérfanos — todos ya estaban en sus MOCs.
+
+**Resultados (n=1, baseline O7 8.64)**:
+
+| Dim (peso) | O7 (baseline) | O8 | Δ |
+|---|---|---|---|
+| completeness (25%) | 8.55 | 8.65 | +0.10 |
+| accuracy (25%) | 8.80 | 8.70 | −0.10 |
+| spanish_purity (15%) | 8.57 | 8.65 | +0.07 |
+| tone (15%) | 8.80 | 8.70 | −0.10 |
+| format_compliance (20%) | 8.50 | 8.75 | +0.25 |
+| **weighted_avg** | **8.64** | **8.69** | **+0.05** |
+| weighted_cost | 47,617 | 46,983 | **−1.33%** |
+
+Composite +0.0059 → IMPLEMENT (≥ +0.005). Check-repetition advisory (wider ±0.015 band) anotado; O8 neutral by design (0 orfanatos en bóveda).
+
+---
+
 ## 2026-04-28 — O7: Agent Orchestration (vault-agent.py) → IMPLEMENT (manual override)
 
 Inicio de Phase 3. Infraestructura de mantenimiento de bóveda: `scripts/vault-agent.py` detecta orphans, stale atoms, topic gaps, broken index links, contradicciones sin resolver. Escribe `meta/agent-report-YYYY-MM-DD.md`.

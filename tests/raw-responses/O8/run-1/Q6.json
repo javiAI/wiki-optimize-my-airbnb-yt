@@ -1,0 +1,30 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 3,
+  "response": "**Diagnóstico**: Los huecos de 1-2 noches entre reservas se producen porque el precio de esas fechas sigue tan alto como el resto del calendario, aunque la demanda real cayó en cuanto se formó la reserva contigua. Hay cuatro palancas coordinadas para resolverlo.\n\n**Pasos**:\n\n1. **Activar el adjacency factor en PriceLabs** [[notes/pricing--adjacency-factor]] — Configura -40% a -50% (modo porcentaje) dentro de 1 día de cualquier reserva existente. Esta es la palanca estructural: baja automáticamente el precio de los días inmediatamente antes y después de cada reserva, donde la demanda cae de forma sistemática. Un caso documentado pasó de 60% a 82% de ocupación en seis semanas solo con este cambio.\n\n2. **Aplicar orphan night strategy en los huecos específicos** [[notes/pricing--orphan-night-strategy]] — Cuando ya existe un hueco de 1-2 noches entre dos reservas confirmadas, haz dos cosas simultáneas vía Date-Specific Customization en PriceLabs: (a) baja el minimum stay a 1 noche solo para esas fechas, y (b) sube el precio un 20% sobre el precio recomendado. El huésped que busca 1 noche en esas fechas es menos sensible al precio; bajar el precio sería un error.\n\n3. **Enviar mensaje de extensión al huésped actual** [[notes/occupancy--extend-offer-message]] — 1-2 días antes de la salida, ofrece las noches disponibles al huésped con un descuento del 20%. La tasa de conversión documentada es del 30%. El huésped ya está cómodo, el coste de buscar alternativa es alto, y el descuento se percibe como trato exclusivo. Solo enviar si esas fechas siguen libres y la siguiente reserva no llega ese mismo día.\n\n4. **Aplicar descuento jueves/domingo para reducir huecos de fin de semana** [[notes/pricing--thu-sun-weekend-extension]] — Si los huecos suelen ser un jueves o domingo entre reservas de fin de semana, activa un descuento del 10-15% esos días vía day-of-week customization en PriceLabs. Esto incentiva que los huéspedes extiendan su estancia (jueves→domingo o viernes→lunes), absorbiendo el hueco antes de que se forme.\n\n**Por qué funciona el conjunto**: el adjacency factor actúa de forma preventiva bajando precio donde la demanda cae de forma estructural; la orphan strategy captura los huecos que ya existen con un perfil de huésped distinto (menos price-sensitive, más urgente); el mensaje de extensión aprovecha al huésped ya presente; y el descuento Thu/Sun evita que los huecos de fin de semana aparezcan.\n\n**Resultado esperado**: reducción de huecos de 1-2 noches sin llenar en 3-4 semanas; incremento de ocupación de 10-20 puntos porcentuales en los períodos afectados, sin sacrificar tarifa promedio en el resto del calendario.\n\n**Fuentes**: [[sources/PG3EGrwFzsI]], [[sources/Ek8m0ZAhMgA]], [[sources/zGkc_U9qC1k]], [[sources/dnpAlGP8ta8]], [[sources/CyddkOVq6WM]], [[sources/CbIZETKeV-U]]",
+  "atoms_cited": [
+    "[[notes/pricing--adjacency-factor]]",
+    "[[notes/pricing--orphan-night-strategy]]",
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/pricing--thu-sun-weekend-extension]]"
+  ],
+  "sources_cited": [
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/CyddkOVq6WM]]",
+    "[[sources/CbIZETKeV-U]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "notes": "El conflicto documentado Thu/Sun (descuento vs premium) no es activo en esta pregunta: la palanca Thu/Sun se menciona solo en su contexto de extensión de fin de semana (descuento), que es la aplicación correcta cuando el objetivo es reducir huecos. No hay conflicto HIGH/MEDIUM activo en la respuesta."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

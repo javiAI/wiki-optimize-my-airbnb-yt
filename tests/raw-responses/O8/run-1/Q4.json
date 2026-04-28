@@ -1,0 +1,24 @@
+{
+  "question_id": "Q4",
+  "question": "¿Debo activar Instant Book desde el principio?",
+  "level": 1,
+  "response": "**Respuesta directa**: Sí, activa Instant Book desde el primer día con los tres requisitos de filtro activados: ID gubernamental verificado, sin reseñas negativas, y aceptación de las normas de la casa [[notes/ranking--instant-book-acceptance-signal]].\n\n**Por qué**: Instant Book equivale a un 100% de tasa de aceptación automática ante Airbnb. Los anfitriones que usan solicitud manual aceptan el riesgo de bajar su tasa efectiva cada vez que rechazan o dejan expirar una solicitud — y Airbnb penaliza eso en el posicionamiento. Un experimento documentado mostró una caída del ~25% en impresiones en primera página al desactivar Instant Book en un anuncio ya establecido [[notes/ranking--instant-book-acceptance-signal]]. Con los tres requisitos activos, el volumen de huéspedes problemáticos se reduce aproximadamente un 95% mientras el beneficio de posicionamiento se mantiene íntegro.\n\n**Cuándo aplica**: aplica tanto a anuncios nuevos como a anuncios con historial. En mercados saturados Airbnb pondera más la señal de aceptación como factor de desempate; en mercados menos competitivos el impacto es algo menor, pero activarlo sigue siendo gratuito — no activarlo es dejar posicionamiento sobre la mesa.\n\n**Fuentes**: [[sources/Nzmpg8m-imY]], [[sources/j5emxo6P7No]], [[sources/I-Xk22Mp8eE]]",
+  "atoms_cited": [
+    "[[notes/ranking--instant-book-acceptance-signal]]"
+  ],
+  "sources_cited": [
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/j5emxo6P7No]]",
+    "[[sources/I-Xk22Mp8eE]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "notes": "No se detectaron conflictos HIGH ni MEDIUM en meta/contradictions.md ni en el atom consultado para esta pregunta."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

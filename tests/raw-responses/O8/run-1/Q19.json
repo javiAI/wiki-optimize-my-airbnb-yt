@@ -1,0 +1,33 @@
+{
+  "question_id": "Q19",
+  "question": "¿Cómo paso de 1 a 5 listings sin perder calidad ni control operativo?",
+  "level": 4,
+  "response": "**Panorama**: Escalar de 1 a 5 anuncios es la fase más exigente del host-operador porque no solo multiplicas ingresos — multiplicas puntos de fallo. El autor lo describe como tres fases distintas: 1-5 (host-operador solo), 6-15 (portfolio con equipo), 15+ (pequeña empresa) [[notes/investing--under-15-properties-sweet-spot]]. Pasar a 5 listings sin un sistema operativo sólido resulta en calidad diluida, calificaciones en caída y tiempo fuera de control. La clave es que la escala sea de sistemas, no de horas.\n\n**Comparativa**:\n\n| Dimensión | 1 listing (actual) | 2-3 listings | 4-5 listings |\n|---|---|---|---|\n| Stack mínimo [[notes/tools-tech--three-level-host-framework]] | PMS básico + precios dinámicos | PMS multi-anuncio + sync calendar | PMS full + PriceLabs por anuncio + analytics L3 |\n| Limpieza [[notes/cleaning-ops--cleaner-multi-role-remote-ops]] | 1 limpiador titular + 1 de respaldo | 1 limpiador por zona + protocolos escritos | Red de limpiadores con coordinación delegada |\n| Mensajes [[notes/hospitality--nine-automated-messages]] | 9 mensajes automáticos, 0 manuales | Mismos 9 por anuncio, variables dinámicas | PMS que soporte 11-13 plantillas + detección de palabras clave |\n| Control de calidad | Revisión personal tras rotación | Checklist fotográfico con el limpiador | Informe mensual de calificaciones por anuncio |\n| Tiempo dedicado [[notes/investing--hourly-rate-sanity-check]] | 5 h/sem sin automatización | 4-6 h/sem con PMS | 8-10 h/sem sin sistema; 3-4 h con sistema |\n| Property manager [[notes/investing--pm-saves-time-not-revenue]] | Innecesario | Opcional si tu tarifa horaria en tu trabajo > STR | Evaluar si ≥3 anuncios con restricción real de tiempo |\n\n**Cómo elegir** (por restricción principal):\n\n- Si tu restricción es **tiempo**, no capital: antes de añadir el anuncio 2, automatiza al 100% el primero — 9 mensajes automáticos funcionando, precios dinámicos activos, limpiador con código de acceso propio. Si el anuncio 1 requiere >3 h/sem de gestión activa, un segundo anuncio lo convertirá en 6 h+ [[notes/tools-tech--pms-worth-it-single-listing]].\n- Si tu restricción es **calidad**, no operativa: no añadas anuncios hasta que el primero tenga calificación ≥4.8 sostenida durante 3+ meses. Reseñas de limpieza o comunicación por debajo del promedio indican que el sistema base aún no es estable.\n- Si tu restricción es **control remoto** (gestionas a distancia): el limpiador es el eje, no el PMS. Eleva su rol y compensación (20-30% sobre tarifa local) antes de añadir propiedades — un limpiador multi-rol puede coordinar mantenimiento, gestionar entradas y resolver incidencias sin ti [[notes/cleaning-ops--pay-more-manage-less]].\n- Si estás evaluando contratar un property manager al escalar: recuerda que un PM no aumenta tus ingresos, solo libera tu tiempo — la decisión es una permuta pura entre tiempo y coste. Si los ingresos por hora del STR superan tu tarifa horaria laboral, gestiona tú; si no, delega. Además, **nunca operes bajo la cuenta Airbnb del PM** — siempre tu propia cuenta con el PM como co-anfitrión con permisos limitados [[notes/investing--never-on-pm-account]].\n\n**Próximos pasos**:\n- Audita el anuncio actual con el framework de 3 niveles: ¿tienes L1 completo y estable (PMS + precios dinámicos + cerradura digital)? Si no, cierra esas brechas antes de escalar.\n- Cuando añadas el anuncio 2, evalúa el PMS según funcionalidad > servicio al cliente > precio — no cometas el error de elegir por coste [[notes/tools-tech--pms-evaluation-criteria]].\n- Establece un backup de limpiador en cada mercado desde el día 1; es el único punto de fallo crítico en operación remota.\n\n**Fuentes**: [[sources/giuHVqw_y4k]], [[sources/qpLzNgYOnho]], [[sources/I8sU6qci4D8]], [[sources/w8t9YWltsm4]], [[sources/grAeEiwAJ0k]], [[sources/PHz6KUMKSVc]], [[sources/lr8to3rM1os]], [[sources/dgoUXEwoUTs]]",
+  "atoms_cited": [
+    "[[notes/investing--under-15-properties-sweet-spot]]",
+    "[[notes/tools-tech--three-level-host-framework]]",
+    "[[notes/cleaning-ops--cleaner-multi-role-remote-ops]]",
+    "[[notes/hospitality--nine-automated-messages]]",
+    "[[notes/investing--hourly-rate-sanity-check]]",
+    "[[notes/investing--pm-saves-time-not-revenue]]",
+    "[[notes/tools-tech--pms-worth-it-single-listing]]",
+    "[[notes/cleaning-ops--pay-more-manage-less]]",
+    "[[notes/investing--never-on-pm-account]]",
+    "[[notes/tools-tech--pms-evaluation-criteria]]"
+  ],
+  "sources_cited": [
+    "[[sources/giuHVqw_y4k]]",
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/I8sU6qci4D8]]",
+    "[[sources/w8t9YWltsm4]]",
+    "[[sources/grAeEiwAJ0k]]",
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/lr8to3rM1os]]",
+    "[[sources/dgoUXEwoUTs]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

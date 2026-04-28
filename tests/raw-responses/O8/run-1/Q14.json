@@ -1,0 +1,29 @@
+{
+  "question_id": "Q14",
+  "question": "¿Cómo interpreto Airbnb Insights y qué KPIs priorizo semanalmente?",
+  "level": 3,
+  "response": "**Diagnóstico**: Airbnb Insights es un panel gratuito que, bien leído, evita decisiones de precio y posicionamiento basadas en intuición. El error más común es mirar los números absolutos en lugar de compararlos con anfitriones similares y actuar sobre el nivel del embudo correcto.\n\n**Pasos**:\n\n1. **Activar Professional Hosting Tools** [[tools-tech--airbnb-professional-hosting-tools-activation]] — Cuenta → esquina superior derecha → \"Professional hosting tools\" → Manage → Toggle ON. Sin este paso, el panel es básico y faltan métricas clave (tasa de conversión detallada, tiempo anticipado de reserva, desglose por canal). Es gratuito; muchos anfitriones llevan años sin activarlo.\n\n2. **Revisar tasa de conversión (reservas ÷ impresiones) como señal principal** [[ranking--conversion-rate-benchmarks]] — Bandas de referencia: <0,2% está por debajo del mercado; 0,3–0,4% es típico; ≥1% es excepcional y señal de que estás infra-precio. Si superas el 1% de forma sostenida, sube el precio base de inmediato. Si estás por debajo del 0,2%, el problema está en fotos, título o precio, no en visibilidad.\n\n3. **Comparar tarifa y ocupación contra anunciantes similares** [[pricing--insights-dashboard-benchmark]] — Objetivo del autor: tarifa por noche un 20–30% por encima del promedio de anunciantes similares con ocupación ≥90%. Si tu tarifa está igual o por debajo del promedio, estás dejando dinero. Usa la lógica: tarifa < similares + ocupación > similares → sube precio ya; tarifa > similares + ocupación < similares → revisa fotos y reseñas antes de bajar precio.\n\n4. **Identificar en qué nivel del embudo se pierde la demanda** [[tools-tech--intellihost-funnel-ranking]] — El embudo real tiene cuatro niveles: impresiones → impresiones en primera página → clics → noches reservadas. Cada nivel diagnostica un problema distinto: impresiones bajas = problema de posicionamiento algorítmico (reseñas, cancelaciones); clics bajos = foto de portada o precio no convierten; noches reservadas bajas = descripción o reseñas bloquean el cierre. IntelliHost ($16/mes) puede visualizar este embudo y detectar dónde está la fuga.\n\n5. **Ignorar el número de \"anfitriones similares\" como objetivo de pricing** [[ranking--similar-listings-metric-opaque]] — Airbnb no publica los criterios de selección del grupo de comparación. Puede ser por zona, rango de precio, habitaciones o solapamiento de comodidades. Úsalo solo como señal de tendencia (¿sube o baja el benchmark mes a mes?), nunca como input directo para fijar precio base. Valida manualmente buscando en Airbnb con tus propios filtros.\n\n**Por qué funciona el conjunto**: la activación del panel desbloquea los datos; la tasa de conversión detecta si el problema es precio o producto; la comparativa con similares cuantifica el gap; el embudo señala el nivel exacto a corregir; y el escepticismo ante la métrica de similares evita optimizar contra un benchmark opaco.\n\n**Resultado esperado**: en 2–3 semanas de revisión semanal con esta rutina, tendrás claridad sobre si el cuello de botella está en visibilidad, en la primera impresión (foto + precio) o en el cierre (descripción + reseñas), lo que permite una acción concreta en lugar de cambios a ciegas.\n\n**Fuentes**: [[sources/2IaHGtiidFU]], [[sources/6Mz5AlyuPcI]], [[sources/cTffAvSy_XA]], [[sources/qpLzNgYOnho]]",
+  "atoms_cited": [
+    "[[tools-tech--airbnb-professional-hosting-tools-activation]]",
+    "[[ranking--conversion-rate-benchmarks]]",
+    "[[pricing--insights-dashboard-benchmark]]",
+    "[[tools-tech--intellihost-funnel-ranking]]",
+    "[[ranking--similar-listings-metric-opaque]]"
+  ],
+  "sources_cited": [
+    "[[sources/2IaHGtiidFU]]",
+    "[[sources/6Mz5AlyuPcI]]",
+    "[[sources/cTffAvSy_XA]]",
+    "[[sources/qpLzNgYOnho]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "active_conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

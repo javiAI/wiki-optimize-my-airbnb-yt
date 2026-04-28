@@ -1,0 +1,28 @@
+{
+  "question_id": "Q15",
+  "question": "Un guest pide extender estancia mid-stay. ¿Cuándo acepto y cuándo rechazo?",
+  "level": 3,
+  "response": "**Diagnóstico**: un huésped en mitad de estancia pide noches adicionales. La decisión combina cuatro variables: comportamiento del huésped hasta ese momento, disponibilidad real del calendario, tarifa vigente en el mercado, y si la extensión cubre o crea un hueco difícil de vender.\n\n**Pasos**:\n\n1. **Revisar comportamiento del huésped** [[notes/hospitality--offer-extension-midstay]] — Si no ha generado quejas, ruido ni comunicación hostil, es candidato claro a extensión. Un huésped problemático (daños, quejas del vecindario, comunicaciones difíciles) nunca debería extender: el riesgo de más incidentes o una reseña negativa supera el ingreso adicional.\n\n2. **Verificar el calendario antes de responder** [[notes/occupancy--extend-offer-message]] — Solo acepta si las noches solicitadas están efectivamente libres. Si hay una reserva entrante el día de salida actual o dentro de la ventana pedida, rechaza con amabilidad y ofrece el día hasta el que sí tienes disponibilidad. No respondas de memoria: abre el panel y confirma.\n\n3. **Comparar la tarifa de extensión con la tarifa de mercado actual** [[notes/hospitality--offer-extension-midstay]] — Si el ADR actual de tu mercado en esas fechas es notablemente superior al precio de la reserva vigente, la extensión a precio original te hace perder ingresos. En ese caso, puedes aceptar con ajuste de tarifa o rechazar. Si el mercado está flojo y esas noches quedarían vacías, la extensión a precio original (o con un descuento del 5-10%) capta un ingreso seguro con coste de rotación cero.\n\n4. **Evaluar si la extensión cubre o crea un hueco** [[notes/pricing--orphan-night-strategy]] — Si aceptar N noches extra deja un solo día libre antes de la siguiente reserva (noche huérfana), valora si ese hueco es vendible. A veces rechazar 2 noches y mantener el turno en fecha te da mejor posición que aceptar y quedarte con una noche imposible de llenar.\n\n5. **Responder con decisión clara y un umbral de tiempo** [[notes/occupancy--extend-offer-message]] — Si decides aceptar, da precio, fechas exactas y un plazo de confirmación («Si confirmas en las próximas 24 h, te bloqueo esas noches»). Si rechazas, da la razón real (otra reserva, tarifa distinta) sin dejar la conversación abierta a negociación indefinida.\n\n**Por qué funciona el conjunto**: el huésped ya está instalado — su coste de búsqueda de alternativa es alto y su disponibilidad a pagar por quedarse es real. Eso te da poder de negociación. Pero ese poder solo es útil si tienes claro el precio mínimo aceptable y la disponibilidad real antes de contestar; sin esa información, o regalas noches o rechazas ingreso seguro.\n\n**Resultado esperado**: tasa de aceptación de extensiones bien evaluadas del 20-30%; coste de rotación evitado (sin limpieza extra, sin nueva entrada); reseña con contexto positivo por la flexibilidad percibida.\n\n**Fuentes**: [[sources/Q9Xz-Hg_9Vg]], [[sources/Ek8m0ZAhMgA]], [[sources/CyddkOVq6WM]]",
+  "atoms_cited": [
+    "[[notes/hospitality--offer-extension-midstay]]",
+    "[[notes/occupancy--extend-offer-message]]",
+    "[[notes/pricing--orphan-night-strategy]]"
+  ],
+  "sources_cited": [
+    "[[sources/Q9Xz-Hg_9Vg]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/CyddkOVq6WM]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "severity": null,
+    "atoms": [],
+    "resolution_criterion": null
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 8
+  }
+}

@@ -26,8 +26,8 @@ phases:
     name: "Automation"
     status: "in_progress"
     tasks: [O7, O8, O9]
-    completed: [O7]
-    progress: 33
+    completed: [O7, O8]
+    progress: 67
   phase_4:
     name: "Integration"
     status: "not_started"
@@ -50,7 +50,7 @@ optimizations:
   O5: { name: "Response Format Templates v3 (regimes A/B/C + anti-anglicismo expanded table + refiner loop)", phase: 2, hours: 2.5, status: "complete", cost_delta_pct: 13.7, quality_delta: 0.955, target_dims: ["format_compliance", "spanish_purity"], composite: 0.0606, decision: "IMPLEMENT", class: "structural" }
   O6: { name: "Executable Checklists", phase: 5, hours: 1.5, status: "deferred", reason: "atom_content_opt; modifies atom procedures into Dataview checklists, belongs to atom regeneration phase", class: "atom_content" }
   O7: { name: "Agent Orchestration (vault-agent.py)", phase: 3, hours: 8, status: "complete", quality_delta: 0.22, cost_delta_pct: -23.1, composite: "REVERT_override→IMPLEMENT", decision: "IMPLEMENT (manual override: scripts neutral, O5 baseline n=1 outlier; O7 8.64 > original baseline 8.42 +0.22)", class: "automation_script" }
-  O8: { name: "Auto-Linking System", phase: 3, hours: 4, status: "not_started", class: "structural" }
+  O8: { name: "Auto-Linking System (auto-link.py)", phase: 3, hours: 4, status: "complete", quality_delta: 0.05, cost_delta_pct: -1.33, composite: 0.0059, decision: "IMPLEMENT (composite_positive; 0 orphans found, neutral by design)", class: "automation_script" }
   O9: { name: "Query Caching", phase: 3, hours: 6, status: "not_started", class: "structural" }
   O10: { name: "Semantic Gap Detection", phase: 4, hours: 3, status: "not_started", class: "structural" }
   O11: { name: "Backlink Generation", phase: 4, hours: 4, status: "not_started", class: "structural" }

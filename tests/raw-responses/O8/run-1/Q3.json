@@ -1,0 +1,27 @@
+{
+  "question_id": "Q3",
+  "question": "¿Qué pongo en el título y las primeras líneas del summary?",
+  "level": 1,
+  "response": "**Respuesta directa**: En el título, pon tu nombre de marca O las 2-3 comodidades diferenciales (jacuzzi, vista al mar, piscina); nunca adjetivos genéricos como «acogedor» o «hermoso» [[listing-optimization--title-brand-or-amenities]]. En las primeras 2 líneas del summary, pon especificaciones concretas que no se ven en las fotos: velocidad del WiFi en Mbps, tipo de colchón, tamaño del TV [[listing-optimization--description-concrete-over-poetic]].\n\n**Cuándo aplica**:\n- Brand en el título solo justifica el espacio si tienes más de un anuncio en el mismo mercado, más del 15% de reservas recurrentes, o posicionamiento de lujo (>$500/noche). En cualquier otro caso, usa el espacio para comodidades concretas.\n- Regla de los 50 caracteres: en móvil el título se trunca. Abre la app de Airbnb tras guardarlo y verifica que las comodidades diferenciales aparecen antes del corte, no después.\n\n**Por qué**: cuando el huésped llega al text del anuncio, todavía no está convencido — está comparando entre 2-3 opciones. Las primeras 2 líneas son el último cierre antes de que salte [[listing-optimization--text-for-still-shopping]]. Si esas líneas parecen genéricas, pierde interés. Si dicen «WiFi 500 Mbps, colchón híbrido, TV 65\" 4K», resuelven la duda sin necesidad de preguntar.\n\n**Fuentes**: [[sources/dfwvylpxJyI]], [[sources/K69RmQrdUIg]], [[sources/IGd6LzHUmDw]], [[sources/TFFssjYQLhY]]",
+  "atoms_cited": [
+    "[[listing-optimization--title-brand-or-amenities]]",
+    "[[listing-optimization--description-concrete-over-poetic]]",
+    "[[listing-optimization--text-for-still-shopping]]"
+  ],
+  "sources_cited": [
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/IGd6LzHUmDw]]",
+    "[[sources/TFFssjYQLhY]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

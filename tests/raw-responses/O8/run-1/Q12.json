@@ -1,0 +1,40 @@
+{
+  "question_id": "Q12",
+  "question": "¿Qué filtros aplica un guest en search antes de hacer click en mi listing?",
+  "level": 4,
+  "response": "**Panorama**: Antes de hacer clic en tu anuncio, el huésped aplica filtros en dos momentos del embudo: en P1 (la pantalla de búsqueda inicial) y en P2 (la página de resultados). En P1 decide qué queries lanzar; en P2 activa filtros adicionales para acotar los resultados [[notes/ranking--p1-p2-p3-framework]]. Si tu anuncio no pasa cualquiera de estos filtros, desapareces de la búsqueda aunque tu foto, descripción y calificaciones sean excelentes.\n\n**Comparativa**:\n\n| Filtro | Qué activa | Cómo aparecer |\n|---|---|---|\n| Precio / fechas | Base: precio ≤ umbral del huésped; sin fechas: precio más bajo de los próximos 28 días visible en la tarjeta [[notes/listing-optimization--undated-search-price-display]] | Mantener base competitivo; cuidar descuentos agresivos en ventana de 28 días si quieres proteger percepción de valor |\n| Habitaciones y baños | Número exacto de camas y baños configurado en el anuncio [[notes/listing-optimization--guests-only-care-four-things]] | Auditar que el conteo en Airbnb coincida con la realidad; incluir medio baño (0.5) donde aplique |\n| Capacidad de huéspedes | Filtros \"encaja para 6+\", \"8+\", etc. — invisible si tu máximo declarado es inferior [[notes/listing-optimization--max-guests-expands-pool]] | Subir máximo de huéspedes al real de la propiedad; configurar cargo por huésped adicional para compensar |\n| Cama king | Filtro \"cama king\" — solo apareces si ≥1 habitación tiene king marcado [[notes/listing-optimization--king-bed-filter-hack]] | Asegurarte de que al menos una habitación tenga king y esté configurada en \"Rooms and spaces\" |\n| Comodidades clave | Cocina completa, TV, zona de trabajo, parking, lavadora/secadora, acepta mascotas — cada uno es un filtro independiente [[notes/listing-optimization--bathroom-filter-match]] | Hacer auditoría de comodidades 2-3 veces al año; marcar solo lo que realmente tienes |\n| Estancia mínima | Búsquedas de 2 noches nunca encuentran listings con mínimo ≥ 3 [[notes/ranking--minimum-stay-visibility]] | Bajar mínimo antes de bajar precio si la ocupación está por debajo del objetivo |\n| Instant Book | Algunos huéspedes filtran por \"reserva instantánea\" exclusivamente; además activa señal de 100% de aceptación al algoritmo [[notes/ranking--instant-book-acceptance-signal]] | Activar Instant Book con las restricciones adecuadas (ID verificado, sin reseñas negativas, reglas de la casa) |\n| Características de seguridad | Airbnb favorece internamente listings con todas las funciones de seguridad activas [[notes/listing-optimization--safety-features-select-all]] | Activar todas las aplicables: alarma de humo, CO, extintor, botiquín, cámara exterior declarada |\n| Superanfitrión | Filtro que activa el huésped, NO factor de posicionamiento [[notes/ranking--superhost-zero-boost]] | No optimizar específicamente para el badge; sus métricas subyacentes (calificación, cancelaciones) sí importan |\n\n**Cómo elegir dónde actuar primero**:\n\n- Si tu ocupación es baja y el listing lleva más de 30 días activo → revisar filtros de habitaciones/baños y comodidades: son los errores de configuración más comunes y se corrigen en 10 minutos [[notes/listing-optimization--bathroom-filter-match]]\n- Si recibes impresiones pero pocos clics → el problema está en P2 (cover photo + precio visible); los filtros de configuración ya están pasando [[notes/ranking--p1-p2-p3-framework]]\n- Si tienes grupos o familias como público objetivo → priorizar máximo de huéspedes y filtro de cama king [[notes/listing-optimization--max-guests-expands-pool]]\n- Si tu estancia mínima es ≥ 3 noches y hay meses flojos → bajar a 2 noches antes de tocar precio [[notes/ranking--minimum-stay-visibility]]\n- Si no tienes Instant Book activo → activarlo es el cambio de configuración con mayor impacto en posicionamiento (−25% de impresiones en primera página al desactivarlo) [[notes/ranking--instant-book-acceptance-signal]]\n\n**Próximos pasos**:\n- Hacer la auditoría de comodidades completa (cocina, TV, zona de trabajo, parking, lavadora): toma 15 minutos y puede valer varios puntos porcentuales de ingresos\n- Verificar el máximo de huéspedes y el conteo exacto de baños en el panel de Airbnb\n- Revisar la estancia mínima y compararla con el patrón de reservas del mercado antes de ajustar precio\n\n**Fuentes**: [[sources/6ACFgXQ5aEU]], [[sources/vi_OEWsofXo]], [[sources/PVldBDSYpAA]], [[sources/PkyeXZhobVQ]], [[sources/skOuCf48WxU]], [[sources/Nzmpg8m-imY]], [[sources/I-Xk22Mp8eE]], [[sources/76G3CGbJLk0]], [[sources/MajEZ2en-Qk]]",
+  "atoms_cited": [
+    "[[notes/ranking--p1-p2-p3-framework]]",
+    "[[notes/listing-optimization--undated-search-price-display]]",
+    "[[notes/listing-optimization--guests-only-care-four-things]]",
+    "[[notes/listing-optimization--max-guests-expands-pool]]",
+    "[[notes/listing-optimization--king-bed-filter-hack]]",
+    "[[notes/listing-optimization--bathroom-filter-match]]",
+    "[[notes/ranking--minimum-stay-visibility]]",
+    "[[notes/ranking--instant-book-acceptance-signal]]",
+    "[[notes/listing-optimization--safety-features-select-all]]",
+    "[[notes/ranking--superhost-zero-boost]]",
+    "[[notes/listing-optimization--undated-search-price-display]]"
+  ],
+  "sources_cited": [
+    "[[sources/6ACFgXQ5aEU]]",
+    "[[sources/vi_OEWsofXo]]",
+    "[[sources/PVldBDSYpAA]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/skOuCf48WxU]]",
+    "[[sources/Nzmpg8m-imY]]",
+    "[[sources/I-Xk22Mp8eE]]",
+    "[[sources/76G3CGbJLk0]]",
+    "[[sources/MajEZ2en-Qk]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

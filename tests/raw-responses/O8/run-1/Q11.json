@@ -1,0 +1,28 @@
+{
+  "question_id": "Q11",
+  "question": "¿Cómo configuro PriceLabs para que el dynamic pricing funcione bien (min stay, last-minute, base)?",
+  "level": 3,
+  "response": "**Diagnóstico**: Esta configuración asume que ya tienes PriceLabs conectado a tu anuncio y conoces tu BLT (tiempo promedio de antelación de reservas). Si no lo conoces, consúltalo en Airbnb Insights antes de continuar — sin ese dato, los pasos 2 y 3 no tienen referencia.\n\n**Pasos**:\n\n1. **Fijar el precio base correcto** [[notes/pricing--base-price-definition]] — Define el precio base como lo que cobrarías en un día promedio de un mes promedio. Acepta la sugerencia de PriceLabs como punto de partida y ajústalo ±5% semanalmente según ocupación real vs. objetivo (50% de tu calendario a BLT días vista).\n\n2. **Calibrar el precio mínimo a ≤ mitad del base** [[notes/pricing--minimum-half-of-base]] — Calcula tu mínimo real: (costos fijos + variables + margen) / días esperados rentados. Ese número debe ser ≤ 50% del precio base. Si supera ese umbral, el descuento de último momento perderá potencia antes de hacerse competitivo.\n\n3. **Activar la gradual last-minute discount empezando en BLT** [[notes/pricing--gradual-last-minute-discount]] — En PriceLabs, Customizations → Last-Minute → modo \"percent gradual\". Configura la curva para que el descuento comience el día exacto de tu BLT y descienda suavemente hasta tu precio mínimo en el día 0. No uses step-discounts fijos (−10% a 15 días) — la curva gradual te pone más barato que la competencia antes de que ella empiece a descontar.\n\n4. **Activar el adjacency factor (−40% a −50%)** [[notes/pricing--adjacency-factor]] — En Customizations → Adjacency Factor → modo percent, pon −50% dentro de 1 día de una reserva existente. Esta es la customization más infrautilizada: baja automáticamente el precio de los días aislados alrededor de reservas (noches huérfanas) donde la demanda cae de forma natural.\n\n5. **Configurar far-out premium al 10%, no al 19% por defecto** [[notes/pricing--far-out-premium-10-percent]] — El default de PriceLabs (+19% desde día 60) suele cortar las reservas lejanas. Bájalo al 10% con ramp que empiece a 1.5× tu BLT (ej. si BLT = 30 días, el premium arranca en día 45). Para min-stay en fechas especiales, usa Date-Specific Customizations [[notes/pricing--holiday-specific-date-min-stay]] — navidad/año nuevo: mínimo 3 noches; fines de semana festivos: 2-3 noches. NO aumentes el min-stay de forma genérica en fechas lejanas: reduce el pool de huéspedes sin compensación [[notes/pricing--no-increase-min-nights-far-out]].\n\n**Por qué funciona el conjunto**: el precio base calibrado da a PriceLabs una referencia real; el mínimo correcto le da margen para bajar en temporada baja; la curva gradual captura demanda de último momento antes que la competencia; el adjacency factor llena huecos automáticamente; el far-out premium moderado atrae reservas anticipadas sin ahuyentarlas.\n\n**Resultado esperado**: con estos 5 ajustes activos y revisión semanal de 30 segundos por anuncio, la ocupación debería estabilizarse en 70-80% con tarifa media superior a la competencia en ventanas de último momento.\n\n**Fuentes**: [[sources/dfwvylpxJyI]], [[sources/PG3EGrwFzsI]], [[sources/9Yk_IF97QdM]], [[sources/GZeFviVCFxw]], [[sources/zGkc_U9qC1k]]",
+  "atoms_cited": [
+    "[[notes/pricing--base-price-definition]]",
+    "[[notes/pricing--minimum-half-of-base]]",
+    "[[notes/pricing--gradual-last-minute-discount]]",
+    "[[notes/pricing--adjacency-factor]]",
+    "[[notes/pricing--far-out-premium-10-percent]]",
+    "[[notes/pricing--holiday-specific-date-min-stay]]",
+    "[[notes/pricing--no-increase-min-nights-far-out]]"
+  ],
+  "sources_cited": [
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/9Yk_IF97QdM]]",
+    "[[sources/GZeFviVCFxw]]",
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/VHQNoDMgLBE]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

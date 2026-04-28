@@ -1,0 +1,27 @@
+{
+  "question_id": "Q17",
+  "question": "¿Cómo evalúo un mercado para invertir en una segunda propiedad (discovered vs undiscovered)?",
+  "level": 4,
+  "response": "**Panorama**: Evaluar un mercado para una segunda propiedad requiere dos filtros en secuencia: primero descartar mercados inviables sin análisis profundo (filtros negativos), luego clasificar el mercado candidato entre **descubierto** o **no descubierto** para saber qué ventaja competitiva puedes construir. La distinción no es sobre cuál genera más ingresos absolutos, sino sobre dónde el perfil inversor-operador obtiene mejor ratio retorno/esfuerzo.\n\n**Comparativa**:\n\n| Eje | Mercado descubierto | Mercado no descubierto |\n|---|---|---|\n| Ejemplos [[notes/market-selection--discovered-vs-undiscovered]] | 30A, Smoky Mountains, Scottsdale | Ciudades de lagos Midwest, destinos turismo médico |\n| Ingresos promedio | Alto ($150-300k) | Medio ($60-150k) |\n| Precio de compra | Muy alto (viola regla 5×) | Proporcional al ingreso (3-5×) |\n| Competencia | Saturada (cientos de anuncios) | Baja (20-100 anuncios) |\n| Dificultad para rankear #1 | Muy alta | Media-baja |\n| Riesgo regulatorio | Alto (restricciones STR activas) | Bajo (mercados rurales sin leyes STR) |\n| Fuente de descubrimiento | Listas públicas / YouTube | Conjectura propia + rabbit hole |\n\n**Filtros negativos (descartar antes de analizar)**:\n\n- **Mercados \"hot\" con workforce saturada** [[notes/market-selection--avoid-hot-workforce-starved]] — si los equipos de limpieza y mantenimiento no crecen al ritmo de los nuevos anuncios (Smoky Mountains, partes de Florida), los números de ingresos proyectados son ficción. Test rápido: ¿hay al menos 2-3 equipos disponibles con capacidad real?\n- **Clima extremo** [[notes/market-selection--avoid-extreme-weather]] — multiplica desgaste, reembolsos y reseñas negativas inmerecidas. El HVAC dura la mitad, el cierre de carreteras come los ingresos. Regla: evitar en todos los casos, sin excepción por retorno esperado.\n- **Listas de influencers** [[notes/market-selection--influencers-useless-default]] — el 95% vende cursos, no invierte. Solo útiles si tienen portafolio auditado y exposición real al riesgo.\n\n**Perfil positivo (5 criterios simultáneos)** [[notes/market-selection--profile-criteria]]:\n\n1. Demanda durante todo el año (no solo picos estacionales)\n2. Infraestructura turística en crecimiento (aeropuertos, eventos, atracciones)\n3. Brecha oferta-demanda (la oferta STR no ha alcanzado la demanda)\n4. Mano de obra local sana para operar de forma remota\n5. Entorno regulatorio estable los últimos 3 años o moviéndose hacia claridad, no hacia restricción\n\n**Cómo elegir**:\n\n- Si el mercado aparece en listas públicas de YouTube/Reddit con >10 vídeos o >2.000 anuncios para población <500k → **mercado descubierto** [[notes/market-selection--discovered-vs-undiscovered]]. Solo viable con capital grande, operaciones a escala y branding diferenciado. La regla 5× (precio/ingresos ≤ 5) se viola con frecuencia → descartar salvo excepción.\n- Si identificas el mercado por conjectura propia (tipo de huésped ideal, turismo médico, densidad de ciudades + aeropuertos) y el ratio precio/ingresos proyectados cumple ≤ 5× → **mercado no descubierto** [[notes/investing--purchase-to-revenue-ratio-5x]]. Preferencia del autor: aquí es donde está el arbitrage real.\n- Si necesitas validar la calidad antes del análisis profundo: abre Airbnb en el mercado objetivo, haz zoom level 7 de 18, y promedia las reseñas visibles en primera página [[notes/market-selection--reviews-on-first-page-proxy]]. Entre 150-300 reseñas por anuncio = mercado maduro y rentable. Por encima de 400 = posible saturación, verificar ratio oferta/demanda.\n- Para mercados en EE.UU.: aplica la heurística geográfica de ≥3 ciudades con 100k+ habitantes y ≥2 aeropuertos dentro de 3 horas en coche [[notes/market-selection--airports-plus-cities-3h-drive]]. Zona candidata = demanda diversificada (negocio + ocio + médico + familia).\n- Si el mercado pasa todos los filtros anteriores, pasa al análisis cuantitativo profundo con AllTheRooms + AirDNA + PriceLabs Market Dashboard.\n\n**Próximos pasos**:\n- Generar ≥25 mercados candidatos desde conjectura propia (rabbit hole, no listas) antes de filtrar.\n- Aplicar filtros negativos y reducir a 5-10 candidatos.\n- Ejecutar análisis de ingresos proyectados sobre el percentil 90 de operadores (no el promedio) y verificar la regla 5× con TU proyección de ingresos, no la del vendedor actual.\n\n**Fuentes**: [[sources/gRBPFT97MV8]], [[sources/L5jTvT-Z5JQ]], [[sources/jKY6djYDsZc]], [[sources/2PTub0hub0g]]",
+  "atoms_cited": [
+    "[[notes/market-selection--discovered-vs-undiscovered]]",
+    "[[notes/market-selection--avoid-hot-workforce-starved]]",
+    "[[notes/market-selection--avoid-extreme-weather]]",
+    "[[notes/market-selection--influencers-useless-default]]",
+    "[[notes/market-selection--profile-criteria]]",
+    "[[notes/market-selection--reviews-on-first-page-proxy]]",
+    "[[notes/market-selection--airports-plus-cities-3h-drive]]",
+    "[[notes/investing--purchase-to-revenue-ratio-5x]]"
+  ],
+  "sources_cited": [
+    "[[sources/gRBPFT97MV8]]",
+    "[[sources/L5jTvT-Z5JQ]]",
+    "[[sources/jKY6djYDsZc]]",
+    "[[sources/2PTub0hub0g]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

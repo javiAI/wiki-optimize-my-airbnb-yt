@@ -1,0 +1,34 @@
+{
+  "question_id": "Q16",
+  "question": "¿Cómo construyo direct bookings y reduzco mi dependencia de las OTAs?",
+  "level": 4,
+  "response": "**Panorama**: La reserva directa no es para todos. El autor lleva años testeando la estrategia y concluye que el retorno neto raramente justifica la inversión en marketing, tecnología y soporte —a menos que cumplas al menos una condición gatekeeping. Antes de construir cualquier canal propio, valida si tienes el perfil mínimo; si no lo tienes, la dependencia de las OTAs no es un problema real, es una ventaja que estás subestimando [[notes/direct-booking--skip-unless-conditions]].\n\n**Comparativa**:\n\n| Eje | Perfil apto para direct | Perfil que debe mantenerse en OTA |\n|---|---|---|\n| Condición gatekeeping [[notes/direct-booking--skip-unless-conditions]] | 12+ anuncios bajo gestión, mercado luxury (>$500/noche), >30% de huéspedes recurrentes, o ya eres creador con audiencia | 1-3 anuncios, mercado estándar, sin base de huéspedes recurrentes |\n| Razón genuina [[notes/direct-booking--two-real-reasons]] | Necesitas flujo de caja inmediato (cobro al instante vs 24-48h de Airbnb), o quieres escapar de la tiranía de calificaciones | Tu motivación es \"ahorrar la comisión\" — ignora el costo real de reemplazar el motor de reseñas, la confianza y el SEO de Airbnb |\n| Valor invisible que pierdes [[notes/direct-booking--invisible-airbnb-value]] | Puedes asumir el costo de reemplazar: solicitud automática de reseñas (tasa baja al 20-30% en direct), badge de confianza, SEO orgánico (años para construir) | No puedes reemplazar esos 3 servicios con $500 en anuncios |\n| Distribución en plataformas [[notes/direct-booking--multi-platform-concentration]] | Mantén el canal directo aunque sea <10% — no paga comisión (ahorro ~15%) y alimenta el pipeline de recurrentes | Si tienes 70/20/5/5 en Airbnb/Booking/Vrbo/direct, elimina las dos minoritarias. El 20% de Booking que pierdas migra parcialmente al calendario de Airbnb |\n| Arquitectura base [[notes/direct-booking--pms-first-architecture]] | PMS como hub (Hostfully, Guesty, Hospitable) desde el anuncio #1; website propia en WordPress (no la del PMS); Airbnb/Vrbo como spokes | Si construyes sobre Airbnb como hub, cada OTA nueva o cambio de PMS obliga a reconstruir todo desde cero |\n\n**Cómo elegir**:\n\n- Si tienes 1-3 anuncios y tu ocupación ya está bien → permanece en Airbnb, optimiza el anuncio; direct booking es esfuerzo que no compensa [[notes/direct-booking--skip-unless-conditions]]\n- Si cumples la condición gatekeeping → arranca por la arquitectura: PMS como hub primero, luego website propia independiente del PMS [[notes/direct-booking--pms-first-architecture]]\n- Si ya tienes sitio directo activo → implementa las 3 jugadas de mínimo esfuerzo: Google My Business (gratis, 1 hora), menciones de tu marca en las reseñas que dejas a huéspedes, y un píxel de retargeting en tu site ($30-50/mes) [[notes/direct-booking--minimum-moves]]\n- Si quieres construir lista de correo pasivamente → instala un portal cautivo WiFi (StayFi, ~$5-15/mes por anuncio); captura 5-30 emails por reserva, incluyendo visitantes de los huéspedes [[notes/direct-booking--wifi-captive-portal-email-capture]]\n- Si tu propiedad es premium y ya tienes sitio propio → añade un tour 3D Matterport embebido; Airbnb no lo soporta, es diferenciador exclusivo del canal directo [[notes/direct-booking--matterport-3d-tour]]\n\n**Próximos pasos**:\n\n- Valida el perfil gatekeeping antes de invertir un euro en marketing directo.\n- Si ya cumples condición, el orden correcto es: PMS → website propia (WordPress) → GMB + StayFi → retargeting pixel.\n- Cuando un huésped pida descuento por direct, no bajes la tarifa: ofrece un upgrade asimétrico (salida tardía, botella de bienvenida) — el 80% lo acepta y el ADR queda intacto [[notes/direct-booking--discount-destroyer-response]].\n\n**Fuentes**: [[sources/PHz6KUMKSVc]], [[sources/w8cuYma09zY]], [[sources/YI7E_q53bRU]], [[sources/zDz2XogOarw]], [[sources/wqgfoP-V8m0]]",
+  "atoms_cited": [
+    "[[notes/direct-booking--skip-unless-conditions]]",
+    "[[notes/direct-booking--two-real-reasons]]",
+    "[[notes/direct-booking--invisible-airbnb-value]]",
+    "[[notes/direct-booking--multi-platform-concentration]]",
+    "[[notes/direct-booking--pms-first-architecture]]",
+    "[[notes/direct-booking--minimum-moves]]",
+    "[[notes/direct-booking--wifi-captive-portal-email-capture]]",
+    "[[notes/direct-booking--matterport-3d-tour]]",
+    "[[notes/direct-booking--discount-destroyer-response]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/w8cuYma09zY]]",
+    "[[sources/YI7E_q53bRU]]",
+    "[[sources/zDz2XogOarw]]",
+    "[[sources/wqgfoP-V8m0]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "No se detectaron conflictos HIGH ni MEDIUM activos entre los átomos del shortlist. El atom direct-booking--multi-platform-concentration incluye una excepción documentada (mantener canal directo aunque <10% por ahorro de comisión), que es compatible con el atom skip-unless-conditions —son scope-complementarios, no contradictorios."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

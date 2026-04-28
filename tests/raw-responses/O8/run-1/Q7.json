@@ -1,0 +1,21 @@
+{
+  "question_id": "Q7",
+  "question": "¿Cuándo subo el cleaning fee y cuándo lo bajo?",
+  "level": 3,
+  "response": "**Diagnóstico**: La tarifa de limpieza no es un coste a recuperar: es una palanca de conversión, filtro de huéspedes y señal de posicionamiento. Hay cuatro situaciones que definen si debes subirla o bajarla.\n\n**Pasos**:\n\n1. **Ancla el fee a la media de tu competencia, no a tu coste real** [[notes/pricing--cleaning-fee-match-comp]] — Saca la media de 3-5 anfitriones con propiedades equivalentes (radio 0,5 km, mismo tamaño). Tu tarifa de limpieza debe quedar en esa banda ±10%. Si tu coste real la supera, absorbe la diferencia en el precio base, no en la tarifa. Cobrar 2× vs la competencia infla el total que ve el huésped en búsqueda y destruye conversión.\n\n2. **Sube el fee si quieres desincentivar reservas de 1 noche sin cerrar el mínimo** [[notes/cleaning-ops--fee-deters-one-night]] — Un fee de 200 € sobre 1 noche equivale a 200 €/noche de sobreprecio percibido; repartido en 4 noches son 50 €/noche, aceptable. Mantén el mínimo en 1 noche para aparecer en búsquedas de viajeros de negocios y escapadas, pero sube el fee para filtrar por sensibilidad al precio.\n\n3. **Ajusta el fee según el tipo de propiedad** [[notes/cleaning-ops--fee-depends-on-property]] — Estudios y apartamentos de 1 dormitorio: 0-30 € (la limpieza es rápida; fee visible frena conversión). Apartamentos de 2-3 dormitorios: 50-100 €. Casas de 4+ dormitorios o villas con jacuzzi: 150-400 € (el coste de rotación lo justifica y los huéspedes lo esperan). Nunca apliques la misma lógica de una casa a un estudio.\n\n4. **No elimines el fee subiéndolo al precio por noche para 'parecer más barato'** [[notes/cleaning-ops--dont-split-fee-into-nightly]] — El filtro de presupuesto de Airbnb discrimina por precio por noche, no por total. Si absorbes 80 € de tarifa de limpieza subiendo el nightly de 600 € a 682 €, desapareces del search para cualquier huésped filtrado por «máximo 600 €/noche», aunque el total final fuera idéntico.\n\n**Por qué funciona el conjunto**: anclar a la competencia evita sobre-cobrar sin razón; subir estratégicamente filtra perfiles de riesgo sin perder visibilidad; ajustar por tipo de propiedad garantiza que el fee refleje el coste real del mercado; mantener el fee separado del nightly preserva tu posición en búsquedas.\n\n**Resultado esperado**: conversión más estable, pool de huéspedes cualificados y precio total competitivo sin sacrificar visibilidad en filtros de presupuesto.\n\n**Fuentes**: [[sources/vDe4aKMLHTg]], [[sources/7DrT9dlf2q0]]",
+  "atoms_cited": [
+    "[[notes/pricing--cleaning-fee-match-comp]]",
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/cleaning-ops--fee-depends-on-property]]",
+    "[[notes/cleaning-ops--dont-split-fee-into-nightly]]"
+  ],
+  "sources_cited": [
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/7DrT9dlf2q0]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}
