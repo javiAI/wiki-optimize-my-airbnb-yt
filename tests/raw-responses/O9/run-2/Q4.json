@@ -1,0 +1,25 @@
+{
+  "question_id": "Q4",
+  "question": "¿Debo activar Instant Book desde el principio?",
+  "level": 1,
+  "response": "**Respuesta directa**: Sí, activa Instant Book desde el primer día — con los guardrails correctos no añade riesgo y le regala al algoritmo la señal de 100% de aceptación automática [[notes/ranking--instant-book-acceptance-signal]]. Sin IB, cada solicitud no aceptada o expirada baja tu tasa de aceptación efectiva, lo que Airbnb penaliza directamente en el posicionamiento. Un test con IntelliHost documentó una caída de ~25% en impresiones en primera página tras desactivarlo.\n\n**Cuándo aplica**: en cualquier tipo de anuncio y en cualquier mercado. En mercados saturados el peso de la señal es mayor (actúa como desempate entre anuncios similares); en mercados nuevos el impacto es menor, pero activarlo sigue siendo coste cero [[notes/ranking--instant-book-acceptance-signal]].\n\n**Por qué no añade riesgo**: Instant Book no significa aceptar a cualquier huésped. Configura estos tres filtros antes de activarlo: (1) verificación de identidad oficial exigida, (2) sin reseñas negativas, (3) aceptación de las normas de la casa. Con ese stack, el volumen de huéspedes problemáticos baja ~95% mientras el boost de posicionamiento se mantiene completo.\n\n**Fuentes**: [[sources/2026-02-05--how-airbnb-search-actually-works-in-2026-copy-what-i-do]], [[sources/2024-09-18--copy-these-6-things-to-rank-1-on-airbnb]], [[sources/2024-02-23--this-tool-will-get-you-ranking-1-in-airbnb-intellihost-revie]]",
+  "atoms_cited": [
+    "[[notes/ranking--instant-book-acceptance-signal]]",
+    "[[notes/ranking--factors-2026]]"
+  ],
+  "sources_cited": [
+    "[[sources/2026-02-05--how-airbnb-search-actually-works-in-2026-copy-what-i-do]]",
+    "[[sources/2024-09-18--copy-these-6-things-to-rank-1-on-airbnb]]",
+    "[[sources/2024-02-23--this-tool-will-get-you-ranking-1-in-airbnb-intellihost-revie]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "El atom [[notes/ranking--instant-book-acceptance-signal]] tiene conflicts_with: [] — no hay conflicto activo documentado ni detectado en el shortlist."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

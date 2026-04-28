@@ -1,0 +1,188 @@
+{
+  "label": "O9",
+  "run": 1,
+  "rubric_version": "1.0",
+  "evaluator_notes": "El batch O9 muestra alta consistencia estructural: todas las respuestas siguen el régimen correcto (A/B/C), respetan los ceilings de palabras y mantienen citas [[atom]] por paso. Las principales áreas de mejora son la pureza del español (anglicismos frecuentes como 'turnover', 'mid-stay', 'toggle', 'skin in the game', 'feed', 'ping') y casos aislados de reutilización del mismo atom en dos pasos distintos (Q8). El tono es consistentemente consultor y cálido, sin frases de relleno ni summaries finales. Las respuestas de nivel C (Q16-Q20) destacan por la solidez de sus tablas comparativas y los árboles de decisión.",
+  "evaluations": {
+    "Q1": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta directa, caveat de conflicto MEDIUM bien estructurado al final, citas válidas. Las secciones A están todas presentes y la cobertura es sólida para un anuncio nuevo.",
+      "violations": []
+    },
+    "Q2": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Formato A correcto, tres atoms bien usados, 'jacuzzi' y 'WiFi' son whitelisted. El consejo sobre el orden de las primeras 5 fotos añade valor sin exceder el ceiling.",
+      "violations": []
+    },
+    "Q3": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Sólida respuesta A. 'summary' aparece como nombre técnico del campo de Airbnb, aceptable en contexto pero borderline. Resto del español es puro y el tono es consultor.",
+      "violations": ["'summary' usado sin traducir (campo técnico de Airbnb, borderline aceptable)"]
+    },
+    "Q4": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Respuesta directa y bien fundamentada. Solo 1 atom citado para una respuesta que cita 3 fuentes; el contrato exige 1-3 atoms en respuestas A — cumple el mínimo. Falta 'Cuándo aplica' explícito aunque el cuerpo lo incorpora.",
+      "violations": ["Solo 1 atom citado cuando el tema admitía 2-3 para mayor solidez"]
+    },
+    "Q5": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Régimen B correcto con 5 pasos, una cita por paso, resultado esperado y fuentes. Tono cálido y consultivo. Todas las palabras en español correcto; 'co-anfitrión' y 'reseñas' usados bien.",
+      "violations": []
+    },
+    "Q6": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Muy completa, cuatro palancas coordinadas bien articuladas. Anglicismos evitables: 'last-minute' (debería ser 'último momento'), 'Date-Specific Customization' (term técnico PriceLabs, borderline). El conjunto y resultado esperado son de alta calidad.",
+      "violations": ["'last-minute' usado en lugar de 'último momento'", "'Date-Specific Customization' sin traducir (term técnico PriceLabs, borderline)"]
+    },
+    "Q7": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Contenido sólido y bien estructurado. Múltiples anglicismos evitables: 'turnover' (rotación), 'sticker-shock' (impacto del precio total), 'nightly' (precio por noche). El paso 4 usa 'nightly rate' sin traducir.",
+      "violations": ["'turnover' sin traducir (debería ser 'rotación')", "'sticker-shock' sin traducir", "'nightly'/'nightly rate' sin traducir (debería ser 'precio por noche')"]
+    },
+    "Q8": {
+      "completeness": 7,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "El atom [[notes/reviews--emotional-intensity-plus-10]] se usa para DOS pasos distintos (paso 2 y paso 3), violando la regla de 1 atom por paso. El self_assessment reconoce gap de cobertura (atom dedicado a respuesta pública ausente en wiki). Español puro, tono excelente.",
+      "violations": ["[[notes/reviews--emotional-intensity-plus-10]] citado en paso 2 Y paso 3 — mismo atom para dos pasos (violación del contrato)", "Gap de cobertura reconocido: no existe atom canónico de respuesta pública a reseñas negativas"]
+    },
+    "Q9": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Muy completa, incluye sección de comodidades que no aportan. El uso de 'jacuzzi', 'WiFi', 'Bluetooth' es correcto (whitelist). El 'resultado esperado' y 'por qué funciona' son sólidos. Ligero exceso de pasos (5 + sección adicional), pero dentro de ceiling.",
+      "violations": ["Sección 'Comodidades que NO aportan' no es una sección canónica del régimen B, aunque añade valor"]
+    },
+    "Q10": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Protocolo bien estructurado en 5 pasos. 'vetting' debería ser 'evaluación del perfil'. 'manager' sin traducir en el paso 4. 'WhatsApp' es nombre propio aceptable. El rastro escrito y la comunicación en plataforma están bien enfatizados.",
+      "violations": ["'vetting' sin traducir (debería ser 'evaluación' o 'revisión')", "'manager' sin traducir en contexto operativo"]
+    },
+    "Q11": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Guía muy completa de PriceLabs en 5 pasos. 'customizations'/'customization' son términos técnicos de PriceLabs usados frecuentemente; borderline aceptable como product feature names. 'Market Dashboard' es nombre de feature de PriceLabs. 'Date Specific Stay Length' es feature name.",
+      "violations": ["'customizations' sin traducir en múltiples instancias (técnico PriceLabs, borderline)", "'Date Specific Stay Length' sin traducir (feature name PriceLabs, borderline)"]
+    },
+    "Q12": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "6 pasos en lugar de 3-5 recomendados para régimen B. 'funnel en P2' usa 'funnel' — debería ser 'embudo'. El contenido es correcto y útil. Las correcciones de configuración son accionables y bien priorizadas.",
+      "violations": ["'funnel' sin traducir (debería ser 'embudo')", "6 pasos excede el rango recomendado de 3-5 para régimen B"]
+    },
+    "Q13": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Muy completa, 7 pasos con buena articulación. 'touchpoints' sin traducir (podría ser 'puntos de contacto'). 7 pasos excede el rango B de 3-5. El resultado esperado y 'por qué funciona' son excelentes. Las referencias a PMS tools (whitelisted) son correctas.",
+      "violations": ["'touchpoints' sin traducir", "7 pasos excede el rango B de 3-5 (aunque el contenido lo justifica dado el message flow completo)"]
+    },
+    "Q14": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "5 pasos bien estructurados, KPIs priorizados correctamente. 'toggle ON' es anglicismo (podría ser 'activar el interruptor'). 'Market Dashboard' es feature de PriceLabs (borderline). Buen equilibrio entre diagnóstico y acción.",
+      "violations": ["'toggle ON' sin traducir (debería ser 'activa' o 'activa el interruptor')"]
+    },
+    "Q15": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 6,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Buen contenido en 5 pasos. Múltiples anglicismos: 'mid-stay' (mitad de estancia), 'stay' suelto, 'calendar' en lugar de 'calendario', 'ADR' (whitelisted). 'refund' debería ser 'reembolso'. 'turnover' debería ser 'rotación'.",
+      "violations": ["'mid-stay' sin traducir (debería ser 'mitad de estancia' o 'durante la estancia')", "'refund' sin traducir (debería ser 'reembolso')", "'turnover' sin traducir (debería ser 'rotación')", "'stay' suelto sin traducir en algunos contextos"]
+    },
+    "Q16": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Excelente respuesta C con tabla comparativa, decision-tree y próximos pasos. 'retargeting' es tech estandarizada (borderline whitelisted). 'WordPress', 'Boostly', 'StayFi', 'GMB' son nombres propios correctamente no traducidos. El advice de no usar el builder del PMS es valioso.",
+      "violations": ["'retargeting' podría considerarse anglicismo técnico (borderline whitelisted como tech estandarizada)"]
+    },
+    "Q17": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Tabla comparativa sólida con criterios de selección claros. 'hype' y 'hot' son anglicismos evitables. Estructura C correcta con panorama, comparativa, cómo elegir y próximos pasos. Las heurísticas concretas (5×, >300 reseñas, ratio geográfico) son de alto valor.",
+      "violations": ["'hype' sin traducir (podría ser 'entusiasmo' o 'saturación mediática')", "'hot' sin traducir (podría ser 'popular' o 'saturado')"]
+    },
+    "Q18": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Muy completa, con la estructura operativa de cuenta Airbnb claramente explicada (no negociable). 'skin in the game' es anglicismo notable. 'SKU' es término de negocio, borderline. La sección de estructura operativa es la parte más valiosa y original.",
+      "violations": ["'skin in the game' sin traducir (podría ser 'incentivo propio' o 'implicación directa')", "'SKU' en contexto narrativo (podría ser 'unidad de negocio')"]
+    },
+    "Q19": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Tabla de 5 columnas bien estructurada para las tres fases de escalado. 'multi-channel sync' sin traducir. 'cleaner module' sin traducir. 'SOP' no está en la whitelist aunque es estándar del sector. 'AI autoresponder' es técnico aceptable.",
+      "violations": ["'multi-channel sync' sin traducir", "'cleaner module' sin traducir (podría ser 'módulo de limpieza')", "'SOP' no está en la whitelist formal (aunque es acrónimo estándar)"]
+    },
+    "Q20": {
+      "completeness": 9,
+      "accuracy": 8,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Excelente respuesta C con cuatro ejes de mejora bien articulados. Dos source_ids tienen formato de fecha (2025-02-10, 2024-11-22) que no corresponde al formato estándar YYYY-MM-DD--slug de la wiki — plausibles pero no verificables. 'feed', 'ping', 'compound', 'cover' son anglicismos evitables.",
+      "violations": ["'feed' sin traducir (podría ser 'resultados de búsqueda' o 'galería')", "'ping' sin traducir (podría ser 'mensaje estacional')", "'cover' usado en inglés en un contexto (aunque 'foto de portada' aparece también)", "Dos source_ids con formato de fecha atípico (2025-02-10--pricelabs-customizations, 2024-11-22--pricing-discounts-strategy) — no verificables contra el formato estándar"]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "question_id": "Q6",
+  "question": "Tengo huecos de 1-2 noches sueltas entre reservas que no se llenan. ¿Qué hago?",
+  "level": 3,
+  "response": "**Diagnóstico**: Los huecos de 1-2 noches entre reservas se llaman noches huérfanas. El error más común es bajar el precio para llenarlos — eso atrae al huésped menos deseado y reduce tu ingreso por reserva. Hay cuatro palancas coordinadas.\n\n**Pasos**:\n\n1. **Activar el adjacency factor en PriceLabs (-40% a -50%)** [[notes/pricing--adjacency-factor]] — Esta customización baja automáticamente el precio de los días adyacentes a una reserva existente, porque la demanda en esas fechas cae (el huésped ya no puede encadenarlos libremente). Es la palanca más infrautilizada: un estudio de caso documentado muestra ocupación de 60% → 82% en seis semanas solo con encenderla. Empezar en -25%; si no llegan reservas en 7-10 días, subir a -40%, luego -50%.\n\n2. **Aplicar premium del 20% + bajar estancia mínima a 1 noche para la fecha huérfana** [[notes/pricing--orphan-night-strategy]] — En PriceLabs, usa Date-Specific Customization solo para esa fecha aislada: elimina la fricción de estancia mínima (el huésped que busca 1 noche ya tiene el calendario bloqueado por las reservas contiguas) y sube el precio ~20% sobre el recommended price. El huésped que reserva 1 noche de último momento es menos sensible al precio — suele ser un viajero de negocios o en tránsito.\n\n3. **Activar descuento gradual last-minute desde el día BLT** [[notes/pricing--gradual-last-minute-discount]] — Configura en PriceLabs una curva de descuento que empiece a bajar en el día igual a tu BLT (no un descuento escalón en días fijos como 15 o 10). La ventaja: cuando el huésped compara a 20 días vista, tu precio ya lleva descuento mientras la competencia sigue a precio lleno. El suelo de la curva debe ser el 50% del precio base — floors más conservadores (70-80%) no generan descuento suficiente para competir en baja temporada.\n\n4. **Aplicar descuento jueves y domingo (-10% a -15%)** [[notes/pricing--thu-sun-weekend-extension]] — En markets donde el patrón dominante es entrada viernes/salida domingo, un descuento en jueves y domingo incentiva que los huéspedes extiendan la estancia (jueves→domingo o viernes→lunes), absorbiendo las noches huérfanas antes de que aparezcan. No aplica en mercados con demanda fuerte de lunes a miércoles (capitales, aeropuertos).\n\n**Por qué funciona el conjunto**: el adjacency factor actúa automáticamente conforme se llenan fechas; el premium huérfano captura la demanda residual a mejor precio; el descuento gradual asegura que fechas cercanas no queden vacías por competencia; y el descuento de extensión corta la raíz del problema evitando que las noches huérfanas se generen.\n\n**Resultado esperado**: reducción de noches huérfanas en 60-80% en 3-4 semanas, con ingreso medio por noche sin reducción (el premium huérfano compensa el descuento de extensión).\n\n**Fuentes**: [[sources/zGkc_U9qC1k]], [[sources/dnpAlGP8ta8]], [[sources/PG3EGrwFzsI]], [[sources/Ek8m0ZAhMgA]], [[sources/79k3wAdhzH4]], [[sources/TFFssjYQLhY]], [[sources/HsCIAq2TPMI]]",
+  "atoms_cited": [
+    "[[notes/pricing--adjacency-factor]]",
+    "[[notes/pricing--orphan-night-strategy]]",
+    "[[notes/pricing--gradual-last-minute-discount]]",
+    "[[notes/pricing--thu-sun-weekend-extension]]"
+  ],
+  "sources_cited": [
+    "[[sources/zGkc_U9qC1k]]",
+    "[[sources/dnpAlGP8ta8]]",
+    "[[sources/PG3EGrwFzsI]]",
+    "[[sources/Ek8m0ZAhMgA]]",
+    "[[sources/79k3wAdhzH4]]",
+    "[[sources/TFFssjYQLhY]]",
+    "[[sources/HsCIAq2TPMI]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

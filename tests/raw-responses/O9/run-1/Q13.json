@@ -1,0 +1,30 @@
+{
+  "question_id": "Q13",
+  "question": "¿Cuál es el message flow ideal desde booking hasta post-checkout?",
+  "level": 3,
+  "response": "**Diagnóstico**: La lógica subyacente es el reservation flow framework: dar información solo cuando el huésped la necesita [[notes/hospitality--reservation-flow-framework]]. Overload en el pre-booking confunde; info tardía frustra. Los 9 touchpoints cubren el 95% de las necesidades del huésped sin intervención manual.\n\n**Pasos**:\n\n1. **Confirmar la reserva al instante** [[notes/hospitality--nine-automated-messages]] — Mensaje #1: agradecimiento breve (≤100 palabras) + promesa de enviar info detallada 3 días antes. No incluir check-in, WiFi ni reglas de salida en este punto.\n\n2. **Mensaje de planning (opcional, 1-2 semanas antes)** [[notes/hospitality--reservation-flow-framework]] — Para estancias largas o reservas hechas con meses de antelación: un mensaje corto de \"¿tienes alguna pregunta antes del viaje?\". Mantiene el canal abierto sin bombardear al huésped.\n\n3. **Info de llegada exactamente 4 días antes** [[notes/reviews--four-days-pre-checkin-message]] — Mensaje #3: dirección completa, método de entrada, código, WiFi y teléfono de emergencia. El truco: prometiste \"3 días antes\" pero envías 4 — el huésped recibe antes de lo esperado, cubre zonas horarias y elimina el pánico \"¿dónde está mi info?\".\n\n4. **Wellness check el día después del check-in** [[notes/reviews--mid-stay-message]] — Mensaje #5: \"¿Todo bien? ¿WiFi, agua caliente, algo que falte?\" El objetivo no es amabilidad — es capturar quejas menores antes de que maduren en reseña de 3 estrellas. Un problema solucionado no aparece en reseñas.\n\n5. **Pre-salida 18h antes con framing positivo** [[notes/hospitality--checkout-message-principles]] — Mensaje #7: solo instrucciones relevantes al checkout (llaves, perecederos, ventanas). Sin repetir reglas de la casa, sin pedir tareas de limpieza (\"pasar la aspiradora\" → no). Regla 50%: cada línea debe ser ≥50% específica del checkout; si no, eliminarla.\n\n6. **Reciprocidad 3-6h post-checkout** [[notes/reviews--reciprocity-post-checkout]] — Mensaje #8: \"Te dejaré una reseña de 5 estrellas — espero que hagas lo mismo.\" El timing es crítico: <2h suena manipulador; >8h el huésped ya olvidó. Este único mensaje es el mayor impulsor de la tasa de reseñas (de ~70% base a ~90%).\n\n7. **Nudge de reseña el día 10 si no ha escrito** [[notes/hospitality--nine-automated-messages]] — Mensaje #9 condicional: \"Recordatorio amable — me encantaría saber tu opinión.\" Solo disparar si Airbnb confirma que el huésped aún no dejó reseña.\n\n**Por qué funciona el conjunto**: cada mensaje aporta información en el momento exacto en que el huésped la busca, reduciendo fricción y sorpresas negativas. El wellness check captura problemas antes de la reseña; el mensaje de reciprocidad activa el principio de correspondencia en el momento de mayor receptividad del huésped.\n\n**Resultado esperado**: tasa de reseñas del 90%+ y reducción del 80% de mensajes manuales entrantes. Requiere PMS con 3rd-party messaging (Hospitable, Hostfully, Guesty) — la plataforma nativa de Airbnb solo ofrece 3 triggers y no permite este flow completo [[notes/hospitality--airbnb-native-messaging-inferior]]. Configurar ventana de envío 9am-9pm hora local del huésped para evitar que las notificaciones queden enterradas [[notes/hospitality--enforce-message-time-restrictions]].\n\n**Fuentes**: [[sources/PHz6KUMKSVc]], [[sources/xT4BHg26ZFE]], [[sources/zih3JqcBRAE]], [[sources/8wPfwSkU3QE]], [[sources/o_KqQkQKk1M]]",
+  "atoms_cited": [
+    "[[notes/hospitality--reservation-flow-framework]]",
+    "[[notes/hospitality--nine-automated-messages]]",
+    "[[notes/reviews--four-days-pre-checkin-message]]",
+    "[[notes/reviews--mid-stay-message]]",
+    "[[notes/hospitality--checkout-message-principles]]",
+    "[[notes/reviews--reciprocity-post-checkout]]",
+    "[[notes/hospitality--airbnb-native-messaging-inferior]]",
+    "[[notes/hospitality--enforce-message-time-restrictions]]"
+  ],
+  "sources_cited": [
+    "[[sources/PHz6KUMKSVc]]",
+    "[[sources/xT4BHg26ZFE]]",
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/8wPfwSkU3QE]]",
+    "[[sources/o_KqQkQKk1M]]",
+    "[[sources/Vix4ZHhtL5A]]",
+    "[[sources/lGnosQY0qEA]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

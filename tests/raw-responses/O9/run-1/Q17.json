@@ -1,0 +1,29 @@
+{
+  "question_id": "Q17",
+  "question": "¿Cómo evalúo un mercado para invertir en una segunda propiedad (discovered vs undiscovered)?",
+  "level": 4,
+  "response": "**Panorama**: Evaluar un mercado para una segunda propiedad requiere pasar dos filtros en secuencia — primero descartar mercados estructuralmente defectuosos, luego clasificar el mercado resultante en la dicotomía discovered/undiscovered para calibrar la estrategia de entrada. La mayoría de anfitriones se salta el primer filtro y llega directo a mercados que ya están saturados [[notes/market-selection--influencers-useless-default]].\n\n**Comparativa**:\n\n| Eje | Discovered (ej. 30A, Smoky Mts, Scottsdale) | Undiscovered (ej. ciudades médicas, Midwest lakes) |\n|---|---|---|\n| Clasificación [[notes/market-selection--discovered-vs-undiscovered]] | Conocido públicamente; aparece en listas \"top 25\" y YouTube | Sin reconocimiento entre inversores; demand real pero sin hype |\n| Ratio precio/ingresos [[notes/investing--purchase-to-revenue-ratio-5x]] | 6-10× (viola la regla de 5× — descartar) | 3-5× (cumple la regla de 5×) |\n| Competencia | Saturada (cientos de anuncios); muy difícil ser el mejor | Baja (20-100 anuncios); llegar al #1 es alcanzable |\n| Riesgo regulatorio | Alto (mercados hot atraen restricciones STR) | Bajo (muchos rurales sin leyes STR aún) |\n| Workforce disponible [[notes/market-selection--avoid-hot-workforce-starved]] | Escasa relativa al stock de Airbnbs; operación frágil | Más equilibrada; validar antes de cerrar |\n| Señal de madurez [[notes/market-selection--reviews-on-first-page-proxy]] | Avg reseñas página 1 >300 (posible sobreoferta) | 150-300 = mercado rentable probado, sin saturar |\n\n**Cómo elegir**:\n\n- Si al buscar \"[mercado] Airbnb investment\" aparecen >10 vídeos/blogs recientes → **Discovered** → aplicar regla 5× con disciplina de hierro; si viola 5×, descartar sin excepción [[notes/investing--purchase-to-revenue-ratio-5x]]\n- Si hay >2.000 anuncios en población <500k o el mercado está en cualquier lista pública → **Discovered** → solo entra con capital grande + operación a escala, no para segunda propiedad individual\n- Si tu conjectura propia (no lista pública) apunta a una zona — turismo médico, elderly travel, lago de Midwest — y hay demand real (ocupación >60%, ingresos >$60k) pero nadie lo está mirando → **Undiscovered** → prioridad [[notes/investing--conjecture-first-market-research]]\n- Antes de cualquier clasificación, aplicar 2 filtros negativos universales: (1) descartar si la workforce local no puede sostener la operación remota [[notes/market-selection--avoid-hot-workforce-starved]]; (2) descartar si el clima es extremo — vida útil del HVAC a la mitad, cancelaciones por carreteras cerradas, reseñas negativas inmerecidas [[notes/market-selection--avoid-extreme-weather]]\n- Si el mercado pasa los filtros negativos, verificar 5 criterios positivos: demanda todo el año, infraestructura turística creciendo, gap oferta-demanda, workforce sana, entorno regulatorio estable o clarificándose [[notes/market-selection--profile-criteria]]\n- Para mercados USA, heurística geográfica: ≥3 ciudades de 100k+ habitantes + ≥2 aeropuertos dentro de 3 horas en coche del anuncio potencial [[notes/market-selection--airports-plus-cities-3h-drive]]\n\n**Próximos pasos**:\n- Definir ≥25 candidatos desde tu propia conjectura antes de filtrar (no empezar con listas públicas)\n- Medir avg de reseñas en página 1 de Airbnb (zoom 7 de 18) para cada candidato finalista\n- Correr la regla 5× sobre ingresos proyectados — no sobre lo que hace el operador actual\n\n**Fuentes**: [[sources/gRBPFT97MV8]], [[sources/L5jTvT-Z5JQ]], [[sources/jKY6djYDsZc]], [[sources/2PTub0hub0g]], [[sources/1_mswIQixGc]]",
+  "atoms_cited": [
+    "[[notes/market-selection--discovered-vs-undiscovered]]",
+    "[[notes/investing--purchase-to-revenue-ratio-5x]]",
+    "[[notes/market-selection--avoid-hot-workforce-starved]]",
+    "[[notes/market-selection--reviews-on-first-page-proxy]]",
+    "[[notes/investing--conjecture-first-market-research]]",
+    "[[notes/market-selection--avoid-extreme-weather]]",
+    "[[notes/market-selection--profile-criteria]]",
+    "[[notes/market-selection--airports-plus-cities-3h-drive]]",
+    "[[notes/market-selection--influencers-useless-default]]"
+  ],
+  "sources_cited": [
+    "[[sources/gRBPFT97MV8]]",
+    "[[sources/L5jTvT-Z5JQ]]",
+    "[[sources/jKY6djYDsZc]]",
+    "[[sources/2PTub0hub0g]]",
+    "[[sources/1_mswIQixGc]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "question_id": "Q3",
+  "question": "¿Qué pongo en el título y las primeras líneas del summary?",
+  "level": 1,
+  "response": "**Respuesta directa**: En el título, pon tu nombre de marca (si tienes una memorable) o tus 2-3 comodidades diferenciales (jacuzzi, vista al mar, piscina). Nunca adjetivos genéricos como «acogedor» o «hermoso» — son ruido que no convierte [[notes/listing-optimization--title-brand-or-amenities]]. En las primeras 2 líneas del summary, lista especificaciones concretas: velocidad WiFi en Mbps, tipo de colchón, tamaño de TV, distancia a pie a puntos de interés. Sin repetir lo que ya muestran las fotos; sin adjetivos vacíos [[notes/listing-optimization--description-concrete-over-poetic]].\n\n**Cuándo aplica**: el nombre de marca justifica el espacio del título solo si tienes varios anuncios en el mismo mercado, más del 15 % de reservas recurrentes, o posicionamiento de lujo (más de 500 USD/noche). En todos los demás casos, cada carácter del título debe ser una comodidad diferencial concreta.\n\n**Por qué**: el título se trunca en unos 50 caracteres en el móvil — los diferenciadores deben ir al inicio, no al final. Las primeras 2 líneas del summary son todo lo que el huésped ve antes de decidir seguir leyendo o volver atrás; si lucen genéricas, se pierde [[notes/listing-optimization--text-for-still-shopping]].\n\n**Fuentes**: [[sources/dfwvylpxJyI]], [[sources/K69RmQrdUIg]], [[sources/PkyeXZhobVQ]], [[sources/IGd6LzHUmDw]]",
+  "atoms_cited": [
+    "[[notes/listing-optimization--title-brand-or-amenities]]",
+    "[[notes/listing-optimization--description-concrete-over-poetic]]",
+    "[[notes/listing-optimization--text-for-still-shopping]]"
+  ],
+  "sources_cited": [
+    "[[sources/dfwvylpxJyI]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/PkyeXZhobVQ]]",
+    "[[sources/IGd6LzHUmDw]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

@@ -1,10 +1,10 @@
 ---
 automation:
-  version: "3.6"
-  current_phase: 3
-  phase_status: "in_progress"
+  version: "3.7"
+  current_phase: 4
+  phase_status: "pending_approval"
   last_update: "2026-04-28T00:00:00Z"
-  notes: "Phase 3 in progress. O7 IMPLEMENT (manual override 2026-04-28): vault-agent.py health audit script — n=2 runs 8.64 weighted_avg. Protocol said REVERT (floor breach vs O5 n=1 outlier: completeness -1.40, spanish_purity -1.28), but scripts provably don't touch vault content; O5 baseline was single exceptional run vs original baseline 8.42; O7 weighted_avg 8.64 > original 8.42 (+0.22). Decision: IMPLEMENT override, recalibrate baseline to O7 (8.64) for O8/O9. Phase 2 complete (O4, O5 implement; O6 deferred → P5). Phase 1 complete (O1 implement, O2 skip, O3 deferred → P5). Next: O8 auto-link, O9 query-cache."
+  notes: "Phase 3 complete. O7 IMPLEMENT (manual override 2026-04-28): 8.64 weighted_avg, scripts neutral. O8 IMPLEMENT: composite +0.0059 (8.64→8.69). O9 REVERT: composite -0.0075 (8.69→8.60), no hard floors breached, likely noise (SE 0.225 on spanish_purity) — script stays in repo from O7 bundle commit, no code revert needed. Phase 4 pending_approval: Semantic Gap Detection (O10), Backlink Generation (O11), RAG Fallback (O12)."
 
 phases:
   phase_1:
@@ -24,10 +24,11 @@ phases:
     progress: 100
   phase_3:
     name: "Automation"
-    status: "in_progress"
+    status: "complete"
     tasks: [O7, O8, O9]
     completed: [O7, O8]
-    progress: 67
+    failed: [O9]
+    progress: 100
   phase_4:
     name: "Integration"
     status: "not_started"
@@ -51,7 +52,7 @@ optimizations:
   O6: { name: "Executable Checklists", phase: 5, hours: 1.5, status: "deferred", reason: "atom_content_opt; modifies atom procedures into Dataview checklists, belongs to atom regeneration phase", class: "atom_content" }
   O7: { name: "Agent Orchestration (vault-agent.py)", phase: 3, hours: 8, status: "complete", quality_delta: 0.22, cost_delta_pct: -23.1, composite: "REVERT_override→IMPLEMENT", decision: "IMPLEMENT (manual override: scripts neutral, O5 baseline n=1 outlier; O7 8.64 > original baseline 8.42 +0.22)", class: "automation_script" }
   O8: { name: "Auto-Linking System (auto-link.py)", phase: 3, hours: 4, status: "complete", quality_delta: 0.05, cost_delta_pct: -1.33, composite: 0.0059, decision: "IMPLEMENT (composite_positive; 0 orphans found, neutral by design)", class: "automation_script" }
-  O9: { name: "Query Caching", phase: 3, hours: 6, status: "not_started", class: "structural" }
+  O9: { name: "Query Caching (cache-optimizer.py)", phase: 3, hours: 6, status: "failed", quality_delta: -0.09, cost_delta_pct: 0.14, composite: -0.0075, decision: "REVERT (composite_negative; likely noise — script stays in repo from O7 bundle commit)", class: "automation_script" }
   O10: { name: "Semantic Gap Detection", phase: 4, hours: 3, status: "not_started", class: "structural" }
   O11: { name: "Backlink Generation", phase: 4, hours: 4, status: "not_started", class: "structural" }
   O12: { name: "RAG Fallback", phase: 4, hours: 6, status: "not_started", class: "structural" }

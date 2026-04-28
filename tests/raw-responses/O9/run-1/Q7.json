@@ -1,0 +1,26 @@
+{
+  "question_id": "Q7",
+  "question": "¿Cuándo subo el cleaning fee y cuándo lo bajo?",
+  "level": 3,
+  "response": "**Diagnóstico**: La tarifa de limpieza tiene dos palancas distintas — la de *filtro de huéspedes* (quién entra) y la de *visibilidad en búsqueda* (cuántos te ven). Subirla o bajarla sin saber qué palanca tocas puede dañar ambas.\n\n**Pasos**:\n\n1. **Sube la tarifa si quieres disuadir reservas de 1 noche** [[notes/cleaning-ops--fee-deters-one-night]] — Un fee de $150-200 sobre 1 noche equivale a $150-200 extra por noche; sobre 4 noches son $37-50 extra. Mantén el mínimo en 1 noche para no perder visibilidad, pero usa el fee alto como filtro de calidad: los huéspedes de partido y alta rotación desisten, el viajero de 4+ noches lo absorbe.\n\n2. **Sube la tarifa si tu propiedad tiene turnover complejo** [[notes/cleaning-ops--fee-depends-on-property]] — Casas de 4+ habitaciones, propiedades con jacuzzi o piscina: fee $150-300 (o más). El fee debe cubrir el coste real del turno; sub-absorberlo tú desequilibra los resultados. Studios y apartamentos de 1 habitación en mercados urbanos pueden operar con fee $0-30 si la estrategia de tarifa base lo compensa.\n\n3. **Baja la tarifa si supera 2× la media de tu competencia directa** [[notes/pricing--cleaning-fee-match-comp]] — Airbnb muestra el precio total en los resultados. Una tarifa de limpieza 2× vs comps infla tu total un 10-20% sin que el huésped pueda justificarlo: sales del conjunto de anuncios comparables. Extrae la media de 3-5 anuncios similares (mismo radio, mismo tamaño) y quédate en esa banda ±10%. Si tu coste real supera esa cifra, la diferencia va al precio base, no al fee.\n\n4. **No muevas el fee al precio por noche para «compensar»** [[notes/cleaning-ops--dont-split-fee-into-nightly]] — Si absorbes el fee subiendo el nightly rate, tu anuncio desaparece de los resultados para cualquier huésped que filtre por precio por noche. El filtro de Airbnb opera sobre el nightly, no sobre el total. Son dos variables con mecánicas distintas: no las mezcles.\n\n**Por qué funciona el conjunto**: subir el fee cuando el objetivo es filtrar huéspedes y bajarlo cuando la conversión se resiente te permite mantener visibilidad en búsqueda (nightly bajo) y controlar el perfil de huésped (fee alto) sin que ambos objetivos se saboteén.\n\n**Resultado esperado**: ajustar el fee a la banda del mercado y usarlo como filtro activo puede recuperar reservas perdidas por sticker-shock en el total, o reducir rotaciones de bajo valor, en un ciclo de 2-3 semanas.\n\n**Fuentes**: [[sources/vDe4aKMLHTg]], [[sources/7DrT9dlf2q0]]",
+  "atoms_cited": [
+    "[[notes/cleaning-ops--fee-deters-one-night]]",
+    "[[notes/cleaning-ops--fee-depends-on-property]]",
+    "[[notes/pricing--cleaning-fee-match-comp]]",
+    "[[notes/cleaning-ops--dont-split-fee-into-nightly]]"
+  ],
+  "sources_cited": [
+    "[[sources/vDe4aKMLHTg]]",
+    "[[sources/7DrT9dlf2q0]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "notes": "No se detectaron conflictos HIGH o MEDIUM activos en los atoms del shortlist para esta pregunta."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

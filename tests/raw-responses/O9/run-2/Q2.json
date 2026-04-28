@@ -1,0 +1,21 @@
+{
+  "question_id": "Q2",
+  "question": "¿Cuántas fotos subo y cuál pongo de portada?",
+  "level": 1,
+  "response": "**Respuesta directa**: El mínimo depende del tamaño del anuncio: studio 20, 1 dormitorio 25, 2 dormitorios 35, +10 por dormitorio adicional [[listing-optimization--photo-count-by-bedroom-size]]. El techo útil es ~1,8× ese mínimo; pasarlo genera dilución (el huésped típico ve solo 10-15 fotos antes de decidir). Para portada: la foto que pone en #1 debe ser la mejor foto del anuncio **y** visualmente distinta a la competencia de tu mercado [[listing-optimization--cover-photo-differentiation]].\n\n**Cuándo aplica**: el mínimo por tamaño es universal. El techo (~1,8× mínimo) aplica cuando no se elimina el photo tour de Airbnb; si se elimina, el conteo visible baja y conviene estar cerca del mínimo alto.\n\n**Por qué**: las primeras 5 fotos deben mostrar 5 espacios distintos; repetir ángulos del mismo espacio desperdicia el prime real estate y señala al huésped que \"no hay más que ver\" [[listing-optimization--photo-ordering]]. La portada actúa como interruptor de patrón en la búsqueda: si todos los anuncios del mercado muestran el salón desde la entrada, una portada con la comodidad diferenciadora (jacuzzi, terraza, piscina) genera el clic.\n\n**Fuentes**: [[sources/S-dc_mCqOhY]], [[sources/K69RmQrdUIg]], [[sources/AtQ1oDITk4c]]",
+  "atoms_cited": [
+    "[[listing-optimization--photo-count-by-bedroom-size]]",
+    "[[listing-optimization--cover-photo-differentiation]]",
+    "[[listing-optimization--photo-ordering]]"
+  ],
+  "sources_cited": [
+    "[[sources/S-dc_mCqOhY]]",
+    "[[sources/K69RmQrdUIg]]",
+    "[[sources/AtQ1oDITk4c]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

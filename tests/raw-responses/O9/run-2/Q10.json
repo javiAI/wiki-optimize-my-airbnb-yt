@@ -1,0 +1,23 @@
+{
+  "question_id": "Q10",
+  "question": "Recibo un mensaje de pre-booking que me huele mal. ¿Cómo lo gestiono sin perder al guest si es legítimo?",
+  "level": 3,
+  "response": "**Diagnóstico**: el objetivo es filtrar riesgo real sin rechazar a huéspedes legítimos que solo tienen un perfil incompleto o redacción brusca. El proceso tiene dos fases: evaluar el perfil y, si hay señal de alarma genuina, escalar o cancelar sin penalización.\n\n**Pasos**:\n\n1. **Auditar las 5 secciones del perfil** [[notes/hospitality--guest-profile-vetting-framework]] — ignora las 6 secciones restantes. Lo que importa: (a) reseñas de otros anfitriones, (b) fecha de alta en la plataforma, (c) verificaciones (email + teléfono mínimo), (d) ID gubernamental, (e) descripción personal. Si tiene 3+ reseñas positivas → aceptar sin más análisis. Si tiene 0 reseñas pero las 5 secciones completas → aceptar. Si tiene 3-4 secciones y el mensaje es específico (nombre, propósito, fechas claras) → aceptar.\n\n2. **Pedir completar el perfil antes de confirmar** [[notes/hospitality--guest-profile-vetting-framework]] — si el huésped tiene 0-2 secciones, responde en Airbnb chat: \"Hola, antes de confirmar te pido que completes tu perfil de Airbnb con foto y descripción. ¡Gracias!\" Filtra más del 80% de los potenciales problemas sin rechazar explícitamente a nadie. El huésped legítimo lo hace en minutos; el problemático desaparece.\n\n3. **Mantener toda la comunicación dentro de la plataforma** [[notes/hospitality--communication-on-platform-only]] — nunca WhatsApp, nunca teléfono para tratar el asunto. Airbnb solo ve lo que está en su chat; si acaba en disputa, el rastro escrito es tu única defensa. Si el huésped insiste en salir de la plataforma para \"hablar más cómodo\", es señal de alarma.\n\n4. **Identificar señales de alarma concretas y actuar** [[notes/hospitality--cancel-problem-booking-pre-checkin]] — las señales que justifican cancelar sin penalización son: anuncia más personas de las reservadas (ej. reserva para 4, escribe que vendrán 12), rechaza pagar la tarifa por huésped adicional listada en las políticas, falla de pago sin solución en 24 h, o comunicación hostil desde el inicio. En esos casos, Airbnb ofrece un enlace de cancelación sin penalidad: úsalo antes del check-in. Es mejor cancelar que absorber el riesgo de reseña negativa y posibles daños.\n\n5. **Activar el co-anfitrión si el huésped ya reservó y escala** [[notes/hospitality--fake-cohost-escalation]] — si la señal de alarma llega tarde (reserva ya confirmada, el huésped empieza a presionar), entra una segunda cuenta de Airbnb como \"co-anfitrión/manager\" que reconoce el issue y toma nota. El huésped legítimo se calma al sentir que hay una jerarquía que lo escucha; el huésped problemático queda documentado en el chat con más nombres involucrados, lo que refuerza tu posición en el Centro de Resolución.\n\n**Por qué funciona el conjunto**: el árbol de decisión del perfil separa el riesgo percibido del riesgo real sin rechazar explícitamente a nadie; la comunicación en plataforma construye rastro escrito desde el primer mensaje; la cancelación anticipada corta el daño antes de que ocurra; el co-anfitrión actúa como amortiguador emocional si el problema llega más tarde.\n\n**Resultado esperado**: tasa de reembolsos abiertos por disputa por debajo del 0,5% de las reservas; cancelaciones problemáticas resueltas sin penalización para el anfitrión.\n\n**Fuentes**: [[sources/KQIArm9UfQ0]], [[sources/XnDOXWniPaU]], [[sources/qzm28u64294]], [[sources/rxumqj9cw94]]",
+  "atoms_cited": [
+    "[[notes/hospitality--guest-profile-vetting-framework]]",
+    "[[notes/hospitality--communication-on-platform-only]]",
+    "[[notes/hospitality--cancel-problem-booking-pre-checkin]]",
+    "[[notes/hospitality--fake-cohost-escalation]]"
+  ],
+  "sources_cited": [
+    "[[sources/KQIArm9UfQ0]]",
+    "[[sources/XnDOXWniPaU]]",
+    "[[sources/qzm28u64294]]",
+    "[[sources/rxumqj9cw94]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

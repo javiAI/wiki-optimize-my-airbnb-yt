@@ -30,7 +30,7 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 | O6 | 5 | Executable Checklists | atom_content | ⛔ deferred | — | — | — | — → diferida | 1.5h |
 | O7 | 3 | Agent Orchestration (vault-agent.py) | automation_script | ✅ complete | **−23.1%** | +0.22 vs original baseline | REVERT→**IMPLEMENT** override | IMPLEMENT (manual: O5 n=1 outlier; O7 8.64 > orig 8.42) | 8h |
 | O8 | 3 | Auto-Linking System (auto-link.py) | automation_script | ✅ complete | **−1.33%** | +0.05 (8.64→8.69) | **+0.0059** | IMPLEMENT (composite_positive; 0 orphans) | 4h |
-| O9 | 3 | Query Caching | automation_script | ⏸ not_started | — | — | — | — | 6h |
+| O9 | 3 | Query Caching (cache-optimizer.py) | automation_script | ❌ failed | **+0.14%** | −0.09 (8.69→8.60) | **−0.0075** | REVERT (composite_negative; n=2, likely variance; script retained from O7 bundle) | 6h |
 | O10 | 4 | Semantic Gap Detection | structural | ⏸ not_started | — | — | — | — | 3h |
 | O11 | 4 | Backlink Generation | structural | ⏸ not_started | — | — | — | — | 4h |
 | O12 | 4 | RAG Fallback | structural | ⏸ not_started | — | — | — | — | 6h |
@@ -63,6 +63,7 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 | O5       | 1      | 61,898.75     | 9.60         | 9.95         | 9.60     | 9.85    | 9.40 | 9.10   | [O5-vs-pre-O5.json](../tests/comparisons/O5-vs-pre-O5.json) — composite +0.0606, IMPLEMENT |
 | O7       | 2      | 47,617 (SE 871) | 8.64 (SE 0.044) | 8.55    | 8.80 (SE 0.100) | 8.57 (SE 0.425) | 8.80 (SE 0.100) | 8.50 (SE 0.050) | [O7-vs-O5.json](../tests/comparisons/O7-vs-O5.json) — REVERT→IMPLEMENT override (O5 n=1 outlier; +0.22 vs original baseline 8.42) |
 | O8       | 1      | 46,983          | 8.69            | 8.65    | 8.70            | 8.65            | 8.70            | 8.75            | [O8-vs-O7.json](../tests/comparisons/O8-vs-O7.json) — composite +0.0059, IMPLEMENT (0 orphans, neutral by design) |
+| O9       | 2      | 47,049 (SE 436) | 8.60 (SE 0.029) | 8.72    | 8.88 (SE 0.025) | 8.03 (SE 0.225) | 8.90 (SE 0.050) | 8.32 (SE 0.275) | [O9-vs-O8.json](../tests/comparisons/O9-vs-O8.json) — composite −0.0075, REVERT (script retained, no code rollback) |
 
 **Histórico de comparaciones**: `tests/comparisons/history/<from>-vs-<to>__n<N>.json` preserva cada iteración (n=1, n=2, …) sin sobreescribir. Ver `tests/comparisons/history/O3-vs-O1__n1.json` y `__n2.json`.
 
@@ -76,7 +77,7 @@ State autoritativo: YAML frontmatter en [CLAUDE.md](../CLAUDE.md). Esta tabla es
 |-------|--------|--------|-------|-----------|---------|----------|
 | 1 | Critical Path | ✅ complete | O1 | O1 | O2 | O3 |
 | 2 | Quality Foundation (Structural) | ✅ complete | O4, O5 | O4, O5 | — | O6 |
-| 3 | Automation | 🔄 in_progress | O7, O8, O9 | O7 | — | — |
+| 3 | Automation | ✅ complete | O7, O8, O9 | O7, O8 | — | O9 (failed) |
 | 4 | Integration | ⏸ not_started | O10, O11, O12 | — | — | — |
 | 5 | Atom Regeneration | ⏸ not_started | O3, O6 | — | — | — |
 

@@ -1,0 +1,33 @@
+{
+  "question_id": "Q19",
+  "question": "¿Cómo paso de 1 a 5 listings sin perder calidad ni control operativo?",
+  "level": 4,
+  "response": "**Panorama**: escalar de 1 a 5 anuncios no es multiplicar por 5 el trabajo — es transicionar de optimizar un listing a gestionar sistemas. La diferencia entre anfitriones que escalan bien y los que pierden calidad es que los primeros estandarizan antes de añadir el segundo anuncio, no después del quinto. El rango 1-5 pertenece a la fase de «host-operador» según el marco de fases [[notes/investing--under-15-properties-sweet-spot]]: aquí todavía gestionas tú (o casi tú), pero necesitas stack y protocolos para que la calidad no dependa de tu presencia.\n\n**Comparativa** — tres ejes críticos para escalar de 1 a 5:\n\n| Eje | 1 listing (punto de partida) | 2-3 listings | 4-5 listings |\n|---|---|---|---|\n| **Mensajería y calendario** [[notes/tools-tech--pms-worth-it-single-listing]] | PMS recomendado desde listing #1 (ahorra 3-5h/semana, $15-30/mes) | PMS obligatorio con multi-channel sync; automated messages ya templados | PMS debe tener cleaner module + AI autoresponder activo |\n| **Pricing** [[notes/tools-tech--three-level-host-framework]] | PriceLabs o Beyond activo (Level 1 esencial) | Misma engine, sin stackear segunda herramienta; ya calibrada | Revisión semanal activa; cada listing con su Market Dashboard |\n| **Limpieza y ops in-situ** [[notes/cleaning-ops--cleaner-multi-role-remote-ops]] | 1 limpiador de confianza; 1 backup disponible | Limpiador multi-rol (reporta incidencias, coordina mantenimiento); pago 20-30% sobre tarifa local | Red de 2-3 limpiadores dedicados; SOP fotográfico entregado a cada uno |\n| **Protección del asset** [[notes/investing--never-on-pm-account]] | Cuenta Airbnb propia; sin PM todavía | Tu cuenta + co-anfitrión (PM o cleaner) con permisos limitados; sin acceso a pagos | Nunca en cuenta ajena; cada listing bajo tu cuenta con co-host |\n| **Herramientas Level 3** [[notes/tools-tech--three-level-host-framework]] | Opcionales | Opcionales | IntelliHost + Hurdlr (contabilidad) ya justificados por volumen |\n\n**Cómo elegir el ritmo de expansión**:\n\n- Si tu primer anuncio lleva menos de 3 meses o tiene menos de 10 reseñas → No añadas el segundo todavía; consolida Level 1 (pricing dinámico estable, mensajería automática sin fallos, limpiador de confianza) [[notes/tools-tech--three-level-host-framework]]\n- Si gestionas el primer anuncio en menos de 5h/semana con PMS activo → Puedes añadir el segundo; el costo marginal en tiempo es ~2h/semana más gracias al stack compartido [[notes/investing--hourly-rate-sanity-check]]\n- Si tu tasa-hora en el anuncio actual supera tu tasa-hora laboral → Escalar tiene lógica financiera; si no, optimizar el listing existente da más retorno por hora que añadir uno nuevo [[notes/investing--hourly-rate-sanity-check]]\n- Si estás considerando contratar un property manager para escalar → Recuerda: el PM no aumenta tus ingresos, solo te devuelve tiempo; contrátalo cuando la restricción real sea de horas, no de deseo de crecer [[notes/investing--pm-saves-time-not-revenue]]\n- Si añades el anuncio #4 o #5 → Pasa a Level 3 de stack (analytics + contabilidad); a partir de aquí gestionas patrones, no casos individuales [[notes/tools-tech--three-level-host-framework]]\n\n**Próximos pasos**:\n\n- Antes del anuncio #2: documenta el SOP de tu limpiador actual (checklist fotográfico, protocolo de incidencias, fondo de emergencia de $100-200) — ese SOP es lo que replicas en cada propiedad nueva [[notes/cleaning-ops--cleaner-multi-role-remote-ops]]\n- Al contratar un co-anfitrión o PM en cualquier punto: siempre bajo tu cuenta Airbnb, permisos de mensajería y calendario sí, acceso a pagos y a borrar listing nunca [[notes/investing--never-on-pm-account]]\n- Evalúa cada anuncio nuevo con el test de tasa-hora antes de firmar: ingresos netos anuales esperados ÷ horas/año gestionando > tu tasa-hora actual [[notes/investing--hourly-rate-sanity-check]]\n\n**Fuentes**: [[sources/giuHVqw_y4k]], [[sources/qpLzNgYOnho]], [[sources/w8t9YWltsm4]], [[sources/grAeEiwAJ0k]], [[sources/I8sU6qci4D8]], [[sources/lr8to3rM1os]]",
+  "atoms_cited": [
+    "[[notes/investing--under-15-properties-sweet-spot]]",
+    "[[notes/tools-tech--pms-worth-it-single-listing]]",
+    "[[notes/tools-tech--three-level-host-framework]]",
+    "[[notes/cleaning-ops--cleaner-multi-role-remote-ops]]",
+    "[[notes/investing--never-on-pm-account]]",
+    "[[notes/investing--hourly-rate-sanity-check]]",
+    "[[notes/investing--pm-saves-time-not-revenue]]"
+  ],
+  "sources_cited": [
+    "[[sources/giuHVqw_y4k]]",
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/w8t9YWltsm4]]",
+    "[[sources/grAeEiwAJ0k]]",
+    "[[sources/I8sU6qci4D8]]",
+    "[[sources/lr8to3rM1os]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "No se detectaron conflictos HIGH o MEDIUM activos entre los atoms del shortlist para esta pregunta. Los atoms de scaling (1-15 sweet spot, PM saves time, hourly rate) son complementarios y coherentes entre sí."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

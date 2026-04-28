@@ -1,0 +1,300 @@
+{
+  "from": "O8",
+  "to": "O9",
+  "timestamp": "2026-04-28T12:18:46.444452+00:00",
+  "rubric_version": "1.0",
+  "decision_version": "2.0",
+  "evaluation_source": "external_evaluator",
+  "n_runs": {
+    "from": 1,
+    "to": 1,
+    "min": 1
+  },
+  "meta": {
+    "label": "O9",
+    "description": "Query Caching — cache-optimizer.py para estadísticas de cache y recomendaciones de refresh",
+    "optimization_type": "automation_script",
+    "target_dims": [],
+    "at_risk_dims": [],
+    "neutral_dims": [
+      "completeness",
+      "accuracy",
+      "spanish_purity",
+      "tone",
+      "format_compliance"
+    ],
+    "predicted_deltas": {
+      "cost": 0,
+      "completeness": 0,
+      "accuracy": 0,
+      "spanish_purity": 0,
+      "tone": 0,
+      "format_compliance": 0,
+      "weighted_avg": 0
+    }
+  },
+  "metrics": {
+    "cost": {
+      "weighted_cost": {
+        "before": 46982.6,
+        "after": 46613.3,
+        "delta_pct": -0.786035681294768,
+        "significance": {
+          "delta_abs": -369.3,
+          "pooled_se": 0.0,
+          "ci95_low": -369.3,
+          "ci95_high": -369.3,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "input_tokens_avg": {
+        "before": null,
+        "after": null
+      },
+      "output_tokens_avg": {
+        "before": null,
+        "after": null
+      }
+    },
+    "quality": {
+      "completeness": {
+        "before": 8.65,
+        "after": 8.7,
+        "delta_abs": 0.05,
+        "delta_pct": 0.58,
+        "weight": 0.25,
+        "category": "neutral",
+        "predicted_delta_abs": 0,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": 0.05,
+          "pooled_se": 0.0,
+          "ci95_low": 0.05,
+          "ci95_high": 0.05,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "accuracy": {
+        "before": 8.7,
+        "after": 8.9,
+        "delta_abs": 0.2,
+        "delta_pct": 2.3,
+        "weight": 0.25,
+        "category": "neutral",
+        "predicted_delta_abs": 0,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": 0.2,
+          "pooled_se": 0.0,
+          "ci95_low": 0.2,
+          "ci95_high": 0.2,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "spanish_purity": {
+        "before": 8.65,
+        "after": 7.8,
+        "delta_abs": -0.85,
+        "delta_pct": -9.83,
+        "weight": 0.15,
+        "category": "neutral",
+        "predicted_delta_abs": 0,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": -0.85,
+          "pooled_se": 0.0,
+          "ci95_low": -0.85,
+          "ci95_high": -0.85,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "tone": {
+        "before": 8.7,
+        "after": 8.95,
+        "delta_abs": 0.25,
+        "delta_pct": 2.87,
+        "weight": 0.15,
+        "category": "neutral",
+        "predicted_delta_abs": 0,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": 0.25,
+          "pooled_se": 0.0,
+          "ci95_low": 0.25,
+          "ci95_high": 0.25,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "format_compliance": {
+        "before": 8.75,
+        "after": 8.6,
+        "delta_abs": -0.15,
+        "delta_pct": -1.71,
+        "weight": 0.2,
+        "category": "neutral",
+        "predicted_delta_abs": 0,
+        "predicted_delivery_pct": null,
+        "significance": {
+          "delta_abs": -0.15,
+          "pooled_se": 0.0,
+          "ci95_low": -0.15,
+          "ci95_high": -0.15,
+          "significant": false,
+          "n_runs": 1
+        }
+      },
+      "weighted_avg": {
+        "before": 8.69,
+        "after": 8.632,
+        "delta_abs": -0.058,
+        "delta_pct": -0.66,
+        "significance": {
+          "delta_abs": -0.0575,
+          "pooled_se": 0.0,
+          "ci95_low": -0.0575,
+          "ci95_high": -0.0575,
+          "significant": false,
+          "n_runs": 1
+        }
+      }
+    },
+    "composite": {
+      "alpha": 0.85,
+      "quality_delta_norm": -0.0058,
+      "cost_delta_norm": 0.0079,
+      "value": -0.0037
+    }
+  },
+  "targeted_analysis": {
+    "target_dims": [],
+    "at_risk_dims": []
+  },
+  "floor_breaches": [],
+  "summary_table": [
+    {
+      "metric": "weighted_cost",
+      "before": 46982.6,
+      "after": 46613.3,
+      "delta_pct": -0.79,
+      "ci95": [
+        -369.3,
+        -369.3
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.completeness",
+      "category": "neutral",
+      "before": 8.65,
+      "after": 8.7,
+      "delta_pct": 0.58,
+      "delta_abs": 0.05,
+      "predicted": 0,
+      "delivery_pct": null,
+      "ci95": [
+        0.05,
+        0.05
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.accuracy",
+      "category": "neutral",
+      "before": 8.7,
+      "after": 8.9,
+      "delta_pct": 2.3,
+      "delta_abs": 0.2,
+      "predicted": 0,
+      "delivery_pct": null,
+      "ci95": [
+        0.2,
+        0.2
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.spanish_purity",
+      "category": "neutral",
+      "before": 8.65,
+      "after": 7.8,
+      "delta_pct": -9.83,
+      "delta_abs": -0.85,
+      "predicted": 0,
+      "delivery_pct": null,
+      "ci95": [
+        -0.85,
+        -0.85
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.tone",
+      "category": "neutral",
+      "before": 8.7,
+      "after": 8.95,
+      "delta_pct": 2.87,
+      "delta_abs": 0.25,
+      "predicted": 0,
+      "delivery_pct": null,
+      "ci95": [
+        0.25,
+        0.25
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.format_compliance",
+      "category": "neutral",
+      "before": 8.75,
+      "after": 8.6,
+      "delta_pct": -1.71,
+      "delta_abs": -0.15,
+      "predicted": 0,
+      "delivery_pct": null,
+      "ci95": [
+        -0.15,
+        -0.15
+      ],
+      "significant": false
+    },
+    {
+      "metric": "quality.weighted_avg",
+      "before": 8.69,
+      "after": 8.632,
+      "delta_pct": -0.66,
+      "delta_abs": -0.058,
+      "ci95": [
+        -0.0575,
+        -0.0575
+      ],
+      "significant": false
+    },
+    {
+      "metric": "composite",
+      "value": -0.0037,
+      "alpha": 0.85,
+      "components": {
+        "quality_delta_norm": -0.0058,
+        "cost_delta_norm": 0.0079
+      }
+    }
+  ],
+  "decision": {
+    "action": "ITERATE",
+    "primary_reason": "composite_borderline",
+    "reasons": [
+      "composite=-0.0037 in noise zone (-0.005, 0.005)",
+      "consider repetition or refining the optimization"
+    ],
+    "composite": -0.0037
+  },
+  "repetition_advice": {
+    "should_repeat": true,
+    "reason": "composite=-0.0037 within noise zone (±0.015); accumulate runs for statistical mean"
+  }
+}

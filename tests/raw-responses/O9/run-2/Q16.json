@@ -1,0 +1,25 @@
+{
+  "question_id": "Q16",
+  "question": "¿Cómo construyo direct bookings y reduzco mi dependencia de las OTAs?",
+  "level": 4,
+  "response": "**Panorama**: Las reservas directas eliminan la comisión de Airbnb (~15%) y liberan del algoritmo de reseñas, pero traen costos invisibles que la mayoría de anfitriones ignora: marketing, stack tecnológico, procesamiento de pagos, fraude, soporte 24/7 y reputación propia desde cero. La decisión no es \"¿cómo lo hago?\" sino \"¿debería hacerlo?\". [[notes/direct-booking--skip-unless-conditions]] establece que casi nunca vale la pena salvo que cumplas UNA condición específica.\n\n**Comparativa**:\n\n| Eje | Cumples condición (haz directo) | No cumples condición (quédate en OTAs) |\n|---|---|---|\n| Portfolio | 12+ anuncios bajo gestión | 1-5 anuncios / hobbyista |\n| Segmento | Luxury ($500+/noche) o nicho VIP | Mercado estándar |\n| Huéspedes recurrentes | ≥30% histórico [[notes/direct-booking--two-real-reasons]] | <15% recurrentes |\n| Influencia propia | Audiencia / creator / comunidad activa | Sin presencia digital |\n| Cash flow urgente | Reservas largas (30+ días), necesitas cobro inmediato | Ingresos a 24-48h de Airbnb suficientes |\n| Exposición a reseñas | Historial dañado irreparable | Calificación estable ≥4.8 |\n\n**Cómo elegir**:\n\n- Si NO cumples ninguna condición → permanece en OTAs, invierte ese tiempo en optimizar posicionamiento y precio [[notes/direct-booking--invisible-airbnb-value]]\n- Si cumples condición → implementa en orden: (1) arquitectura PMS, (2) captura de emails, (3) mínimas jugadas de adquisición\n- Si tienes 4+ plataformas y la distribución es 70/20/5/5 → elimina las dos minoritarias; parte de ese 20% migra al canal mayor sin esfuerzo [[notes/direct-booking--multi-platform-concentration]]\n\n**Próximos pasos** (si sí vas directo):\n\n- **Arranca por el PMS**, no por el anuncio ni por la web. Hub = Hostfully / Guesty / Hospitable; spokes = Airbnb, VRBO, web propia (WordPress, nunca el builder del PMS). Hacerlo desde la primera propiedad evita el switching cost exponencial al escalar [[notes/direct-booking--pms-first-architecture]].\n\n- **Instala un portal cautivo WiFi (StayFi o similar)**. Cada huésped que se conecta al WiFi deja nombre + email + teléfono. Una reserva de 2 personas puede generar 5-30 correos si hay visitas. Esta lista es el activo de marketing más valioso para directo: te pertenece aunque Airbnb te banee. Stack mínimo: $20-30/mes por anuncio [[notes/direct-booking--wifi-captive-portal-email-capture]].\n\n- **Tres jugadas de adquisición 80/20**: Google My Business (gratuito, captura búsquedas \"alojamiento [ciudad]\"), menciones de tu marca en las reseñas que dejas a los huéspedes (persistente y permitido dentro del TOS), y píxel de retargeting (Meta + Google Ads, presupuesto $30-50/mes) en tu web directa [[notes/direct-booking--minimum-moves]]. Todo lo demás —SEO de contenido, flows de email, partnerships— es 80% esfuerzo para 20% retorno hasta que no tengas tráfico de estas tres.\n\n**Fuentes**: [[sources/YI7E_q53bRU]], [[sources/w8cuYma09zY]], [[sources/zDz2XogOarw]]",
+  "atoms_cited": [
+    "[[notes/direct-booking--skip-unless-conditions]]",
+    "[[notes/direct-booking--two-real-reasons]]",
+    "[[notes/direct-booking--invisible-airbnb-value]]",
+    "[[notes/direct-booking--multi-platform-concentration]]",
+    "[[notes/direct-booking--pms-first-architecture]]",
+    "[[notes/direct-booking--wifi-captive-portal-email-capture]]",
+    "[[notes/direct-booking--minimum-moves]]"
+  ],
+  "sources_cited": [
+    "[[sources/YI7E_q53bRU]]",
+    "[[sources/w8cuYma09zY]]",
+    "[[sources/zDz2XogOarw]]"
+  ],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

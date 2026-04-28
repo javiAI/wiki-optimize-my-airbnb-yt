@@ -1,0 +1,28 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 3,
+  "response": "**Diagnóstico**: asumes que la reseña ya está publicada y visible en tu anuncio. La respuesta pública no elimina la reseña — su propósito es hablarle a los futuros huéspedes que la van a leer, no al huésped que la escribió.\n\n**Pasos**:\n\n1. **Responde siempre, nunca en blanco** [[notes/reviews--four-point-eight-threshold-disregard]] — Un anuncio con 4.6 sin respuesta pública a las negativas parece abandonado. Los huéspedes experimentados leen las respuestas antes de reservar; una respuesta bien construida puede convertir una 1-estrella en señal de que eres un anfitrión profesional.\n\n2. **Sube la intensidad emocional +10%, nunca la bajes** [[notes/reviews--emotional-intensity-plus-10]] — Si el huésped escribe molesto a nivel 7, tu respuesta debe ser empática a nivel 8, nunca defensiva. El tono correcto: \"Lamentamos genuinamente que la experiencia no cumplió tus expectativas\". El tono incorrecto: \"Esta reseña es injusta y no refleja la realidad\".\n\n3. **Reconoce el punto válido (si lo hay), corrige el falso** [[notes/reviews--emotional-intensity-plus-10]] — Estructura en dos partes: (a) valida lo que es real y explica qué acción tomaste o tomarás, (b) corrige con hechos lo que es inexacto — nunca con adjetivos ni emociones. Ejemplo: \"La tarifa de limpieza cubre el costo real de nuestro equipo profesional — está detallada antes de confirmar la reserva\".\n\n4. **Mantén la respuesta corta y orientada al futuro huésped** [[notes/reviews--longer-rank-higher]] — La respuesta pública no es el lugar para un alegato. Máx 3-5 frases. La última frase siempre mira hacia adelante: \"Seguimos trabajando para que cada estancia sea 5 estrellas\" comunica profesionalismo sin suplicar ni atacar.\n\n5. **Activa la estrategia de volumen en paralelo** [[notes/reviews--more-dilutes-negative]] — La respuesta pública limita el daño de percepción; la dilución lo limita matemáticamente. Una reseña de 1 estrella sobre 10 reseñas hunde tu calificación a 4.6; la misma sobre 100 reseñas apenas mueve el promedio (-0.04). Empuja reservas y solicitudes de reseña sin bajar precio.\n\n**Por qué funciona el conjunto**: el tono empático protege tu reputación ante futuros huéspedes, la corrección factual establece el rastro escrito sin atacar, y el volumen hace el trabajo matemático que la respuesta sola no puede hacer.\n\n**Resultado esperado**: en 30-60 días con volumen activo, el peso relativo de la reseña negativa cae y la calificación visible estabiliza. Futuros huéspedes que lean la respuesta verán profesionalismo, no victimismo.\n\n**Fuentes**: [[sources/zih3JqcBRAE]], [[sources/qzm28u64294]], [[sources/t5bZYS_i06M]]",
+  "atoms_cited": [
+    "[[notes/reviews--four-point-eight-threshold-disregard]]",
+    "[[notes/reviews--emotional-intensity-plus-10]]",
+    "[[notes/reviews--longer-rank-higher]]",
+    "[[notes/reviews--more-dilutes-negative]]"
+  ],
+  "sources_cited": [
+    "[[sources/zih3JqcBRAE]]",
+    "[[sources/qzm28u64294]]",
+    "[[sources/t5bZYS_i06M]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "note": "No hay conflicto activo en la dimensión de respuesta pública. El gap documentado en MOC/reviews (atom dedicado a response templates para reseñas negativas publicadas) no genera conflicto entre claims existentes — es ausencia de cobertura, no contradicción."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 6,
+    "accuracy": 8,
+    "notes": "La wiki documenta explícitamente en MOC/reviews un gap: 'Response templates a reviews negativas ya posteadas — mencionado pero pendiente atom dedicado.' Los pasos 1-5 están sustentados en atoms adyacentes (tono, dilución, longitud, umbral de calificación), pero no existe un atom canónico que cubra la mecánica de la respuesta pública directamente. Confianza media por ausencia del atom dedicado. Precisión alta porque los atoms usados son aplicables y de confidence high."
+  }
+}

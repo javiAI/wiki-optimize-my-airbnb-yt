@@ -6,6 +6,28 @@ Single source of truth para descripción y estado: [docs/OPTIMIZATIONS.md](../do
 
 ---
 
+## 2026-04-28 — O9: Query Caching (cache-optimizer.py) → REVERT (composite −0.0075)
+
+cache-optimizer.py analiza log.md y genera meta/query-cache-stats.md con topics más consultados y entradas stale. Script no modifica contenido que los agentes de test lean (queries/ en blacklist del prompt). Neutral por diseño.
+
+**Resultados (n=2, baseline O8 8.69)**:
+
+| Dim (peso) | O8 (baseline) | O9 (n=2) | Δ |
+|---|---|---|---|
+| completeness (25%) | 8.65 | 8.72 | +0.07 |
+| accuracy (25%) | 8.70 | 8.88 | +0.18 |
+| spanish_purity (15%) | 8.65 | 8.03 | −0.62 |
+| tone (15%) | 8.70 | 8.90 | +0.20 |
+| format_compliance (20%) | 8.75 | 8.32 | −0.43 |
+| **weighted_avg** | **8.69** | **8.60** | **−0.09** |
+| weighted_cost | 46,983 | 47,049 | **+0.14%** |
+
+Composite −0.0075 → REVERT (≤ −0.005). Sin hard-floor breach (max caída dim: spanish_purity −0.62 < 1.0). Caída probablemente varianza (SE 0.225 en spanish_purity, 0.275 en format_compliance). Script ya estaba en repo desde commit O7 bundle — sin rollback de código.
+
+**Phase 3 cerrada**: O7 ✅ IMPLEMENT | O8 ✅ IMPLEMENT | O9 ❌ REVERT
+
+---
+
 ## 2026-04-28 — O8: Auto-Linking System (auto-link.py) → IMPLEMENT (composite +0.0059)
 
 auto-link.py post-ingest hook: inserta `[[notes/stem]]` en MOCs relevantes cuando un átomo no está enlazado. Backfill completo encontró 0 átomos huérfanos — todos ya estaban en sus MOCs.

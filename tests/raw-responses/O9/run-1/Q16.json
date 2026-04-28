@@ -1,0 +1,31 @@
+{
+  "question_id": "Q16",
+  "question": "¿Cómo construyo direct bookings y reduzco mi dependencia de las OTAs?",
+  "level": 4,
+  "response": "**Panorama**: La reserva directa reduce dependencia de Airbnb pero no es para todos. El autor lleva cuatro años probando esta estrategia y concluye que casi nunca justifica la inversión a menos que se cumplan condiciones específicas. La arquitectura correcta requiere primero decidir si debes hacerlo y, solo si sí, qué infraestructura construir y en qué orden.\n\n**Comparativa: ¿Cuándo tiene sentido direct?**\n\n| Eje | Perfil hobbyist (1-3 anuncios) | Perfil negocio (4-11 anuncios) | Perfil escala (12+ / luxury / influencer) |\n|---|---|---|---|\n| ¿Vale la pena direct? [[notes/direct-booking--skip-unless-conditions]] | No — OTA cubre el ROI | Marginal — evalúa por caso | Sí — condición cumplida |\n| Razón genuina [[notes/direct-booking--two-real-reasons]] | Ninguna real | Cash flow si estancias 30+ días | Escape de review tyranny + cash flow |\n| Costo invisible de salir de OTA [[notes/direct-booking--invisible-airbnb-value]] | Alto — reseñas, SEO, confianza | Alto — mismos 3 servicios invisibles | Asumible si ya tienes brand y audiencia |\n| Arquitectura recomendada [[notes/direct-booking--pms-first-architecture]] | Solo PMS como hub | PMS hub + Airbnb/VRBO spokes | PMS hub + web propia (WordPress) + OTAs como spokes |\n| Distribución de canales [[notes/direct-booking--multi-platform-concentration]] | Máx 2 OTAs; eliminar las que aportan <10% | 70% OTA principal, 20% segunda; sacar las de 5%/5% | Direct >15% viable; OTA principal como red de seguridad |\n| Captura de emails [[notes/direct-booking--wifi-captive-portal-email-capture]] | No justificado aún | Instalar StayFi desde anuncio #2 | StayFi operativo + email nurture secuencia |\n\n**Cómo elegir**:\n\n- Si tienes 1-3 anuncios y no es tu negocio principal → permanece en OTAs, optimiza ahí. Direct booking no te da retorno neto positivo. [[notes/direct-booking--skip-unless-conditions]]\n- Si tienes 4-11 anuncios con repeat de huéspedes recurrentes ≥30% → empieza solo con WiFi captive portal (StayFi) + Google My Business. Sin web todavía. [[notes/direct-booking--minimum-moves]]\n- Si tienes 12+ anuncios, mercado luxury ($500+/noche), o ya tienes audiencia propia → construye el stack completo: PMS hub → web WordPress → pixel de retargeting → GMB → email flow. [[notes/direct-booking--pms-first-architecture]]\n- Si tu distribución actual es 70/20/5/5 entre cuatro plataformas → elimina las dos con 5%. El calendario liberado absorbe parte de ese volumen y puedes especializarte. [[notes/direct-booking--multi-platform-concentration]]\n\n**Próximos pasos** (una vez decidido el perfil):\n\n- Instala PMS desde hoy si no lo tienes — switching cost crece con cada reserva histórica. Hostfully, Guesty o Hospitable son opciones. Costo $15-30/mes.\n- Si tu web directa ya existe: añade StayFi ($5-15/mes por anuncio) para capturar emails de cada huésped y visitante. Una estancia de 2 personas puede rendir 5-30 emails.\n- No uses el builder de tu PMS para la web — es una landing page limitada. WordPress + tema de hospitalidad (Boostly) es la arquitectura correcta y portable.\n\n**Fuentes**: [[sources/w8cuYma09zY]], [[sources/YI7E_q53bRU]], [[sources/zDz2XogOarw]], [[sources/PHz6KUMKSVc]]",
+  "atoms_cited": [
+    "[[notes/direct-booking--skip-unless-conditions]]",
+    "[[notes/direct-booking--two-real-reasons]]",
+    "[[notes/direct-booking--invisible-airbnb-value]]",
+    "[[notes/direct-booking--pms-first-architecture]]",
+    "[[notes/direct-booking--multi-platform-concentration]]",
+    "[[notes/direct-booking--wifi-captive-portal-email-capture]]",
+    "[[notes/direct-booking--minimum-moves]]"
+  ],
+  "sources_cited": [
+    "[[sources/w8cuYma09zY]]",
+    "[[sources/YI7E_q53bRU]]",
+    "[[sources/zDz2XogOarw]]",
+    "[[sources/PHz6KUMKSVc]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "details": "No se detectaron conflictos HIGH o MEDIUM activos entre los atoms del shortlist para esta pregunta."
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 9,
+    "accuracy": 9
+  }
+}

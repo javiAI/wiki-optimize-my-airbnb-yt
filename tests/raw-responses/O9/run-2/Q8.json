@@ -1,0 +1,25 @@
+{
+  "question_id": "Q8",
+  "question": "¿Cómo respondo públicamente a una reseña negativa?",
+  "level": 3,
+  "response": "**Diagnóstico**: La respuesta pública no está dirigida al huésped que ya se fue — está dirigida a todos los futuros huéspedes que leerán esa reseña. Tu objetivo no es ganar el argumento, sino demostrar que eres un anfitrión profesional y empático.\n\n**Pasos**:\n\n1. **Calibra la longitud igual a tus respuestas positivas** [[notes/reviews--negative-bias-asymmetric]] — Una respuesta larga a una reseña negativa llama la atención sobre ella. Los huéspedes potenciales escanean buscando señales rojas; si tu respuesta típica a reseñas buenas tiene 2-3 frases, la respuesta a la negativa debe tener exactamente eso. Nunca escribas un ensayo de defensa.\n\n2. **Empata con la intensidad emocional del huésped +10%** [[notes/reviews--emotional-intensity-plus-10]] — Si el huésped escribe frustrado, tu respuesta debe ser cálida y comprensiva un grado por encima. \"Agradezco que compartas tu experiencia — lamento que tu estancia no haya cumplido las expectativas\" abre sin defensividad. No iguales su frustración ni bajes al plano personal.\n\n3. **Aborda el hecho concreto, no el juicio** [[notes/reviews--facts-only-negative-review]] — Menciona solo la variable factual que la reseña señala. Si el huésped dice \"la limpieza era terrible\", escribe: \"Tras recibir tu mensaje, revisamos el protocolo de limpieza con el equipo.\" No niegues, no justifiques en exceso. Hechos + acción tomada.\n\n4. **Cierra con un detalle de mejora o comodidad añadida** — Menciona un cambio concreto que hayas realizado o un detalle del anuncio relevante (\"Desde tu estancia instalamos un nuevo sistema de climatización en esa habitación\"). Esto convierte una reseña negativa en prueba de tu capacidad de respuesta.\n\n5. **Acepta que la reseña es permanente y empuja volumen** [[notes/reviews--more-dilutes-negative]] — No inviertas energía en intentar eliminar la reseña; en 2026 el proceso de remoción de Airbnb está prácticamente roto incluso con evidencia clara de incumplimiento de políticas. La estrategia real es acelerar los siguientes ciclos de reserva para que la reseña negativa se diluya con volumen. Una reseña de 1 estrella sobre 100 reseñas apenas impacta el promedio.\n\n**Por qué funciona el conjunto**: La respuesta calibrada demuestra profesionalismo sin amplificar el daño; la mención de la mejora concreta convierte el punto débil en señal de calidad; el enfoque en volumen restaura el promedio matemáticamente sin depender de la cooperación de Airbnb.\n\n**Resultado esperado**: Los huéspedes potenciales que lean la reseña negativa más tu respuesta percibirán a un anfitrión que gestiona incidencias con madurez. El impacto negativo en conversión dura típicamente 2-3 meses mientras el volumen de nuevas reseñas diluye la señal.\n\n**Fuentes**: [[sources/2025-05-28--my-100k-blueprint-complete-airbnb-hosting-course]], [[sources/2024-09-23--how-to-write-a-negative-review-airbnb-host]], [[sources/2025-07-15--negative-review-removal-process-broken]]",
+  "atoms_cited": [
+    "[[notes/reviews--negative-bias-asymmetric]]",
+    "[[notes/reviews--emotional-intensity-plus-10]]",
+    "[[notes/reviews--facts-only-negative-review]]",
+    "[[notes/reviews--more-dilutes-negative]]",
+    "[[notes/reviews--removal-process-broken-2025]]"
+  ],
+  "sources_cited": [
+    "[[sources/2025-05-28--my-100k-blueprint-complete-airbnb-hosting-course]]",
+    "[[sources/uwdAHCmhNn4]]",
+    "[[sources/wjAwMKuhxec]]",
+    "[[sources/qv05SED0Z9E]]",
+    "[[sources/zih3JqcBRAE]]"
+  ],
+  "self_assessment": {
+    "confidence": "medium",
+    "completeness": 7,
+    "accuracy": 8
+  }
+}

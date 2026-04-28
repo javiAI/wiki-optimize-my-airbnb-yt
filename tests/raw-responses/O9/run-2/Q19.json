@@ -1,0 +1,35 @@
+{
+  "question_id": "Q19",
+  "question": "¿Cómo paso de 1 a 5 listings sin perder calidad ni control operativo?",
+  "level": 4,
+  "response": "**Panorama**: El salto de 1 a 5 anuncios es la transición más crítica del anfitrión-operador — no es escalar lo mismo 5 veces, es construir una capa de infraestructura antes de añadir cada anuncio. Los que lo hacen mal añaden puertas sin sistema y terminan gestionando incendios 40h/semana. Los que lo hacen bien consolidan el stack L1 del primer anuncio, delegan el eje de limpieza y escalan con PMS + pricing dinámico desde el día 1 del segundo anuncio.\n\n**Comparativa**:\n\n| Eje | 1 anuncio (punto de partida) | 2-3 anuncios (expansión temprana) | 4-5 anuncios (portfolio-host) |\n|---|---|---|---|\n| Stack mínimo [[notes/tools-tech--three-level-host-framework]] | L1 funcional: PMS + pricing dinámico + cerradura inteligente + guidebook | Mismo L1 replicado por anuncio; sin saltarse ningún nivel | L2 activo (depósito de daños, ruido) + L3 analytics cuando volumen justifica |\n| Limpieza [[notes/cleaning-ops--cleaner-multi-role-remote-ops]] | 1 limpiador de confianza + backup | Limpiador multi-rol por anuncio o por zona geográfica | SOP escrito + limpiador-coordinador; backup siempre |\n| PMS [[notes/tools-tech--pms-worth-it-single-listing]] | Hospitable o equivalente desde el listing 1 ($15-30/mes) | Mismo PMS con multi-calendar sync — evaluar funcionalidad > precio | Verificar que el PMS soporta cleaner task management y channel sync fiable |\n| Tiempo semanal [[notes/investing--hourly-rate-sanity-check]] | ~5h/semana con PMS + pricing activo | 5 listings ≠ 25h — PMS/pricing/limpiador amortiza; ~10-12h realista | Si supera 15h/semana, evaluar PM co-host para lo operativo |\n| Control del anuncio [[notes/investing--never-on-pm-account]] | Cuenta Airbnb propia siempre | Invitar colaboradores como co-anfitriones con permisos limitados; nunca bajo cuenta de tercero | Mismo principio: ownership de reviews, historial y pagos es tuyo |\n\n**Cómo elegir** el ritmo de expansión:\n\n- Si tu L1 lleva <3 meses activo o tienes fallos en mensajes automáticos/sincronización → consolida antes de añadir anuncio 2 [[notes/tools-tech--three-level-host-framework]]\n- Si añades anuncio en el mismo mercado → un limpiador con rol expandido puede cubrir ambos; paga 20-30% sobre tarifa local para que te priorice [[notes/cleaning-ops--pay-more-manage-less]]\n- Si añades anuncio en mercado distinto → busca limpiador local primero; sin eje de limpieza confiable, el segundo anuncio se convierte en fuente de reseñas malas\n- Si al llegar a 3+ anuncios tu tasa horaria neta (ingresos/horas dedicadas) cae por debajo de tu tasa laboral habitual → no añadir más sin delegar la operativa [[notes/investing--hourly-rate-sanity-check]]\n- Si estás evaluando comprar los anuncios adicionales → benchmark contra el percentil 90 del mercado (no el promedio), y prioriza anuncios ya operativos donde capturas el delta mediocridad→optimización [[notes/investing--90th-percentile-benchmark]]\n\n**Próximos pasos**:\n\n- Antes del anuncio 2: exportar y documentar todos los mensajes automáticos, templates y bloques de calendario del anuncio 1 (evita perderlos si cambias de PMS más adelante [[notes/tools-tech--pms-switch-protocol]])\n- Al llegar a 3 anuncios: activar IntelliHost u herramienta de análisis de posicionamiento — el volumen empieza a generar patrones observables [[notes/tools-tech--intellihost-funnel-ranking]]\n- Antes de contratar un PM externo: calcular el retorno horario real; el PM ahorra tiempo, no aumenta ingresos [[notes/investing--pm-saves-time-not-revenue]]\n\n**Fuentes**: [[sources/qpLzNgYOnho]], [[sources/w8t9YWltsm4]], [[sources/grAeEiwAJ0k]], [[sources/I8sU6qci4D8]], [[sources/lr8to3rM1os]]",
+  "atoms_cited": [
+    "[[notes/tools-tech--three-level-host-framework]]",
+    "[[notes/cleaning-ops--cleaner-multi-role-remote-ops]]",
+    "[[notes/tools-tech--pms-worth-it-single-listing]]",
+    "[[notes/investing--hourly-rate-sanity-check]]",
+    "[[notes/investing--never-on-pm-account]]",
+    "[[notes/cleaning-ops--pay-more-manage-less]]",
+    "[[notes/investing--90th-percentile-benchmark]]",
+    "[[notes/tools-tech--pms-switch-protocol]]",
+    "[[notes/tools-tech--intellihost-funnel-ranking]]",
+    "[[notes/investing--pm-saves-time-not-revenue]]"
+  ],
+  "sources_cited": [
+    "[[sources/qpLzNgYOnho]]",
+    "[[sources/w8t9YWltsm4]]",
+    "[[sources/grAeEiwAJ0k]]",
+    "[[sources/I8sU6qci4D8]]",
+    "[[sources/lr8to3rM1os]]"
+  ],
+  "conflict_detected": {
+    "found": false,
+    "conflicts": []
+  },
+  "proposed_contradictions": [],
+  "self_assessment": {
+    "confidence": "high",
+    "completeness": 8,
+    "accuracy": 9
+  }
+}

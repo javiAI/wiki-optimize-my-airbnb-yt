@@ -1,0 +1,188 @@
+{
+  "label": "O9",
+  "run": 2,
+  "rubric_version": "1.0",
+  "evaluator_notes": "El batch O9/run-2 muestra un nivel de calidad alto y consistente: todas las respuestas citan átomos por paso y mantienen tono consultor apropiado. Los puntos débiles recurrentes son (1) uso ocasional de anglicismos no whitelistados ('funnel', 'wellness check', 'toggle', 'last-minute' fuera de contexto PriceLabs) y (2) algunas respuestas de régimen B exceden los 5 pasos recomendados. Q8 tiene un paso sin cita de átomo, lo que viola el contrato de formato. Las respuestas de régimen C (Q16-Q20) son especialmente sólidas en estructura y cobertura.",
+  "evaluations": {
+    "Q1": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Cubre bien el caso manual y el de PriceLabs; caveat de conflicto presente y bien estructurado. Respuesta algo extensa para régimen A (roza el límite de 250 palabras). 'prueba social' no es anglicismo pero tampoco está en la whitelist.",
+      "violations": ["Longitud borderline para régimen A (puede superar 250 palabras)", "Uso de 'prueba social' en lugar de alternativa en español puro"]
+    },
+    "Q2": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta directa, bien calibrada para régimen A. Tres átomos bien usados, secciones correctas, sin anglicismos penalizables.",
+      "violations": []
+    },
+    "Q3": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 8,
+      "format_compliance": 7,
+      "notes": "Buena cobertura del título y summary. 'amenity diferencial' usa el anglicismo en lugar de 'comodidad diferencial'; respuesta bastante larga para régimen A con múltiples sub-secciones y reglas de oro que superan el ceiling de 250 palabras.",
+      "violations": ["'amenity diferencial' → 'comodidad diferencial'", "Longitud excede el ceiling de régimen A (250 palabras)", "Estructura con 'Reglas de oro' no es sección canónica del régimen A"]
+    },
+    "Q4": {
+      "completeness": 9,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Respuesta directa y bien justificada. La cifra '~25% en impresiones' está atribuida a IntelliHost pero el source_id no incluye slug descriptivo verificable. Formato A correcto.",
+      "violations": ["Dato del 25% de caída de impresiones sin source_id estándar en sources_cited (source_id es una URL larga no normalizada)"]
+    },
+    "Q5": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Excelente respuesta táctica con 6 pasos bien citados. El contrato B recomienda 3-5 pasos; 6 pasos es desviación menor pero el contenido es sólido y cada paso tiene su átomo. 'check-in' y 'checkout' aceptados como términos operativos.",
+      "violations": ["6 pasos en lugar de los 3-5 recomendados para régimen B"]
+    },
+    "Q6": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cobertura completa de las cuatro palancas; caveat de conflicto Thu/Sun correctamente colocado al final. 'last-minute' aparece varias veces como término de PriceLabs (aceptable) pero también en contexto genérico.",
+      "violations": ["'last-minute' usado en contexto genérico además de como término técnico de PriceLabs"]
+    },
+    "Q7": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Cinco pasos bien estructurados, diagnóstico claro. Atom 'pricing--cleaning-fee-match-comp' citado dos veces (pasos 2 y 5), lo que es técnicamente correcto pero reduce la variedad de respaldo.",
+      "violations": ["Atom 'pricing--cleaning-fee-match-comp' citado en dos pasos distintos (reduce variedad de respaldo)"]
+    },
+    "Q8": {
+      "completeness": 8,
+      "accuracy": 8,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 6,
+      "notes": "El paso 4 ('Cierra con un detalle de mejora...') no tiene cita de átomo, violando la regla de una cita por paso. Tono consultor excelente. Confianza declarada 'medium' refleja limitación real.",
+      "violations": ["Paso 4 sin cita [[atom]] — viola el contrato de formato B (una cita por paso)", "Source 'uwdAHCmhNn4' en sources_cited no aparece referenciado en el cuerpo de la respuesta"]
+    },
+    "Q9": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 8,
+      "format_compliance": 8,
+      "notes": "Cobertura exhaustiva de las cuatro capas de comodidades. 'king bed' aparece como término de filtro de Airbnb (aceptable técnicamente). Sección 'Qué NO aporta' es valiosa pero no es sección canónica del régimen B.",
+      "violations": ["Sección 'Qué NO aporta al booking' no es sección canónica del régimen B", "'king bed' usado en texto corrido (aceptable como término de filtro Airbnb)"]
+    },
+    "Q10": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Flujo de decisión claro y bien citado. 'co-anfitrión/manager' incluye 'manager' en inglés (podría ser 'gestor'). 'chat' como término de plataforma es aceptable.",
+      "violations": ["'manager' en 'co-anfitrión/manager' → podría usar 'gestor' o 'administrador'"]
+    },
+    "Q11": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 7,
+      "notes": "Guía técnica sólida con 6 pasos bien citados (uno con átomo adicional anidado). El contrato B recomienda 3-5 pasos; los 6 aquí son técnicamente justificables dado que el tema es configuración secuencial, pero es una desviación. 'last-minute' repetido como término PriceLabs (aceptable) y 'far-out' también.",
+      "violations": ["6 pasos en lugar de 3-5 (régimen B)", "'far-out' y 'last-minute' usados como términos técnicos PriceLabs — aceptables pero recurrentes"]
+    },
+    "Q12": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "6 pasos bien estructurados; faltaría alguna mención explícita al filtro de tipo de propiedad (categorías Airbnb) como complemento. 'listing' aparece en contexto técnico Airbnb (aceptable con matiz).",
+      "violations": ["'listing' usado varias veces en texto corrido (aceptable con matiz técnico, pero recurrente)", "6 pasos en lugar de 3-5 recomendados para régimen B"]
+    },
+    "Q13": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Flujo de mensajes bien estructurado con 5 pasos. 'wellness check' es anglicismo no necesario; podría ser 'verificación de bienestar' o 'mensaje de control'. Implementación técnica bien ubicada al final.",
+      "violations": ["'wellness check' → anglicismo; usar 'mensaje de control' o 'verificación intermedia'"]
+    },
+    "Q14": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 7,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Buen diagnóstico y pasos accionables. 'funnel' aparece explícitamente en el paso 4 y en el resultado esperado (debería ser 'embudo' según el contrato). 'toggle' se mantiene como término técnico de interfaz (borderline).",
+      "violations": ["'funnel' usado dos veces → debe ser 'embudo' según el contrato de Spanish purity", "'toggle' es anglicismo de interfaz no en whitelist"]
+    },
+    "Q15": {
+      "completeness": 8,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Respuesta clara y bien estructurada para una pregunta táctica. El paso 2 cita el mismo átomo que el paso 3 (hospitality--offer-extension-midstay), lo que reduce la variedad. ADR mantenido como acrónimo técnico estándar.",
+      "violations": ["Átomo 'hospitality--offer-extension-midstay' citado en dos pasos distintos (pasos 2 y 3)"]
+    },
+    "Q16": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Excelente respuesta C con tabla comparativa, árbol de decisión y próximos pasos. 'funnel' aparece una vez (debería ser 'embudo'). 'creator' y 'builder' sin traducir. Estructura canónica C respetada.",
+      "violations": ["'funnel' → 'embudo'", "'creator' y 'builder' sin traducir (podrían ser 'creador de contenido' y 'constructor de sitios')"]
+    },
+    "Q17": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta C de alta calidad con tabla descubierto/no descubierto y protocolo de 4 capas bien citado. 'rabbit hole' es anglicismo informal que podría evitarse. Muy buena cobertura de todos los criterios de evaluación.",
+      "violations": ["'rabbit hole' → anglicismo coloquial; usar 'exploración profunda' o 'investigación propia'"]
+    },
+    "Q18": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 9,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Respuesta C sólida con tabla clara, árbol de decisión bien articulado y próximos pasos accionables. Terminología española consistente ('administrador de propiedades', 'comisión'). Sin anglicismos penalizables.",
+      "violations": []
+    },
+    "Q19": {
+      "completeness": 9,
+      "accuracy": 9,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 9,
+      "notes": "Excelente respuesta C con tabla de tres columnas (1, 2-3, 4-5 anuncios) y árbol de decisión claro. 'SOP' no está en whitelist (acrónimo de 'Standard Operating Procedure'). 'task management' sin traducir.",
+      "violations": ["'SOP' no está en whitelist; usar 'protocolo operativo' o expandir la sigla", "'task management' → 'gestión de tareas'"]
+    },
+    "Q20": {
+      "completeness": 9,
+      "accuracy": 8,
+      "spanish_purity": 8,
+      "tone": 9,
+      "format_compliance": 8,
+      "notes": "Buena respuesta C con tabla comparativa y árbol de decisión. 'listing' aparece varias veces en texto corrido (incluyendo el título de la pregunta reflejado en la respuesta). Fuente inline '(source y3T-IIIPOdw)' en el párrafo de Panorama es formato no estándar.",
+      "violations": ["'listing' usado en texto corrido varias veces (debería ser 'anuncio')", "Cita inline '(source y3T-IIIPOdw)' en párrafo de Panorama no sigue el formato de sources_cited estándar"]
+    }
+  }
+}
