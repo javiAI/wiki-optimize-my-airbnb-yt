@@ -79,7 +79,10 @@ def _parse_frontmatter(text: str) -> tuple[dict, str]:
                     sources_list.append(current_source)
                     current_source = {}
                 k, v = stripped.split(":", 1)
-                fm[k.strip()] = v.strip().strip('"')
+                k, v = k.strip(), v.strip().strip('"')
+                if v.startswith("[") and v.endswith("]"):
+                    v = [x.strip().strip('"') for x in v[1:-1].split(",") if x.strip()]
+                fm[k] = v
             continue
 
         if ":" in stripped:
@@ -261,13 +264,16 @@ def scan_topic_conflicts(vault_path: Path, lang: str, topic: str) -> list[dict]:
         if atom:
             topic_atoms[p.stem] = atom
 
-    # Check declared conflicts_with
+    # Check declared conflicts_with — use canonical pair key to avoid duplicates
+    seen_pairs: set = set()
     for stem, atom in topic_atoms.items():
         conflicts_with = atom["fm"].get("conflicts_with", [])
         if isinstance(conflicts_with, str):
             conflicts_with = [conflicts_with] if conflicts_with else []
         for other_stem in conflicts_with:
-            if other_stem in topic_atoms and stem < other_stem:  # avoid duplicates
+            pair_key = tuple(sorted([stem, other_stem]))
+            if other_stem in topic_atoms and pair_key not in seen_pairs:
+                seen_pairs.add(pair_key)
                 severity = detect_conflict_severity(
                     atom["fm"].get("claim", ""),
                     topic_atoms[other_stem]["fm"].get("claim", ""),

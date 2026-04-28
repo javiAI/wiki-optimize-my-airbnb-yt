@@ -43,7 +43,7 @@ confirm() {
     local default="${2:-y}"
     read -r -p "$prompt [${default}]: " answer
     answer="${answer:-$default}"
-    [[ "${answer,,}" == "y" ]]
+    [[ "$(echo "$answer" | tr '[:upper:]' '[:lower:]')" == "y" ]]
 }
 
 # ── Interactive wizard ────────────────────────────────────────────────────────
