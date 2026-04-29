@@ -21,7 +21,7 @@ URL="https://youtube.com/watch?v=${VID}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${REPO_ROOT}/scripts/config.sh"
 VAULT="${VAULT_PATH:?VAULT_PATH not set — see scripts/config.sh.example}"
-OUT_DIR="${VAULT}/sources"
+OUT_DIR="${VAULT}/raw"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 

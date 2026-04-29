@@ -32,8 +32,8 @@ ask() {
 ask_list() {
     local prompt="$1"
     local example="$2"
-    echo "$prompt"
-    echo "  (comma-separated, e.g. $example)"
+    echo "$prompt" >&2
+    echo "  (comma-separated, e.g. $example)" >&2
     read -r -p "  > " answer
     echo "$answer"
 }
@@ -63,7 +63,7 @@ if [[ -z "$VAULT_NAME" ]]; then
 fi
 
 if [[ -z "$VAULT_PATH" ]]; then
-    VAULT_PATH=$(ask "Vault path" "$HOME/Dev/vaults/$VAULT_NAME")
+    VAULT_PATH=$(ask "Vault path" "$HOME/Dev/obsidian_vaults/$VAULT_NAME")
 fi
 
 VAULT_PATH="${VAULT_PATH/#\~/$HOME}"
@@ -90,6 +90,36 @@ esac
 # 3. Source language (original language of the source material)
 SOURCE_LANG=$(ask "Source/original language (ISO code)" "en")
 echo "  → Atoms will be created in '$SOURCE_LANG' first (the source language)"
+
+# 3b. Sources to ingest
+echo ""
+echo "── Sources to ingest ─────────────────────────────────────────────────────"
+if [[ "$SOURCE_TYPE" == "youtube" ]]; then
+    echo "Provide video IDs or URLs to ingest at startup (optional — you can ingest later)."
+    echo "  Option A: paste a space/comma-separated list of video IDs"
+    echo "  Option B: path to a .txt file with one video ID per line"
+    echo "  Leave empty to skip — you can run scripts/batch-ingest.sh later"
+    read -r -p "  > " SOURCES_INPUT
+    SOURCES_FILE=""
+    SOURCES_IDS=""
+    if [[ -n "$SOURCES_INPUT" ]]; then
+        # Check if it looks like a file path
+        if [[ -f "$SOURCES_INPUT" ]]; then
+            SOURCES_FILE="$SOURCES_INPUT"
+            SOURCES_COUNT=$(grep -c '[a-zA-Z0-9_-]' "$SOURCES_FILE" 2>/dev/null || echo "0")
+            echo "  → File: $SOURCES_FILE ($SOURCES_COUNT video IDs)"
+        else
+            SOURCES_IDS="$SOURCES_INPUT"
+            echo "  → Video IDs: $SOURCES_IDS"
+        fi
+    else
+        echo "  → Skipping initial ingest — add sources later with scripts/batch-ingest.sh"
+    fi
+else
+    echo "Sources can be added later via scripts/batch-ingest.sh"
+    SOURCES_FILE=""
+    SOURCES_IDS=""
+fi
 
 # 4. Additional output languages
 echo ""
@@ -330,7 +360,13 @@ echo "  Path: $VAULT_PATH"
 echo ""
 echo "Next steps:"
 echo "  1. Edit $VAULT_PATH/vault.yaml to adjust topics if needed"
-echo "  2. Add sources and run: bash scripts/batch-ingest.sh <list>"
+if [[ -n "${SOURCES_FILE:-}" ]]; then
+    echo "  2. Run ingest:  bash scripts/batch-ingest.sh $SOURCES_FILE"
+elif [[ -n "${SOURCES_IDS:-}" ]]; then
+    echo "  2. Run ingest:  bash scripts/batch-ingest.sh <(echo \"${SOURCES_IDS}\" | tr ', ' '\n')"
+else
+    echo "  2. Add sources: bash scripts/batch-ingest.sh <list-file>"
+fi
 echo "  3. Run /ingest-queue when ready to create atoms"
 echo "  4. Run /audit for vault health checks"
 echo ""
