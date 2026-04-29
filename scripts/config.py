@@ -96,31 +96,100 @@ def _parse_simple_yaml(path: Path) -> dict:
 
 
 class VaultConfig:
-    """Reads vault.yaml and provides typed accessors."""
+    """Reads vault config and provides typed accessors.
+
+    Resolution order (first match wins):
+      1. explicit vault_path arg → directory containing vault.yaml
+      2. explicit vault_path arg → name matching configs/{name}.yaml in repo
+      3. $VAULT_NAME env var     → configs/{VAULT_NAME}.yaml in repo
+      4. $VAULT_PATH env var     → vault directory containing vault.yaml (legacy)
+      5. configs/*.yaml          → auto-select if exactly one file exists
+    """
 
     def __init__(self, vault_path: Optional[str] = None):
-        if vault_path is None:
-            vault_path = os.environ.get("VAULT_PATH")
-        if vault_path is None:
-            # Try reading from config.sh
+        repo_dir = Path(__file__).parent.parent
+        configs_dir = repo_dir / "configs"
+
+        config_file: Optional[Path] = None
+
+        # Resolve config file from argument
+        if vault_path is not None:
+            p = Path(vault_path).expanduser()
+            if p.is_dir() and (p / "vault.yaml").exists():
+                # Passed a vault directory directly (legacy)
+                config_file = p / "vault.yaml"
+            elif (configs_dir / f"{vault_path}.yaml").exists():
+                # Passed a vault name
+                config_file = configs_dir / f"{vault_path}.yaml"
+            elif p.is_file() and p.suffix in (".yaml", ".yml"):
+                config_file = p
+
+        # VAULT_NAME env var → configs/{name}.yaml
+        if config_file is None:
+            vault_name = os.environ.get("VAULT_NAME")
+            if vault_name:
+                candidate = configs_dir / f"{vault_name}.yaml"
+                if candidate.exists():
+                    config_file = candidate
+
+        # VAULT_PATH env var → vault dir (legacy)
+        if config_file is None:
+            vault_env = os.environ.get("VAULT_PATH")
+            if vault_env:
+                p = Path(vault_env).expanduser()
+                if (p / "vault.yaml").exists():
+                    config_file = p / "vault.yaml"
+
+        # Auto-select if exactly one config exists
+        if config_file is None and configs_dir.exists():
+            yamls = list(configs_dir.glob("*.yaml"))
+            if len(yamls) == 1:
+                config_file = yamls[0]
+
+        # config.sh fallback (legacy)
+        if config_file is None:
             config_sh = Path(__file__).parent / "config.sh"
             if config_sh.exists():
                 for line in config_sh.read_text().splitlines():
-                    if "VAULT_PATH=" in line:
-                        vault_path = line.split("=", 1)[1].strip().strip('"\'')
-                        vault_path = vault_path.replace("$HOME", str(Path.home()))
+                    if "VAULT_PATH=" in line and not line.strip().startswith("#"):
+                        vp = line.split("=", 1)[1].strip().strip('"\'')
+                        vp = vp.replace("$HOME", str(Path.home()))
+                        p = Path(vp).expanduser()
+                        if (p / "vault.yaml").exists():
+                            config_file = p / "vault.yaml"
                         break
-        if vault_path is None:
-            print("ERROR: VAULT_PATH not set. Set $VAULT_PATH or pass vault_path argument.", file=sys.stderr)
+
+        if config_file is None:
+            print(
+                "ERROR: no vault config found.\n"
+                "  Set $VAULT_NAME (e.g. export VAULT_NAME=my-vault) and create configs/my-vault.yaml,\n"
+                "  or pass the vault name/path as an argument.",
+                file=sys.stderr,
+            )
             sys.exit(1)
 
-        self.vault_path = Path(vault_path).expanduser().resolve()
-        config_file = self.vault_path / "vault.yaml"
         if not config_file.exists():
-            print(f"ERROR: vault.yaml not found at {config_file}", file=sys.stderr)
+            print(f"ERROR: vault config not found at {config_file}", file=sys.stderr)
             sys.exit(1)
 
         self._data = _load_yaml(config_file)
+        self._config_file = config_file
+
+        # vault_path: prefer explicit field in config, then infer from config location
+        vp = self._data.get("vault_path")
+        if vp:
+            self.vault_path = Path(vp).expanduser().resolve()
+        elif config_file.parent.name == "configs":
+            # Config lives in repo/configs/ — vault_path must be declared in YAML
+            print(
+                f"ERROR: vault_path not declared in {config_file}.\n"
+                "  Add: vault_path: ~/Dev/obsidian_vaults/{vault-name}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        else:
+            # Legacy: config lives inside the vault directory
+            self.vault_path = config_file.parent.resolve()
 
     @property
     def name(self) -> str:

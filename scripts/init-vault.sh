@@ -1,18 +1,24 @@
 #!/bin/bash
-# init-vault.sh — Interactive WikiForge vault setup wizard
+# init-vault.sh — WikiForge vault setup (non-interactive, terminal use)
 #
-# Usage (non-interactive, all args provided):
-#   scripts/init-vault.sh <vault-name> <vault-path>
+# This script is the TERMINAL fallback. For the guided Claude-integrated flow, use:
+#   /init-vault  (skill inside a Claude session)
 #
-# Usage (interactive wizard):
-#   scripts/init-vault.sh
+# Usage:
+#   scripts/init-vault.sh                    # interactive terminal wizard
+#   scripts/init-vault.sh --name my-vault    # partial non-interactive
 #
-# After setup, optionally launches Claude with an initial prompt.
+# What it does:
+#   1. Asks vault name, data path, output languages, sources, pipeline options
+#   2. Writes configs/{name}.yaml to this repo
+#   3. Creates vault directory structure at the specified data path
+#   4. Optionally runs batch-ingest.sh if sources were provided
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
+CONFIGS_DIR="$REPO_DIR/configs"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -29,18 +35,10 @@ ask() {
     fi
 }
 
-ask_list() {
-    local prompt="$1"
-    local example="$2"
-    echo "$prompt" >&2
-    echo "  (comma-separated, e.g. $example)" >&2
-    read -r -p "  > " answer
-    echo "$answer"
-}
-
 confirm() {
     local prompt="$1"
     local default="${2:-y}"
+    local answer
     read -r -p "$prompt [${default}]: " answer
     answer="${answer:-$default}"
     [[ "$(echo "$answer" | tr '[:upper:]' '[:lower:]')" == "y" ]]
@@ -54,134 +52,71 @@ echo "║        WikiForge — New Vault Setup       ║"
 echo "╚══════════════════════════════════════════╝"
 echo ""
 
-# 1. Vault name and path
-VAULT_NAME="${1:-}"
-VAULT_PATH="${2:-}"
+# 1. Vault name
+VAULT_NAME=$(ask "Vault name (slug, no spaces)" "my-vault")
+VAULT_NAME=$(echo "$VAULT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 
-if [[ -z "$VAULT_NAME" ]]; then
-    VAULT_NAME=$(ask "Vault name (slug, no spaces)" "my-vault")
-fi
-
-if [[ -z "$VAULT_PATH" ]]; then
-    VAULT_PATH=$(ask "Vault path" "$HOME/Dev/obsidian_vaults/$VAULT_NAME")
-fi
-
-VAULT_PATH="${VAULT_PATH/#\~/$HOME}"
-VAULT_PATH="$(realpath -m "$VAULT_PATH" 2>/dev/null || echo "$VAULT_PATH")"
-
-echo ""
-echo "── Source configuration ──────────────────────────────────────────────────"
-
-# 2. Source type
-echo "Source type:"
-echo "  1) youtube  — YouTube videos (yt-dlp + transcripts)"
-echo "  2) pdf      — PDF documents (pdftotext)"
-echo "  3) web      — Web pages (html2text)"
-echo "  4) file     — Local files (direct read)"
-SOURCE_TYPE_NUM=$(ask "Choose [1-4]" "1")
-case "$SOURCE_TYPE_NUM" in
-    1|youtube) SOURCE_TYPE="youtube" ;;
-    2|pdf)     SOURCE_TYPE="pdf" ;;
-    3|web)     SOURCE_TYPE="web" ;;
-    4|file)    SOURCE_TYPE="file" ;;
-    *)         SOURCE_TYPE="youtube" ;;
-esac
-
-# 3. Source language (original language of the source material)
-SOURCE_LANG=$(ask "Source/original language (ISO code)" "en")
-echo "  → Atoms will be created in '$SOURCE_LANG' first (the source language)"
-
-# 3b. Sources to ingest
-echo ""
-echo "── Sources to ingest ─────────────────────────────────────────────────────"
-if [[ "$SOURCE_TYPE" == "youtube" ]]; then
-    echo "Provide video IDs or URLs to ingest at startup (optional — you can ingest later)."
-    echo "  Option A: paste a space/comma-separated list of video IDs"
-    echo "  Option B: path to a .txt file with one video ID per line"
-    echo "  Leave empty to skip — you can run scripts/batch-ingest.sh later"
-    read -r -p "  > " SOURCES_INPUT
-    SOURCES_FILE=""
-    SOURCES_IDS=""
-    if [[ -n "$SOURCES_INPUT" ]]; then
-        # Check if it looks like a file path
-        if [[ -f "$SOURCES_INPUT" ]]; then
-            SOURCES_FILE="$SOURCES_INPUT"
-            SOURCES_COUNT=$(grep -c '[a-zA-Z0-9_-]' "$SOURCES_FILE" 2>/dev/null || echo "0")
-            echo "  → File: $SOURCES_FILE ($SOURCES_COUNT video IDs)"
-        else
-            SOURCES_IDS="$SOURCES_INPUT"
-            echo "  → Video IDs: $SOURCES_IDS"
-        fi
-    else
-        echo "  → Skipping initial ingest — add sources later with scripts/batch-ingest.sh"
+CONFIG_FILE="$CONFIGS_DIR/${VAULT_NAME}.yaml"
+if [[ -f "$CONFIG_FILE" ]]; then
+    echo "  ⚠  Config already exists: $CONFIG_FILE"
+    if ! confirm "  Overwrite?" "n"; then
+        echo "Aborted — edit $CONFIG_FILE directly if needed."
+        exit 0
     fi
-else
-    echo "Sources can be added later via scripts/batch-ingest.sh"
-    SOURCES_FILE=""
-    SOURCES_IDS=""
 fi
 
-# 4. Additional output languages
+# 2. Vault data path (where Obsidian/raw data lives)
+VAULT_DATA_PATH=$(ask "Vault data path (where atoms and sources are stored)" "$HOME/Dev/obsidian_vaults/$VAULT_NAME")
+VAULT_DATA_PATH="${VAULT_DATA_PATH/#\~/$HOME}"
+VAULT_DATA_PATH="$(realpath -m "$VAULT_DATA_PATH" 2>/dev/null || echo "$VAULT_DATA_PATH")"
+
+# 3. Output languages
 echo ""
-echo "── Language configuration ────────────────────────────────────────────────"
-echo "Additional output languages (translations beyond the source language)."
-echo "Leave empty if you only want atoms in the source language."
-EXTRA_LANGS_RAW=$(ask_list "Extra languages (comma-separated ISO codes)" "es,fr")
-EXTRA_LANGS=""
-if [[ -n "$EXTRA_LANGS_RAW" ]]; then
-    # Normalize: remove spaces, lowercase
-    EXTRA_LANGS=$(echo "$EXTRA_LANGS_RAW" | tr ',' '\n' | tr -d ' ' | tr '[:upper:]' '[:lower:]' | grep -v "^${SOURCE_LANG}$" | tr '\n' ',' | sed 's/,$//')
-fi
+echo "── Languages ────────────────────────────────────────────────────────────"
+echo "Which languages should atoms be written in?"
+echo "  Primary language is always auto-detected from source content."
+echo "  Examples: en  |  en,es  |  en,es,fr"
+read -r -p "  Languages (comma-separated ISO codes) [en]: " LANGS_RAW
+LANGS_RAW="${LANGS_RAW:-en}"
+PRIMARY_LANG=$(echo "$LANGS_RAW" | cut -d',' -f1 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+ALL_LANGS=$(echo "$LANGS_RAW" | tr ',' '\n' | tr -d ' ' | tr '[:upper:]' '[:lower:]' | tr '\n' ',' | sed 's/,$//')
+EXTRA_LANGS=$(echo "$LANGS_RAW" | tr ',' '\n' | tr -d ' ' | tr '[:upper:]' '[:lower:]' | grep -v "^${PRIMARY_LANG}$" | tr '\n' ',' | sed 's/,$//')
+AUTO_TRANSLATE="false"
+[[ -n "$EXTRA_LANGS" ]] && AUTO_TRANSLATE="true"
 
-# Build enabled languages list (source_lang first)
-if [[ -n "$EXTRA_LANGS" ]]; then
-    ALL_LANGS="${SOURCE_LANG},${EXTRA_LANGS}"
-    AUTO_TRANSLATE="true"
-else
-    ALL_LANGS="${SOURCE_LANG}"
-    AUTO_TRANSLATE="false"
-fi
-
-# 5. Topics
+# 4. Sources to ingest
 echo ""
-echo "── Topic configuration ───────────────────────────────────────────────────"
-echo "Topics structure the vault. You can leave empty for auto-detection on first ingest."
-TOPICS_RAW=$(ask_list "Initial topics (comma-separated slugs)" "pricing,reviews,operations")
+echo "── Sources ──────────────────────────────────────────────────────────────"
+echo "Paste sources to ingest (optional — you can always add more later)."
+echo "  Supported formats (one per line, or comma-separated):"
+echo "    • YouTube video ID:       Ek8m0ZAhMgA"
+echo "    • Full YouTube URL:       https://youtube.com/watch?v=Ek8m0ZAhMgA"
+echo "    • YouTube channel URL:    https://www.youtube.com/@ChannelName"
+echo "    • Path to a .txt file:    ./oma-videos.txt"
+echo "  Leave empty to skip initial ingest."
+read -r -p "  > " SOURCES_RAW
+SOURCES_INPUT="$(echo "$SOURCES_RAW" | tr -d ' ')"
 
-# Build topics YAML
-TOPICS_YAML="[]"
-if [[ -n "$TOPICS_RAW" ]]; then
-    TOPICS_YAML="["
-    IFS=',' read -ra TOPIC_ARRAY <<< "$TOPICS_RAW"
-    for topic in "${TOPIC_ARRAY[@]}"; do
-        topic=$(echo "$topic" | tr -d ' ')
-        if [[ -n "$topic" ]]; then
-            NAME=$(echo "$topic" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
-            TOPICS_YAML="${TOPICS_YAML}{id: ${topic}, name: \"${NAME}\", description: \"\"}, "
-        fi
-    done
-    TOPICS_YAML="${TOPICS_YAML%, }]"
-fi
-
-# 6. Pipeline options
+# 5. Pipeline options
 echo ""
-echo "── Pipeline options ──────────────────────────────────────────────────────"
-AUTO_ATOMS=$(confirm "Auto-create atoms after ingest?" "y" && echo "true" || echo "false")
-AUTO_REFINE=$(confirm "Auto-refine atoms (second-pass quality pass, costs tokens)?" "n" && echo "true" || echo "false")
+echo "── Pipeline ─────────────────────────────────────────────────────────────"
+AUTO_ATOMS="false"
+AUTO_REFINE="false"
+confirm "Auto-create atoms after ingest? (recommended)" "y" && AUTO_ATOMS="true"
+confirm "Auto-refine atoms (second quality pass, uses more tokens)?" "n" && AUTO_REFINE="true"
 
-# ── Summary ──────────────────────────────────────────────────────────────────
+# ── Summary ───────────────────────────────────────────────────────────────────
 
 echo ""
 echo "╔══════════════════════════════════════════╗"
 echo "║              Setup Summary               ║"
 echo "╚══════════════════════════════════════════╝"
 echo "  Vault name    : $VAULT_NAME"
-echo "  Path          : $VAULT_PATH"
-echo "  Source type   : $SOURCE_TYPE"
-echo "  Source lang   : $SOURCE_LANG"
-echo "  All languages : $ALL_LANGS"
+echo "  Data path     : $VAULT_DATA_PATH"
+echo "  Config file   : $CONFIG_FILE"
+echo "  Languages     : $ALL_LANGS"
 echo "  Auto-translate: $AUTO_TRANSLATE"
-echo "  Topics        : ${TOPICS_RAW:-auto-detect}"
+echo "  Sources       : ${SOURCES_INPUT:-none (add later)}"
 echo "  Auto-atoms    : $AUTO_ATOMS"
 echo "  Auto-refine   : $AUTO_REFINE"
 echo ""
@@ -191,44 +126,42 @@ if ! confirm "Create vault?" "y"; then
     exit 0
 fi
 
-echo ""
-echo "=== WikiForge: Initializing vault '$VAULT_NAME' ==="
-
 # ── Create folder structure ───────────────────────────────────────────────────
-echo "[1/6] Creating folder structure..."
+echo ""
+echo "=== WikiForge: Creating vault '$VAULT_NAME' ==="
+echo "[1/4] Creating vault directory structure..."
 
-# Build lang dirs from ALL_LANGS
 IFS=',' read -ra LANG_ARRAY <<< "$ALL_LANGS"
 LANG_DIRS=""
 for lang in "${LANG_ARRAY[@]}"; do
     lang=$(echo "$lang" | tr -d ' ')
-    LANG_DIRS="$LANG_DIRS $VAULT_PATH/wiki/$lang $VAULT_PATH/moc/$lang $VAULT_PATH/index/$lang $VAULT_PATH/queries/$lang"
+    LANG_DIRS="$LANG_DIRS $VAULT_DATA_PATH/wiki/$lang $VAULT_DATA_PATH/moc/$lang $VAULT_DATA_PATH/index/$lang $VAULT_DATA_PATH/queries/$lang"
 done
 
-mkdir -p $VAULT_PATH/raw $VAULT_PATH/meta $LANG_DIRS
+mkdir -p $VAULT_DATA_PATH/raw $VAULT_DATA_PATH/meta $LANG_DIRS
+mkdir -p "$CONFIGS_DIR"
 
-# ── Write vault.yaml ──────────────────────────────────────────────────────────
-echo "[2/6] Writing vault.yaml..."
+# ── Write configs/{name}.yaml ─────────────────────────────────────────────────
+echo "[2/4] Writing $CONFIG_FILE..."
 
-ENABLED_LIST=$(echo "$ALL_LANGS" | tr ',' '\n' | tr -d ' ' | awk '{printf "\"%s\", ", $0}' | sed 's/, $//')
-SECONDARY_LIST=$(echo "${EXTRA_LANGS:-}" | tr ',' '\n' | tr -d ' ' | grep -v '^$' | awk '{printf "\"%s\", ", $0}' | sed 's/, $//' || echo "")
+ENABLED_YAML=$(echo "$ALL_LANGS" | tr ',' '\n' | tr -d ' ' | awk '{printf "\"%s\", ", $0}' | sed 's/, $//')
+SECONDARY_YAML=""
+if [[ -n "$EXTRA_LANGS" ]]; then
+    SECONDARY_YAML=$(echo "$EXTRA_LANGS" | tr ',' '\n' | tr -d ' ' | awk '{printf "\"%s\", ", $0}' | sed 's/, $//')
+fi
 
-cat > "$VAULT_PATH/vault.yaml" << YAML_EOF
+cat > "$CONFIG_FILE" << YAML_EOF
 name: "$VAULT_NAME"
-description: ""
+vault_path: "$VAULT_DATA_PATH"
 version: "1.0"
 
-source:
-  type: $SOURCE_TYPE
-  original_language: $SOURCE_LANG
-
 languages:
-  enabled: [$ENABLED_LIST]
-  primary: "$SOURCE_LANG"
-  secondary: [${SECONDARY_LIST}]
+  enabled: [$ENABLED_YAML]
+  primary: "$PRIMARY_LANG"
+  secondary: [${SECONDARY_YAML}]
   detect_from_query: true
 
-topics: $TOPICS_YAML
+topics: []
 
 pipeline:
   auto_atoms: $AUTO_ATOMS
@@ -241,15 +174,16 @@ pipeline:
 qa:
   completeness: true
   url_validation: true
-  anglicism_check: [${SECONDARY_LIST}]
+  anglicism_check: [${SECONDARY_YAML}]
   conflict_check: true
 YAML_EOF
 
-# ── Create index stubs ────────────────────────────────────────────────────────
-echo "[3/6] Creating index stubs..."
+# ── Create meta + index stubs ─────────────────────────────────────────────────
+echo "[3/4] Creating stubs..."
+
 for lang in "${LANG_ARRAY[@]}"; do
     lang=$(echo "$lang" | tr -d ' ')
-    cat > "$VAULT_PATH/index/$lang/index.md" << EOF
+    cat > "$VAULT_DATA_PATH/index/$lang/index.md" << EOF
 # Vault Index — $VAULT_NAME ($lang)
 
 | Topic | Atoms | Summary |
@@ -260,52 +194,63 @@ for lang in "${LANG_ARRAY[@]}"; do
 EOF
 done
 
-# ── Create meta stubs ─────────────────────────────────────────────────────────
-echo "[4/6] Creating meta stubs..."
-cat > "$VAULT_PATH/meta/contradictions.md" << 'EOF'
+cat > "$VAULT_DATA_PATH/meta/contradictions.md" << 'EOF'
 # Contradictions
 
-No contradictions documented yet. Format:
+No contradictions documented yet.
 
+## Format
 ## [topic--atom-A vs topic--atom-B] YYYY-MM-DD
-- **Conflict**: atom-A claims X; atom-B claims Y
-- **Resolution**: primary=atom-A (reason: higher recency score)
+- **Conflict**: ...
+- **Resolution**: primary=atom-A (reason: ...)
 - **Criterion**: temporal_supersession | contextual_scope | confidence_tier
 EOF
 
-touch "$VAULT_PATH/meta/backlinks.md" "$VAULT_PATH/meta/glossary.md"
+touch "$VAULT_DATA_PATH/meta/backlinks.md" "$VAULT_DATA_PATH/meta/glossary.md"
 
-# ── Write agents.md ───────────────────────────────────────────────────────────
-cat > "$VAULT_PATH/agents.md" << EOF
+cat > "$VAULT_DATA_PATH/agents.md" << EOF
 # agents.md — Vault Reference Schema
 
-Vault: $VAULT_NAME | Source: $SOURCE_TYPE ($SOURCE_LANG) | Languages: $ALL_LANGS
+Vault: $VAULT_NAME | Languages: $ALL_LANGS
 
 ## Atom YAML Schema
 
 \`\`\`yaml
-lang: $SOURCE_LANG
+lang: $PRIMARY_LANG
 claim: "Single falsifiable sentence."
 topics: [topic-id]
 confidence: high | medium | low
-source_lang: $SOURCE_LANG
+source_lang: $PRIMARY_LANG
 sources:
   - source_id: ID
     locator: "HH:MM-HH:MM"
-    url: "deep-link-url"
+    url: "https://youtube.com/watch?v=ID&t=N"
     excerpt: "Direct quote."
 conflicts_with: []
 last_verified: YYYY-MM-DD
 \`\`\`
 
 ## Structure
-wiki/{lang}/ — atoms | moc/{lang}/ — maps | index/{lang}/ — tier-0 nav | raw/ — sources | meta/ — shared
+wiki/{lang}/ — atoms | moc/{lang}/ — maps of content | index/{lang}/ — tier-0 nav
+raw/         — immutable source files | meta/ — contradictions, backlinks, glossary
 EOF
 
-# ── Setup .claude ─────────────────────────────────────────────────────────────
-echo "[5/6] Setting up .claude config..."
-CLAUDE_TARGET="$VAULT_PATH/.claude"
-mkdir -p "$CLAUDE_TARGET/hooks" "$CLAUDE_TARGET/queue" "$CLAUDE_TARGET/logs" "$CLAUDE_TARGET/logs/translate-locks" "$CLAUDE_TARGET/logs/refine-locks"
+# ── Git init ──────────────────────────────────────────────────────────────────
+if [[ ! -d "$VAULT_DATA_PATH/.git" ]]; then
+    git -C "$VAULT_DATA_PATH" init -q
+    cat > "$VAULT_DATA_PATH/.gitignore" << 'EOF'
+.obsidian/
+*.log
+.claude/logs/
+EOF
+    git -C "$VAULT_DATA_PATH" add .
+    git -C "$VAULT_DATA_PATH" commit -q -m "init: WikiForge vault $VAULT_NAME"
+fi
+
+# ── Setup .claude in vault ────────────────────────────────────────────────────
+CLAUDE_TARGET="$VAULT_DATA_PATH/.claude"
+mkdir -p "$CLAUDE_TARGET/hooks" "$CLAUDE_TARGET/queue" "$CLAUDE_TARGET/logs" "$CLAUDE_TARGET/logs/translate-locks"
+touch "$CLAUDE_TARGET/queue/pending-atoms.txt"
 
 # Copy hooks from repo
 if [[ -d "$REPO_DIR/.claude/hooks" ]]; then
@@ -319,10 +264,7 @@ cat > "$CLAUDE_TARGET/settings.json" << SETTINGS_EOF
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
-        "hooks": [
-          {"type": "command", "command": "bash $CLAUDE_TARGET/hooks/on-file-write.sh", "timeout": 120},
-          {"type": "command", "command": "bash $CLAUDE_TARGET/hooks/on-config-change.sh", "timeout": 10}
-        ]
+        "hooks": [{"type": "command", "command": "bash $CLAUDE_TARGET/hooks/on-file-write.sh", "timeout": 120}]
       },
       {
         "matcher": "Bash",
@@ -335,58 +277,30 @@ cat > "$CLAUDE_TARGET/settings.json" << SETTINGS_EOF
 }
 SETTINGS_EOF
 
-touch "$CLAUDE_TARGET/queue/pending-atoms.txt"
+echo "[4/4] Done."
 
-# ── Git init ──────────────────────────────────────────────────────────────────
-echo "[6/6] Initializing git..."
-if [[ ! -d "$VAULT_PATH/.git" ]]; then
-    git -C "$VAULT_PATH" init -q
-    cat > "$VAULT_PATH/.gitignore" << 'EOF'
-.obsidian/
-*.log
-.claude/logs/
-EOF
-    git -C "$VAULT_PATH" add vault.yaml index/ meta/ agents.md .gitignore .claude/settings.json
-    git -C "$VAULT_PATH" commit -q -m "init: WikiForge vault $VAULT_NAME"
-fi
-
-# ── Success ───────────────────────────────────────────────────────────────────
+# ── Optional: run ingest ──────────────────────────────────────────────────────
 echo ""
 echo "╔══════════════════════════════════════════╗"
-echo "║     Vault '$VAULT_NAME' ready!           ║"
+echo "║     Vault '$VAULT_NAME' created!         ║"
 echo "╚══════════════════════════════════════════╝"
 echo ""
-echo "  Path: $VAULT_PATH"
-echo ""
-echo "Next steps:"
-echo "  1. Edit $VAULT_PATH/vault.yaml to adjust topics if needed"
-if [[ -n "${SOURCES_FILE:-}" ]]; then
-    echo "  2. Run ingest:  bash scripts/batch-ingest.sh $SOURCES_FILE"
-elif [[ -n "${SOURCES_IDS:-}" ]]; then
-    echo "  2. Run ingest:  bash scripts/batch-ingest.sh <(echo \"${SOURCES_IDS}\" | tr ', ' '\n')"
-else
-    echo "  2. Add sources: bash scripts/batch-ingest.sh <list-file>"
-fi
-echo "  3. Run /ingest-queue when ready to create atoms"
-echo "  4. Run /audit for vault health checks"
+echo "  Config : $CONFIG_FILE"
+echo "  Data   : $VAULT_DATA_PATH"
 echo ""
 
-# ── Optional: launch Claude with initial prompt ───────────────────────────────
-if confirm "Launch Claude to start working with this vault now?" "y"; then
-    FIRST_TASK="source_lang=${SOURCE_LANG}, vault_path=${VAULT_PATH}, source_type=${SOURCE_TYPE}"
-    if [[ -n "${TOPICS_RAW:-}" ]]; then
-        FIRST_TASK="${FIRST_TASK}, topics=${TOPICS_RAW}"
+if [[ -n "$SOURCES_INPUT" ]]; then
+    echo "Sources provided: $SOURCES_INPUT"
+    if confirm "Run ingest now?" "y"; then
+        # Write sources to a temp list file and call batch-ingest.sh
+        TMPLIST=$(mktemp)
+        echo "$SOURCES_INPUT" | tr ',' '\n' | tr -d ' ' | grep -v '^$' > "$TMPLIST"
+        VAULT_NAME="$VAULT_NAME" bash "$SCRIPT_DIR/batch-ingest.sh" "$TMPLIST"
+        rm -f "$TMPLIST"
     fi
-
-    INITIAL_PROMPT="Vault initialized. Configuration: $FIRST_TASK.
-
-What would you like to do?
-- If you have source files ready: /ingest <source_id>
-- If you want to batch ingest: run scripts/batch-ingest.sh first, then /ingest-queue
-- If you want to import existing notes: python3 scripts/migrate-atoms.py --lang $SOURCE_LANG --vault $VAULT_PATH
-- If you just want to explore: /audit"
-
-    export VAULT_PATH
-    cd "$VAULT_PATH"
-    exec claude --print "$INITIAL_PROMPT"
+else
+    echo "Next steps:"
+    echo "  1. Add sources:  bash scripts/batch-ingest.sh <list-file>"
+    echo "  2. Or open Claude and run /init-vault for the guided flow"
+    echo ""
 fi
