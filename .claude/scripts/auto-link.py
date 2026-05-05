@@ -61,29 +61,17 @@ def already_linked(moc_text: str, lang: str, stem: str) -> bool:
 def ensure_moc_stub(moc_path: Path, topic: str, lang: str, vault_path: Path, dry_run: bool) -> bool:
     """Create a fresh MOC file for {topic}/{lang} if missing.
 
-    Returns True if a stub was created (or would be in dry-run), False if the
-    file already existed.
+    Returns True if a stub was created (or would be in dry-run), False if the file already existed.
     """
     if moc_path.exists():
         return False
-    wiki_dir = vault_path / "wiki" / lang
-    count = 0
-    if wiki_dir.exists():
-        topic_pat = re.compile(r"^topics:\s*\[(.+?)\]", re.MULTILINE)
-        for atom in wiki_dir.glob("*.md"):
-            m = topic_pat.search(atom.read_text(errors="replace"))
-            if not m:
-                continue
-            atom_topics = {t.strip() for t in m.group(1).split(",")}
-            if topic in atom_topics:
-                count += 1
-    stub = f"# MOC — {topic} [{lang}]\n\n{count} atoms.\n\n## Auto-linked\n"
+    stub = f"# MOC — {topic} [{lang}]\n\n## Auto-linked\n"
     if dry_run:
         print(f"  [DRY-RUN] Would create MOC stub: {moc_path}")
         return True
     moc_path.parent.mkdir(parents=True, exist_ok=True)
     moc_path.write_text(stub)
-    print(f"  [OK] Created MOC stub: moc/{lang}/{moc_path.name} ({count} atoms)")
+    print(f"  [OK] Created MOC stub: moc/{lang}/{moc_path.name}")
     return True
 
 
