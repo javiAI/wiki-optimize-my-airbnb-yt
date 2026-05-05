@@ -121,7 +121,7 @@ if [[ -z "${VAULT_PATH:-}" && "$_CFG_VAULT_NAME_BAD" -eq 0 ]]; then
                     echo "  - $(basename "$d")"
                 done
                 echo "[wikiforge] Pick one with:  export VAULT_NAME=<name>"
-                echo "[wikiforge] Or set the active default:  echo <name> > .claude/state/active-vault"
+                echo "[wikiforge] Or set the active default:  bash .claude/scripts/set-config.sh active_vault <name>"
             } >&2
         fi
     fi

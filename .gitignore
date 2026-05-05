@@ -14,11 +14,12 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Local state (session-specific)
+# Local state (per-developer, not shared)
+.claude/config/config.yaml    # Contains active_vault, active_lang (local choices)
 .claude/state/queue/
 .claude/state/logs/
-.claude/state/state.yaml
-.claude/state/active-vault
+.claude/state/state.yaml      # Legacy
+.claude/state/active-vault    # Legacy
 
 # Vault bundles (project/user-specific)
 vaults/

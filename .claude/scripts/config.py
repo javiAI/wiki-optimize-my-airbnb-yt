@@ -150,26 +150,35 @@ def read_config(repo_dir: Path) -> dict:
 
 
 def read_state(repo_dir: Path) -> dict:
-    """Alias for read_config() for backwards compatibility."""
+    """DEPRECATED: use read_config() instead. Kept for backwards compatibility."""
     return read_config(repo_dir)
 
 
 def write_config(repo_dir: Path, **updates) -> None:
     """Merge `updates` into config.yaml. Pass None to delete a key.
 
-    Writes minimal YAML by hand (no PyYAML dep).
+    Merges updates into current config while preserving the entire file structure.
+    Uses hand-written YAML only for top-level keys; preserves sections like
+    `retrieval:` and all their nested content exactly as-is.
     """
     p = _config_path(repo_dir)
     p.parent.mkdir(parents=True, exist_ok=True)
+
+    # Read current file as raw text (to preserve formatting and comments)
+    current_text = p.read_text() if p.exists() else ""
+
+    # Also read parsed config to know what keys exist
     current = read_config(repo_dir)
 
-    # Merge updates into current config, preserving retrieval section
+    # Merge updates
     for k, v in updates.items():
         if v is None:
             current.pop(k, None)
         else:
             current[k] = v
 
+    # Rebuild: preserve comments + structure for retrieval section,
+    # but update top-level state keys (active_vault, active_lang)
     lines = [
         "# WikiForge unified configuration",
         "# Holds: vault selection, language, retrieval backend choice, and backend-specific settings",
@@ -177,23 +186,37 @@ def write_config(repo_dir: Path, **updates) -> None:
         "",
     ]
 
-    # Write top-level fields (active_vault, active_lang, retrieval)
+    # Write updated top-level fields
     for k in ["active_vault", "active_lang"]:
         v = current.get(k)
         if v is not None and v != "":
             lines.append(f"{k}: {v}")
 
-    # Write retrieval section if present
-    retrieval = current.get("retrieval")
-    if retrieval:
+    # Preserve retrieval section from current file if it exists,
+    # otherwise write it from parsed config
+    if "retrieval:" in current_text:
+        # Extract and preserve the original retrieval block
         lines.append("")
-        lines.append("# Retrieval backend selection and configuration")
+        lines.append("# === RETRIEVAL BACKEND ===")
+        lines.append("#")
+        lines.append("# Currently implemented: BM25, LLM (as primary backend or fallback)")
+        lines.append("# The fields below are READ and USED by .claude/scripts/retrieve.py")
+        lines.append("#")
         lines.append("retrieval:")
-        if isinstance(retrieval, dict):
-            for rk in ["backend"]:
-                rv = retrieval.get(rk)
-                if rv is not None and rv != "":
-                    lines.append(f"  {rk}: {rv}")
+
+        # Extract retrieval subsection from original text
+        in_retrieval = False
+        for line in current_text.split("\n"):
+            if line.startswith("retrieval:"):
+                in_retrieval = True
+                continue
+            elif in_retrieval:
+                # Stop at next top-level key (no indent)
+                if line and not line[0].isspace() and line.strip():
+                    break
+                # Preserve the line as-is (comments, values, indentation)
+                if line.strip():  # Skip empty lines in middle
+                    lines.append(line)
 
     p.write_text("\n".join(lines) + "\n")
 
@@ -269,7 +292,7 @@ def resolve_query_language(
     query_text: Optional[str] = None,
 ) -> str:
     """Decide which lang to retrieve in. Order: explicit → auto-detect →
-    state.active_lang → enabled[0].
+    config.active_lang → enabled[0].
     """
     if explicit:
         return explicit
@@ -277,8 +300,8 @@ def resolve_query_language(
         detected = detect_language(query_text, enabled)
         if detected:
             return detected
-    state = read_state(repo_dir)
-    cand = state.get("active_lang")
+    config = read_config(repo_dir)
+    cand = config.get("active_lang")
     if cand and cand in enabled:
         return cand
     return enabled[0]
@@ -360,9 +383,9 @@ class VaultConfig:
                             print("Available vaults: " + ", ".join(sorted(avail)), file=sys.stderr)
                     sys.exit(1)
 
-        # state.yaml.active_vault (or legacy active-vault file) → last operated vault.
+        # config.yaml.active_vault (or legacy files) → last operated vault.
         if config_file is None:
-            active = read_state(repo_dir).get("active_vault", "")
+            active = read_config(repo_dir).get("active_vault", "")
             if active:
                 cand = vaults_dir / active / "vault.yml"
                 if cand.exists():
