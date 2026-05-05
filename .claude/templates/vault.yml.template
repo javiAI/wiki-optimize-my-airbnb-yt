@@ -1,0 +1,36 @@
+name: "{{VAULT_NAME}}"
+description: "{{DESCRIPTION}}"
+vault_path: "{{VAULT_PATH}}"
+version: "2.0"
+
+source:
+  type: youtube                  # youtube | pdf | web | file
+  # original_language is auto-detected per-source from yt-dlp metadata.
+  # This field is an OPTIONAL hint for sources that lack such metadata
+  # (e.g. PDFs); leave null to rely on detection + fallback to enabled[0].
+  original_language: null
+
+languages:
+  enabled: [{{ENABLED_LANGS}}]    # all wiki languages — no primary/secondary distinction
+  detect_from_query: true         # routing for queries (unchanged)
+
+topics: []                        # auto-inferred from content; never restrict manually
+
+pipeline:
+  auto_atoms: {{AUTO_ATOMS}}
+  # auto_propagate: when an atom is written in its atomization_lang,
+  # propagate it to every other enabled lang (re-atomize at the same locator
+  # using the target-lang transcript as primary material).
+  auto_propagate: {{AUTO_TRANSLATE}}
+  auto_link: true
+  deep_links: true
+  qa_on_create: true
+  auto_refine: {{AUTO_REFINE}}
+
+qa:
+  completeness: true
+  url_validation: true
+  # anglicism_check applies to every non-canonical lang (i.e. langs reached
+  # via propagation). Listed explicitly here for transparency.
+  anglicism_check: [{{ENABLED_LANGS}}]
+  conflict_check: true

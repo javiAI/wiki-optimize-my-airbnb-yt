@@ -42,7 +42,7 @@ vault/meta/tests/
 
 set -e
 
-VAULT_PATH="${VAULT_PATH:-$(grep VAULT_PATH scripts/config.sh | cut -d= -f2 | tr -d \"')}"
+VAULT_PATH="${VAULT_PATH:-$(source .claude/scripts/config.sh && echo "$VAULT_PATH")}"
 
 echo "🧹 Cleaning test environment..."
 

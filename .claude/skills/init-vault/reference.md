@@ -1,23 +1,31 @@
 # init-vault reference
 
-## vault.yaml full schema
+## vault.yml full schema
+
+Lives at `vaults/{name}/vault.yml` in the repo (per-vault bundle).
 
 ```yaml
-name: "my-vault"               # slug, matches configs/{name}.yaml filename
-vault_path: "~/Dev/obsidian_vaults/my-vault"  # where raw/, wiki/, moc/ live
-version: "1.0"
+name: "my-vault"               # slug, matches the bundle directory: vaults/{name}/
+vault_path: "~/Dev/obsidian_vaults/my-vault"  # where raw/, wiki/, moc/ live (data only)
+version: "2.0"
+
+source:
+  type: youtube
+  original_language: null      # optional hint; per-source native_lang is auto-detected from yt-dlp
 
 languages:
-  enabled: ["en", "es"]        # all output languages
-  primary: "en"                # first language, atoms created here first
-  secondary: ["es"]            # auto-translated from primary if auto_translate: true
+  enabled: ["en", "es"]        # all wiki languages — no primary/secondary distinction.
+                               # atomization_lang is decided per-source: native_lang if in enabled,
+                               # else enabled[0] (single combined translate-and-atomize pass).
   detect_from_query: true      # auto-route queries to correct wiki/{lang}/
 
 topics: []                     # always auto-detected; leave empty
 
 pipeline:
   auto_atoms: true             # create atoms automatically after ingest
-  auto_translate: false        # translate primary atoms to secondary languages
+  auto_propagate: false        # re-atomize each canonical atom into every other enabled lang at the
+                               # same locator using the target-lang transcript (NOT a translation).
+                               # Legacy alias `auto_translate` is still read for backwards compat.
   auto_link: true              # update MOC files after each atom write (via hook)
   deep_links: true             # compute YouTube ?t= URLs at atom creation time
   qa_on_create: true           # run atom-qa.py after each atom write (via hook)
@@ -26,7 +34,7 @@ pipeline:
 qa:
   completeness: true           # require: claim, source, url, last_verified
   url_validation: true         # sources[].url must match ?v=*&t=* format
-  anglicism_check: ["es"]      # check body text for untranslated English terms
+  anglicism_check: []          # langs to check; auto-applied to non-English atoms
   conflict_check: true         # flag atoms that conflict with meta/contradictions.md
 ```
 
@@ -34,16 +42,18 @@ qa:
 
 ```yaml
 ---
-lang: en                       # ISO language code
+lang: en                       # ISO language code of THIS atom file
 claim: "Single falsifiable sentence ending with a period."
 topics: [pricing]              # one or more topic slugs (auto-inferred)
 confidence: high               # high | medium | low
-source_lang: en                # language of original source
+propagated_from: null          # null on canonical atoms; set to source-lang code on propagated atoms
 sources:
   - source_id: Ek8m0ZAhMgA    # YouTube video ID (or PDF name, etc.)
     locator: "03:42-04:15"     # timestamp range in source
     url: "https://youtube.com/watch?v=Ek8m0ZAhMgA&t=222"  # deep link (t=seconds)
-    excerpt: "Direct quote from source."
+    excerpt: "Direct quote from source — verbatim in this atom's language."
+    excerpt_source: native_atomization  # yt_manual | yt_auto | llm_fallback | native_atomization
+    lang_origin: en            # which lang directory holds the canonical atom for this stem
 conflicts_with: []             # list of atom stems that contradict this one
 last_verified: 2026-04-29
 ---
@@ -51,6 +61,15 @@ last_verified: 2026-04-29
 Body text (100–300 words). Written natively in the target language.
 No anglicisms if non-English. No intro fluff. No trailing summary.
 ```
+
+**Field semantics**:
+
+- `excerpt_source`:
+  - `native_atomization` — canonical atom; excerpt lifted verbatim from `raw/{lang}/{video}.md` during ingest-queue.
+  - `yt_manual` — propagated atom; excerpt lifted from creator-authored target-lang subtitles.
+  - `yt_auto` — propagated atom; excerpt lifted from YouTube auto-translated subtitles.
+  - `llm_fallback` — propagated atom; no target-lang transcript available, excerpt synthesized by LLM.
+- `propagated_from`: top-level field present **only** on propagated atoms. Points to the canonical atom's lang.
 
 ## Deep link URL formula
 
@@ -75,26 +94,18 @@ Example: locator "03:42-04:15", source_id "Ek8m0ZAhMgA"
 → Read `moc/{lang}/{topic}.md` for full topic details.
 ```
 
-## .claude/settings.json format
+## Hook wiring
 
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [{"type": "command", "command": "bash {vault_path}/.claude/hooks/on-file-write.sh", "timeout": 120}]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [{"type": "command", "command": "bash {vault_path}/.claude/hooks/on-bash-complete.sh", "timeout": 30}]
-      }
-    ],
-    "Stop": [{"hooks": [{"type": "command", "command": "bash {vault_path}/.claude/hooks/on-session-stop.sh", "timeout": 60}]}],
-    "SessionStart": [{"hooks": [{"type": "command", "command": "bash {vault_path}/.claude/hooks/on-session-start.sh", "timeout": 10}]}]
-  }
-}
-```
+Hooks live in `repo/.claude/hooks/` and are wired by `repo/.claude/settings.json`.
+**Never** place hooks or `settings.json` inside a vault — vaults contain data only.
+Hooks resolve `VAULT_PATH` from the file path being written, so a single hook
+configuration in the repo serves every vault.
+
+Per-vault state (queue, logs, locks) lives at `repo/vaults/{vault-name}/state/`
+alongside the bundle's `vault.yml` and `agents.md`. State is created on demand
+by the hooks. Deleting `vaults/{vault-name}/` removes the entire vault bundle
+from the repo (config + per-vault docs + state); the data directory at
+`vault_path` is deleted separately.
 
 ## Topic slug conventions
 

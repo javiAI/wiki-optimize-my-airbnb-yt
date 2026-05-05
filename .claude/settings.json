@@ -57,7 +57,7 @@
   "_documentation": {
     "purpose": "WikiForge v2 hook-driven pipeline + optimization test workflow notification",
     "wiki_hooks": {
-      "on-file-write.sh": "raw/ writes → queue pending-atoms.txt; wiki/{lang}/ writes → auto-link + qa + optional translate",
+      "on-file-write.sh": "raw/{lang}/ writes → queue pending-atoms.txt; wiki/{lang}/ writes → auto-link + qa + optional auto_propagate (re-atomize at locator into other enabled langs)",
       "on-config-change.sh": "vault.yaml writes → validate config",
       "on-bash-complete.sh": "ingest.sh completion → update pending-atoms queue",
       "on-session-stop.sh": "session end → incremental vault-agent.py audit if files changed",

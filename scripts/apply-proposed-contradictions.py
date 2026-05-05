@@ -3,9 +3,9 @@
 apply-proposed-contradictions.py
 
 Post-test consolidator for O4v2 auto-curation. Reads `proposed_contradictions[]`
-emitted by agents in tests/raw-responses/<LABEL>/run-<N>/Q*.json, dedupes
-against the existing log at $VAULT_PATH/meta/contradictions.md, and appends
-new entries.
+emitted by agents in vaults/{name}/tests/raw-responses/<LABEL>/run-<N>/Q*.json,
+dedupes against the existing log at $VAULT_PATH/meta/contradictions.md, and
+appends new entries.
 
 Default mode is DRY-RUN: prints what would be appended. Pass --apply to write.
 
@@ -31,11 +31,12 @@ from datetime import date
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-RAW_DIR = REPO_ROOT / "tests" / "raw-responses"
-VAULT_PATH = Path(os.environ.get(
-    "VAULT_PATH",
-    "/Users/javierabrilibanez/Dev/obsidian_vaults/optimize-my-airbnb-yt"
-))
+sys.path.insert(0, str(REPO_ROOT / ".claude" / "scripts"))
+from config import VaultConfig  # noqa: E402
+
+_cfg = VaultConfig()
+RAW_DIR = REPO_ROOT / "vaults" / _cfg.name / "tests" / "raw-responses"
+VAULT_PATH = Path(os.environ.get("VAULT_PATH", str(_cfg.vault_path)))
 META_PATH = VAULT_PATH / "meta" / "contradictions.md"
 
 

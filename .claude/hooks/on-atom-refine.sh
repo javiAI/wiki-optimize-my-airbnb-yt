@@ -1,7 +1,7 @@
 #!/bin/bash
 # on-atom-refine.sh — Second-pass atom refinement hook
 #
-# Triggered by on-file-write.sh when pipeline.auto_refine: true in vault.yaml.
+# Triggered by on-file-write.sh when pipeline.auto_refine: true in vault.yml.
 # Runs a focused claude -p pass on a newly created atom to:
 #   1. Remove compound claims (split if needed)
 #   2. Ensure body is query-optimized (answers the claim directly, no filler)
@@ -28,8 +28,11 @@ if [[ ! -f "$ATOM_FILE" ]]; then
     exit 0
 fi
 
-LOG="$VAULT_PATH/.claude/logs/refine.log"
-LOCK="$VAULT_PATH/.claude/logs/refine-locks/${STEM}.${LANG}.lock"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+STATE_DIR="$REPO_DIR/vaults/$(basename "$VAULT_PATH")/state"
+LOG="$STATE_DIR/logs/refine.log"
+LOCK="$STATE_DIR/logs/refine-locks/${STEM}.${LANG}.lock"
 mkdir -p "$(dirname "$LOG")" "$(dirname "$LOCK")"
 
 if [[ -f "$LOCK" ]]; then
@@ -40,9 +43,27 @@ fi
 touch "$LOCK"
 echo "[refine] Starting second-pass refinement: $STEM [$LANG]"
 
+# Determine whether this atom is the canonical (atomization_lang) for its source.
+# If so, after refining we re-propagate (--force) so all enabled langs re-derive
+# from the refined canonical. If not, we skip re-propagation — propagated atoms
+# never become a propagation source.
+IS_CANONICAL=$(python3 -c "
+import sys, re
+sys.path.insert(0, '$REPO_DIR/.claude/scripts')
+from pathlib import Path
+from config import VaultConfig
+cfg = VaultConfig()
+atom = Path('$VAULT_PATH/wiki/$LANG/$STEM.md')
+if not atom.exists():
+    print('false'); sys.exit()
+text = atom.read_text(encoding='utf-8', errors='replace')
+# A propagated atom carries propagated_from; canonical does not.
+if re.search(r'^propagated_from:', text, re.MULTILINE):
+    print('false'); sys.exit()
+print('true')
+" 2>/dev/null || echo "false")
+
 (
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
     cd "$REPO_DIR"
 
     claude -p "Refine the atom at wiki/$LANG/$STEM.md in vault $VAULT_PATH.
@@ -59,8 +80,28 @@ Write the refined version back to the same file. If already optimal, make no cha
         --max-turns 2 \
         >> "$LOG" 2>&1
 
+    REFINE_RC=$?
     rm -f "$LOCK"
-    echo "[refine] Done: $STEM [$LANG]" >> "$LOG"
+    echo "[refine] Done: $STEM [$LANG] (rc=$REFINE_RC)" >> "$LOG"
+
+    # Re-propagate canonical → all other enabled langs (--force overwrites the
+    # stale propagated atoms with re-derivations from the refined canonical).
+    # Guarantees per-lang equivalence after any canonical edit.
+    if [[ "$REFINE_RC" -eq 0 && "$IS_CANONICAL" == "true" ]]; then
+        ENABLED=$(VAULT_NAME="$(basename "$VAULT_PATH")" python3 -c "
+import sys; sys.path.insert(0,'.claude/scripts')
+from config import VaultConfig
+print(' '.join(VaultConfig().enabled_languages))
+" 2>/dev/null || echo "")
+        for TLANG in $ENABLED; do
+            [[ "$TLANG" == "$LANG" ]] && continue
+            echo "[refine] Re-propagating refined canonical: $STEM $LANG → $TLANG" >> "$LOG"
+            VAULT_NAME="$(basename "$VAULT_PATH")" python3 .claude/scripts/propagate_atom.py "$STEM" \
+                --from "$LANG" --to "$TLANG" --force \
+                >> "$LOG" 2>&1 || \
+                echo "[refine] WARN: re-propagate failed: $STEM → $TLANG" >> "$LOG"
+        done
+    fi
 ) &
 
 exit 0

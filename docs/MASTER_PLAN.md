@@ -476,7 +476,7 @@ After 14 batches (100% corpus atomization = 173 videos, 248 atoms), the vault is
 
 ### Item #5: Mandatory lint hook post-batch
 **Scope**: Automate §4.3 (LINT operation)
-**Trigger**: Post `scripts/batch-ingest.sh`, run lint sweep automatically
+**Trigger**: Post `.claude/scripts/batch-ingest.sh`, run lint sweep automatically
 **Coverage**: broken wikilinks, orphans, stale atoms, topic validation
 **Cost**: ~0 tokens (shell-based, not LLM)
 **Status**: Scripted but not integrated as hook yet

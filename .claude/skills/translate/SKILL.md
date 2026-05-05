@@ -1,38 +1,50 @@
 ---
 name: translate
-description: Translate one atom from source language to target language. Writes wiki/{target}/{stem}.md as a native-language rewrite, not a literal translation.
-allowed-tools: Read Write Bash(python3 scripts/atom-qa.py)
+description: Propagate one canonical atom to a target language by re-atomizing at the same locator. NOT a translation — re-synthesizes claim+body from the target-language transcript using the canonical atom only as a semantic anchor for atom identity.
+allowed-tools: Read Write Bash(python3 .claude/scripts/propagate_atom.py) Bash(python3 .claude/scripts/atom-qa.py) Bash(python3 .claude/scripts/extract_excerpt.py)
 ---
 
-# /translate — Native-Language Atom Creation
+# /translate — Atom Propagation (re-atomization at locator)
 
 Usage: `/translate {stem} [from={lang}] [to={lang}]`
 
-Defaults: `from` = source.original_language from vault.yaml, `to` = first secondary language
+Defaults: `from` = the lang of the canonical atom (auto-detected from `wiki/*/{stem}.md`), `to` = next enabled lang.
+
+## Mental model
+
+This is **not** a translation. The canonical atom is the source of truth for atom **identity** only — same locator, same source_id, same topics, same `conflicts_with`, same MOC links. The actual content (`claim`, `body`, `excerpt`) is **re-synthesized** in the target language using the target-language transcript as primary material. The canonical atom is a semantic anchor that tells the LLM which atom to produce, not what words to translate.
+
+A bilingual professional reading the target-language transcript at the locator would produce this atom. That is your stance.
 
 ## Steps
 
-1. Read `wiki/{from}/{stem}.md` — extract frontmatter (claim, topics, confidence, sources, conflicts_with, last_verified)
-2. If `wiki/{to}/{stem}.md` already exists → confirm overwrite with user before proceeding
-3. Write `wiki/{to}/{stem}.md`:
+1. Read `wiki/{from}/{stem}.md` — extract frontmatter (claim, topics, confidence, sources[].source_id/locator/url, conflicts_with, last_verified).
+2. If `wiki/{to}/{stem}.md` already exists → confirm overwrite with the user before proceeding.
+3. For each source in `sources[]`:
+   - Resolve `raw/{to}/{video}.md` (lookup by `source_id` → matches `video_id` field in raw frontmatter).
+   - If found: run `python3 .claude/scripts/extract_excerpt.py --raw-file <path> --locator <loc>` to lift the verbatim target-language quote. Mark `excerpt_source: yt_manual` (manual subs) or `yt_auto` (auto-generated).
+   - If not found: mark `excerpt_source: llm_fallback` and translate the canonical excerpt as part of the same LLM call.
+4. Build the target-language atom:
    - `lang: {to}`
-   - `claim:` — rewrite the claim natively in {to}. Not a word-for-word translation; express the same fact as a fluent native speaker would say it
-   - Same `topics`, `confidence`, `conflicts_with`, `last_verified`
-   - Same `sources` block (source_id, locator, url unchanged — language-neutral), `excerpt` rewritten naturally in {to}
-   - `source_lang: {from}` — document where it came from
-   - Body: write from scratch as a bilingual expert explaining this concept to a native {to} speaker. Do NOT translate the original body — write what a fluent expert would write
-4. Pre-write checklist:
-   - Zero anglicisms (apply substitution table from vault's CLAUDE.md or agents.md)
-   - Proper nouns/tech (PriceLabs, Airbnb, WiFi, etc.) stay untranslated
-   - Body opens with the claim restated in {to}, then supporting detail
-   - No filler phrases ("Como podemos observar", "Es importante destacar")
-5. Run `python3 scripts/atom-qa.py {stem} --lang {to} --vault "$VAULT_PATH"` — report any violations
-6. The PostToolUse(Write) hook fires automatically: auto-link + qa in moc/{to}/
+   - `claim:` re-synthesized in {to} from the target-lang transcript window. Same fact, native phrasing — not a calque of the canonical.
+   - Same `topics`, `confidence`, `conflicts_with`, `last_verified` as canonical.
+   - `propagated_from: {from}` (top-level marker).
+   - For each source: `source_id`, `locator`, `url` copied verbatim; `excerpt` from step 3; `excerpt_source` and `lang_origin: {from}`.
+   - `body:` 80-250 words in {to}, opening with claim restated, drawing vocabulary and idioms from the transcript window — never word-for-word translation of the canonical body.
+5. Apply the anglicism table from `vaults/{vault}/agents.md` / `CLAUDE.md` before writing. Whitelisted terms (PriceLabs, Airbnb, WiFi, etc.) stay.
+6. Write `wiki/{to}/{stem}.md`. The `on-file-write` hook fires automatically (auto-link + qa).
+7. Run `python3 .claude/scripts/atom-qa.py {stem} --lang {to}` — report any violations.
+
+## Automation path
+
+For non-interactive propagation (the on-file-write hook does this) use:
+
+```bash
+VAULT_NAME=<vault> python3 .claude/scripts/propagate_atom.py {stem} --from {from} --to {to}
+```
+
+The script orchestrates excerpt extraction + LLM re-synthesis + atom rendering. The skill version of this flow is for cases where Claude is in a session and wants to inspect the result before writing.
 
 ## Quality standard
 
-Imagine a bilingual consultant who is completely fluent in both languages.
-They do not open a dictionary — they explain the concept naturally in the target language,
-using the vocabulary and register of a native professional.
-The EN excerpt says "Start 30% below market" → the ES body says
-"Arranca un 30% por debajo del mercado" — same meaning, native voice, no calques.
+The target-language atom should read as if a native {to} speaker who watched the {to} subtitle track wrote it from scratch. Vocabulary, idioms, register all native. Numbers and proper nouns identical to canonical. The atom's `claim` is provably the same fact as the canonical's, but two readers — one of each lang — would not call them translations of each other.

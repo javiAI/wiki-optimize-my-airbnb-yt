@@ -2,7 +2,7 @@
 
 **This is the operational protocol for Claude.** Read this before running any test.
 
-**All test artifacts live INSIDE THIS REPO** under `tests/`. The Obsidian vault is read-only context for agents (CLAUDE.md, vault/index.md, vault/notes/, vault/MOC/, vault/sources/). **Agents must NEVER write to the vault.** The orchestrator script enforces this with a hard safety guard (`_ensure_under_tests`).
+**All test artifacts live INSIDE THIS REPO** under `vaults/{name}/tests/` (per-vault bundle). The Obsidian vault is read-only context for agents (CLAUDE.md, vault/index.md, vault/notes/, vault/MOC/, vault/sources/). **Agents must NEVER write to the vault.** The orchestrator script enforces this with a hard safety guard (`_ensure_under_tests`).
 
 **Decision version**: 2.0 — composite cost-quality score + targeted dim analysis + statistical repetition. See "Decision logic" below.
 
@@ -11,11 +11,14 @@
 ## Directory Layout
 
 ```
-tests/
-├── questions.yaml                          # 20 immutable questions (source of truth)
+.claude/templates/tests/
+├── _agent_template.md                  # generic — common preamble for test agents
+├── _evaluator_template.md              # generic — common preamble for evaluator
+└── _refiner_template.md                # generic — refinement pass
+
+vaults/{name}/tests/                    # per-vault bundle
+├── questions.yaml                          # immutable questions (source of truth, vault-specific)
 ├── prompts/
-│   ├── _agent_template.md                  # common preamble for test agents (variables: {qid}, {question}, {output_path}, ...)
-│   ├── _evaluator_template.md              # common preamble for evaluator (variables: {label}, {run}, {response_paths}, ...)
 │   └── <LABEL>/
 │       └── meta.yaml                       # target_dims / at_risk_dims / predicted_deltas (REQUIRED for any new OX)
 ├── raw-responses/
@@ -32,7 +35,7 @@ tests/
 └── history.md                              # append-only timeline
 ```
 
-There is no per-question prompt file under `tests/prompts/<LABEL>/` — those are regenerated per run inside `raw-responses/<LABEL>/run-N/prompts/`. The only persistent per-label file in `tests/prompts/<LABEL>/` is `meta.yaml`.
+There is no per-question prompt file under `vaults/{name}/tests/prompts/<LABEL>/` — those are regenerated per run inside `raw-responses/<LABEL>/run-N/prompts/`. The only persistent per-label file in `vaults/{name}/tests/prompts/<LABEL>/` is `meta.yaml`.
 
 ---
 
@@ -47,7 +50,7 @@ There is no per-question prompt file under `tests/prompts/<LABEL>/` — those ar
 
 ## meta.yaml — required for any new OX
 
-Before launching tests for `<LABEL>`, create `tests/prompts/<LABEL>/meta.yaml`:
+Before launching tests for `<LABEL>`, create `vaults/{name}/tests/prompts/<LABEL>/meta.yaml`:
 
 ```yaml
 label: O4
@@ -92,7 +95,7 @@ allow_repetition: true
 python3 scripts/run-test-suite.py --prepare --label <LABEL> [--run N]
 ```
 
-If `--run` is omitted, the next available run number is used. Output: `tests/raw-responses/<LABEL>/run-N/prompts/Q1.md` … `Q20.md`. Each is composed from `_agent_template.md` + the question text from `questions.yaml`, isolated (vault read-only, no cache, no prior context, exact output path enforced).
+If `--run` is omitted, the next available run number is used. Output: `vaults/{name}/tests/raw-responses/<LABEL>/run-N/prompts/Q1.md` … `Q20.md`. Each is composed from `_agent_template.md` + the question text from `questions.yaml`, isolated (vault read-only, no cache, no prior context, exact output path enforced).
 
 ### Step 2: Execute (20 parallel agents)
 
@@ -103,15 +106,15 @@ For each Q1-Q20:
   Agent({
     subagent_type: "general-purpose",
     description: "Test agent for QN run-N",
-    prompt: <contents of tests/raw-responses/<LABEL>/run-N/prompts/QN.md>
+    prompt: <contents of vaults/{name}/tests/raw-responses/<LABEL>/run-N/prompts/QN.md>
   })
 ```
 
-Each agent reads the vault read-only (CLAUDE.md, index.md, index/, notes/, MOC/, sources/), MUST NOT read `vault/queries/`, MUST NOT have prior context, responds in Spanish per CLAUDE.md §10.7, and saves to `tests/raw-responses/<LABEL>/run-N/QN.json`.
+Each agent reads the vault read-only (CLAUDE.md, index.md, index/, notes/, MOC/, sources/), MUST NOT read `vault/queries/`, MUST NOT have prior context, responds in Spanish per CLAUDE.md §10.7, and saves to `vaults/{name}/tests/raw-responses/<LABEL>/run-N/QN.json`.
 
 ### Step 3: Write tokens manifest
 
-The Agent tool reports `total_tokens`, `tool_uses`, `duration_ms` per agent. Claude writes `tests/raw-responses/<LABEL>/run-N/tokens.json`:
+The Agent tool reports `total_tokens`, `tool_uses`, `duration_ms` per agent. Claude writes `vaults/{name}/tests/raw-responses/<LABEL>/run-N/tokens.json`:
 
 ```json
 {
@@ -128,13 +131,13 @@ The Agent tool reports `total_tokens`, `tool_uses`, `duration_ms` per agent. Cla
 python3 scripts/run-test-suite.py --prepare-evaluator --label <LABEL> [--run N]
 ```
 
-Output: `tests/raw-responses/<LABEL>/run-N/prompts/evaluator.md` — composed from `_evaluator_template.md`. Embeds the rubric and the paths of the 20 response files.
+Output: `vaults/{name}/tests/raw-responses/<LABEL>/run-N/prompts/evaluator.md` — composed from `_evaluator_template.md`. Embeds the rubric and the paths of the 20 response files.
 
 ### Step 5: Execute evaluator (1 Agent call)
 
 Claude launches 1 Agent with the evaluator prompt as input.
 
-The evaluator reads CLAUDE.md (only for §10.7) + the 20 response JSONs, scores each Q1-Q20 on the 5-dim rubric, and writes `tests/raw-responses/<LABEL>/run-N/evaluation.json`.
+The evaluator reads CLAUDE.md (only for §10.7) + the 20 response JSONs, scores each Q1-Q20 on the 5-dim rubric, and writes `vaults/{name}/tests/raw-responses/<LABEL>/run-N/evaluation.json`.
 
 ### Step 6: Consolidate + Compare
 
@@ -143,8 +146,8 @@ python3 scripts/run-test-suite.py --consolidate --label <LABEL>
 python3 scripts/run-test-suite.py --compare --from <PREV_LABEL> --to <LABEL>
 ```
 
-`--consolidate` aggregates **all runs** of the label into `tests/results/<LABEL>.json` (mean + SE per dim, mean + SE for cost).
-`--compare` produces the extended diff at `tests/comparisons/<LABEL>-vs-<PREV>.json`.
+`--consolidate` aggregates **all runs** of the label into `vaults/{name}/tests/results/<LABEL>.json` (mean + SE per dim, mean + SE for cost).
+`--compare` produces the extended diff at `vaults/{name}/tests/comparisons/<LABEL>-vs-<PREV>.json`.
 
 After comparing, check the `repetition_advice` field. If `should_repeat: true` and the run count is below `REP_MAX_RUNS` (default 3):
 
@@ -244,7 +247,7 @@ Max 3 runs per label (`REP_MAX_RUNS`). After 3 runs, decision is final at the cu
 
 ## Comparison file format (v2)
 
-`tests/comparisons/<TO>-vs-<FROM>.json` schema (highlights):
+`vaults/{name}/tests/comparisons/<TO>-vs-<FROM>.json` schema (highlights):
 
 ```json
 {
@@ -284,10 +287,10 @@ The `targeted_analysis` block is the primary thing a human should read: it tells
 
 ## Critical Rules (Never Violate)
 
-1. **Vault is read-only**: agents MUST NOT write under `$VAULT_PATH/`. All writes go to `tests/`. Enforced by `_ensure_under_tests`.
+1. **Vault is read-only**: agents MUST NOT write under `$VAULT_PATH/`. All writes go to `vaults/{name}/tests/`. Enforced by `_ensure_under_tests`.
 2. **No cache access**: agents MUST NOT read `vault/queries/`.
 3. **No prior context**: each Agent is fresh.
-4. **Same questions always**: 20 questions in `tests/questions.yaml` are immutable.
+4. **Same questions always**: 20 questions in `vaults/{name}/tests/questions.yaml` are immutable.
 5. **External evaluator required**: don't accept self-assessment as the quality metric. Always run `--prepare-evaluator` + 1 Agent call.
 6. **Parallel execution**: all 20 test Agent calls in ONE tool_use response.
 7. **meta.yaml required for new OX**: declare `target_dims` / `at_risk_dims` / `predicted_deltas` BEFORE running the test. The A/B/C section in `docs/PHASE_<N>_TASKS.md` and `meta.yaml` must agree.
@@ -301,13 +304,13 @@ The `targeted_analysis` block is the primary thing a human should read: it tells
 ```bash
 # === Run 1 ===
 python3 scripts/run-test-suite.py --prepare --label O4
-# Claude launches 20 parallel Agent calls; each writes to tests/raw-responses/O4/run-1/Q*.json
-# Claude writes tests/raw-responses/O4/run-1/tokens.json
+# Claude launches 20 parallel Agent calls; each writes to vaults/{name}/tests/raw-responses/O4/run-1/Q*.json
+# Claude writes vaults/{name}/tests/raw-responses/O4/run-1/tokens.json
 python3 scripts/run-test-suite.py --prepare-evaluator --label O4
-# Claude launches 1 evaluator Agent; writes tests/raw-responses/O4/run-1/evaluation.json
+# Claude launches 1 evaluator Agent; writes vaults/{name}/tests/raw-responses/O4/run-1/evaluation.json
 python3 scripts/run-test-suite.py --consolidate --label O4
 python3 scripts/run-test-suite.py --compare --from O3 --to O4
-# Read tests/comparisons/O4-vs-O3.json → check repetition_advice
+# Read vaults/{name}/tests/comparisons/O4-vs-O3.json → check repetition_advice
 
 # If should_repeat: true
 python3 scripts/run-test-suite.py --prepare --label O4               # run-2 auto-allocated

@@ -21,11 +21,20 @@ except Exception:
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
+# 1. Prefer deriving from the FILE path itself: {VAULT_PATH}/{wiki|raw}/...
+if [[ "$FILE" == */wiki/*/*.md ]]; then
+    VAULT_PATH="${FILE%/wiki/*}"
+elif [[ "$FILE" == */raw/* ]]; then
+    VAULT_PATH="${FILE%/raw/*}"
+fi
+
+# 2. Fallback to .claude/scripts/config.sh (resolves via VAULT_NAME or single bundle).
+# Quiet mode: this hook fires on ANY Write/Edit, including ones unrelated to a
+# vault. We don't want a loud ambiguity error every time the user edits source
+# code in a 2+ vault repo. Skills that operate on a vault surface the error.
 if [[ -z "${VAULT_PATH:-}" ]]; then
-    CONFIG_SH="$REPO_DIR/scripts/config.sh"
-    if [[ -f "$CONFIG_SH" ]]; then
-        VAULT_PATH=$(grep 'VAULT_PATH=' "$CONFIG_SH" | head -1 | cut -d= -f2- | tr -d '"' | sed "s|\$HOME|$HOME|g" | sed "s|~|$HOME|g")
-    fi
+    # shellcheck disable=SC1091
+    WIKIFORGE_CONFIG_QUIET=1 source "$REPO_DIR/.claude/scripts/config.sh" 2>/dev/null || true
 fi
 
 if [[ -z "${VAULT_PATH:-}" ]]; then
@@ -33,9 +42,14 @@ if [[ -z "${VAULT_PATH:-}" ]]; then
     exit 0
 fi
 
+# Per-vault state dir lives in the vault's bundle: vaults/{name}/state/.
+# Vault data dir is data-only.
+VAULT_NAME_BASENAME="$(basename "$VAULT_PATH")"
+STATE_DIR="$REPO_DIR/vaults/$VAULT_NAME_BASENAME/state"
+
 # ── raw/ write → queue for atom creation ────────────────────────────────────
 if [[ "$FILE" == */raw/* && "$FILE" == *.md ]]; then
-    QUEUE="$VAULT_PATH/.claude/queue/pending-atoms.txt"
+    QUEUE="$STATE_DIR/queue/pending-atoms.txt"
     mkdir -p "$(dirname "$QUEUE")"
     touch "$QUEUE"
     echo "$FILE" >> "$QUEUE"
@@ -57,16 +71,17 @@ if [[ "$FILE" == */wiki/*/*.md ]]; then
     echo "[hook] Atom written: $STEM [$LANG]"
 
     cd "$REPO_DIR"
-    python3 scripts/auto-link.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
+    export VAULT_NAME="$VAULT_NAME_BASENAME"
+    python3 .claude/scripts/auto-link.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
         echo "[hook] WARN: auto-link failed for $STEM [$LANG]" >&2
-    python3 scripts/atom-qa.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
+    python3 .claude/scripts/atom-qa.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
         echo "[hook] WARN: atom-qa failed for $STEM [$LANG]" >&2
 
     # Optional second-pass refinement
     AUTO_REFINE=$(python3 -c "
-import sys; sys.path.insert(0,'scripts')
+import sys; sys.path.insert(0,'.claude/scripts')
 from config import VaultConfig
-c = VaultConfig('$VAULT_PATH')
+c = VaultConfig()
 print(str(c.get('pipeline.auto_refine', False)).lower())
 " 2>/dev/null || echo "false")
 
@@ -74,55 +89,89 @@ print(str(c.get('pipeline.auto_refine', False)).lower())
         bash "$SCRIPT_DIR/on-atom-refine.sh" "$STEM" "$LANG" "$VAULT_PATH" &
     fi
 
-    # Auto-translate primary → secondary if enabled
-    AUTO_TRANSLATE=$(python3 -c "
-import sys; sys.path.insert(0,'scripts')
+    # Auto-propagate canonical atom → other enabled langs (re-atomize at locator
+    # using target-lang transcript). Reads pipeline.auto_propagate (new) with
+    # legacy fallback to pipeline.auto_translate.
+    AUTO_PROPAGATE=$(python3 -c "
+import sys; sys.path.insert(0,'.claude/scripts')
 from config import VaultConfig
-c = VaultConfig('$VAULT_PATH')
-print(str(c.get('pipeline.auto_translate', False)).lower())
+c = VaultConfig()
+v = c.get('pipeline.auto_propagate')
+if v is None:
+    v = c.get('pipeline.auto_translate', False)
+print(str(v).lower())
 " 2>/dev/null || echo "false")
 
-    SOURCE_LANG=$(python3 -c "
-import sys; sys.path.insert(0,'scripts')
+    if [[ "$AUTO_PROPAGATE" == "true" ]]; then
+        # Determine atomization_lang for this atom from its source (raw frontmatter
+        # via video_id lookup). Fallback: assume the lang of the file just written
+        # IS the atomization_lang.
+        ATOMIZATION_LANG=$(python3 -c "
+import sys; sys.path.insert(0,'.claude/scripts')
+from pathlib import Path
+import re
 from config import VaultConfig
-c = VaultConfig('$VAULT_PATH')
-print(c.get('source.original_language', c.primary_language))
+cfg = VaultConfig()
+atom = Path('$FILE')
+text = atom.read_text(encoding='utf-8', errors='replace')
+m = re.search(r'^\s*-\s*source_id:\s*(\S+)', text, re.MULTILINE)
+if not m:
+    print('$LANG')
+    sys.exit()
+sid = m.group(1)
+# Try to find this video in raw/{any-lang}/ to read native_lang
+found = None
+for lang_dir in (cfg.vault_path / 'raw').iterdir() if (cfg.vault_path / 'raw').exists() else []:
+    if not lang_dir.is_dir():
+        continue
+    for raw in lang_dir.glob('*.md'):
+        rt = raw.read_text(encoding='utf-8', errors='replace')
+        if re.search(rf'^video_id:\s*{re.escape(sid)}\s*$', rt, re.MULTILINE):
+            n = re.search(r'^native_lang:\s*(\S+)', rt, re.MULTILINE)
+            if n:
+                found = n.group(1).strip()
+                break
+    if found: break
+if found:
+    print(cfg.atomization_lang_for(found))
+else:
+    print('$LANG')
+" 2>/dev/null || echo "$LANG")
+
+        if [[ "$LANG" == "$ATOMIZATION_LANG" ]]; then
+            LOG="$STATE_DIR/logs/propagate.log"
+            LOCK_DIR="$STATE_DIR/logs/propagate-locks"
+            mkdir -p "$(dirname "$LOG")" "$LOCK_DIR"
+
+            ENABLED=$(python3 -c "
+import sys; sys.path.insert(0,'.claude/scripts')
+from config import VaultConfig
+print(' '.join(VaultConfig().enabled_languages))
 " 2>/dev/null || echo "")
 
-    if [[ "$LANG" == "$SOURCE_LANG" && "$AUTO_TRANSLATE" == "true" ]]; then
-        LOG="$VAULT_PATH/.claude/logs/translate.log"
-        LOCK_DIR="$VAULT_PATH/.claude/logs/translate-locks"
-        mkdir -p "$(dirname "$LOG")" "$LOCK_DIR"
+            for TLANG in $ENABLED; do
+                [[ "$TLANG" == "$LANG" ]] && continue
+                LOCK="$LOCK_DIR/${STEM}.${TLANG}.lock"
+                TARGET="$VAULT_PATH/wiki/$TLANG/$STEM.md"
 
-        SECONDARY_LANGS=$(python3 -c "
-import sys; sys.path.insert(0,'scripts')
-from config import VaultConfig
-c = VaultConfig('$VAULT_PATH')
-print(' '.join(c.secondary_languages))
-" 2>/dev/null || echo "")
+                if [[ -f "$TARGET" ]]; then
+                    continue
+                fi
+                if [[ -f "$LOCK" ]]; then
+                    echo "[hook] Propagation already running: $STEM → $TLANG"
+                    continue
+                fi
 
-        for SLANG in $SECONDARY_LANGS; do
-            LOCK="$LOCK_DIR/${STEM}.${SLANG}.lock"
-            TARGET="$VAULT_PATH/wiki/$SLANG/$STEM.md"
-
-            # Skip if already exists or translation already running
-            if [[ -f "$TARGET" ]]; then
-                continue
-            fi
-            if [[ -f "$LOCK" ]]; then
-                echo "[hook] Translation already running: $STEM → $SLANG"
-                continue
-            fi
-
-            touch "$LOCK"
-            echo "[hook] Triggering translation: $STEM → $SLANG"
-            (
-                claude -p "You are translating a vault atom. Read wiki/$SOURCE_LANG/$STEM.md from $VAULT_PATH. Create wiki/$SLANG/$STEM.md: same frontmatter structure (lang: $SLANG, same source_id/locator/url), body written naturally in $SLANG by a fluent bilingual — not a translation, a native rewrite. Apply anglicism table from vault's agents.md." \
-                    --max-turns 3 \
-                    >> "$LOG" 2>&1
-                rm -f "$LOCK"
-            ) &
-        done
+                touch "$LOCK"
+                echo "[hook] Triggering propagation: $STEM → $TLANG"
+                (
+                    python3 .claude/scripts/propagate_atom.py "$STEM" \
+                        --from "$LANG" --to "$TLANG" \
+                        >> "$LOG" 2>&1 || true
+                    rm -f "$LOCK"
+                ) &
+            done
+        fi
     fi
     exit 0
 fi

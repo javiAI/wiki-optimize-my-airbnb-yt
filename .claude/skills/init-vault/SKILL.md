@@ -1,10 +1,27 @@
 ---
 name: init-vault
-description: Creates a new WikiForge vault from scratch with guided setup, source ingestion, and first atom creation — all in one flow. Use when the user says "create a new vault", "init vault", "initialize a vault", "set up a new knowledge base", "start a new vault", or "/init-vault". Runs the complete pipeline: configuration → ingest → atoms. Only requires user input where decisions are needed; automates everything else.
+description: Creates a new WikiForge vault from scratch with guided setup, source ingestion, and first atom creation — all in one flow. Use when the user says "create a new vault", "init vault", "initialize a vault", "set up a new knowledge base", "start a new vault", or "/init-vault". Runs the complete pipeline: configuration → ingest → atoms. Accepts an optional YAML answers file OR an input directory containing `config.yaml` (+ optional `sources.txt`) as argument to skip the interactive Q&A.
 ---
 
-This skill guides the user through the full vault creation pipeline interactively.
-It replaces the bash wizard entirely when running inside a Claude session.
+## Phase 0 — Choose mode (directory / config-file / interactive)
+
+The user's argument decides:
+
+1. **Directory-mode**. Argument is a directory (e.g. `/init-vault vaults/oma-test-1/`). The script auto-detects `config.yaml` (or `config.yml`) and `sources.txt` inside it. Run:
+
+   ```bash
+   bash .claude/scripts/init-vault.sh <input_dir>
+   ```
+
+   - If the dir is `vaults/{name}/`, its basename becomes the vault slot name (config.yaml's `name:` field is informational and should match).
+   - If `sources.txt` is present, the script runs batch-ingest automatically after bundle creation — **skip Phase 3**, you don't need to write a queue file or invoke ingest separately.
+   - Skip Phase 1 entirely. Confirm the bundle was created and jump to Phase 4 (atoms) if `auto_atoms: true` in config.yaml. (The hook also queues atoms automatically on each ingest, so manually running `/ingest-queue` afterwards is the usual flow.)
+
+2. **Config-file mode**. Argument is a YAML file (e.g. `/init-vault path/to/answers.yml`). Run `init-vault.sh --config <path>`. The script reads every answer from the file; skip Phase 1 and continue with Phase 3 (sources) — no auto-ingest in this mode.
+
+3. **Interactive mode**. No argument. Run **Phase 1** below to collect answers conversationally.
+
+The expected schema is in `.claude/templates/init-answers.yml.example`. Required fields: `name`, `data_path`, `languages`. All others fall back to interactive defaults. If a file is missing fields you'd like the user to confirm (e.g. they didn't list languages), prompt only for those — don't re-ask everything.
 
 ## Phase 1 — Collect configuration
 
@@ -22,11 +39,13 @@ Ask: "Where should the vault data live? (atoms, sources, MOCs)"
 - Accept `~` expansion
 - Tell the user: "This is where Obsidian will open the vault."
 
-**Q3. Output languages**
-Ask: "Which languages should atoms be written in? (comma-separated ISO codes, e.g. `en` or `en,es`)"
+**Q3. Enabled languages**
+Ask: "Which languages should atoms exist in? (comma-separated ISO codes, e.g. `en` or `en,es`)"
 - Default: `en`
-- First code = primary language; others = translations generated automatically
-- If multiple languages: auto_translate will be enabled
+- All languages listed are equal — there is no "primary" / "secondary".
+- Each video's native language is auto-detected per-source from yt-dlp metadata. The atom is created (atomized) in that language, then propagated to every other enabled language by re-atomizing at the same locator using the target-language subtitle (or LLM fallback if YouTube has no subs in that lang).
+- If a video's native lang isn't in this list, the atom is created in the first enabled language directly (single combined translate-and-atomize pass).
+- Order doesn't matter — but the first lang acts as the fallback when native lang isn't enabled.
 
 **Q4. Sources to ingest**
 Ask:
@@ -42,82 +61,51 @@ Leave empty to skip for now (you can add sources later with /ingest).
 ```
 
 **Q5. Pipeline options**
-Ask both as yes/no:
+Ask each as yes/no:
 - "Auto-create atoms after ingest? [Y/n]" → default yes → `auto_atoms: true`
+- (Only if Q3 enabled 2+ languages) "Auto-propagate atoms to other enabled languages? [Y/n]" → default yes → `auto_propagate: true`. Propagation re-atomizes at the same locator using the target-lang subtitle (or LLM fallback if YouTube has no subs in that lang) — not a wholesale translation.
 - "Auto-refine atoms (second quality pass, costs more tokens)? [y/N]" → default no → `auto_refine: false`
 
 ---
 
 ## Phase 2 — Write configuration and create vault structure
 
-After collecting answers, do the following **without asking further questions**:
+After collecting answers, **prefer the deterministic script** to do the structural work — do not recreate this logic by hand. Run:
 
-1. Derive values:
-   - `primary_lang` = first language code from Q3
-   - `extra_langs` = remaining codes (may be empty)
-   - `auto_translate` = true if extra_langs is non-empty, else false
+```bash
+bash .claude/scripts/init-vault.sh
+```
 
-2. Write `configs/{vault-name}.yaml` in this repository using this template:
-   ```yaml
-   name: "{vault-name}"
-   vault_path: "{expanded data path}"
-   version: "1.0"
+…feeding it the answers Q1–Q5. Each terminal `read` prompt maps 1:1 to a question:
+1. Vault name (slug)
+2. Vault data path
+3. Description (short)
+4. Enabled languages (comma-separated, no primary/secondary)
+5. Auto-create atoms? (y/n) — answers Q5a
+6. Auto-propagate atoms across enabled langs? (y/n) — answers Q5b. Only prompted if 2+ languages were given.
+7. Auto-refine atoms? (y/n) — answers Q5c
+8. Final "Create vault?" confirmation — answer y
 
-   languages:
-     enabled: ["{primary}", "{extra1}", ...]
-     primary: "{primary}"
-     secondary: ["{extra1}", ...]
-     detect_from_query: true
+The script:
+- Creates the bundle `vaults/{vault-name}/` in this repo with `vault.yml` (rendered from `.claude/templates/vault.yml.template`), `agents.md` (rendered from `.claude/templates/agents.md.template`), and `state/` for runtime queue/logs.
+- Creates the vault data directory tree at the chosen path with `raw/`, `wiki/{lang}/`, `moc/{lang}/`, `index/{lang}/`, `queries/{lang}/`, `meta/`.
+- Writes data stubs (per-language index, contradictions, backlinks, glossary).
 
-   topics: []
+You do not need to write any of those files directly.
 
-   pipeline:
-     auto_atoms: {true|false}
-     auto_translate: {true|false}
-     auto_link: true
-     deep_links: true
-     qa_on_create: true
-     auto_refine: {true|false}
+**What the script does NOT do** (and you must NOT do either):
+- Copy hooks into the vault — repo's `.claude/hooks/` are the live ones; they derive `VAULT_PATH` from the file path on write, so they work for any vault.
+- Write `.claude/settings.json` inside the vault — repo's settings.json is the only source of hook wiring.
+- Write `agents.md` inside the vault data — per-vault `agents.md` lives in `vaults/{vault-name}/agents.md` (repo).
+- Init git inside the vault — that's the user's call.
 
-   qa:
-     completeness: true
-     url_validation: true
-     anglicism_check: [{extra langs}]
-     conflict_check: true
-   ```
-   See [reference.md](reference.md) for full schema details.
+After the script finishes, show the user the generated `vaults/{name}/vault.yml` and ask:
+**"Here's the config. Edit it in the IDE if you want to adjust anything, then reply 'ready' to continue."**
+Wait for confirmation before proceeding.
 
-3. Create the vault directory structure by running:
-   ```bash
-   bash scripts/init-vault-dirs.sh "{vault-name}"
-   ```
-   If that script does not exist, create these directories manually using the Bash tool:
-   ```
-   {vault_path}/raw/
-   {vault_path}/wiki/{lang}/    (one per enabled language)
-   {vault_path}/moc/{lang}/
-   {vault_path}/index/{lang}/
-   {vault_path}/queries/{lang}/
-   {vault_path}/meta/
-   {vault_path}/.claude/hooks/
-   {vault_path}/.claude/queue/
-   {vault_path}/.claude/logs/
-   ```
+To delete a vault entirely later: `rm -rf vaults/{name}/` removes the bundle from the repo (config + agents + state). The data directory at `vault_path` is deleted separately.
 
-4. Create stub files:
-   - `{vault_path}/index/{lang}/index.md` for each language (see reference.md for format)
-   - `{vault_path}/meta/contradictions.md` (empty stub with format comment)
-   - `{vault_path}/meta/backlinks.md` (empty)
-   - `{vault_path}/meta/glossary.md` (empty)
-   - `{vault_path}/agents.md` with atom schema using the primary language
-
-5. Copy hooks from `.claude/hooks/` in this repo to `{vault_path}/.claude/hooks/`
-
-6. Write `{vault_path}/.claude/settings.json` with hook wiring (see reference.md)
-
-7. Show the user the generated `configs/{name}.yaml` and ask:
-   **"Here's the config. Edit it in the IDE if you want to adjust anything, then reply 'ready' to continue."**
-   Wait for confirmation before proceeding.
+See [reference.md](reference.md) for the full schema.
 
 ---
 
@@ -125,13 +113,14 @@ After collecting answers, do the following **without asking further questions**:
 
 If the user provided sources in Q4:
 
-1. Write the sources to a temp file `{vault_path}/.claude/queue/init-sources.txt`, one per line.
-   - If the user passed a `.txt` file path, use that file directly.
-   - Otherwise write the IDs/URLs they provided.
+1. Write the sources to a temp file at `vaults/{vault-name}/state/queue/init-sources.txt`, one per line.
+   - If the user passed a `.txt` file path, use that file directly (no copy needed).
+   - Otherwise write the IDs/URLs they provided into the queue file above.
+   - **Never** place this file inside the vault data dir.
 
 2. Run ingest:
    ```bash
-   VAULT_NAME="{vault-name}" bash scripts/batch-ingest.sh {vault_path}/.claude/queue/init-sources.txt
+   VAULT_NAME="{vault-name}" bash .claude/scripts/batch-ingest.sh vaults/{vault-name}/state/queue/init-sources.txt
    ```
 
 3. Report progress: show how many ingested OK, skipped, failed.
@@ -139,7 +128,7 @@ If the user provided sources in Q4:
 4. If all failed (e.g. network error), say so and suggest running manually later.
 
 If the user skipped sources, say:
-> "No sources ingested. Add them later with: `bash scripts/batch-ingest.sh <file>`"
+> "No sources ingested. Add them later with: `bash .claude/scripts/batch-ingest.sh <file>`"
 > "Or run `/ingest {video_id}` to add one at a time."
 
 ---
@@ -152,7 +141,7 @@ If `auto_atoms` is true AND at least one source was ingested successfully:
 
 2. List all files in `{vault_path}/raw/` to see what was just ingested.
 
-3. For each ingested source file, extract atomic claims following the atom schema in `agents.md` inside the vault. Rules:
+3. For each ingested source file, extract atomic claims following the atom schema in `vaults/{vault-name}/agents.md` (in this repo). Rules:
    - One claim per file → `wiki/{lang}/{topic}--{slug}.md`
    - Extract 5–15 atoms per source (quality over quantity)
    - Topics are inferred from content — never restrict to a fixed list
@@ -164,7 +153,7 @@ If `auto_atoms` is true AND at least one source was ingested successfully:
 
 5. When all atoms are written, run:
    ```bash
-   VAULT_NAME="{vault-name}" python3 scripts/vault-agent.py --incremental
+   VAULT_NAME="{vault-name}" python3 .claude/scripts/vault-agent.py --incremental
    ```
    to populate MOC files and the index.
 

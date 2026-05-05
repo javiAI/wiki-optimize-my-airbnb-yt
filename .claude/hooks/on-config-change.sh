@@ -1,6 +1,6 @@
 #!/bin/bash
-# on-config-change.sh — PostToolUse(Write) hook for vault.yaml changes
-# Validates vault.yaml parse whenever it is written.
+# on-config-change.sh — PostToolUse(Write) hook for vault.yml changes
+# Validates per-vault config parse whenever vaults/{name}/vault.yml is written.
 
 set -euo pipefail
 
@@ -14,24 +14,19 @@ except Exception:
     print('')
 " 2>/dev/null || true)
 
-[[ "$FILE" != *vault.yaml ]] && exit 0
+# Match vaults/{name}/vault.yml (current convention) or legacy vault.yaml inside a vault dir.
+case "$FILE" in
+    */vaults/*/vault.yml|*/vault.yaml) ;;
+    *) exit 0 ;;
+esac
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-if [[ -z "${VAULT_PATH:-}" ]]; then
-    CONFIG_SH="$REPO_DIR/scripts/config.sh"
-    if [[ -f "$CONFIG_SH" ]]; then
-        VAULT_PATH=$(grep 'VAULT_PATH=' "$CONFIG_SH" | head -1 | cut -d= -f2- | tr -d '"' | sed "s|\$HOME|$HOME|g" | sed "s|~|$HOME|g")
-    fi
-fi
-
-[[ -z "${VAULT_PATH:-}" ]] && exit 0
-
-echo "[hook] vault.yaml changed — validating..."
+echo "[hook] config changed: $(basename "$FILE") — validating..."
 cd "$REPO_DIR"
-python3 scripts/config.py --vault "$VAULT_PATH" --validate 2>&1 && true || {
-    echo "[hook] ERROR: vault.yaml failed to parse — check syntax" >&2
+python3 .claude/scripts/config.py --vault "$FILE" --validate 2>&1 && true || {
+    echo "[hook] ERROR: $(basename "$FILE") failed to parse — check syntax" >&2
     exit 1
 }
 

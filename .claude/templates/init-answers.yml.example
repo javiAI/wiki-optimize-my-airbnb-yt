@@ -1,0 +1,29 @@
+# init-vault.sh non-interactive answers.
+# Pass to the script with:  bash .claude/scripts/init-vault.sh --config path/to/this.yml
+# Any field omitted falls back to the same default the interactive wizard uses.
+
+# REQUIRED — vault slug. Lowercased and spaces converted to hyphens automatically.
+name: my-vault
+
+# REQUIRED — where the vault data lives (raw/, wiki/, moc/, etc.).
+# `~` is expanded; relative paths resolve against the current working dir.
+data_path: ~/Dev/obsidian_vaults/my-vault
+
+# OPTIONAL — shown in vault.yml's `description` field.
+# Default: "Vault for {name}"
+description: Personal knowledge base for short-term rental hosting
+
+# REQUIRED — every language atoms should exist in. List or "en,es" string.
+# No primary/secondary distinction. Each video's native lang is auto-detected;
+# atoms are propagated to every other enabled lang at the same locator.
+languages: [en, es]
+
+# OPTIONAL — pipeline toggles. Defaults match the interactive recommendations.
+auto_atoms: true        # default: true
+auto_propagate: true    # default: true if 2+ langs, else false
+auto_refine: false      # default: false (saves tokens)
+
+# OPTIONAL — write .claude/state/active-vault so subsequent /ingest, /query etc.
+# auto-resolve to this vault without needing $VAULT_NAME in every shell.
+# Default: true. Set false to keep the previous active vault.
+make_active: true

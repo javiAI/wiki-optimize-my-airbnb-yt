@@ -1,3 +1,0 @@
-# Copy to config.sh and set your own VAULT_PATH.
-# scripts/config.sh is gitignored so each machine can point to a different vault.
-export VAULT_PATH="/absolute/path/to/your/obsidian/vault"

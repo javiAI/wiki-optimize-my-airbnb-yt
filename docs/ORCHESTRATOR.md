@@ -293,7 +293,7 @@ CLAUDE logs:
   ❌ O1: Hierarchical Indices failed
   Error: sources/ not found at $VAULT_PATH
   Action: Update CLAUDE.md.O1.status = "blocked"
-  Next: Human investigates, fixes path in scripts/config.sh
+  Next: Human investigates, fixes path in .claude/scripts/config.sh or vaults/{name}/vault.yml
   Resume: ./scripts/update-state.py --resume O1
 ```
 

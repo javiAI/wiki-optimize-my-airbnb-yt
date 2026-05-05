@@ -1,0 +1,27 @@
+# WikiForge vault config — directory-mode answers file.
+#
+# Drop this file (and optionally a sources.txt with one video ID/URL per line)
+# in vaults/{name}/, then run:
+#
+#   bash .claude/scripts/init-vault.sh vaults/oma-test-1/
+#
+# init-vault.sh reads these answers without prompting and runs batch-ingest.sh
+# on sources.txt automatically. The directory's basename is used as the vault
+# slot name (the `name:` field below is informational and must match it).
+
+name: oma-test-1
+data_path: ~/Dev/obsidian_vaults/oma-test-1
+description: Optimize My Airbnb test vault (directory-mode bootstrap demo)
+
+# All atom languages. No primary/secondary distinction — each video's native
+# language is auto-detected; if it's not in this list, atomization falls back
+# to the first language listed.
+languages: [en, es]
+
+# Pipeline toggles.
+auto_atoms: true        # auto-create atoms after each ingest
+auto_propagate: true    # re-atomize at the same locator in every other enabled lang
+auto_refine: false      # second-pass atom QA refine (more tokens; off by default)
+
+# Make this the active vault for the repo (.claude/state/active-vault).
+make_active: true

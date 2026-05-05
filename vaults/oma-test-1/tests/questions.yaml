@@ -1,0 +1,3 @@
+# Per-vault test questions (used by scripts/run-test-suite.py).
+# Add entries with {id, level, question, target_dimensions} once you start testing.
+questions: []

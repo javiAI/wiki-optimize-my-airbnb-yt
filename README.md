@@ -35,16 +35,15 @@ python3 scripts/run-test-suite.py --compare --from <PREV> --to <LABEL>
 # 1. Dependencias (macOS)
 brew install yt-dlp jq              # python3 suele venir instalado
 
-# 2. Configurar ruta de la bóveda
-cp scripts/config.sh.example scripts/config.sh
-$EDITOR scripts/config.sh           # ajustar VAULT_PATH
+# 2. Configurar la bóveda (WikiForge v2)
+#    Crea un bundle en vaults/{name}/ con vault.yml + agents.md
+bash .claude/scripts/init-vault.sh
 
-# 3. Crear esqueleto de la bóveda si no existe
-source scripts/config.sh
-mkdir -p "$VAULT_PATH"/{sources,MOC,notes,queries,meta}
+# 3. Resolver $VAULT_PATH automáticamente desde vaults/{name}/vault.yml
+source .claude/scripts/config.sh    # exporta $VAULT_PATH y $VAULT_NAME
 ```
 
-`scripts/config.sh` está en `.gitignore` → cada máquina apunta a su bóveda.
+Legacy: `.claude/scripts/config.sh` puede leer `VAULT_PATH` de un env var directo si no quieres usar bundles.
 
 ---
 
@@ -54,21 +53,21 @@ mkdir -p "$VAULT_PATH"/{sources,MOC,notes,queries,meta}
 
 **Un solo vídeo**:
 ```bash
-scripts/ingest.sh <video_id_or_url>
-scripts/build-meta.sh                    # regenera meta/videos.md + log + index
+.claude/scripts/ingest.sh <video_id_or_url>
+scripts/build-meta.sh                    # OMA-specific: regenera meta/videos.md + log + index
 ```
 
 **Batch desde un canal**:
 ```bash
 yt-dlp --flat-playlist --print "%(id)s|%(title)s|%(duration)s" \
   "https://www.youtube.com/@<handle>/videos" > /tmp/videos.txt
-scripts/batch-ingest.sh /tmp/videos.txt
+.claude/scripts/batch-ingest.sh /tmp/videos.txt
 scripts/build-meta.sh
 ```
 
 **Re-ingesta forzada** (si mejoran los subtítulos o cambias el formato):
 ```bash
-scripts/ingest.sh --force <video_id>
+.claude/scripts/ingest.sh --force <video_id>
 ```
 
 ### 2. Extraer átomos (guiada por Claude)
@@ -127,17 +126,33 @@ wiki-optimize-my-airbnb-yt/
 │   ├── TEST_PROTOCOL.md       # cómo ejecutar tests (4-step protocol)
 │   ├── TEST_FRAMEWORK.md      # teoría del framework de tests
 │   └── PHASE_{1..4}_{SUMMARY,TASKS}.md
-├── scripts/
-│   ├── config.sh.example      # plantilla
-│   ├── config.sh              # local, gitignored (export VAULT_PATH=...)
-│   ├── ingest.sh              # 1 vídeo → sources/
-│   ├── batch-ingest.sh        # lista → sources/ (con log)
-│   ├── build-meta.sh          # regenera meta/videos.md + log + index
-│   ├── clean_vtt.py           # VTT → markdown con bloques [MM:SS]
-│   ├── extract-meta.py        # frontmatter → fila de tabla
-│   ├── rank-sources.py        # score §10.4 → top-N sources
-│   ├── budget-check.sh        # verifica límites de tokens
-│   └── run-test-suite.py      # orquestador de tests (--prepare/--consolidate/--compare)
+├── .claude/                   # Plugin distribution unit (WikiForge framework)
+│   ├── settings.json          # Hook wiring
+│   ├── hooks/                 # PostToolUse / Stop / SessionStart shell scripts
+│   ├── skills/                # /ingest /qa /audit /translate /query /init-vault
+│   ├── scripts/               # Framework scripts (generic, vault-agnostic)
+│   │   ├── config.sh          # Resolves $VAULT_PATH from VAULT_NAME or single bundle
+│   │   ├── config.py          # Python equivalent — reads vaults/{name}/vault.yml
+│   │   ├── init-vault.sh      # Wizard to bootstrap a new vault bundle
+│   │   ├── ingest.sh          # 1 vídeo → $VAULT_PATH/raw/
+│   │   ├── batch-ingest.sh    # Batch ingest (con log)
+│   │   ├── clean_vtt.py       # VTT → markdown con bloques [MM:SS]
+│   │   ├── deep_link.py       # locator → YouTube ?t= URL
+│   │   ├── atom-qa.py         # Atom QA gate (completeness, urls, anglicisms, acronyms)
+│   │   ├── qa_lexicon.py      # Externalized anglicism/acronym tables
+│   │   ├── auto-link.py       # Insert [[wiki/{lang}/atom]] in MOCs
+│   │   ├── vault-agent.py     # Vault health audit (orphans, stale, gaps)
+│   │   └── retrieve.py        # BM25 retrieval (token-free atom shortlist)
+│   └── templates/             # vault.yml.template, agents.md.template
+├── scripts/                   # OMA-specific (not part of the plugin)
+│   ├── build-meta.sh          # Regenera meta/videos.md + log + index
+│   ├── extract-meta.py        # Frontmatter → fila de tabla
+│   ├── rank-sources.py        # Score §10.4 → top-N sources
+│   ├── apply-proposed-contradictions.py
+│   ├── run-test-suite.py      # 20-agent test orquestador
+│   └── archive/               # Obsolete scripts kept for reference
+├── vaults/                    # Per-vault bundles
+│   └── {name}/                # vault.yml + agents.md + state/
 └── tests/                     # ver sección Tests arriba
 ```
 
@@ -149,7 +164,7 @@ wiki-optimize-my-airbnb-yt/
 
 Cuando el canal publique un vídeo nuevo:
 ```bash
-scripts/ingest.sh <nuevo_video_id>
+.claude/scripts/ingest.sh <nuevo_video_id>
 scripts/build-meta.sh
 ```
 
@@ -161,7 +176,7 @@ Pendiente: añadir flag `--sub-lang es` a `ingest.sh`. Los 5 vídeos sin subs EN
 
 Si el creador activa subs manuales o mejora los auto-captions:
 ```bash
-scripts/ingest.sh --force <video_id>
+.claude/scripts/ingest.sh --force <video_id>
 ```
 Revisar después si los timestamps citados en `notes/` siguen siendo válidos (pueden haberse desplazado).
 
@@ -171,7 +186,7 @@ Revisar después si los timestamps citados en `notes/` siguen siendo válidos (p
 2. Clonar este repo como plantilla (o crear uno nuevo).
 3. **Copiar §0-9 de `CLAUDE.md` tal cual** (kernel reutilizable).
 4. **Reescribir §10** con el dominio nuevo: tipo de fuente, schema YAML, tópicos iniciales, pesos del score, pipeline de ingesta.
-5. Ajustar `config.sh` con el `VAULT_PATH` del nuevo vault.
+5. Ejecutar `bash .claude/scripts/init-vault.sh` para crear el bundle nuevo en `vaults/{nuevo}/`.
 
 Si las fuentes son de otro tipo (papers, artículos, libros), el pipeline de ingesta cambia — pero la estructura L1/L2/L3 y las operaciones Ingest/Query/Lint se mantienen.
 

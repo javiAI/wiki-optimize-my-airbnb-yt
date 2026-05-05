@@ -1,40 +1,84 @@
 ---
 name: ingest-queue
-description: Process all pending sources in the atom-creation queue. Reads pending-atoms.txt and creates wiki/{source_lang}/ atoms for each source.
-allowed-tools: Read Write Bash(python3)
+description: Process all pending sources in the atom-creation queue. Reads pending-atoms.txt and creates atoms in the per-source atomization_lang derived from the raw frontmatter — does NOT translate (propagation hook handles other enabled langs).
+allowed-tools: Read Write Bash(python3 .claude/scripts/resolve-vault.sh)
 ---
 
 Process the pending atom-creation queue.
 
-Steps:
-1. Read `$VAULT_PATH/.claude/queue/pending-atoms.txt`
-2. If empty: report "Queue is empty — nothing to process."
-3. Read `$VAULT_PATH/agents.md` to understand atom schema and source language.
-4. For each source file listed:
-   a. Read the raw source — note the `source_lang` field (or infer from content)
-   b. Extract ALL distinct atomic claims. No artificial limit — a 3-minute video may yield 3 atoms, a 2-hour video may yield 40. Each atom must be:
-      - One falsifiable sentence (no compound claims with "and/y")
-      - Specific enough to contradict (not "pricing matters" but "setting minimum price below 50% of base price degrades algorithm ranking")
-      - Non-redundant: check if a near-identical claim already exists in `wiki/{source_lang}/` before creating
-   c. For each atom, write `wiki/{source_lang}/{topic}--{slug}.md` with full YAML:
-      - `lang: {source_lang}` — always the SOURCE language first (not the query language)
-      - `claim:` (one falsifiable sentence in source_lang)
-      - `topics:` (array matching vault.yaml topic IDs)
-      - `confidence:` high | medium | low (based on how explicitly the source states it)
-      - `source_lang: {source_lang}` — document original language
-      - `sources:` with `source_id`, `locator` (HH:MM-HH:MM), `url` (deep link), `excerpt` (verbatim quote from source)
-      - `conflicts_with: []`
-      - `last_verified:` today's date
-   d. The PostToolUse(Write) hook fires automatically: auto-link + qa + refine (if enabled)
-5. After all atoms written, clear `pending-atoms.txt`
-6. Report: N atoms created across M sources, K duplicates skipped
+## Mental model
 
-**Source language rule**: Atoms are ALWAYS created in the source material's language first.
-If source is in English → `wiki/en/`, if in Spanish → `wiki/es/`.
-Translations are a separate step (auto via hook or manual via /translate).
+Atoms are created **once** per source, in that source's `atomization_lang` (the video's `native_lang` if it appears in `enabled_languages`, otherwise the first enabled lang as fallback). You do **not** translate. Propagation to the other enabled langs is handled by the `on-file-write` hook, which fires `propagate_atom.py` after each atom is written.
 
-**Deep link URL**: `https://youtube.com/watch?v={source_id}&t={seconds}`
-where seconds = minutes×60 + secs of the start timestamp.
+`raw/` is per-language: `$VAULT_PATH/raw/{lang}/{video}.md`. The same source can have an entry per available subtitle language; the **canonical** source for atomization is the one in `native_lang` (or `enabled[0]` if native isn't enabled).
 
-**Deduplication check**: Before creating an atom, scan claims in `wiki/{source_lang}/{topic}--*.md`
-for a claim covering the same specific fact. If found, skip and log "duplicate: {existing_stem}".
+## Steps
+
+0. **Resolve vault (mandatory preamble)**:
+
+   ```bash
+   source .claude/scripts/resolve-vault.sh
+   ```
+
+   Prints `[wikiforge] Using vault: <name> (<path>)` and exports `VAULT_PATH` / `VAULT_NAME`. **If it exits non-zero, STOP** and ask the user which vault's queue to process; never pick silently. Use `$VAULT_NAME` for the queue path in step 1.
+
+1. Read the queue file: `vaults/$VAULT_NAME/state/queue/pending-atoms.txt` (per-vault bundle in this repo, NOT inside `$VAULT_PATH`).
+2. If empty: report "Queue is empty — nothing to process." and exit.
+3. Read `vaults/$VAULT_NAME/agents.md` to understand atom schema and per-vault rules (anglicism whitelist, etc.).
+4. For each raw file path listed in the queue:
+   a. **Read frontmatter** — extract `video_id`, `native_lang`, `language` (subtitle lang of this file), `subtitle_source` (manual|auto).
+   b. **Determine atomization_lang**:
+
+      ```bash
+      python3 -c "
+      import sys; sys.path.insert(0,'.claude/scripts')
+      from config import VaultConfig
+      print(VaultConfig().atomization_lang_for('<native_lang>'))"
+      ```
+
+      The result is the lang you write atoms in. If it differs from this file's `language` field, find the sibling raw file at `$VAULT_PATH/raw/{atomization_lang}/{video}.md` and atomize from that one instead. If no sibling exists in `atomization_lang`, atomize from the file you have but produce atoms **in `atomization_lang`** (single combined translate-and-atomize pass — only happens when native_lang ∉ enabled).
+   c. **Extract atomic claims** — no artificial limit. Each atom must be:
+      - One falsifiable sentence (no compound claims with "and / y").
+      - Specific enough to contradict ("setting minimum price below 50% of base price degrades algorithm ranking", not "pricing matters").
+      - Non-redundant: scan `wiki/{atomization_lang}/{topic}--*.md` for near-identical claims; skip and log `duplicate: {existing_stem}` if found.
+   d. **Write each atom** to `$VAULT_PATH/wiki/{atomization_lang}/{topic}--{slug}.md`:
+
+      ```yaml
+      ---
+      lang: {atomization_lang}
+      claim: <one falsifiable sentence>
+      topics: [...]
+      confidence: high | medium | low
+      conflicts_with: []
+      last_verified: YYYY-MM-DD
+      sources:
+        - source_id: <video_id>
+          locator: HH:MM-HH:MM
+          url: https://youtube.com/watch?v={source_id}&t={seconds}
+          excerpt: "<verbatim quote from raw/{atomization_lang}/{video}.md>"
+          excerpt_source: native_atomization
+          lang_origin: {atomization_lang}
+      ---
+
+      <body 100-300 words in {atomization_lang}>
+      ```
+
+      Note `excerpt_source: native_atomization` for canonical atoms (distinguishes them from propagated atoms that use `yt_manual` / `yt_auto` / `llm_fallback`). No top-level `propagated_from` field — that only appears on propagated atoms.
+   e. The `on-file-write` hook fires automatically per atom and:
+      - Runs `auto-link.py` and `atom-qa.py`.
+      - If `pipeline.auto_propagate: true` and 2+ enabled langs → fires `propagate_atom.py` per other lang in the background. **You do not call it manually.**
+5. After all atoms are written, clear (truncate) `pending-atoms.txt`.
+6. Report: `N atoms created in {atomization_lang} across M sources, K duplicates skipped`.
+
+## Critical rules
+
+- **NEVER translate** in this skill. The atom is born in `atomization_lang` only. Propagation is automatic via hook.
+- **NEVER write atoms in a language other than `atomization_lang`**. The same atom in another lang is created by `propagate_atom.py` later, with its own `propagated_from` marker and excerpt from the target-lang transcript.
+- **Deep link URL**: `https://youtube.com/watch?v={video_id}&t={seconds}` where `seconds = HH·3600 + MM·60 + SS` of the start timestamp in the locator.
+- **Deduplication scope**: only `wiki/{atomization_lang}/`. Don't compare across langs — propagated atoms are by design "duplicate" facts in another language.
+
+## Edge cases
+
+- **native_lang ∉ enabled**: `atomization_lang_for()` returns `enabled[0]`. Atomize from `raw/{native_lang}/{video}.md` and produce `wiki/{enabled[0]}/...` atoms — a single combined translate-and-atomize pass. Mark `excerpt_source: llm_fallback` (the excerpt was synthesized into the target lang, not lifted verbatim).
+- **Subtitle missing for atomization_lang**: should not happen if ingest succeeded for native_lang, but if the canonical raw file is missing, fall back to any available raw/{lang}/ for that video and proceed; flag in QA.
+- **Hook skipped**: if `auto_atoms: false` or processing offline, run `python3 .claude/scripts/auto-link.py {stem} --lang {atomization_lang}` and `python3 .claude/scripts/atom-qa.py {stem} --lang {atomization_lang}` manually after writing.

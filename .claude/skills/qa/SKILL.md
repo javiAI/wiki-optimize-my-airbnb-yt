@@ -1,7 +1,7 @@
 ---
 name: qa
 description: Atom-level content QA. Checks completeness, URL format, anglicisms, and conflicts. Use /audit for vault-level structural checks.
-allowed-tools: Bash(python3 scripts/atom-qa.py)
+allowed-tools: Bash(python3 .claude/scripts/atom-qa.py .claude/scripts/resolve-vault.sh)
 ---
 
 # /qa — Atom Content QA
@@ -20,7 +20,15 @@ Scope: **atom content**, not vault structure. See /audit for structural checks (
 
 ## Steps
 
-1. Run `python3 scripts/atom-qa.py {args} --vault "$VAULT_PATH"`
+0. **Resolve vault (mandatory preamble)**:
+
+   ```bash
+   source .claude/scripts/resolve-vault.sh
+   ```
+
+   Prints `[wikiforge] Using vault: <name> (<path>)`. **If it exits non-zero, STOP** and ask the user which vault to QA; never pick silently.
+
+1. Run `python3 .claude/scripts/atom-qa.py {args} --vault "$VAULT_PATH"`
 2. Report results:
    - **CRITICAL** (pipeline-blocking): missing claim, no sources → must fix before atom is usable
    - **WARNING** (non-blocking): missing url, anglicism, invalid url format → fix when convenient

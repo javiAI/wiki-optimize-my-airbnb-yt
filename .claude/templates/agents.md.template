@@ -1,0 +1,88 @@
+# {{VAULT_NAME}} — agents.md
+
+Per-vault reference for agents. Read alongside `vault.yml` (same folder).
+The vault's data directory is at `{{VAULT_PATH}}` and contains data only —
+no hooks, no settings.json, no queues. All runtime state lives at
+`vaults/{{VAULT_NAME}}/state/` in this repo.
+
+## Languages
+
+- Enabled: {{ENABLED_LANGS}}
+- Atomization is per-source: each video's native language (from yt-dlp metadata) decides the canonical lang. If that lang isn't in `enabled`, the first enabled lang acts as fallback.
+- Propagation: when a canonical atom is written, the hook re-atomizes it at the same locator in every other enabled lang (using the target-lang transcript as primary material when available, LLM fallback otherwise).
+
+## Vault data layout
+
+```
+{{VAULT_PATH}}/
+  raw/                           # Immutable source transcripts
+    YYYY-MM-DD--{slug}.md
+  wiki/{lang}/                   # Monolingual atoms — primary truth
+    {topic}--{slug}.md
+  moc/{lang}/                    # Maps of Content per topic
+    {topic}.md
+  index/{lang}/
+    index.md                     # Tier-0 compact nav (≤150 tokens)
+  queries/{lang}/                # Cached query responses
+    {topic}--{question}.md
+  meta/
+    contradictions.md
+    backlinks.md
+    glossary.md
+    qa-reports/{stem}.{lang}.json
+    agent-reports/agent-report-YYYY-MM-DD.md
+```
+
+## Atom YAML schema
+
+```yaml
+---
+lang: <atomization_lang>          # this atom's lang (one of `enabled`)
+claim: "Single falsifiable sentence."
+topics: [topic-id]
+confidence: high | medium | low
+propagated_from: <lang>           # only on propagated atoms; omit on canonical
+sources:
+  - source_id: VIDEO_ID
+    locator: "HH:MM-HH:MM"
+    url: "https://youtube.com/watch?v=VIDEO_ID&t=SECONDS"
+    excerpt: "Direct quote from source — verbatim from raw/<lang>/."
+    excerpt_source: native_atomization | yt_manual | yt_auto | llm_fallback
+    lang_origin: <lang>           # lang of the canonical atom
+    views: 123456                 # optional, for source priority
+    published: YYYY-MM-DD         # optional, for recency scoring
+conflicts_with: []
+last_verified: YYYY-MM-DD
+---
+
+Body: 100–300 words, written natively in this atom's `lang`. No anglicisms if non-English.
+No intro fluff, no trailing summaries.
+```
+
+## Naming
+
+- Atoms: `{topic}--{slug}.md` (lowercase, hyphens)
+- Sources (raw): `YYYY-MM-DD--{slug}.md`
+- Queries: `{topic}--{question-slug}.md`
+
+## Deep link URL formula
+
+```
+locator = "MM:SS-MM:SS"  →  start = first part  →  seconds = M*60 + S
+url = "https://youtube.com/watch?v={source_id}&t={seconds}"
+```
+
+Computed once at atom-creation time, stored in `sources[].url`. Same URL across language versions.
+
+## Source priority score
+
+```
+score = 0.40·recency + 0.30·views_normalized + 0.20·specificity + 0.10·authority
+```
+
+When two atoms conflict, the one with higher score is primary. Documented conflicts live in `meta/contradictions.md`.
+
+## Topics
+
+Auto-inferred from content during ingest. Never restricted to a fixed list.
+Slugs: lowercase, hyphens, no spaces.

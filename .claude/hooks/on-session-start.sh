@@ -7,16 +7,30 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-if [[ -z "${VAULT_PATH:-}" ]]; then
-    CONFIG_SH="$REPO_DIR/scripts/config.sh"
-    if [[ -f "$CONFIG_SH" ]]; then
-        VAULT_PATH=$(grep 'VAULT_PATH=' "$CONFIG_SH" | head -1 | cut -d= -f2- | tr -d '"' | sed "s|\$HOME|$HOME|g" | sed "s|~|$HOME|g")
+# Bash 3.2 portability check — fail loud if forbidden idioms slip into shell
+# scripts (we've regressed on `declare -A` once already).
+LINTER="$REPO_DIR/.claude/scripts/lint-bash-portability.sh"
+if [[ -x "$LINTER" ]]; then
+    if ! LINT_OUT=$(bash "$LINTER" 2>&1); then
+        echo "[WikiForge] bash portability regression detected:"
+        echo "$LINT_OUT" | sed 's/^/  /'
     fi
+fi
+
+if [[ -z "${VAULT_PATH:-}" ]]; then
+    # Quiet mode: SessionStart fires on every Claude Code launch. If the user
+    # has 2+ vaults and hasn't picked one yet, we don't want a loud error at
+    # startup — they may not be operating on a vault at all this session.
+    # Skills that actually touch the vault (/query, /ingest, etc.) re-source
+    # config.sh without WIKIFORGE_CONFIG_QUIET and surface the ambiguity then.
+    # shellcheck disable=SC1091
+    WIKIFORGE_CONFIG_QUIET=1 source "$REPO_DIR/.claude/scripts/config.sh" 2>/dev/null || true
 fi
 
 [[ -z "${VAULT_PATH:-}" ]] && exit 0
 
-QUEUE="$VAULT_PATH/.claude/queue/pending-atoms.txt"
+STATE_DIR="$REPO_DIR/vaults/$(basename "$VAULT_PATH")/state"
+QUEUE="$STATE_DIR/queue/pending-atoms.txt"
 
 if [[ -f "$QUEUE" && -s "$QUEUE" ]]; then
     # Count only lines that still point to existing files

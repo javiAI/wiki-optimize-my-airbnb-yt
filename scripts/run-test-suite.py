@@ -3,18 +3,18 @@
 Test Suite Orchestrator (multi-run + composite + targeted analysis)
 
 Runs the 6-step protocol per docs/TEST_PROTOCOL.md, with:
-- Per-run isolation under tests/raw-responses/<LABEL>/run-N/
-- Common prompt templates at tests/prompts/_agent_template.md and
+- Per-run isolation under vaults/{name}/tests/raw-responses/<LABEL>/run-N/
+- Common prompt templates at .claude/templates/tests/_agent_template.md and
   _evaluator_template.md (no per-question prompt duplication)
-- Per-label metadata at tests/prompts/<LABEL>/meta.yaml declaring
+- Per-label metadata at vaults/{name}/tests/prompts/<LABEL>/meta.yaml declaring
   target_dims / at_risk_dims / predicted_deltas
 - Composite cost-quality decision metric (alpha-weighted)
 - Hard floors that override composite (REVERT immediately)
 - Statistical aggregation across runs (mean + standard error)
 - Repetition trigger when deltas are within noise threshold
 
-ALL test artifacts live INSIDE THIS REPO under tests/. The Obsidian vault is
-read-only context for agents; agents NEVER write to the vault.
+ALL test artifacts live INSIDE THIS REPO under vaults/{name}/tests/. The Obsidian
+vault is read-only context for agents; agents NEVER write to the vault.
 
 Usage:
   # Prepare run N for a label (composes prompts from templates + questions.yaml)
@@ -46,22 +46,26 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-TESTS_DIR = REPO_ROOT / "tests"
+sys.path.insert(0, str(REPO_ROOT / ".claude" / "scripts"))
+from config import VaultConfig  # noqa: E402
+
+_cfg = VaultConfig()
+
+TESTS_DIR = REPO_ROOT / "vaults" / _cfg.name / "tests"
 PROMPTS_DIR = TESTS_DIR / "prompts"
 RAW_DIR = TESTS_DIR / "raw-responses"
 RESULTS_DIR = TESTS_DIR / "results"
 COMPARISONS_DIR = TESTS_DIR / "comparisons"
 QUESTIONS_FILE = TESTS_DIR / "questions.yaml"
-AGENT_TEMPLATE_FILE = PROMPTS_DIR / "_agent_template.md"
-EVALUATOR_TEMPLATE_FILE = PROMPTS_DIR / "_evaluator_template.md"
-REFINER_TEMPLATE_FILE = PROMPTS_DIR / "_refiner_template.md"
+
+TEMPLATES_DIR = REPO_ROOT / ".claude" / "templates" / "tests"
+AGENT_TEMPLATE_FILE = TEMPLATES_DIR / "_agent_template.md"
+EVALUATOR_TEMPLATE_FILE = TEMPLATES_DIR / "_evaluator_template.md"
+REFINER_TEMPLATE_FILE = TEMPLATES_DIR / "_refiner_template.md"
 
 REFINE_DIM_THRESHOLD = 7   # any rubric dim score < this triggers refinement
 
-VAULT_PATH = os.environ.get(
-    "VAULT_PATH",
-    "/Users/javierabrilibanez/Dev/obsidian_vaults/optimize-my-airbnb-yt"
-)
+VAULT_PATH = os.environ.get("VAULT_PATH", str(_cfg.vault_path))
 
 OUTPUT_TOKEN_WEIGHT = 6
 SPANISH_CHARS_PER_TOKEN = 4.0

@@ -5,8 +5,8 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${REPO_ROOT}/scripts/config.sh"
-VAULT="${VAULT_PATH:?VAULT_PATH not set — see scripts/config.sh.example}"
+source "${REPO_ROOT}/.claude/scripts/config.sh"
+VAULT="${VAULT_PATH:?VAULT_PATH not set — see .claude/scripts/config.sh}"
 SOURCES="${VAULT}/raw"
 VIDEOS_MD="${VAULT}/meta/videos.md"
 LOG_MD="${VAULT}/log.md"
