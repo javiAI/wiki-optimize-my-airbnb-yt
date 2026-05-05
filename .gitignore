@@ -1,81 +1,28 @@
-# Environment
-.env
-.env.local
-*.pem
-*.key
-
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+
+# OS
 .DS_Store
+Thumbs.db
 
-# Python
+# Python cache
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-.pytest_cache/
-
-# Node (if used)
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# Temporary files
-*.tmp
-*.bak
-*.swp
-*~
-
-# Logs
-*.log
-logs/
+*.pyc
+*.pyo
 
 # Local state (session-specific)
 .claude/state/queue/
 .claude/state/logs/
-.claude/state/state.yaml      # legacy (superseded by .claude/config/config.yaml)
-.claude/state/active-vault    # legacy
+.claude/state/state.yaml
+.claude/state/active-vault
 
-# Vault bundles (project/user-specific, each creates their own)
+# Vault bundles (project/user-specific)
 vaults/
 
-# Embeddings cache (regenerated as needed)
-*.faiss
-*.pkl
-embeddings_cache/
-
-# Test outputs
-test_output/
-test_results/
-
-# OS
-Thumbs.db
-.DS_Store
-
-# Sensitive
-credentials.json
-secrets.yaml
-*_credentials*
+# Secrets
+.env
+.env.local
