@@ -56,9 +56,10 @@ logs/
 # Local state (session-specific)
 .claude/state/queue/
 .claude/state/logs/
-
-# Vault data (external, only version vault config)
 .claude/state/state.yaml
+
+# Vault bundles (project/user-specific, each creates their own)
+vaults/
 
 # Embeddings cache (regenerated as needed)
 *.faiss
