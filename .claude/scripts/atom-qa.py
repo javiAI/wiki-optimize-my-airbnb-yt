@@ -214,7 +214,7 @@ def apply_acronym_fixes(body: str, violations: list[dict]) -> str:
 
 def _inject_missing_urls(text: str, source_type: str = "youtube") -> tuple[str, int]:
     """For each source in frontmatter without a url, compute one from source_id+locator."""
-    from deep_link import locator_to_url
+    from deep_link import inject_urls_into_frontmatter
 
     if not text.startswith("---"):
         return text, 0
@@ -224,37 +224,10 @@ def _inject_missing_urls(text: str, source_type: str = "youtube") -> tuple[str, 
 
     frontmatter = text[3:end]
     body = text[end + 3:]
-    new_frontmatter = frontmatter
-    fixes = 0
-
-    source_blocks = re.findall(
-        r'(  - source_id: (\S+)\n(?:    \w+: [^\n]+\n)*)',
-        frontmatter,
-        re.MULTILINE,
-    )
-
-    for block, source_id in source_blocks:
-        if re.search(r'^    url:', block, re.MULTILINE):
-            continue
-        loc_m = re.search(r'    locator: "?([^"\n]+?)"?\n', block)
-        if not loc_m:
-            continue
-        locator = loc_m.group(1).strip()
-        url = locator_to_url(source_id, locator, source_type)
-        if not url:
-            continue
-        new_block = re.sub(
-            r'(    locator: [^\n]+\n)',
-            f'    locator: "{locator}"\n    url: "{url}"\n',
-            block,
-            count=1,
-        )
-        new_frontmatter = new_frontmatter.replace(block, new_block)
-        fixes += 1
-
-    if fixes == 0:
+    new_frontmatter, urls_added = inject_urls_into_frontmatter(frontmatter, source_type)
+    if not urls_added:
         return text, 0
-    return f"---{new_frontmatter}---{body}", fixes
+    return f"---{new_frontmatter}---{body}", len(urls_added)
 
 
 def check_conflicts(stem: str, fm: dict, meta_dir: Path) -> list[dict]:
