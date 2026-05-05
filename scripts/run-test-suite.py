@@ -49,14 +49,15 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / ".claude" / "scripts"))
 from config import VaultConfig  # noqa: E402
 
-_cfg = VaultConfig()
-
-TESTS_DIR = REPO_ROOT / "vaults" / _cfg.name / "tests"
-PROMPTS_DIR = TESTS_DIR / "prompts"
-RAW_DIR = TESTS_DIR / "raw-responses"
-RESULTS_DIR = TESTS_DIR / "results"
-COMPARISONS_DIR = TESTS_DIR / "comparisons"
-QUESTIONS_FILE = TESTS_DIR / "questions.yaml"
+# Lazy-initialized directory structure (resolved after VaultConfig())
+_cfg: VaultConfig = None
+TESTS_DIR: Path = None
+PROMPTS_DIR: Path = None
+RAW_DIR: Path = None
+RESULTS_DIR: Path = None
+COMPARISONS_DIR: Path = None
+QUESTIONS_FILE: Path = None
+VAULT_PATH: str = None
 
 TEMPLATES_DIR = REPO_ROOT / ".claude" / "templates" / "tests"
 AGENT_TEMPLATE_FILE = TEMPLATES_DIR / "_agent_template.md"
@@ -65,7 +66,21 @@ REFINER_TEMPLATE_FILE = TEMPLATES_DIR / "_refiner_template.md"
 
 REFINE_DIM_THRESHOLD = 7   # any rubric dim score < this triggers refinement
 
-VAULT_PATH = os.environ.get("VAULT_PATH", str(_cfg.vault_path))
+
+def _init_vault_config(vault_arg: str = None):
+    """Initialize VaultConfig and set up directory paths. Call this once from main()."""
+    global _cfg, TESTS_DIR, PROMPTS_DIR, RAW_DIR, RESULTS_DIR, COMPARISONS_DIR
+    global QUESTIONS_FILE, VAULT_PATH
+
+    _cfg = VaultConfig(vault_arg or None)
+
+    TESTS_DIR = REPO_ROOT / "vaults" / _cfg.name / "tests"
+    PROMPTS_DIR = TESTS_DIR / "prompts"
+    RAW_DIR = TESTS_DIR / "raw-responses"
+    RESULTS_DIR = TESTS_DIR / "results"
+    COMPARISONS_DIR = TESTS_DIR / "comparisons"
+    QUESTIONS_FILE = TESTS_DIR / "questions.yaml"
+    VAULT_PATH = os.environ.get("VAULT_PATH", str(_cfg.vault_path))
 
 OUTPUT_TOKEN_WEIGHT = 6
 SPANISH_CHARS_PER_TOKEN = 4.0
@@ -968,6 +983,8 @@ def check_repetition(from_label, to_label):
 
 def main():
     parser = argparse.ArgumentParser(description="Test Suite Orchestrator (multi-run + composite)")
+    parser.add_argument("--vault", dest="vault", default=None,
+                        help="Vault name or path (default: use config.yaml.active_vault or single bundle)")
     parser.add_argument("--prepare", action="store_true")
     parser.add_argument("--prepare-evaluator", action="store_true", dest="prepare_evaluator")
     parser.add_argument("--refine", action="store_true",
@@ -983,6 +1000,9 @@ def main():
     parser.add_argument("--from", dest="from_label")
     parser.add_argument("--to", dest="to_label")
     args = parser.parse_args()
+
+    # Initialize vault config after argparse so --vault flag is honored
+    _init_vault_config(args.vault)
 
     if args.prepare:
         if not args.label:
