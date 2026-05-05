@@ -34,6 +34,10 @@ CONTRADICTIONS_HEADER_RE = re.compile(r"^## \[", re.MULTILINE)
 
 
 def load_atoms(vault_path: Path, lang: str) -> dict:
+    """Read every atom in wiki/{lang}/ once, capturing topics, last_verified,
+    and the set of outbound wikilinks. Downstream checks reuse these without
+    re-reading the file.
+    """
     wiki_dir = vault_path / "wiki" / lang
     if not wiki_dir.exists():
         return {}
@@ -49,7 +53,17 @@ def load_atoms(vault_path: Path, lang: str) -> dict:
                 last_verified = date.fromisoformat(m_lv.group(1))
             except ValueError:
                 pass
-        atoms[p.stem] = {"topics": topics, "last_verified": last_verified, "path": p}
+        outbound = {
+            m.group(2)
+            for m in WIKILINK_RE.finditer(text)
+            if m.group(1) == lang and m.group(2) != p.stem
+        }
+        atoms[p.stem] = {
+            "topics": topics,
+            "last_verified": last_verified,
+            "path": p,
+            "outbound": outbound,
+        }
     return atoms
 
 
@@ -70,21 +84,15 @@ def check_orphans(atoms: dict, moc_citations: set) -> list:
     return [stem for stem in atoms if stem not in moc_citations]
 
 
-def load_atom_citations(vault_path: Path, lang: str) -> dict:
-    """Map stem → set of stems that link TO it from atom bodies (inbound atom-links).
+def derive_atom_inbound(atoms: dict) -> dict:
+    """Inbound atom-links per stem, derived from cached `outbound` sets in atoms.
 
-    Counts any `[[wiki/{lang}/peer]]` reference inside any other atom's file as
-    an inbound link, including Related sections written by auto-link.py.
+    No I/O — uses the wikilinks already extracted by `load_atoms`.
     """
     inbound: dict = {}
-    wiki_dir = vault_path / "wiki" / lang
-    if not wiki_dir.exists():
-        return inbound
-    for p in sorted(wiki_dir.glob("*.md")):
-        text = p.read_text(errors="replace")
-        for m in WIKILINK_RE.finditer(text):
-            if m.group(1) == lang and m.group(2) != p.stem:
-                inbound.setdefault(m.group(2), set()).add(p.stem)
+    for stem, info in atoms.items():
+        for peer in info.get("outbound", ()):
+            inbound.setdefault(peer, set()).add(stem)
     return inbound
 
 
@@ -114,17 +122,8 @@ def check_missing_cross_refs(vault_path: Path, lang: str, atoms: dict) -> list:
         return []
     index = VaultIndex(vault_path, lang)
 
-    outbound: dict = {}
-    for stem, info in atoms.items():
-        text = info["path"].read_text(errors="replace")
-        outs = set()
-        for m in WIKILINK_RE.finditer(text):
-            if m.group(1) == lang:
-                outs.add(m.group(2))
-        outbound[stem] = outs
-
     missing: list = []
-    for stem in atoms:
+    for stem, info in atoms.items():
         atom_obj = index.atoms.get(stem) or {}
         claim = (atom_obj.get("fm") or {}).get("claim", "")
         topics_q = " ".join(atom_obj.get("topics", []))
@@ -136,10 +135,11 @@ def check_missing_cross_refs(vault_path: Path, lang: str, atoms: dict) -> list:
             continue
         top_score = ranked[0][0]
         threshold = top_score * _CROSSREF_MIN_RATIO
+        outbound = info.get("outbound", set())
         for score, peer in ranked[:_CROSSREF_TOP_K]:
             if score < threshold:
                 break
-            if peer not in outbound.get(stem, set()):
+            if peer not in outbound:
                 missing.append((stem, peer, round(score, 2)))
     return missing
 
@@ -327,7 +327,7 @@ def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = Non
                 if info["path"].stat().st_mtime >= since.toordinal() * 86400
             }
         moc_citations = load_moc_citations(vault_path, lang)
-        atom_inbound = load_atom_citations(vault_path, lang)
+        atom_inbound = derive_atom_inbound(atoms)
         orphans = check_orphans(atoms, moc_citations)
         atom_orphans = check_atom_orphans(atoms, atom_inbound)
         stale = check_stale(atoms, stale_days)
