@@ -44,12 +44,18 @@ def _load_yaml_from_text(text: str) -> dict:
 def _parse_yaml_lines(lines) -> dict:
     """Shared YAML parser: operates on an iterable of lines (file or text.split()).
 
-    Handles: key: value, nested dicts, inline lists [item1, item2], booleans.
-    Does NOT handle: nested expanded lists (- item), anchors, aliases.
+    Handles: key: value, nested dicts, inline lists [item1, item2], booleans,
+    expanded lists (- item).
+    Does NOT handle: anchors, aliases, multi-line literals.
     """
     import re
-    result = {}
+    result: dict = {}
+    # Stack tracks the open container at each indent level. For each entry we
+    # also remember the (parent, key) the container is bound to, so we can
+    # swap a placeholder dict for a list when the next line turns out to be
+    # an expanded list item.
     stack = [result]
+    parent_refs: list = [None]  # parallel to stack: (parent, key) or None
     indent_stack = [-1]
 
     for line in lines:
@@ -59,9 +65,22 @@ def _parse_yaml_lines(lines) -> dict:
         indent = len(stripped) - len(stripped.lstrip())
         content = stripped.strip()
 
+        # Pop stack to current indent level (applies to both keys and list items)
+        while indent <= indent_stack[-1]:
+            stack.pop()
+            parent_refs.pop()
+            indent_stack.pop()
+
         if content.startswith("- "):
-            # List item (only valid inside a list that's already on stack)
             parent = stack[-1]
+            # If parent is an empty dict that was bound by a previous "key:"
+            # with no inline value, retroactively convert it to a list.
+            if isinstance(parent, dict) and not parent and parent_refs[-1] is not None:
+                grand, key = parent_refs[-1]
+                new_list: list = []
+                grand[key] = new_list
+                stack[-1] = new_list
+                parent = new_list
             if isinstance(parent, list):
                 item = content[2:].strip()
                 m = re.match(r'^\{(.+)\}$', item)
@@ -78,21 +97,17 @@ def _parse_yaml_lines(lines) -> dict:
             key = key.strip()
             val = val.strip()
 
-            # Pop stack to current indent level
-            while indent <= indent_stack[-1]:
-                stack.pop()
-                indent_stack.pop()
-
             parent = stack[-1]
             if not val or val == "|" or val == ">":
-                # Nested dict coming
+                # Container coming on next line — placeholder dict; may be
+                # promoted to a list if a "- " line follows.
                 new_obj: Any = {}
                 if isinstance(parent, dict):
                     parent[key] = new_obj
                 stack.append(new_obj)
+                parent_refs.append((parent, key) if isinstance(parent, dict) else None)
                 indent_stack.append(indent)
             elif val.startswith("["):
-                # Inline list: [item1, item2]
                 items = re.findall(r'[\w-]+', val)
                 if isinstance(parent, dict):
                     parent[key] = items
