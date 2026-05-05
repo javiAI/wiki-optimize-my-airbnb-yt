@@ -520,6 +520,19 @@ class VaultConfig:
     def meta_dir(self) -> Path:
         return self.vault_path / "meta"
 
+    def state_dir(self) -> Path:
+        """Per-vault state dir under the bundle: vaults/{name}/state/.
+
+        Falls back to vault_path/.state/ for legacy vaults without a bundle.
+        """
+        if self._bundle_dir is not None:
+            return self._bundle_dir / "state"
+        return self.vault_path / ".state"
+
+    def cache_dir(self) -> Path:
+        """Where transient caches live (retrieval index, etc.)."""
+        return self.state_dir() / "cache"
+
     def source_dir(self) -> Path:
         """Legacy path (sources/ → raw/ migration compatibility)."""
         raw = self.vault_path / "raw"

@@ -22,11 +22,14 @@ Approach:
 import argparse
 import json
 import math
+import pickle
 import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from frontmatter import parse_frontmatter
+
+CACHE_VERSION = 2  # bump if VaultIndex layout changes
 
 
 # BM25 parameters
@@ -46,16 +49,68 @@ def tokenize(text: str) -> list[str]:
 class VaultIndex:
     """In-memory BM25 index over vault atoms."""
 
-    def __init__(self, vault_path: Path, lang: str):
+    def __init__(self, vault_path: Path, lang: str, cache_dir: Path = None):
         self.vault_path = vault_path
         self.lang = lang
         self.atoms: dict[str, dict] = {}  # stem → {fm, body, tokens_claim, tokens_body, path}
         self.df: Counter = Counter()       # document frequency per term
         self.avgdl: float = 0.0
-        self._build()
+        self._cache_path = (cache_dir / f"retrieve-{lang}.pkl") if cache_dir else None
+        if not self._load_cache():
+            self._build()
+            self._save_cache()
+
+    def _wiki_dir(self) -> Path:
+        return self.vault_path / "wiki" / self.lang
+
+    def _wiki_mtime(self) -> float:
+        """Latest mtime across the wiki dir + its atoms. 0 if dir missing."""
+        wiki = self._wiki_dir()
+        if not wiki.exists():
+            return 0.0
+        latest = wiki.stat().st_mtime
+        for p in wiki.glob("*.md"):
+            m = p.stat().st_mtime
+            if m > latest:
+                latest = m
+        return latest
+
+    def _load_cache(self) -> bool:
+        if not self._cache_path or not self._cache_path.exists():
+            return False
+        try:
+            with open(self._cache_path, "rb") as f:
+                blob = pickle.load(f)
+        except Exception:
+            return False
+        if blob.get("version") != CACHE_VERSION:
+            return False
+        if blob.get("mtime", 0) < self._wiki_mtime():
+            return False
+        self.atoms = blob["atoms"]
+        self.df = blob["df"]
+        self.avgdl = blob["avgdl"]
+        return True
+
+    def _save_cache(self):
+        if not self._cache_path:
+            return
+        try:
+            self._cache_path.parent.mkdir(parents=True, exist_ok=True)
+            blob = {
+                "version": CACHE_VERSION,
+                "mtime": self._wiki_mtime(),
+                "atoms": self.atoms,
+                "df": self.df,
+                "avgdl": self.avgdl,
+            }
+            with open(self._cache_path, "wb") as f:
+                pickle.dump(blob, f)
+        except Exception:
+            pass  # cache is best-effort; query still works without it
 
     def _build(self):
-        wiki_dir = self.vault_path / "wiki" / self.lang
+        wiki_dir = self._wiki_dir()
         if not wiki_dir.exists():
             return
 
@@ -137,7 +192,8 @@ class VaultIndex:
         }
 
 
-def retrieve(query: str, lang: str, vault_path: Path, top_k: int = 6, output: str = "json") -> str:
+def retrieve(query: str, lang: str, vault_path: Path, top_k: int = 6, output: str = "json",
+             cache_dir: Path = None) -> str:
     """
     Main retrieval function.
 
@@ -146,7 +202,7 @@ def retrieve(query: str, lang: str, vault_path: Path, top_k: int = 6, output: st
       paths — just the file paths, one per line
       brief — stem + claim only, compact
     """
-    index = VaultIndex(vault_path, lang)
+    index = VaultIndex(vault_path, lang, cache_dir=cache_dir)
     ranked = index.score(query, top_k)
 
     if not ranked:
@@ -223,5 +279,6 @@ if __name__ == "__main__":
                 source = "config.yaml.active_lang" if (config_lang and config_lang in enabled) else "enabled[0] fallback"
         print(f"[lang={lang}, source={source}]", file=sys.stderr)
 
-    result = retrieve(args.query, lang, cfg.vault_path, args.top, args.output)
+    result = retrieve(args.query, lang, cfg.vault_path, args.top, args.output,
+                      cache_dir=cfg.cache_dir())
     print(result)
