@@ -54,11 +54,6 @@ DEFAULT_MAX_TURNS = "3"
 # ── Frontmatter / source parsing ─────────────────────────────────────────────
 
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n?", re.DOTALL)
-SOURCE_BLOCK_RE = re.compile(
-    r"^- source_id:\s*(\S+)\s*\n"
-    r"((?:    [^\n]*\n)+)",
-    re.MULTILINE,
-)
 
 
 def _load_yaml(text: str) -> dict:
@@ -362,16 +357,20 @@ def propagate(
     # The on-file-write.sh hook only fires for Claude Code's Write tool, not for
     # Python subprocess writes — so propagated atoms would otherwise never get
     # wired into MOCs/Related blocks until a manual `auto-link.py --all` run.
-    # Invoke it inline so each propagation is self-contained.
+    # Call link_atom() directly to avoid re-spawning a Python interpreter.
     try:
-        link_cmd = [
-            sys.executable,
-            str(REPO_ROOT / ".claude" / "scripts" / "auto-link.py"),
-            stem,
-            "--lang", to_lang,
-            "--vault", cfg.name,
-        ]
-        subprocess.run(link_cmd, check=False, timeout=60)
+        from auto_link import link_atom  # type: ignore
+    except ImportError:
+        # auto-link.py uses a hyphen, so import it via importlib.
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "auto_link", REPO_ROOT / ".claude" / "scripts" / "auto-link.py"
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        link_atom = mod.link_atom
+    try:
+        link_atom(stem, to_lang, cfg.vault_path, dry_run=False, vault_name=cfg.name)
     except Exception as e:
         print(f"WARN auto-link failed for {stem} ({to_lang}): {e}", file=sys.stderr)
 
