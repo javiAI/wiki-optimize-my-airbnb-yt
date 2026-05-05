@@ -4,24 +4,16 @@ Usage: rank-sources.py <sources_dir> [N]
 Output: TSV: score<TAB>published<TAB>views<TAB>slug<TAB>title
 """
 import math
-import re
 import sys
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from _fm import parse_fm
+
 TODAY = date.today()
 SIX_MO = 180
 THREE_YR = 1095
-
-FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
-FIELD_RE = re.compile(r"^(\w+):\s*(.*)$", re.MULTILINE)
-
-
-def parse_fm(text):
-    m = FM_RE.match(text)
-    if not m:
-        return {}
-    return {k: v.strip().strip('"') for k, v in FIELD_RE.findall(m.group(1))}
 
 
 def main():

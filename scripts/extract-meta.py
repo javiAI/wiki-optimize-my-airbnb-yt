@@ -3,19 +3,11 @@
 Sorted by 'published' desc. Output columns:
   | Published | Views | Likes | Dur (s) | Auth | Transcript |
 """
-import re
 import sys
 from pathlib import Path
 
-FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
-FIELD_RE = re.compile(r"^(\w+):\s*(.*)$", re.MULTILINE)
-
-
-def parse_fm(text: str) -> dict:
-    m = FM_RE.match(text)
-    if not m:
-        return {}
-    return {k: v.strip().strip('"') for k, v in FIELD_RE.findall(m.group(1))}
+sys.path.insert(0, str(Path(__file__).parent))
+from _fm import parse_fm
 
 
 def main():
