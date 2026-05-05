@@ -229,16 +229,16 @@ if __name__ == "__main__":
     args = p.parse_args()
 
     sys.path.insert(0, str(Path(__file__).parent))
-    from config import VaultConfig, detect_language, read_state
+    from config import VaultConfig, detect_language, read_config
 
-    # Vault resolution: explicit arg > state.yaml > error
+    # Vault resolution: explicit arg > config.yaml > error
     if args.vault and args.vault.strip():
         cfg = VaultConfig(args.vault)
     else:
-        # --vault not provided or empty; try state.yaml.active_vault
+        # --vault not provided or empty; try config.yaml.active_vault
         repo_dir = Path(__file__).parent.parent.parent
-        state = read_state(repo_dir)
-        vault_name = state.get("active_vault")
+        config = read_config(repo_dir)
+        vault_name = config.get("active_vault")
         if vault_name:
             cfg = VaultConfig(vault_name)
         else:
@@ -263,10 +263,10 @@ if __name__ == "__main__":
             lang = detected
             source = "auto-detected"
         else:
-            state_lang = read_state(cfg._repo_dir).get("active_lang")
-            if state_lang and state_lang in enabled:
-                lang = state_lang
-                source = "state.yaml.active_lang"
+            config_lang = read_config(cfg._repo_dir).get("active_lang")
+            if config_lang and config_lang in enabled:
+                lang = config_lang
+                source = "config.yaml.active_lang"
             else:
                 lang = enabled[0] if enabled else "en"
                 source = "enabled[0] fallback"

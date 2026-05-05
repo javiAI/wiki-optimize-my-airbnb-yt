@@ -97,29 +97,19 @@ def _parse_simple_yaml(path: Path) -> dict:
 
 
 # ── Repo config (.claude/config/config.yaml) ────────────────────────────────
-# config.yaml is a single unified file holding:
+# config.yaml is the unified configuration file holding:
 # - current selection (active_vault, active_lang)
 # - retrieval backend choice and parameters
-# Legacy: .claude/state/state.yaml and .claude/state/active-vault still read for
-# backwards compatibility, but writes go to config.yaml going forward.
 
 def _config_path(repo_dir: Path) -> Path:
     return repo_dir / ".claude" / "config" / "config.yaml"
 
 
-def _legacy_state_yaml_path(repo_dir: Path) -> Path:
-    return repo_dir / ".claude" / "state" / "state.yaml"
-
-
-def _legacy_active_vault_path(repo_dir: Path) -> Path:
-    return repo_dir / ".claude" / "state" / "active-vault"
-
-
 def read_config(repo_dir: Path) -> dict:
-    """Read config.yaml (preferred) or fall back to legacy state.yaml then active-vault.
+    """Read config.yaml. Returns empty dict if not found or invalid.
 
-    Returns a dict with the keys present in config.yaml, merging legacy values
-    if config.yaml is missing.
+    This is the canonical config file. Legacy state.yaml and active-vault
+    are no longer read (were deprecated in favor of unified config.yaml).
     """
     p = _config_path(repo_dir)
     if p.exists():
@@ -127,31 +117,7 @@ def read_config(repo_dir: Path) -> dict:
             return _load_yaml(p) or {}
         except Exception:
             return {}
-
-    # Fallback: legacy state.yaml (before config unification)
-    legacy_state = _legacy_state_yaml_path(repo_dir)
-    if legacy_state.exists():
-        try:
-            return _load_yaml(legacy_state) or {}
-        except Exception:
-            pass
-
-    # Fallback: legacy active-vault file (even older)
-    legacy_vault = _legacy_active_vault_path(repo_dir)
-    if legacy_vault.exists():
-        try:
-            name = legacy_vault.read_text().strip().splitlines()[0].strip()
-            if name:
-                return {"active_vault": name}
-        except (OSError, IndexError):
-            pass
-
     return {}
-
-
-def read_state(repo_dir: Path) -> dict:
-    """DEPRECATED: use read_config() instead. Kept for backwards compatibility."""
-    return read_config(repo_dir)
 
 
 def write_config(repo_dir: Path, **updates) -> None:
@@ -219,11 +185,6 @@ def write_config(repo_dir: Path, **updates) -> None:
                     lines.append(line)
 
     p.write_text("\n".join(lines) + "\n")
-
-
-def write_state(repo_dir: Path, **updates) -> None:
-    """Alias for write_config() for backwards compatibility."""
-    write_config(repo_dir, **updates)
 
 
 # ── Language auto-detection ──────────────────────────────────────────────────
@@ -315,7 +276,7 @@ class VaultConfig:
       2. explicit arg → absolute path to a .yml/.yaml file
       3. explicit arg → directory containing vault.yml or vault.yaml
       4. $VAULT_NAME env  → vaults/{name}/vault.yml
-      5. .claude/config/config.yaml or .claude/state/active-vault → last operated vault
+      5. .claude/config/config.yaml → last operated vault (active_vault)
       6. vaults/*/vault.yml → auto-select if exactly one bundle exists
       7. 2+ bundles, no signal → loud error, refuse to guess
       8. $VAULT_PATH env  → directory with vault.yaml (legacy fallback)
@@ -469,29 +430,6 @@ class VaultConfig:
     def enabled_languages(self) -> List[str]:
         """Alias for `languages`. Preferred over `languages` in new code."""
         return self.languages
-
-    @property
-    def primary_language(self) -> str:
-        """DEPRECATED: returns enabled_languages[0]. Use atomization_lang_for() instead.
-
-        Kept for backwards compatibility with code that hasn't migrated yet
-        (atom-qa default lang, query routing fallback). Will be removed once all
-        callers route via per-source atomization_lang.
-        """
-        explicit = self._data.get("languages", {}).get("primary")
-        if explicit:
-            return explicit
-        langs = self.enabled_languages
-        return langs[0] if langs else "en"
-
-    @property
-    def secondary_languages(self) -> List[str]:
-        """DEPRECATED: returns enabled_languages[1:]. Will be removed."""
-        explicit = self._data.get("languages", {}).get("secondary")
-        if explicit:
-            return explicit
-        langs = self.enabled_languages
-        return langs[1:] if len(langs) > 1 else []
 
     def atomization_lang_for(self, native_lang: Optional[str]) -> str:
         """Decide which language a video gets atomized in.
