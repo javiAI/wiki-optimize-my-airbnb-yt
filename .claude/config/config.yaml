@@ -1,74 +1,47 @@
 # WikiForge unified configuration
-# Holds: vault selection, language, retrieval backend choice, and backend-specific settings
-# Written by init-vault.sh, ingest hooks, and query routing
+# Vault selection, language, and retrieval backend settings
+# See docs/CONFIG_SCHEMA.md for full schema, future fields, and implementation notes
 
-# Current vault and language
+# === CURRENT SELECTIONS (used by all operations) ===
 active_vault: oma-test-1
 active_lang: es
 
-# Retrieval backend selection and configuration
+# === RETRIEVAL BACKEND (Phase 1: BM25 implementation) ===
+#
+# Currently implemented: BM25 only
+# The fields below are READ and USED by .claude/scripts/retrieve.py
+# Future backends (llm, embeddings) will be added here once implemented
+#
 retrieval:
-  # Primary backend: bm25, llm, or embeddings (once implemented)
+  # Current backend selection
+  # Options: "bm25" (implemented), "llm" (future), "embeddings" (future)
   backend: bm25
 
-  # Common parameters for all backends
-  common:
-    top_k: 6              # Number of results to return
-    include_scores: true  # Include confidence scores in output
-
-  # Backend configurations
-  backends:
-    # Option 1: Pure BM25 (current, deterministic, no tokens)
-    bm25:
-      enabled: true
-      topic_boost: 3.0     # Score multiplier when query matches a topic
-      claim_boost: 2.0     # Score multiplier for matches in claim vs body
-
-    # Option 2: LLM-assisted routing (fallback, costs tokens)
-    llm:
-      enabled: false
-      model: "claude-haiku"
-
-      # When to trigger LLM fallback
-      trigger:
-        type: "bm25_confidence"  # Type: bm25_confidence or always
-        threshold: 1.5           # Trigger if ratio(top1/top2) < threshold
-
-    # Option 3: Semantic embeddings (future implementation)
-    embeddings:
-      enabled: false
-      model: "distiluse-base-multilingual-cased-v2"
-
-      # Vector storage strategy
-      storage:
-        type: "memory"       # Options: memory, disk, faiss
-        auto_rebuild: true
-        rebuild_threshold: 10  # Rebuild after 10 new atoms
-
-      # Confidence filtering
-      min_similarity: 0.4
-
-    # Option 4: Hybrid (embeddings + BM25 rerank)
-    hybrid:
-      enabled: false
-      retrieve_k: 20       # First-pass: embeddings retrieve K=20
-      rerank_k: 6          # Second-pass: BM25 rerank → top 6
-
-  # Language-specific overrides
-  languages:
-    es:
-      backend_override: null  # inherit from top level
-    en:
-      backend_override: null
-
-  # Caching for repeated queries
-  cache:
+  # === BM25 Configuration (currently active) ===
+  # These parameters control TF-IDF scoring in retrieve.py
+  bm25:
     enabled: true
-    ttl: 3600            # Cache for 1 hour
-    max_size: 1000       # Max 1000 cached queries
 
-  # Performance monitoring
-  monitoring:
-    log_scores: false      # Log retrieval scores for analysis
-    track_fallback_rate: true  # Track LLM fallback frequency
-    sample_queries: 100    # Sample 100 queries for quality analysis
+    # TF-IDF multipliers (control relevance scoring)
+    topic_boost: 3.0      # Score multiplier when query token matches atom topic
+                          # Range: 1.0-10.0, higher = topic matches rank higher
+
+    claim_boost: 2.0      # Score multiplier for matches in claim field vs body
+                          # Range: 1.0-5.0, higher = claim matches are more valuable
+
+  # === LLM Fallback (planned, Phase 2) ===
+  # NOT YET IMPLEMENTED - fields below are for future use
+  # When ready, these will control when LLM is called as fallback
+  llm:
+    # enabled: false
+    # model: "claude-haiku"
+    # trigger_type: "bm25_confidence"  # Only use LLM when BM25 is ambiguous
+    # threshold: 1.5  # Use LLM if top1_score / top2_score < threshold
+
+  # === Embeddings (planned, Phase 3) ===
+  # NOT YET IMPLEMENTED - will replace BM25 for semantic retrieval
+  # embeddings:
+  #   enabled: false
+  #   model: "distiluse-base-multilingual-cased-v2"
+  #   storage_type: "memory"  # Options: memory, faiss
+  #   min_similarity: 0.4
