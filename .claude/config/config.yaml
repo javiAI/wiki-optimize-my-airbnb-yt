@@ -1,0 +1,74 @@
+# WikiForge unified configuration
+# Holds: vault selection, language, retrieval backend choice, and backend-specific settings
+# Written by init-vault.sh, ingest hooks, and query routing
+
+# Current vault and language
+active_vault: oma-test-1
+active_lang: es
+
+# Retrieval backend selection and configuration
+retrieval:
+  # Primary backend: bm25, llm, or embeddings (once implemented)
+  backend: bm25
+
+  # Common parameters for all backends
+  common:
+    top_k: 6              # Number of results to return
+    include_scores: true  # Include confidence scores in output
+
+  # Backend configurations
+  backends:
+    # Option 1: Pure BM25 (current, deterministic, no tokens)
+    bm25:
+      enabled: true
+      topic_boost: 3.0     # Score multiplier when query matches a topic
+      claim_boost: 2.0     # Score multiplier for matches in claim vs body
+
+    # Option 2: LLM-assisted routing (fallback, costs tokens)
+    llm:
+      enabled: false
+      model: "claude-haiku"
+
+      # When to trigger LLM fallback
+      trigger:
+        type: "bm25_confidence"  # Type: bm25_confidence or always
+        threshold: 1.5           # Trigger if ratio(top1/top2) < threshold
+
+    # Option 3: Semantic embeddings (future implementation)
+    embeddings:
+      enabled: false
+      model: "distiluse-base-multilingual-cased-v2"
+
+      # Vector storage strategy
+      storage:
+        type: "memory"       # Options: memory, disk, faiss
+        auto_rebuild: true
+        rebuild_threshold: 10  # Rebuild after 10 new atoms
+
+      # Confidence filtering
+      min_similarity: 0.4
+
+    # Option 4: Hybrid (embeddings + BM25 rerank)
+    hybrid:
+      enabled: false
+      retrieve_k: 20       # First-pass: embeddings retrieve K=20
+      rerank_k: 6          # Second-pass: BM25 rerank → top 6
+
+  # Language-specific overrides
+  languages:
+    es:
+      backend_override: null  # inherit from top level
+    en:
+      backend_override: null
+
+  # Caching for repeated queries
+  cache:
+    enabled: true
+    ttl: 3600            # Cache for 1 hour
+    max_size: 1000       # Max 1000 cached queries
+
+  # Performance monitoring
+  monitoring:
+    log_scores: false      # Log retrieval scores for analysis
+    track_fallback_rate: true  # Track LLM fallback frequency
+    sample_queries: 100    # Sample 100 queries for quality analysis

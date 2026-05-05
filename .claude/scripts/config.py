@@ -96,14 +96,18 @@ def _parse_simple_yaml(path: Path) -> dict:
     return result
 
 
-# ── Repo state (.claude/state/state.yaml) ────────────────────────────────────
-# state.yaml is a single small file holding cross-cutting "current selection"
-# values that scripts AND the LLM share. Today: active_vault, active_lang.
-# Legacy: .claude/state/active-vault is the older single-line file holding
-# only the vault name. We read both (state.yaml wins) and write state.yaml
-# going forward; init-vault.sh stops writing the legacy file.
+# ── Repo config (.claude/config/config.yaml) ────────────────────────────────
+# config.yaml is a single unified file holding:
+# - current selection (active_vault, active_lang)
+# - retrieval backend choice and parameters
+# Legacy: .claude/state/state.yaml and .claude/state/active-vault still read for
+# backwards compatibility, but writes go to config.yaml going forward.
 
-def _state_path(repo_dir: Path) -> Path:
+def _config_path(repo_dir: Path) -> Path:
+    return repo_dir / ".claude" / "config" / "config.yaml"
+
+
+def _legacy_state_yaml_path(repo_dir: Path) -> Path:
     return repo_dir / ".claude" / "state" / "state.yaml"
 
 
@@ -111,55 +115,92 @@ def _legacy_active_vault_path(repo_dir: Path) -> Path:
     return repo_dir / ".claude" / "state" / "active-vault"
 
 
-def read_state(repo_dir: Path) -> dict:
-    """Read state.yaml (preferred) or fall back to legacy active-vault file.
+def read_config(repo_dir: Path) -> dict:
+    """Read config.yaml (preferred) or fall back to legacy state.yaml then active-vault.
 
-    Returns a dict with the keys present in state.yaml, plus an `active_vault`
-    key synthesized from the legacy file if state.yaml is missing.
+    Returns a dict with the keys present in config.yaml, merging legacy values
+    if config.yaml is missing.
     """
-    p = _state_path(repo_dir)
+    p = _config_path(repo_dir)
     if p.exists():
         try:
             return _load_yaml(p) or {}
         except Exception:
             return {}
-    legacy = _legacy_active_vault_path(repo_dir)
-    if legacy.exists():
+
+    # Fallback: legacy state.yaml (before config unification)
+    legacy_state = _legacy_state_yaml_path(repo_dir)
+    if legacy_state.exists():
         try:
-            name = legacy.read_text().strip().splitlines()[0].strip()
+            return _load_yaml(legacy_state) or {}
+        except Exception:
+            pass
+
+    # Fallback: legacy active-vault file (even older)
+    legacy_vault = _legacy_active_vault_path(repo_dir)
+    if legacy_vault.exists():
+        try:
+            name = legacy_vault.read_text().strip().splitlines()[0].strip()
             if name:
                 return {"active_vault": name}
         except (OSError, IndexError):
             pass
+
     return {}
 
 
-def write_state(repo_dir: Path, **updates) -> None:
-    """Merge `updates` into state.yaml. Pass None to delete a key.
+def read_state(repo_dir: Path) -> dict:
+    """Alias for read_config() for backwards compatibility."""
+    return read_config(repo_dir)
 
-    Writes minimal YAML by hand (no PyYAML dep). Only supports flat string
-    values, which is all state.yaml needs today.
+
+def write_config(repo_dir: Path, **updates) -> None:
+    """Merge `updates` into config.yaml. Pass None to delete a key.
+
+    Writes minimal YAML by hand (no PyYAML dep).
     """
-    p = _state_path(repo_dir)
+    p = _config_path(repo_dir)
     p.parent.mkdir(parents=True, exist_ok=True)
-    current = read_state(repo_dir)
-    # state.yaml may have been absent — read_state synthesized active_vault
-    # from the legacy file. Carry it forward so we don't lose it.
+    current = read_config(repo_dir)
+
+    # Merge updates into current config, preserving retrieval section
     for k, v in updates.items():
         if v is None:
             current.pop(k, None)
         else:
             current[k] = v
+
     lines = [
-        "# WikiForge repo state — written by init-vault.sh and config.py.",
-        "# Holds cross-cutting selections (vault, lang) shared by scripts and the LLM.",
+        "# WikiForge unified configuration",
+        "# Holds: vault selection, language, retrieval backend choice, and backend-specific settings",
+        "# Written by init-vault.sh, ingest hooks, and query routing",
+        "",
     ]
-    for k in sorted(current.keys()):
-        v = current[k]
-        if v is None or v == "":
-            continue
-        lines.append(f"{k}: {v}")
+
+    # Write top-level fields (active_vault, active_lang, retrieval)
+    for k in ["active_vault", "active_lang"]:
+        v = current.get(k)
+        if v is not None and v != "":
+            lines.append(f"{k}: {v}")
+
+    # Write retrieval section if present
+    retrieval = current.get("retrieval")
+    if retrieval:
+        lines.append("")
+        lines.append("# Retrieval backend selection and configuration")
+        lines.append("retrieval:")
+        if isinstance(retrieval, dict):
+            for rk in ["backend"]:
+                rv = retrieval.get(rk)
+                if rv is not None and rv != "":
+                    lines.append(f"  {rk}: {rv}")
+
     p.write_text("\n".join(lines) + "\n")
+
+
+def write_state(repo_dir: Path, **updates) -> None:
+    """Alias for write_config() for backwards compatibility."""
+    write_config(repo_dir, **updates)
 
 
 # ── Language auto-detection ──────────────────────────────────────────────────
@@ -251,7 +292,7 @@ class VaultConfig:
       2. explicit arg → absolute path to a .yml/.yaml file
       3. explicit arg → directory containing vault.yml or vault.yaml
       4. $VAULT_NAME env  → vaults/{name}/vault.yml
-      5. .claude/state/active-vault → name written by last successful operation
+      5. .claude/config/config.yaml or .claude/state/active-vault → last operated vault
       6. vaults/*/vault.yml → auto-select if exactly one bundle exists
       7. 2+ bundles, no signal → loud error, refuse to guess
       8. $VAULT_PATH env  → directory with vault.yaml (legacy fallback)
@@ -340,7 +381,7 @@ class VaultConfig:
                     f"ERROR: vault is ambiguous — {len(bundles)} bundles exist and none is selected.\n"
                     f"  Available: {', '.join(names)}\n"
                     "  Pick one with:  export VAULT_NAME=<name>\n"
-                    "  Or set the active default:  echo <name> > .claude/state/active-vault",
+                    "  Or set the active default:  bash .claude/scripts/set-config.sh active_vault <name>",
                     file=sys.stderr,
                 )
                 sys.exit(1)

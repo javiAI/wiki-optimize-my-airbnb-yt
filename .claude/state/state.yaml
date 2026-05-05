@@ -1,0 +1,4 @@
+# WikiForge repo state — written by init-vault.sh and config.py.
+# Holds cross-cutting selections (vault, lang) shared by scripts and the LLM.
+active_vault: oma-test-1
+active_lang: es

@@ -245,7 +245,7 @@ if __name__ == "__main__":
             print(
                 "ERROR: no vault specified. Either:\n"
                 "  1) Pass --vault <path-or-name>\n"
-                "  2) Set active vault: .claude/state/state.yaml with active_vault: <name>\n"
+                "  2) Set active vault: .claude/config/config.yaml with active_vault: <name>\n"
                 "  3) Set $VAULT_NAME env var\n"
                 "  4) Use resolve-vault.sh first: source .claude/scripts/resolve-vault.sh",
                 file=sys.stderr

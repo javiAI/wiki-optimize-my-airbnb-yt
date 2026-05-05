@@ -22,15 +22,17 @@
 # config.sh lives at .claude/scripts/ — repo root is two levels up
 _CFG_REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 _CFG_VAULTS_DIR="${_CFG_REPO_DIR}/vaults"
-_CFG_STATE_YAML="${_CFG_REPO_DIR}/.claude/state/state.yaml"
-_CFG_STATE_FILE="${_CFG_REPO_DIR}/.claude/state/active-vault"
+_CFG_CONFIG_YAML="${_CFG_REPO_DIR}/.claude/config/config.yaml"
+_CFG_STATE_YAML="${_CFG_REPO_DIR}/.claude/state/state.yaml"  # legacy fallback
+_CFG_STATE_FILE="${_CFG_REPO_DIR}/.claude/state/active-vault"  # legacy fallback
 
 _read_state_field() {
-    # Extract a flat top-level field from state.yaml. Format is intentionally
+    # Extract a flat top-level field from a config file. Format is intentionally
     # minimal: `key: value` lines, no nesting. Returns empty string if missing.
     local field="$1"
-    [[ -f "$_CFG_STATE_YAML" ]] || return 0
-    grep -E "^${field}:" "$_CFG_STATE_YAML" | head -1 \
+    local config_file="$2"
+    [[ -f "$config_file" ]] || return 0
+    grep -E "^${field}:" "$config_file" | head -1 \
         | sed -E "s/^${field}:[[:space:]]*\"?([^\"#]+)\"?.*$/\\1/" \
         | tr -d '[:space:]'
 }
@@ -74,11 +76,14 @@ if [[ -z "${VAULT_PATH:-}" && -n "${VAULT_NAME:-}" ]]; then
     fi
 fi
 
-# 3. state.yaml.active_vault (preferred) or legacy active-vault file → last operated vault.
+# 3. config.yaml.active_vault (preferred) or legacy state.yaml or active-vault file → last operated vault.
 if [[ -z "${VAULT_PATH:-}" && "$_CFG_VAULT_NAME_BAD" -eq 0 ]]; then
     _CFG_ACTIVE=""
-    if [[ -f "$_CFG_STATE_YAML" ]]; then
-        _CFG_ACTIVE=$(_read_state_field "active_vault")
+    if [[ -f "$_CFG_CONFIG_YAML" ]]; then
+        _CFG_ACTIVE=$(_read_state_field "active_vault" "$_CFG_CONFIG_YAML")
+    fi
+    if [[ -z "$_CFG_ACTIVE" && -f "$_CFG_STATE_YAML" ]]; then
+        _CFG_ACTIVE=$(_read_state_field "active_vault" "$_CFG_STATE_YAML")
     fi
     if [[ -z "$_CFG_ACTIVE" && -f "$_CFG_STATE_FILE" ]]; then
         _CFG_ACTIVE=$(head -1 "$_CFG_STATE_FILE" | tr -d '[:space:]')
@@ -123,5 +128,5 @@ if [[ -z "${VAULT_PATH:-}" && "$_CFG_VAULT_NAME_BAD" -eq 0 ]]; then
     unset _CFG_BUNDLES
 fi
 
-unset _CFG_REPO_DIR _CFG_VAULTS_DIR _CFG_STATE_FILE _CFG_VP _CFG_VAULT_NAME_BAD
-unset -f _resolve_vault_path_from_yml
+unset _CFG_REPO_DIR _CFG_VAULTS_DIR _CFG_CONFIG_YAML _CFG_STATE_YAML _CFG_STATE_FILE _CFG_VP _CFG_VAULT_NAME_BAD
+unset -f _resolve_vault_path_from_yml _read_state_field

@@ -451,13 +451,13 @@ EOF
 
 touch "$VAULT_DATA_PATH/meta/backlinks.md" "$VAULT_DATA_PATH/meta/glossary.md"
 
-# ── Active-vault pointer (state.yaml) ────────────────────────────────────────
+# ── Active-vault pointer (config.yaml) ────────────────────────────────────────
 # When 2+ bundles exist, VaultConfig refuses to guess. Writing the new vault as
 # active here means the user can immediately /ingest, /query etc. without
 # needing to set $VAULT_NAME in every shell. If other bundles already exist we
 # ask first — silently overwriting could surprise the user.
 #
-# state.yaml replaces the older single-line .claude/state/active-vault file.
+# config.yaml replaces the older single-line .claude/state/active-vault file.
 # We write active_vault + active_lang (= enabled[0]) so query routing has a
 # deterministic fallback when auto-detection is undecidable.
 
@@ -470,9 +470,9 @@ set_active_vault() {
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(sys.argv[1]) / ".claude" / "scripts"))
-from config import write_state
-write_state(Path(sys.argv[1]), active_vault=sys.argv[2], active_lang=sys.argv[3])
-# Remove the legacy active-vault file if present — state.yaml supersedes it.
+from config import write_config
+write_config(Path(sys.argv[1]), active_vault=sys.argv[2], active_lang=sys.argv[3])
+# Remove the legacy active-vault file if present — config.yaml supersedes it.
 legacy = Path(sys.argv[1]) / ".claude" / "state" / "active-vault"
 if legacy.exists():
     legacy.unlink()
@@ -511,9 +511,9 @@ echo "Vault '$VAULT_NAME' created."
 echo "  Bundle      : $BUNDLE_DIR"
 echo "  Vault data  : $VAULT_DATA_PATH"
 if [[ "$ACTIVE_SET" -eq 1 ]]; then
-    echo "  Active      : yes (.claude/state/state.yaml — vault=$VAULT_NAME, lang=$DEFAULT_LANG)"
+    echo "  Active      : yes (.claude/config/config.yaml — vault=$VAULT_NAME, lang=$DEFAULT_LANG)"
 else
-    echo "  Active      : no — set with: VAULT_NAME=$VAULT_NAME python3 -c 'from config import write_state; from pathlib import Path; write_state(Path(\".\").resolve(), active_vault=\"$VAULT_NAME\", active_lang=\"$DEFAULT_LANG\")'"
+    echo "  Active      : no — set with: VAULT_NAME=$VAULT_NAME python3 -c 'from config import write_config; from pathlib import Path; write_config(Path(\".\").resolve(), active_vault=\"$VAULT_NAME\", active_lang=\"$DEFAULT_LANG\")'"
 fi
 
 # ── Auto-ingest sources.txt (directory-mode only) ────────────────────────────
