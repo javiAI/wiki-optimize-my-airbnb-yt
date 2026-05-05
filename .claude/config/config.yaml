@@ -1,45 +1,51 @@
 # WikiForge unified configuration
 # Vault selection, language, and retrieval backend settings
-# See docs/CONFIG_SCHEMA.md for full schema, future fields, and implementation notes
+# See docs/CONFIG_SCHEMA.md for full schema and implementation notes
 
 # === CURRENT SELECTIONS (used by all operations) ===
 active_vault: oma-test-1
 active_lang: es
 
-# === RETRIEVAL BACKEND (Phase 1: BM25 implementation) ===
+# === RETRIEVAL BACKEND ===
 #
-# Currently implemented: BM25 only
+# Currently implemented: BM25, LLM (as primary backend or fallback)
 # The fields below are READ and USED by .claude/scripts/retrieve.py
-# Future backends (llm, embeddings) will be added here once implemented
 #
 retrieval:
-  # Current backend selection
-  # Options: "bm25" (implemented), "llm" (future), "embeddings" (future)
+  # Backend selection - choose one to use as primary
+  # Options: "bm25" (keyword matching, $0, deterministic)
+  #          "llm" (semantic, smart, costs tokens)
+  #          "hybrid" (future: embeddings primary + BM25 rerank)
   backend: bm25
 
-  # === BM25 Configuration (currently active) ===
-  # These parameters control TF-IDF scoring in retrieve.py
+  # === BM25 Configuration ===
+  # Used when backend: bm25, or as secondary/rerank in hybrid mode
+  # These parameters control TF-IDF scoring
   bm25:
     enabled: true
 
-    # TF-IDF multipliers (control relevance scoring)
-    topic_boost: 3.0      # Score multiplier when query token matches atom topic
-                          # Range: 1.0-10.0, higher = topic matches rank higher
+    # TF-IDF score multipliers (higher = more weight)
+    topic_boost: 3.0      # Multiplier when query matches atom topic field
+                          # Range: 1.0-10.0
 
-    claim_boost: 2.0      # Score multiplier for matches in claim field vs body
-                          # Range: 1.0-5.0, higher = claim matches are more valuable
+    claim_boost: 2.0      # Multiplier for matches in claim (vs body)
+                          # Range: 1.0-5.0
 
-  # === LLM Fallback (planned, Phase 2) ===
-  # NOT YET IMPLEMENTED - fields below are for future use
-  # When ready, these will control when LLM is called as fallback
+  # === LLM Backend ===
+  # Use as primary backend for semantic retrieval, or as fallback when BM25 is ambiguous
+  # Currently hardcoded to claude-haiku (no dynamic model selection yet)
   llm:
-    # enabled: false
-    # model: "claude-haiku"
-    # trigger_type: "bm25_confidence"  # Only use LLM when BM25 is ambiguous
-    # threshold: 1.5  # Use LLM if top1_score / top2_score < threshold
+    enabled: false        # Set to true to use LLM as primary backend
 
-  # === Embeddings (planned, Phase 3) ===
-  # NOT YET IMPLEMENTED - will replace BM25 for semantic retrieval
+    # Fallback mode: use LLM only when BM25 is unsure
+    fallback:
+      enabled: false      # Set to true to use BM25 primary, LLM as fallback
+      trigger: "bm25_confidence"  # Trigger LLM when BM25 is ambiguous
+      threshold: 1.5      # Use LLM if top1_score / top2_score < threshold
+                          # Range: 1.0-3.0 (lower = more likely to trigger fallback)
+
+  # === Embeddings (future, Phase 3) ===
+  # NOT YET IMPLEMENTED - will be semantic primary backend
   # embeddings:
   #   enabled: false
   #   model: "distiluse-base-multilingual-cased-v2"

@@ -52,27 +52,66 @@
 
 ---
 
-## Future (Phase 2) — LLM Fallback
+## Phase 2 — LLM Backend (Currently Implemented)
 
-**Status**: NOT IMPLEMENTED — this section is aspirational
+**Status**: IMPLEMENTED — LLM is available as primary backend or fallback
 
-When implemented, these fields will control LLM-based fallback routing:
+### `retrieval.llm.enabled` (bool)
+- **Used by**: retrieve.py (backend selection logic)
+- **Value**: `false` (default) or `true` to use LLM
+- **What it does**: Enables LLM as primary backend for retrieval
+- **Current model**: claude-haiku (hardcoded, cannot be selected via config yet)
+- **Cost**: ~$0.00011 per query (~$110/year for 1M queries)
+- **Latency**: ~1100ms per query (vs 50ms for BM25)
 
-```yaml
-retrieval:
-  llm:
-    enabled: false
-    model: "claude-haiku"      # Actual model selection
-    trigger_type: "bm25_confidence"
-    threshold: 1.5  # ratio(top1 / top2)
+### `retrieval.llm.fallback.enabled` (bool)
+- **Used by**: retrieve.py (when backend is "bm25")
+- **Value**: `false` (default) or `true` to enable fallback mode
+- **What it does**: Uses BM25 as primary, but calls LLM when BM25 is ambiguous
+- **When to use**: Want BM25 speed for clear queries, LLM for ambiguous ones
+
+### `retrieval.llm.fallback.trigger` (string)
+- **Used by**: retrieve.py (fallback decision)
+- **Current value**: `"bm25_confidence"`
+- **Options**: `"bm25_confidence"` (only), future: `"always"`
+- **What it does**: Triggers LLM only when BM25 is unsure
+
+### `retrieval.llm.fallback.threshold` (float)
+- **Used by**: retrieve.py (confidence ratio calculation)
+- **Current value**: 1.5
+- **Range**: 1.0 to 3.0
+- **What it does**: Ratio of top1_score / top2_score
+  - If ratio < threshold: BM25 was ambiguous → call LLM
+  - If ratio >= threshold: BM25 was confident → use BM25 result
+- **Lower threshold**: More likely to trigger LLM (costs more tokens)
+- **Higher threshold**: Fewer LLM calls (saves tokens, lower quality on ambiguous queries)
+
+**Example fallback behavior**:
+```
+Query: "¿Es buena idea aceptar mascotas?"
+BM25 results:
+  #1: outdoor-spaces (score: 9.5)
+  #2: allow-pets (score: 4.9)
+  Ratio: 9.5 / 4.9 = 1.94
+
+threshold: 1.5
+1.94 >= 1.5 → confident → use BM25, no LLM call
+Cost: $0, latency: 50ms
+
+---
+
+Query: "me roban los huéspedes"
+BM25 results:
+  #1: listing-security (score: 3.2)
+  #2: background-check (score: 2.8)
+  Ratio: 3.2 / 2.8 = 1.14
+
+threshold: 1.5
+1.14 < 1.5 → ambiguous → call LLM for better retrieval
+Cost: $0.00011, latency: 1100ms
 ```
 
-**Implementation notes**:
-- `model` field is **informational only** until retrieve.py explicitly reads and passes it
-- Query: "Sí, pero ¿cómo garantizamos que se use?"
-  - Answer: The calling script (retrieve.py or /query skill) must explicitly pass `--model` to the LLM invocation
-  - We'll add validation in retrieve.py to check if the model is available before using it
-  - If model is invalid, fail loud (don't silently use default)
+**Model selection**: Currently hardcoded to claude-haiku. Dynamic model selection via config is a future enhancement (requires changes to retrieve.py and /query skill to read and pass `--model` parameter).
 
 ---
 
