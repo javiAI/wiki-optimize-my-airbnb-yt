@@ -372,8 +372,11 @@ def _weighted_avg(scores):
     return round(sum(scores.get(d, 0) * c["weight"] for d, c in RUBRIC.items()), 3)
 
 
-def _consolidate_one_run(label, run):
-    """Returns per-run aggregate dict, or None if missing files."""
+def _consolidate_one_run(label, run, questions):
+    """Returns per-run aggregate dict, or None if missing files.
+
+    questions: pre-loaded questions dict (avoid reloading per run).
+    """
     run_dir = _run_dir(label, run)
     tokens_file = run_dir / "tokens.json"
     eval_file = run_dir / "evaluation.json"
@@ -385,8 +388,6 @@ def _consolidate_one_run(label, run):
     eval_data = None
     if eval_file.exists():
         eval_data = json.loads(eval_file.read_text())
-
-    questions = load_questions()
     per_q = {}
     sums = {"input": 0, "output": 0, "weighted": 0, "latency": 0}
     dim_sums = {d: 0.0 for d in RUBRIC}
@@ -475,9 +476,10 @@ def consolidate_results(label):
         print(f"[ERR] No runs found for {label} under {RAW_DIR}/{label}/")
         sys.exit(1)
 
+    questions = load_questions()
     per_run = []
     for r in runs:
-        rd = _consolidate_one_run(label, r)
+        rd = _consolidate_one_run(label, r, questions)
         if rd:
             per_run.append(rd)
 
