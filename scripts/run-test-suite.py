@@ -799,7 +799,7 @@ def compare_results(from_label, to_label):
     decision = _decide(composite, floor_breaches, dim_analysis, meta, cost_delta_pct, cost_significance)
 
     repetition = _check_repetition_needed(
-        composite, dim_analysis, meta, n_runs_min, meta.get("allow_repetition", True)
+        composite, dim_analysis, meta, am["n_runs"], meta.get("allow_repetition", True)
     )
 
     targeted_summary = []

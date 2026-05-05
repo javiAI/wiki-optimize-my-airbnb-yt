@@ -41,85 +41,18 @@ def _load_yaml_from_text(text: str) -> dict:
         return _parse_simple_yaml_from_text(text)
 
 
-def _parse_simple_yaml(path: Path) -> dict:
-    """Minimal YAML parser for simple key: value and nested dicts (no anchors/aliases)."""
-    import re
-    result = {}
-    stack = [result]
-    indent_stack = [-1]
+def _parse_yaml_lines(lines) -> dict:
+    """Shared YAML parser: operates on an iterable of lines (file or text.split()).
 
-    with open(path) as f:
-        for line in f:
-            if not line.strip() or line.strip().startswith("#"):
-                continue
-            stripped = line.rstrip()
-            indent = len(stripped) - len(stripped.lstrip())
-            content = stripped.strip()
-
-            if content.startswith("- "):
-                # List item
-                parent = stack[-1]
-                if isinstance(parent, list):
-                    item = content[2:].strip()
-                    # Inline dict: {id: x, name: y}
-                    m = re.match(r'^\{(.+)\}$', item)
-                    if m:
-                        d = {}
-                        for pair in re.findall(r'(\w+):\s*"?([^",}]+)"?', m.group(1)):
-                            d[pair[0]] = pair[1].strip()
-                        parent.append(d)
-                    else:
-                        item = item.strip('"\'')
-                        parent.append(item)
-            elif ":" in content:
-                key, _, val = content.partition(":")
-                key = key.strip()
-                val = val.strip()
-
-                # Pop stack to current indent level
-                while indent <= indent_stack[-1]:
-                    stack.pop()
-                    indent_stack.pop()
-
-                parent = stack[-1]
-                if not val or val == "|" or val == ">":
-                    # Nested dict or list coming
-                    new_obj: Any = {}
-                    if isinstance(parent, dict):
-                        parent[key] = new_obj
-                    stack.append(new_obj)
-                    indent_stack.append(indent)
-                elif val.startswith("["):
-                    # Inline list
-                    items = re.findall(r'[\w-]+', val)
-                    if isinstance(parent, dict):
-                        parent[key] = items
-                elif val.lower() in ("true", "yes"):
-                    if isinstance(parent, dict):
-                        parent[key] = True
-                elif val.lower() in ("false", "no"):
-                    if isinstance(parent, dict):
-                        parent[key] = False
-                else:
-                    val = val.strip('"\'')
-                    if isinstance(parent, dict):
-                        parent[key] = val
-
-    return result
-
-
-def _parse_simple_yaml_from_text(text: str) -> dict:
-    """Minimal YAML parser for simple key: value and nested dicts (no anchors/aliases).
-
-    This variant parses a string instead of reading from disk, avoiding redundant
-    file I/O when text is already in memory.
+    Handles: key: value, nested dicts, inline lists [item1, item2], booleans.
+    Does NOT handle: nested expanded lists (- item), anchors, aliases.
     """
     import re
     result = {}
     stack = [result]
     indent_stack = [-1]
 
-    for line in text.split('\n'):
+    for line in lines:
         if not line.strip() or line.strip().startswith("#"):
             continue
         stripped = line.rstrip()
@@ -127,6 +60,7 @@ def _parse_simple_yaml_from_text(text: str) -> dict:
         content = stripped.strip()
 
         if content.startswith("- "):
+            # List item (only valid inside a list that's already on stack)
             parent = stack[-1]
             if isinstance(parent, list):
                 item = content[2:].strip()
@@ -144,18 +78,21 @@ def _parse_simple_yaml_from_text(text: str) -> dict:
             key = key.strip()
             val = val.strip()
 
+            # Pop stack to current indent level
             while indent <= indent_stack[-1]:
                 stack.pop()
                 indent_stack.pop()
 
             parent = stack[-1]
             if not val or val == "|" or val == ">":
+                # Nested dict coming
                 new_obj: Any = {}
                 if isinstance(parent, dict):
                     parent[key] = new_obj
                 stack.append(new_obj)
                 indent_stack.append(indent)
             elif val.startswith("["):
+                # Inline list: [item1, item2]
                 items = re.findall(r'[\w-]+', val)
                 if isinstance(parent, dict):
                     parent[key] = items
@@ -171,6 +108,21 @@ def _parse_simple_yaml_from_text(text: str) -> dict:
                     parent[key] = val
 
     return result
+
+
+def _parse_simple_yaml(path: Path) -> dict:
+    """Parse YAML from file. Uses shared _parse_yaml_lines()."""
+    with open(path) as f:
+        return _parse_yaml_lines(f)
+
+
+def _parse_simple_yaml_from_text(text: str) -> dict:
+    """Parse YAML from string. Uses shared _parse_yaml_lines().
+
+    This variant parses a string instead of reading from disk, avoiding
+    redundant file I/O when text is already in memory.
+    """
+    return _parse_yaml_lines(text.split('\n'))
 
 
 # ── Repo config (.claude/config/config.yaml) ────────────────────────────────

@@ -25,7 +25,6 @@ ANGLICISM_TABLE = [
     ("bookings", "reservas"),
     ("listing", "anuncio"),
     ("listings", "anuncios"),
-    ("check-in", "entrada"),
     ("check-out", "salida"),
     ("weekend", "fin de semana"),
     ("last-minute", "último momento"),

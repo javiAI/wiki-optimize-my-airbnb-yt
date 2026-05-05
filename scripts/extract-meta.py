@@ -32,7 +32,7 @@ def main():
             "duration": fm.get("duration_sec", "0"),
             "auth": fm.get("channel_authority", "?"),
             "title": fm.get("title", "untitled"),
-            "path": f"[[sources/{p.stem}|{fm.get('title', p.stem)}]]",
+            "path": fm.get('title', p.stem),  # Link path varies by vault version; update manually
         })
     rows.sort(key=lambda r: r["published"], reverse=True)
     for r in rows:
