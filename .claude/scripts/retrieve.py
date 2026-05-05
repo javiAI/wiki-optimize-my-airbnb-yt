@@ -113,12 +113,16 @@ class VaultIndex:
                 tokens_body
             )
 
+            # Pre-compute term frequencies to avoid O(L) list.count() per term in score()
+            tf_counter = Counter(tokens_doc)
+
             self.atoms[p.stem] = {
                 "stem": p.stem,
                 "path": str(p),
                 "fm": fm,
                 "body": body[:500],  # First 500 chars for preview
-                "tokens_doc": tokens_doc,
+                "tf": tf_counter,
+                "doc_len": len(tokens_doc),
                 "topics": topics,
             }
             total_len += len(tokens_doc)
@@ -140,10 +144,10 @@ class VaultIndex:
         for term in query_tokens:
             idf = math.log((n - self.df.get(term, 0) + 0.5) / (self.df.get(term, 0) + 0.5) + 1)
             for stem, atom in self.atoms.items():
-                tf = atom["tokens_doc"].count(term)
+                tf = atom["tf"].get(term, 0)
                 if tf == 0:
                     continue
-                dl = len(atom["tokens_doc"])
+                dl = atom["doc_len"]
                 norm_tf = tf * (K1 + 1) / (tf + K1 * (1 - B + B * dl / self.avgdl))
                 scores[stem] += idf * norm_tf
 
@@ -229,49 +233,31 @@ if __name__ == "__main__":
     args = p.parse_args()
 
     sys.path.insert(0, str(Path(__file__).parent))
-    from config import VaultConfig, detect_language, read_config
+    from config import VaultConfig, resolve_query_language
 
-    # Vault resolution: explicit arg > config.yaml > error
-    if args.vault and args.vault.strip():
-        cfg = VaultConfig(args.vault)
-    else:
-        # --vault not provided or empty; try config.yaml.active_vault
-        repo_dir = Path(__file__).parent.parent.parent
-        config = read_config(repo_dir)
-        vault_name = config.get("active_vault")
-        if vault_name:
-            cfg = VaultConfig(vault_name)
-        else:
-            print(
-                "ERROR: no vault specified. Either:\n"
-                "  1) Pass --vault <path-or-name>\n"
-                "  2) Set active vault: .claude/config/config.yaml with active_vault: <name>\n"
-                "  3) Set $VAULT_NAME env var\n"
-                "  4) Use resolve-vault.sh first: source .claude/scripts/resolve-vault.sh",
-                file=sys.stderr
-            )
-            sys.exit(1)
+    # Vault resolution: explicit arg > config.yaml > config fallback > error
+    # Let VaultConfig handle the full resolution chain (it covers all cases)
+    cfg = VaultConfig(args.vault or None)
 
     enabled = cfg.enabled_languages
+    repo_dir = Path(__file__).parent.parent.parent
 
-    if args.lang:
-        lang = args.lang
-        source = "explicit"
-    else:
-        detected = detect_language(args.query, enabled)
-        if detected:
-            lang = detected
-            source = "auto-detected"
-        else:
-            config_lang = read_config(cfg._repo_dir).get("active_lang")
-            if config_lang and config_lang in enabled:
-                lang = config_lang
-                source = "config.yaml.active_lang"
-            else:
-                lang = enabled[0] if enabled else "en"
-                source = "enabled[0] fallback"
+    # Language resolution: explicit > auto-detect > config.active_lang > enabled[0]
+    lang = resolve_query_language(repo_dir, enabled, explicit=args.lang, query_text=args.query)
 
     if args.lang_source:
+        # Determine which step decided the language for diagnostic output
+        if args.lang:
+            source = "explicit"
+        else:
+            from config import detect_language
+            detected = detect_language(args.query, enabled)
+            if detected:
+                source = "auto-detected"
+            else:
+                from config import read_config
+                config_lang = read_config(repo_dir).get("active_lang")
+                source = "config.yaml.active_lang" if (config_lang and config_lang in enabled) else "enabled[0] fallback"
         print(f"[lang={lang}, source={source}]", file=sys.stderr)
 
     result = retrieve(args.query, lang, cfg.vault_path, args.top, args.output)

@@ -29,6 +29,18 @@ def _load_yaml(path: Path) -> dict:
         return _parse_simple_yaml(path)
 
 
+def _load_yaml_from_text(text: str) -> dict:
+    """Load YAML from a string (avoids re-reading file when text already loaded)."""
+    if not text:
+        return {}
+    try:
+        import yaml
+        return yaml.safe_load(text) or {}
+    except ImportError:
+        # Fallback: basic key: value parser
+        return _parse_simple_yaml_from_text(text)
+
+
 def _parse_simple_yaml(path: Path) -> dict:
     """Minimal YAML parser for simple key: value and nested dicts (no anchors/aliases)."""
     import re
@@ -96,6 +108,71 @@ def _parse_simple_yaml(path: Path) -> dict:
     return result
 
 
+def _parse_simple_yaml_from_text(text: str) -> dict:
+    """Minimal YAML parser for simple key: value and nested dicts (no anchors/aliases).
+
+    This variant parses a string instead of reading from disk, avoiding redundant
+    file I/O when text is already in memory.
+    """
+    import re
+    result = {}
+    stack = [result]
+    indent_stack = [-1]
+
+    for line in text.split('\n'):
+        if not line.strip() or line.strip().startswith("#"):
+            continue
+        stripped = line.rstrip()
+        indent = len(stripped) - len(stripped.lstrip())
+        content = stripped.strip()
+
+        if content.startswith("- "):
+            parent = stack[-1]
+            if isinstance(parent, list):
+                item = content[2:].strip()
+                m = re.match(r'^\{(.+)\}$', item)
+                if m:
+                    d = {}
+                    for pair in re.findall(r'(\w+):\s*"?([^",}]+)"?', m.group(1)):
+                        d[pair[0]] = pair[1].strip()
+                    parent.append(d)
+                else:
+                    item = item.strip('"\'')
+                    parent.append(item)
+        elif ":" in content:
+            key, _, val = content.partition(":")
+            key = key.strip()
+            val = val.strip()
+
+            while indent <= indent_stack[-1]:
+                stack.pop()
+                indent_stack.pop()
+
+            parent = stack[-1]
+            if not val or val == "|" or val == ">":
+                new_obj: Any = {}
+                if isinstance(parent, dict):
+                    parent[key] = new_obj
+                stack.append(new_obj)
+                indent_stack.append(indent)
+            elif val.startswith("["):
+                items = re.findall(r'[\w-]+', val)
+                if isinstance(parent, dict):
+                    parent[key] = items
+            elif val.lower() in ("true", "yes"):
+                if isinstance(parent, dict):
+                    parent[key] = True
+            elif val.lower() in ("false", "no"):
+                if isinstance(parent, dict):
+                    parent[key] = False
+            else:
+                val = val.strip('"\'')
+                if isinstance(parent, dict):
+                    parent[key] = val
+
+    return result
+
+
 # ── Repo config (.claude/config/config.yaml) ────────────────────────────────
 # config.yaml is the unified configuration file holding:
 # - current selection (active_vault, active_lang)
@@ -126,6 +203,8 @@ def write_config(repo_dir: Path, **updates) -> None:
     Merges updates into current config while preserving the entire file structure.
     Uses hand-written YAML only for top-level keys; preserves sections like
     `retrieval:` and all their nested content exactly as-is.
+
+    Allowed keys: active_vault, active_lang (others are silently dropped).
     """
     p = _config_path(repo_dir)
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -133,8 +212,8 @@ def write_config(repo_dir: Path, **updates) -> None:
     # Read current file as raw text (to preserve formatting and comments)
     current_text = p.read_text() if p.exists() else ""
 
-    # Also read parsed config to know what keys exist
-    current = read_config(repo_dir)
+    # Parse config from same text (avoids second file read)
+    current = _load_yaml_from_text(current_text)
 
     # Merge updates
     for k, v in updates.items():
@@ -180,9 +259,8 @@ def write_config(repo_dir: Path, **updates) -> None:
                 # Stop at next top-level key (no indent)
                 if line and not line[0].isspace() and line.strip():
                     break
-                # Preserve the line as-is (comments, values, indentation)
-                if line.strip():  # Skip empty lines in middle
-                    lines.append(line)
+                # Preserve the line as-is (comments, values, indentation, and blank lines)
+                lines.append(line)
 
     p.write_text("\n".join(lines) + "\n")
 

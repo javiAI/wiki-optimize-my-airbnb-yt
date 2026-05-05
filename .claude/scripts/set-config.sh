@@ -23,6 +23,17 @@ if [[ -z "$KEY" || -z "$VALUE" ]]; then
     exit 1
 fi
 
+# Validate key against known allowlist
+case "$KEY" in
+    active_vault | active_lang)
+        ;;
+    *)
+        echo "Error: unknown key '$KEY'"
+        echo "Valid keys: active_vault, active_lang"
+        exit 1
+        ;;
+esac
+
 # Use Python to update config (handles YAML parsing correctly)
 python3 - "$REPO_DIR" "$KEY" "$VALUE" << 'PYEOF'
 import sys
