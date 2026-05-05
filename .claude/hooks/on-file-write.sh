@@ -106,17 +106,18 @@ print(str(v).lower())
         # Determine atomization_lang for this atom from its source (raw frontmatter
         # via video_id lookup). Fallback: assume the lang of the file just written
         # IS the atomization_lang.
-        ATOMIZATION_LANG=$(python3 -c "
-import sys; sys.path.insert(0,'.claude/scripts')
+        ATOMIZATION_LANG=$(FILE="$FILE" LANG="$LANG" python3 -c "
+import sys, os
+sys.path.insert(0,'.claude/scripts')
 from pathlib import Path
 import re
 from config import VaultConfig
 cfg = VaultConfig()
-atom = Path('$FILE')
+atom = Path(os.environ['FILE'])
 text = atom.read_text(encoding='utf-8', errors='replace')
 m = re.search(r'^\s*-\s*source_id:\s*(\S+)', text, re.MULTILINE)
 if not m:
-    print('$LANG')
+    print(os.environ['LANG'])
     sys.exit()
 sid = m.group(1)
 # Try to find this video in raw/{any-lang}/ to read native_lang
@@ -135,7 +136,7 @@ for lang_dir in (cfg.vault_path / 'raw').iterdir() if (cfg.vault_path / 'raw').e
 if found:
     print(cfg.atomization_lang_for(found))
 else:
-    print('$LANG')
+    print(os.environ['LANG'])
 " 2>/dev/null || echo "$LANG")
 
         if [[ "$LANG" == "$ATOMIZATION_LANG" ]]; then

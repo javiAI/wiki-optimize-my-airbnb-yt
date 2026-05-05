@@ -104,7 +104,8 @@ class VaultIndex:
         scores: dict[str, float] = defaultdict(float)
 
         for term in query_tokens:
-            idf = math.log((n - self.df.get(term, 0) + 0.5) / (self.df.get(term, 0) + 0.5) + 1)
+            df_term = self.df.get(term, 0)
+            idf = math.log((n - df_term + 0.5) / (df_term + 0.5) + 1)
             for stem, atom in self.atoms.items():
                 tf = atom["tf"].get(term, 0)
                 if tf == 0:

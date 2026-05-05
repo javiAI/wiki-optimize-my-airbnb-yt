@@ -308,7 +308,8 @@ def prepare_refinement(label, run=None, threshold=REFINE_DIM_THRESHOLD):
         if not q_file.exists():
             print(f"[WARN] {q_file} missing, skipping {qid}")
             continue
-        original = json.loads(q_file.read_text())
+        q_text = q_file.read_text()
+        original = json.loads(q_text)
         qtext = questions["questions"][qid]["text"]
         qlevel = questions["questions"][qid]["level"]
 
@@ -337,7 +338,7 @@ def prepare_refinement(label, run=None, threshold=REFINE_DIM_THRESHOLD):
         # Backup original BEFORE refiner overwrites
         backup_path = q_file.with_suffix(".original.json")
         if not backup_path.exists():
-            backup_path.write_text(q_file.read_text())
+            backup_path.write_text(q_text)
 
         prompt_path = refine_dir / f"{qid}.md"
         prompt_path.write_text(prompt)
