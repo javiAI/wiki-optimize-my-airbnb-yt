@@ -220,7 +220,7 @@ def detect_language(text: str, enabled: List[str]) -> Optional[str]:
     """Return the most likely lang from `enabled`, or None if undecidable.
 
     Score = lang-specific chars (×2) + stopword hits (×1). Tie or zero → None
-    (caller falls back to state.active_lang or enabled[0]).
+    (caller falls back to config.active_lang or enabled[0]).
     """
     if not text or not enabled:
         return None
@@ -415,16 +415,12 @@ class VaultConfig:
     def languages(self) -> List[str]:
         """All wiki languages enabled for this vault. No primary/secondary distinction.
 
-        Source of truth: `languages.enabled` in vault.yml.
+        Source of truth: `languages.enabled` in vault.yml (required, no fallback).
         Atomization language is decided per-source via `atomization_lang_for()`.
         """
         lang = self._data.get("languages", {})
         enabled = lang.get("enabled")
-        if enabled:
-            return enabled
-        # Legacy fallback: primary + secondary if enabled missing
-        legacy = [lang.get("primary", "en")] + lang.get("secondary", [])
-        return [l for l in legacy if l]
+        return enabled if enabled else []
 
     @property
     def enabled_languages(self) -> List[str]:

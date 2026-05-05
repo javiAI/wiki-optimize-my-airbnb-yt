@@ -76,17 +76,11 @@ if [[ -z "${VAULT_PATH:-}" && -n "${VAULT_NAME:-}" ]]; then
     fi
 fi
 
-# 3. config.yaml.active_vault (preferred) or legacy state.yaml or active-vault file → last operated vault.
+# 3. config.yaml.active_vault → last operated vault.
 if [[ -z "${VAULT_PATH:-}" && "$_CFG_VAULT_NAME_BAD" -eq 0 ]]; then
     _CFG_ACTIVE=""
     if [[ -f "$_CFG_CONFIG_YAML" ]]; then
         _CFG_ACTIVE=$(_read_state_field "active_vault" "$_CFG_CONFIG_YAML")
-    fi
-    if [[ -z "$_CFG_ACTIVE" && -f "$_CFG_STATE_YAML" ]]; then
-        _CFG_ACTIVE=$(_read_state_field "active_vault" "$_CFG_STATE_YAML")
-    fi
-    if [[ -z "$_CFG_ACTIVE" && -f "$_CFG_STATE_FILE" ]]; then
-        _CFG_ACTIVE=$(head -1 "$_CFG_STATE_FILE" | tr -d '[:space:]')
     fi
     if [[ -n "$_CFG_ACTIVE" && -f "${_CFG_VAULTS_DIR}/${_CFG_ACTIVE}/vault.yml" ]]; then
         _CFG_VP=$(_resolve_vault_path_from_yml "${_CFG_VAULTS_DIR}/${_CFG_ACTIVE}/vault.yml" || true)

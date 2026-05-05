@@ -219,7 +219,7 @@ if __name__ == "__main__":
     p.add_argument("--query", "-q", required=True, help="Query string")
     p.add_argument("--lang", default=None,
                    help="Language code. If omitted, resolution chain is: "
-                        "auto-detect from --query → state.yaml.active_lang → enabled[0].")
+                        "auto-detect from --query → config.yaml.active_lang → enabled[0].")
     p.add_argument("--top", type=int, default=6, help="Number of results (default: 6)")
     p.add_argument("--vault", default=None, help="Vault path")
     p.add_argument("--output", default="json", choices=["json", "paths", "brief"],

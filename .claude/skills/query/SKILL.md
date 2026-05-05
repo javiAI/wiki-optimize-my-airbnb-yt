@@ -1,6 +1,6 @@
 ---
 name: query
-description: Run a vault query. Auto-detects response language from the question itself; falls back to state.yaml.active_lang and then enabled[0]. Use --lang to force.
+description: Run a vault query. Auto-detects response language from the question itself; falls back to config.yaml.active_lang and then enabled[0]. Use --lang to force.
 allowed-tools: Read Bash(python3) Bash(source)
 ---
 
@@ -16,7 +16,7 @@ The retrieval lang is decided in this order — first hit wins:
 
 1. `--lang` flag (explicit, always wins)
 2. **Auto-detect** from the question itself (chars + stopwords scoring; only triggers if confident — ties and zero-score return None)
-3. `state.yaml.active_lang` in `.claude/state/` (sticky across sessions)
+3. `config.yaml.active_lang` in `.claude/config/` (sticky across sessions)
 4. `enabled[0]` from `vaults/{name}/vault.yml` (deterministic fallback)
 
 Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in other langs are ignored at retrieval time. The response is rendered in `LANG`. The atom propagation pipeline guarantees per-lang parity, so cross-lang citations stay consistent.
@@ -49,10 +49,10 @@ Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in 
 5. Save to `queries/{LANG}/{topic}--{question-slug}.md` if synthesis is new.
    - Include `sources_used` frontmatter with full atom stems
    - For each source, preserve YouTube URL in frontmatter comment or dedicated field
-6. **Update `state.yaml.active_lang`** to `LANG` so the next query in the same session inherits it (sticky behaviour). Only do this if lang was auto-detected (not explicit `--lang` flag).
+6. **Update `config.yaml.active_lang`** to `LANG` so the next query in the same session inherits it (sticky behaviour). Only do this if lang was auto-detected (not explicit `--lang` flag).
 
    ```bash
-   bash .claude/scripts/set-state.sh active_lang "$LANG"
+   bash .claude/scripts/set-config.sh active_lang "$LANG"
    ```
 
 Queries are NOT auto-propagated across langs — they're per-language caches reflecting what the user asked, when. Atoms are propagated; queries are rendered on demand.
