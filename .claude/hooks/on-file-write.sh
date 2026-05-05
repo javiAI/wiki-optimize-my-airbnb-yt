@@ -44,8 +44,10 @@ fi
 
 # Per-vault state dir lives in the vault's bundle: vaults/{name}/state/.
 # Vault data dir is data-only.
-VAULT_NAME_BASENAME="$(basename "$VAULT_PATH")"
-STATE_DIR="$REPO_DIR/vaults/$VAULT_NAME_BASENAME/state"
+# Prefer $VAULT_NAME (the bundle name set by config.sh) — basename of
+# VAULT_PATH only matches when the data dir and bundle share a name.
+VAULT_BUNDLE="${VAULT_NAME:-$(basename "$VAULT_PATH")}"
+STATE_DIR="$REPO_DIR/vaults/$VAULT_BUNDLE/state"
 
 # ── raw/ write → queue for atom creation ────────────────────────────────────
 if [[ "$FILE" == */raw/* && "$FILE" == *.md ]]; then
@@ -71,7 +73,7 @@ if [[ "$FILE" == */wiki/*/*.md ]]; then
     echo "[hook] Atom written: $STEM [$LANG]"
 
     cd "$REPO_DIR"
-    export VAULT_NAME="$VAULT_NAME_BASENAME"
+    export VAULT_NAME="$VAULT_BUNDLE"
     python3 .claude/scripts/auto-link.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
         echo "[hook] WARN: auto-link failed for $STEM [$LANG]" >&2
     python3 .claude/scripts/atom-qa.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
