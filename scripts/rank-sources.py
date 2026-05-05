@@ -9,7 +9,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
-TODAY = date(2026, 4, 22)
+TODAY = date.today()
 SIX_MO = 180
 THREE_YR = 1095
 
