@@ -77,78 +77,30 @@ if [[ "$FILE" == */wiki/*/*.md ]]; then
     python3 .claude/scripts/atom-qa.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
         echo "[hook] WARN: atom-qa failed for $STEM [$LANG]" >&2
 
-    # Optional second-pass refinement
-    AUTO_REFINE=$(python3 -c "
-import sys; sys.path.insert(0,'.claude/scripts')
-from config import VaultConfig
-c = VaultConfig()
-print(str(c.get('pipeline.auto_refine', False)).lower())
-" 2>/dev/null || echo "false")
+    # Single-pass config read: auto_refine, auto_propagate, atomization_lang, enabled.
+    # Replaces 4 separate `python3 -c` invocations.
+    AUTO_REFINE=false
+    AUTO_PROPAGATE=false
+    ATOMIZATION_LANG="$LANG"
+    ENABLED=""
+    while IFS='=' read -r KEY VAL; do
+        case "$KEY" in
+            auto_refine) AUTO_REFINE="$VAL" ;;
+            auto_propagate) AUTO_PROPAGATE="$VAL" ;;
+            atomization_lang) ATOMIZATION_LANG="$VAL" ;;
+            enabled) ENABLED="$VAL" ;;
+        esac
+    done < <(FILE="$FILE" LANG="$LANG" python3 .claude/scripts/hook_propagate.py 2>/dev/null || true)
 
     if [[ "$AUTO_REFINE" == "true" ]]; then
         bash "$SCRIPT_DIR/on-atom-refine.sh" "$STEM" "$LANG" "$VAULT_PATH" &
     fi
 
-    # Auto-propagate canonical atom → other enabled langs (re-atomize at locator
-    # using target-lang transcript). Reads pipeline.auto_propagate (new) with
-    # legacy fallback to pipeline.auto_translate.
-    AUTO_PROPAGATE=$(python3 -c "
-import sys; sys.path.insert(0,'.claude/scripts')
-from config import VaultConfig
-c = VaultConfig()
-v = c.get('pipeline.auto_propagate')
-if v is None:
-    v = c.get('pipeline.auto_translate', False)
-print(str(v).lower())
-" 2>/dev/null || echo "false")
-
     if [[ "$AUTO_PROPAGATE" == "true" ]]; then
-        # Determine atomization_lang for this atom from its source (raw frontmatter
-        # via video_id lookup). Fallback: assume the lang of the file just written
-        # IS the atomization_lang.
-        ATOMIZATION_LANG=$(FILE="$FILE" LANG="$LANG" python3 -c "
-import sys, os
-sys.path.insert(0,'.claude/scripts')
-from pathlib import Path
-import re
-from config import VaultConfig
-cfg = VaultConfig()
-atom = Path(os.environ['FILE'])
-text = atom.read_text(encoding='utf-8', errors='replace')
-m = re.search(r'^\s*-\s*source_id:\s*(\S+)', text, re.MULTILINE)
-if not m:
-    print(os.environ['LANG'])
-    sys.exit()
-sid = m.group(1)
-# Try to find this video in raw/{any-lang}/ to read native_lang
-found = None
-for lang_dir in (cfg.vault_path / 'raw').iterdir() if (cfg.vault_path / 'raw').exists() else []:
-    if not lang_dir.is_dir():
-        continue
-    for raw in lang_dir.glob('*.md'):
-        rt = raw.read_text(encoding='utf-8', errors='replace')
-        if re.search(rf'^video_id:\s*{re.escape(sid)}\s*$', rt, re.MULTILINE):
-            n = re.search(r'^native_lang:\s*(\S+)', rt, re.MULTILINE)
-            if n:
-                found = n.group(1).strip()
-                break
-    if found: break
-if found:
-    print(cfg.atomization_lang_for(found))
-else:
-    print(os.environ['LANG'])
-" 2>/dev/null || echo "$LANG")
-
         if [[ "$LANG" == "$ATOMIZATION_LANG" ]]; then
             LOG="$STATE_DIR/logs/propagate.log"
             LOCK_DIR="$STATE_DIR/logs/propagate-locks"
             mkdir -p "$(dirname "$LOG")" "$LOCK_DIR"
-
-            ENABLED=$(python3 -c "
-import sys; sys.path.insert(0,'.claude/scripts')
-from config import VaultConfig
-print(' '.join(VaultConfig().enabled_languages))
-" 2>/dev/null || echo "")
 
             for TLANG in $ENABLED; do
                 [[ "$TLANG" == "$LANG" ]] && continue
