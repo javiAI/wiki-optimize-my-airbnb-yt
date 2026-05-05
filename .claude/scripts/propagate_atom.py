@@ -45,6 +45,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / ".claude" / "scripts"))
 from config import VaultConfig  # noqa: E402
 from extract_excerpt import extract_at_locator  # noqa: E402
+from frontmatter import parse_frontmatter  # noqa: E402
 
 CLAUDE_BIN = os.environ.get("CLAUDE_BIN", "claude")
 DEFAULT_MAX_TURNS = "3"
@@ -65,58 +66,10 @@ def _load_yaml(text: str) -> dict:
         import yaml
         return yaml.safe_load(text) or {}
     except ImportError:
-        return _parse_atom_frontmatter(text)
+        fm, _ = parse_frontmatter(text)
+        return fm
 
 
-def _parse_atom_frontmatter(text: str) -> dict:
-    """Minimal parser for atom frontmatter when PyYAML is unavailable."""
-    out: dict = {}
-    sources: list = []
-    cur: Optional[dict] = None
-    in_sources = False
-
-    for raw_line in text.splitlines():
-        line = raw_line.rstrip()
-        if not line.strip() or line.strip().startswith("#"):
-            continue
-
-        # End of sources block: a top-level key (no leading spaces, no leading dash)
-        if in_sources and not line.startswith(" ") and not line.lstrip().startswith("-"):
-            if cur is not None:
-                sources.append(cur)
-                cur = None
-            in_sources = False
-
-        if line.startswith("sources:"):
-            in_sources = True
-            continue
-
-        if in_sources:
-            stripped = line.strip()
-            if stripped.startswith("- source_id:"):
-                if cur is not None:
-                    sources.append(cur)
-                cur = {"source_id": stripped.split(":", 1)[1].strip().strip('"')}
-            elif cur is not None and ":" in stripped:
-                k, v = stripped.split(":", 1)
-                cur[k.strip()] = v.strip().strip('"')
-            continue
-
-        if ":" in line:
-            k, v = line.split(":", 1)
-            k = k.strip()
-            v = v.strip()
-            if v.startswith("[") and v.endswith("]"):
-                v = [x.strip().strip('"') for x in v[1:-1].split(",") if x.strip()]
-            else:
-                v = v.strip('"')
-            out[k] = v
-
-    if cur is not None:
-        sources.append(cur)
-    if sources:
-        out["sources"] = sources
-    return out
 
 
 def parse_atom(atom_text: str) -> tuple[dict, str]:

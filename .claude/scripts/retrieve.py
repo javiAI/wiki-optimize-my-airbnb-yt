@@ -26,6 +26,7 @@ import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
+from frontmatter import parse_frontmatter
 
 
 # BM25 parameters
@@ -40,45 +41,6 @@ def tokenize(text: str) -> list[str]:
     return re.findall(r'[a-záéíóúüñ\w]+', text.lower())
 
 
-def _parse_frontmatter_simple(text: str) -> tuple[dict, str]:
-    """Minimal frontmatter parser — extracts claim, topics, lang, sources[0].url."""
-    if not text.startswith("---"):
-        return {}, text
-    end = text.find("---", 3)
-    if end == -1:
-        return {}, text
-    fm_text = text[3:end]
-    body = text[end + 3:].strip()
-
-    fm = {}
-    topics = []
-    in_sources = False
-    for line in fm_text.splitlines():
-        stripped = line.strip()
-        if stripped.startswith("claim:"):
-            fm["claim"] = stripped.split(":", 1)[1].strip().strip('"')
-        elif stripped.startswith("topics:"):
-            raw = stripped.split(":", 1)[1].strip()
-            topics = [t.strip().strip('"') for t in raw.strip("[]").split(",") if t.strip()]
-        elif stripped.startswith("lang:"):
-            fm["lang"] = stripped.split(":", 1)[1].strip()
-        elif stripped.startswith("confidence:"):
-            fm["confidence"] = stripped.split(":", 1)[1].strip()
-        elif stripped.startswith("last_verified:"):
-            fm["last_verified"] = stripped.split(":", 1)[1].strip()
-        elif stripped.startswith("sources:"):
-            in_sources = True
-        elif in_sources and stripped.startswith("url:"):
-            # Extract first source's URL
-            if "url" not in fm:
-                fm["url"] = stripped.split(":", 1)[1].strip().strip('"')
-            in_sources = False
-        elif stripped.startswith("url:") and not in_sources:
-            # Top-level url field
-            fm.setdefault("url", stripped.split(":", 1)[1].strip().strip('"'))
-
-    fm["topics"] = topics
-    return fm, body
 
 
 class VaultIndex:
@@ -100,7 +62,7 @@ class VaultIndex:
         total_len = 0
         for p in wiki_dir.glob("*.md"):
             text = p.read_text(errors="replace")
-            fm, body = _parse_frontmatter_simple(text)
+            fm, body = parse_frontmatter(text)
             claim = fm.get("claim", "")
             topics = fm.get("topics", [])
 
@@ -161,7 +123,7 @@ class VaultIndex:
             return {}
         path = Path(atom["path"])
         full_text = path.read_text(errors="replace")
-        fm, body = _parse_frontmatter_simple(full_text)
+        fm, body = parse_frontmatter(full_text)
         return {
             "stem": stem,
             "path": atom["path"],

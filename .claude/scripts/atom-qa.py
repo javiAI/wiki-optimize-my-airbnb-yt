@@ -35,68 +35,9 @@ from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent))
 from qa_lexicon import ANGLICISM_TABLE, ANGLICISM_WHITELIST, ACRONYM_TABLE
+from frontmatter import parse_frontmatter
 
 
-def _parse_frontmatter(text: str) -> tuple[dict, str]:
-    """Parse YAML frontmatter from atom markdown. Returns (frontmatter_dict, body)."""
-    if not text.startswith("---"):
-        return {}, text
-    end = text.find("---", 3)
-    if end == -1:
-        return {}, text
-    fm_text = text[3:end]
-    body = text[end + 3:].strip()
-
-    fm = {}
-    current_key = None
-    sources_list = []
-    in_sources = False
-    current_source = {}
-
-    for line in fm_text.splitlines():
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
-            continue
-
-        if line.startswith("sources:"):
-            in_sources = True
-            current_key = "sources"
-            continue
-
-        if in_sources:
-            if stripped.startswith("- source_id:"):
-                if current_source:
-                    sources_list.append(current_source)
-                current_source = {"source_id": stripped.split(":", 1)[1].strip()}
-            elif current_source is not None:
-                if ":" in stripped:
-                    k, v = stripped.split(":", 1)
-                    k, v = k.strip(), v.strip().strip('"')
-                    current_source[k] = v
-            # Detect end of sources block
-            if not line.startswith(" ") and ":" in stripped and not stripped.startswith("-"):
-                in_sources = False
-                if current_source:
-                    sources_list.append(current_source)
-                    current_source = {}
-                current_key = None
-                k, v = stripped.split(":", 1)
-                fm[k.strip()] = v.strip().strip('"')
-            continue
-
-        if ":" in stripped:
-            k, v = stripped.split(":", 1)
-            k, v = k.strip(), v.strip().strip('"')
-            if v.startswith("[") and v.endswith("]"):
-                v = [x.strip().strip('"') for x in v[1:-1].split(",") if x.strip()]
-            fm[k] = v
-
-    if current_source:
-        sources_list.append(current_source)
-    if sources_list:
-        fm["sources"] = sources_list
-
-    return fm, body
 
 
 def check_completeness(fm: dict) -> list[dict]:
@@ -355,7 +296,7 @@ def run_qa(
         return {"atom": stem, "lang": lang, "pass": False, "error": f"File not found: {atom_file}"}
 
     text = atom_file.read_text()
-    fm, body = _parse_frontmatter(text)
+    fm, body = parse_frontmatter(text)
 
     violations = []
     violations += check_completeness(fm)
