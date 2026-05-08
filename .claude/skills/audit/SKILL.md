@@ -92,7 +92,7 @@ Scope: **vault structure** + (in deep mode) **cross-atom semantic drift**, not p
 
 5. **Suggest next actions** based on what the report flagged:
    - Orphans → `python3 .claude/scripts/auto-link.py --all --lang {lang}`
-   - Missing propagations → `/translate {stem}` (per-atom; the skill is being renamed to `/propagate` in a follow-up).
+   - Missing propagations → `/propagate {stem}` (per-atom).
    - Stale → prioritize re-verification; `/ingest` new sources on that topic.
    - "Suggested New Sources" block present → `/suggest-sources` to turn topics into concrete URLs.
    - Want to know what to ask next → `/suggest-questions` mines the corpus for answerable + gap-revealing questions.
