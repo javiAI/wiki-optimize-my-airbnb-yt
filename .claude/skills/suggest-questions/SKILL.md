@@ -79,7 +79,7 @@ Two output buckets:
    - Each "answerable" question must cite at least one atom by name
    - Each "gap-revealing" question must explain WHY it's a gap (single source, contradiction, low confidence, missing topic adjacency)
    - Phrase questions in the user's voice, not the wiki's: "How do I…", "What's the right…", "When should I…" — not "What does the corpus say about…"
-   - Use the **target language**: ES questions in Spanish, EN in English. Phrase natively in the target lang — no English borrowings in non-English questions (brand and standardised tech terms exempt: PriceLabs, Airbnb, PMS, API, etc.).
+   - Use the **target language**: phrase questions natively in `LANG`, as a bilingual native of `LANG` would phrase them for a monolingual reader. Proper nouns and universally-known technical acronyms stay verbatim.
 
 7. **Refuse to invent topics**. Only suggest questions about topics that exist in `wiki/{LANG}/`. If the user asks about an unknown topic, say so and recommend `/suggest-sources <topic>` instead.
 

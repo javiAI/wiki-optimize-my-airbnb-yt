@@ -50,7 +50,7 @@ Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in 
 3. Detect response regime (A/B/C per CLAUDE.md §4.6) and draft following `meta/RESPONSE_TEMPLATES.md`.
 4. Apply pre-output checklist (CLAUDE.md §pre-output checklist):
    - Word count within ceiling (A=250/B=600/C=1000)
-   - Written natively in the response lang (no English-borrowing leakage in non-English answers; brand/tech whitelist exempt)
+   - Written natively in the response lang as a bilingual native of that lang would write for a monolingual reader (no calques of the source-language wording; proper nouns and universally-known acronyms stay verbatim per the vault's `agents.md`)
    - Each step/cell has exactly one [[atom]] citation
    - **Each number backed by inline [[atom]] citation or source_id** (not just at end)
    - No intro filler, no trailing summary

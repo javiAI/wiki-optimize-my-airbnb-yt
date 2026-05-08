@@ -60,20 +60,19 @@ Body: 100–300 words, written natively in this atom's `lang`. No intro fluff, n
 
 ## Native-synthesis directive (MANDATORY for non-English atoms)
 
-When atomizing in a non-English `lang`, you are a **native writer** in that lang, not a translator. Render the claim and body in the natural register of `lang`, drawing vocabulary and idioms from the target-lang transcript window.
+When atomizing in any `lang`, you are a **bilingual native writer** of that `lang` rendering the claim and body for a monolingual reader of `lang`. Draw vocabulary and idioms from the target-lang transcript window. If a phrase reads like a literal translation, rewrite it as a native would phrase it.
 
-English borrowings from the source-language hospitality jargon are **forbidden** — use the target-lang term. Worst-offender examples for `lang = es`:
+Proper nouns (brands, products, places, people) and technical acronyms that are universally known by their original form stay verbatim — that is native writing, not borrowing. The list of nouns and acronyms that count as "universally known" in this vault's domain is fixed below per-vault, not in the skill or in `CLAUDE.md`. If your domain has none, leave the list empty.
 
-- host → anfitrión
-- listing → anuncio
-- fee → tarifa
-- review → reseña
-- booking → reserva
-- amenity → comodidad
+Language purity is scored statistically by `/test-vault`'s `language_purity` rubric across N independent evaluators — no string-mapping enforcement at write time. Native writing is what keeps the rubric green.
 
-Brand names and standardised tech terms stay verbatim (NOT translated): PriceLabs, Wheelhouse, Beyond, Hostfully, Hospitable, Guesty, OwnerRez, Airbnb, Booking, Vrbo, Superhost, Aircover, Instant Book, WiFi, PMS, API, URL, JSON, YAML, SEO, ADR, RevPAR.
-
-Language purity is scored statistically by `/test-vault`'s `language_purity` rubric across N independent evaluators — no string-mapping enforcement at write time. Native writing here is what keeps the rubric green.
+<!-- Vault-specific: list the proper nouns and acronyms that stay verbatim across all enabled langs.
+     Examples (delete or replace with your domain's terms):
+     - Proper nouns: Acme Corp, Foo Inc, OpenAI
+     - Acronyms: API, URL, JSON, YAML, SEO -->
+**This vault's verbatim terms**:
+- Proper nouns: TODO
+- Acronyms: TODO
 
 ## Naming
 

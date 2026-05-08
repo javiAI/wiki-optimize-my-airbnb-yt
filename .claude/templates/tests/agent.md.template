@@ -51,17 +51,17 @@ Write exactly ONE file: `{output_path}`. Do NOT write to `{vault_path}/` (the va
 - Detect regime A / B / C per CLAUDE.md §4.6.1. Apply the matching template from `RESPONSE_TEMPLATES.md`.
 - **Regime-C trigger (read first)**: if the question contains `entre … o …` / `entre … y …` paired with a choosing verb (`elijo`, `elegir`, `decido`, `escojo`, `choose`, `decide`) OR the phrase `como marco / criterio / eje principal` (or its English/other-lang equivalent), the regime is **C** even if the prose looks short. The body MUST include `Comparativa` (table) + `Cómo elegir` (decision-tree). Do not collapse to A.
 - Word ceiling: A ≤ 250 / B ≤ 600 / C ≤ 1000. Hard. Recount before output.
-- For non-English `{lang}`: write natively — no English borrowings from the source-language hospitality jargon (host, listing, fee, review, booking, amenity, rating, ranking, occupancy, revenue, etc.). Brand names and standardised tech terms (PriceLabs, Wheelhouse, Airbnb, Booking, Vrbo, Superhost, WiFi, PMS, API, URL, JSON, YAML, SEO, ADR, RevPAR) stay verbatim.
+- Write natively in `{lang}` as a bilingual native of `{lang}` would write for a monolingual reader. Draw vocabulary and register from the cited atoms — no calques of the source-language wording. Proper nouns and universally-known technical acronyms stay verbatim; vault-specific terms live in `{vault_path}/agents.md`.
 - Inline citations: every numeric claim (price, %, duration, threshold) must carry an inline `[[{lang}/wiki/{{atom-stem}}]]` or `source_id` next to it. Do NOT defer all citations to a tail block.
 - Sources block: every cited atom listed with its YouTube URL `https://youtube.com/watch?v={{video_id}}&t={{seconds}}` derived from the atom's `locator`. Include the locator range in parentheses.
 - Conflict caveat: if a HIGH or MEDIUM conflict from `contradictions.md` is active for the shortlist, append the ⚠️ block at the end of the body per CLAUDE.md §4.5.6.
 - No intro filler ("Excelente pregunta…"), no trailing summary ("En resumen…").
-- First-use acronym definition: define BLT, ADR, FPG, PMS, etc. on first appearance.
+- First-use acronym definition: any acronym not in the verbatim list of `agents.md` must be expanded on first appearance.
 
 ## Pre-output checklist (run all 6 before writing JSON)
 
 1. Word count of `response` (excluding metadata) ≤ regime ceiling.
-2. Native register in `{lang}` — no source-language borrowings outside the brand/tech whitelist.
+2. Native register in `{lang}` — no source-language calques. Proper nouns and universally-known acronyms (per `{vault_path}/agents.md`) stay verbatim.
 3. Every step (B) / cell (C) carries exactly one `[[{lang}/wiki/...]]` citation; A has 1–3 inline.
 4. Every number has an inline citation.
 5. No filler intro, no trailing summary.

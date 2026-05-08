@@ -7,8 +7,7 @@ Checks per atom (per language):
   3. Multilingual schema: each source has excerpt_source ∈ {yt_manual, yt_auto,
      llm_fallback, native_atomization}; if propagated_from is present at the
      top level, it points to an enabled language.
-  4. Acronyms: acronyms used without expansion on first occurrence
-  5. Conflict: claim overlaps with meta/contradictions.md entries
+  4. Conflict: claim overlaps with meta/contradictions.md entries
 
 Language purity (anglicism leakage in non-English atoms) is enforced
 statistically by `/test-vault`'s `language_purity` rubric across N independent
@@ -20,7 +19,7 @@ Usage:
     python3 .claude/scripts/atom-qa.py pricing--base-price --lang es
     python3 .claude/scripts/atom-qa.py --all --lang es
     python3 .claude/scripts/atom-qa.py --all          # checks all langs enabled in vault.yaml
-    python3 .claude/scripts/atom-qa.py --all --fix    # auto-fix acronyms, missing URLs
+    python3 .claude/scripts/atom-qa.py --all --fix    # auto-fix missing URLs
 
 Output: meta/qa-reports/{stem}.{lang}.json — written ONLY when violations exist.
         If atom becomes clean, any pre-existing report is deleted.
@@ -38,25 +37,6 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).parent))
 from config import kind_dir
 from frontmatter import parse_frontmatter
-
-# Hospitality-domain acronyms. Define-on-first-use is enforced regardless of
-# atom lang (an undefined "PMS" is opaque in any language). Add domain terms
-# here when they recur enough that readers benefit from a single expansion.
-ACRONYM_TABLE: list = [
-    ("ADR", "Average Daily Rate"),
-    ("RevPAR", "Revenue Per Available Rental"),
-    ("PMS", "Property Management System"),
-    ("OTA", "Online Travel Agency"),
-    ("LOS", "Length of Stay"),
-    ("DOW", "Day of Week"),
-    ("STR", "Short-Term Rental"),
-    ("KPI", "Key Performance Indicator"),
-    ("ROI", "Return on Investment"),
-    ("TOS", "Terms of Service"),
-]
-
-
-
 
 def check_completeness(fm: dict) -> list[dict]:
     violations = []
@@ -146,47 +126,6 @@ def check_multilingual_schema(fm: dict, enabled_langs: list[str]) -> list[dict]:
     return violations
 
 
-def check_acronyms(body: str) -> list[dict]:
-    """
-    Check body for acronyms used without their expansion defined inline.
-    Applies to all languages — acronyms must be expanded on first use.
-    """
-    violations = []
-    for acronym, expansion in ACRONYM_TABLE:
-        # Case-sensitive match: acronyms are uppercase, avoids matching e.g. "adr" inside words
-        if not re.search(r'\b' + re.escape(acronym) + r'\b', body):
-            continue
-        # Skip if expansion already appears anywhere (case-insensitive)
-        if expansion.lower() in body.lower():
-            continue
-        violations.append({
-            "type": "acronym_unexpanded",
-            "severity": "warning",
-            "message": f'Acronym "{acronym}" used without expansion — first occurrence should be followed by "({expansion})"',
-            "acronym": acronym,
-            "expansion": expansion,
-            "auto_fixable": True,
-        })
-    return violations
-
-
-def apply_acronym_fixes(body: str, violations: list[dict]) -> str:
-    """Insert ' (expansion)' after the FIRST occurrence of each flagged acronym."""
-    result = body
-    for v in violations:
-        if not v.get("auto_fixable") or v.get("type") != "acronym_unexpanded":
-            continue
-        acronym = v["acronym"]
-        expansion = v["expansion"]
-        result = re.sub(
-            r'\b' + re.escape(acronym) + r'\b',
-            f'{acronym} ({expansion})',
-            result,
-            count=1,
-        )
-    return result
-
-
 def _inject_missing_urls(text: str, source_type: str = "youtube") -> tuple[str, int]:
     """For each source in frontmatter without a url, compute one from source_id+locator."""
     from deep_link import inject_urls_into_frontmatter
@@ -250,7 +189,6 @@ def run_qa(
     violations += check_completeness(fm)
     violations += check_url_format(fm, source_type)
     violations += check_multilingual_schema(fm, enabled_langs or [])
-    violations += check_acronyms(body)
     violations += check_conflicts(stem, fm, vault_path / "meta")
 
     critical = [v for v in violations if v.get("severity") == "critical"]
@@ -311,44 +249,19 @@ def run_all(lang: str, vault_path: Path, source_type: str = "youtube",
 
 
 def fix_atom(stem: str, lang: str, vault_path: Path, source_type: str = "youtube") -> int:
-    """Apply all auto_fixable corrections to an atom file. Returns count of fixes applied."""
+    """Apply auto_fixable corrections to an atom file. Returns count of fixes applied."""
     wiki_dir = kind_dir(vault_path, "wiki", lang)
     atom_file = wiki_dir / f"{stem}.md"
     if not atom_file.exists():
         return 0
 
     text = atom_file.read_text()
-    fixes = 0
-
-    # 1. Inject missing URLs in frontmatter
     text, url_fixes = _inject_missing_urls(text, source_type)
-    fixes += url_fixes
-
-    # 2. Apply acronym fixes, preserving original whitespace
-    end = text.find("---", 3)
-    if end == -1:
-        return fixes
-    frontmatter_raw = text[:end + 3]
-    body_raw = text[end + 3:]
-
-    body_lstripped = body_raw.lstrip()
-    leading_ws = body_raw[: len(body_raw) - len(body_lstripped)]
-    body_content = body_lstripped.rstrip()
-    trailing_ws = body_lstripped[len(body_content):]
-
-    new_content = body_content
-
-    acronym_violations = check_acronyms(new_content)
-    fixable_acronyms = [v for v in acronym_violations if v.get("auto_fixable")]
-    if fixable_acronyms:
-        new_content = apply_acronym_fixes(new_content, fixable_acronyms)
-        fixes += len(fixable_acronyms)
-
-    if fixes == 0:
+    if url_fixes == 0:
         return 0
 
-    atom_file.write_text(frontmatter_raw + leading_ws + new_content + trailing_ws)
-    return fixes
+    atom_file.write_text(text)
+    return url_fixes
 
 
 if __name__ == "__main__":

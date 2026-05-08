@@ -27,7 +27,7 @@ Atoms are created **once** per source, in that source's `atomization_lang` (the 
 
    **LLM-fallback advisory** — also check `vaults/$VAULT_NAME/state/queue/llm-fallback.txt`. If it has lines, surface a one-liner before processing: *"N source(s) have no transcript in any enabled language; atomization will be done by LLM synthesis from `enabled[0]` transcript and stamped `excerpt_source: llm_fallback`. Quality may be lower."* Each line is `<video_id>\t<native_lang>\t<atomization_lang>` — list the affected video_ids inline. Continue to step 3 regardless; this is informational, not blocking.
 
-3. Read `vaults/$VAULT_NAME/agents.md` to understand atom schema and per-vault rules (native-synthesis directive, brand whitelist, regime contract, etc.).
+3. Read `vaults/$VAULT_NAME/agents.md` to understand atom schema and per-vault rules (native-synthesis directive, vault-specific verbatim terms, regime contract, etc.).
 4. For each raw file path listed in the queue:
    a. **Read frontmatter** — extract `video_id`, `native_lang`, `language` (subtitle lang of this file), `subtitle_source` (manual|auto).
    b. **Determine atomization_lang**:

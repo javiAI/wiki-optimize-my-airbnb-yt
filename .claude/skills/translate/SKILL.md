@@ -31,7 +31,7 @@ A bilingual professional reading the target-language transcript at the locator w
    - `propagated_from: {from}` (top-level marker).
    - For each source: `source_id`, `locator`, `url` copied verbatim; `excerpt` from step 3; `excerpt_source` and `lang_origin: {from}`.
    - `body:` 80-250 words in {to}, opening with claim restated, drawing vocabulary and idioms from the transcript window — never word-for-word translation of the canonical body.
-5. Write natively in `{to}` from the target-lang transcript window. English borrowings (host, listing, fee, review, booking, amenity, rating, ranking, etc.) are forbidden — use the target-lang term. Brand names and standardised tech terms (PriceLabs, Wheelhouse, Airbnb, Booking, Vrbo, Superhost, WiFi, PMS, API, URL, JSON, YAML, SEO, ADR, RevPAR) stay verbatim.
+5. Write natively in `{to}` as a bilingual native of `{to}` would write for a monolingual reader of `{to}`. Draw vocabulary, register and idioms from the target-lang transcript window — never word-for-word translation of the canonical body. Proper nouns (brand and product names) and universally-known technical acronyms (e.g. API, URL, JSON, YAML) stay verbatim; per-vault terminology specifics live in the vault's `agents.md`, not in this skill.
 6. Write `wiki/{to}/{stem}.md`. The `on-file-write` hook fires automatically (auto-link + qa).
 7. Run `python3 .claude/scripts/atom-qa.py {stem} --lang {to}` — report any violations.
 

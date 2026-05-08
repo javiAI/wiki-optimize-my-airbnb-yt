@@ -49,7 +49,7 @@ python3 ../.claude/scripts/retrieve.py --query "your question here" --lang es --
 - **retrieve.py**: Token-free BM25 retrieval (3ms lookup on 156 atoms)
 - **config.py**: Language detection, vault resolution, state management
 - **vault-agent.py**: Health auditing (orphans, stale atoms, gaps)
-- **atom-qa.py**: Content validation (claims, URLs, Spanish purity)
+- **atom-qa.py**: Content validation (claims, URLs, multilingual schema)
 
 ---
 
@@ -180,7 +180,7 @@ python3 .claude/scripts/retrieve.py --query "..." --lang-source
 # Vault health check (orphans, stale, conflicts)
 VAULT_NAME=optimize-my-airbnb-yt python3 .claude/scripts/vault-agent.py
 
-# Content validation (claims, URLs, Spanish purity)
+# Content validation (claims, URLs, multilingual schema)
 python3 .claude/scripts/atom-qa.py --all --lang es --fix
 ```
 
