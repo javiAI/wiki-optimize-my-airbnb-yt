@@ -1,5 +1,5 @@
 #!/bin/bash
-# on-ingest-batch-close.sh — invoked by /ingest-queue at end of batch.
+# on-ingest-batch-close.sh — invoked by /ingest at end of batch.
 #
 # 1. Drains hub enrichment queues via refresh-hubs.py (when hubs.auto_refresh).
 # 2. Bumps state/.ingest-counter by the number of atoms produced in this batch
@@ -9,7 +9,7 @@
 #    (the hook itself does not invoke /audit; that's a slash-command, not a
 #    background script). Counter resets after the advisory.
 #
-# Usage from /ingest-queue:
+# Usage from /ingest:
 #   bash .claude/hooks/on-ingest-batch-close.sh [N_ATOMS_PRODUCED]
 
 set -euo pipefail

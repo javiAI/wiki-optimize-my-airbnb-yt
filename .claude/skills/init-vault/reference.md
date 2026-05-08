@@ -68,7 +68,7 @@ the canonical body. No intro fluff. No trailing summary.
 **Field semantics**:
 
 - `excerpt_source`:
-  - `native_atomization` — canonical atom; excerpt lifted verbatim from `raw/{lang}/{video}.md` during ingest-queue.
+  - `native_atomization` — canonical atom; excerpt lifted verbatim from `raw/{lang}/{video}.md` during ingest.
   - `yt_manual` — propagated atom; excerpt lifted from creator-authored target-lang subtitles.
   - `yt_auto` — propagated atom; excerpt lifted from YouTube auto-translated subtitles.
   - `llm_fallback` — propagated atom; no target-lang transcript available, excerpt synthesized by LLM.

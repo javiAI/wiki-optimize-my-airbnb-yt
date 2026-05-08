@@ -10,7 +10,7 @@ Hub pages (`{lang}/wiki/entity--<slug>.md`, `{lang}/wiki/comparison--<a>-vs-<b>.
 
 ## When it runs
 
-- **Automatic**: `on-ingest-batch-close.sh` calls this at the end of `/ingest-queue`. The user shouldn't normally need to invoke manually.
+- **Automatic**: `on-ingest-batch-close.sh` calls this at the end of `/ingest`. The user shouldn't normally need to invoke manually.
 - **Manual**: after a bulk re-ingest, when you want to redo enrichment from updated atoms, or when a previous run failed (queues are only truncated on full success).
 
 ## Usage

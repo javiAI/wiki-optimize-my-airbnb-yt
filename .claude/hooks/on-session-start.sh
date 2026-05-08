@@ -50,7 +50,7 @@ if [[ -f "$QUEUE" && -s "$QUEUE" ]]; then
     done < "$QUEUE"
 
     if [[ $VALID -gt 0 ]]; then
-        echo "[WikiForge] $VALID source(s) pending atom creation. Run /ingest-queue to process."
+        echo "[WikiForge] $VALID source(s) pending atom creation. Run /ingest (no args) to process."
         echo -e "$PREVIEW" | head -4
         [[ $VALID -gt 3 ]] && echo "  ... and $((VALID - 3)) more"
     fi

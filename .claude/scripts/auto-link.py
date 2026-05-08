@@ -273,7 +273,7 @@ def regenerate_index(vault_path: Path, lang: str, vault_name: str, dry_run: bool
 
     lines = [f"# Vault Index — {vault_name} ({lang})", ""]
     if not rows:
-        lines.append("_No MOCs yet. Run `/ingest` then `/ingest-queue` to populate._")
+        lines.append("_No MOCs yet. Run `/ingest` to populate._")
         lines.append("")
     else:
         lines.append("| Topic | Atoms |")

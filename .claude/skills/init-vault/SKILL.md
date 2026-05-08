@@ -15,7 +15,7 @@ The user's argument decides:
 
    - If the dir is `vaults/{name}/`, its basename becomes the vault slot name (config.yaml's `name:` field is informational and should match).
    - If `sources.txt` is present, the script runs batch-ingest automatically after bundle creation — **skip Phase 3**, you don't need to write a queue file or invoke ingest separately.
-   - Skip Phase 1 entirely. **If `auto_atoms: true` in config.yaml, Phase 4 is mandatory in this same turn** — do not stop and tell the user to run `/ingest-queue`. The post-ingest hook populates `vaults/{name}/state/queue/pending-atoms.txt`; read it and atomize each entry exactly as Phase 4 prescribes (parallel subagents, one per source).
+   - Skip Phase 1 entirely. **If `auto_atoms: true` in config.yaml, Phase 4 is mandatory in this same turn** — do not stop and tell the user to run `/ingest`. The post-ingest hook populates `vaults/{name}/state/queue/pending-atoms.txt`; read it and atomize each entry exactly as Phase 4 prescribes (parallel subagents, one per source).
 
 2. **Config-file mode**. Argument is a YAML file (e.g. `/init-vault path/to/answers.yml`). Run `init-vault.sh --config <path>`. The script reads every answer from the file; skip Phase 1 and continue with Phase 3 (sources) — no auto-ingest in this mode.
 
