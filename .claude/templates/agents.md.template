@@ -89,6 +89,16 @@ url = "https://youtube.com/watch?v={source_id}&t={seconds}"
 
 Computed once at atom-creation time, stored in `sources[].url`. Same URL across language versions.
 
+## Source linking convention
+
+How `/query` should surface a cited source's URL in the response's Sources section. Read by the skill before drafting; the skill itself is source-type-agnostic.
+
+- **Label** (per response lang): TODO — e.g. `Vídeo:` (es) / `Video:` (en) / `Source:` / `Article:` …
+- **Format**: `{label} {sources[].url}` followed by the locator in parentheses when present, e.g. `Vídeo: https://youtube.com/watch?v=VIDEO_ID&t=83  (01:23-01:47)`.
+- **Inline numbers** still carry the `[[atom]]` or `source_id` citation directly — the URL block in Sources is for navigation, not for citation hygiene.
+
+If your vault uses a non-video source type (articles, PDFs), replace the URL formula above with the convention that fits (URL with `#anchor`, page number, etc.) and update the label accordingly.
+
 ## Source priority score
 
 ```
