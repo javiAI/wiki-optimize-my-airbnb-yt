@@ -5,10 +5,14 @@
 #
 # Resolution order (first match wins):
 #   1. $VAULT_PATH already exported → use as-is (caller knows best)
-#   2. $VAULT_NAME exported         → vaults/{name}/vault.yml → vault_path field
-#   3. .claude/state/active-vault   → name written by last successful operation
+#   2. $WIKIFORGE_VAULT or $VAULT_NAME → vaults/{name}/vault.yml → vault_path
+#   3. .claude/state/wikiforge.yaml → active_vault written by last operation
 #   4. Single vaults/* bundle       → auto-select (zero ambiguity)
 #   5. 2+ bundles, no signal        → AMBIGUOUS: print loud error, leave unset
+#
+# Per-call overrides for frontends:
+#   WIKIFORGE_VAULT=apt-101  WIKIFORGE_LANG=es  /query "..."
+#   — same effect as VAULT_NAME but namespaced for plugin distribution.
 #
 # Why loud-error instead of silent pick: when 2+ vaults exist, picking one
 # arbitrarily means a /query or /ingest may operate on the wrong vault — the
@@ -22,19 +26,24 @@
 # config.sh lives at .claude/scripts/ — repo root is two levels up
 _CFG_REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 _CFG_VAULTS_DIR="${_CFG_REPO_DIR}/vaults"
-_CFG_CONFIG_YAML="${_CFG_REPO_DIR}/.claude/config/config.yaml"
-_CFG_STATE_YAML="${_CFG_REPO_DIR}/.claude/state/state.yaml"  # legacy fallback
-_CFG_STATE_FILE="${_CFG_REPO_DIR}/.claude/state/active-vault"  # legacy fallback
+_CFG_STATE_YAML="${_CFG_REPO_DIR}/.claude/state/wikiforge.yaml"
+
+# WIKIFORGE_VAULT is the namespaced alias for VAULT_NAME (plugin-friendly for
+# frontends that want a per-call scoping flag). VAULT_NAME stays supported.
+[[ -z "${VAULT_NAME:-}" && -n "${WIKIFORGE_VAULT:-}" ]] && export VAULT_NAME="$WIKIFORGE_VAULT"
 
 _read_state_field() {
-    # Extract a flat top-level field from a config file. Format is intentionally
-    # minimal: `key: value` lines, no nesting. Returns empty string if missing.
+    # Reads top-level `active_vault` / `active_lang` from .claude/state/wikiforge.yaml.
     local field="$1"
-    local config_file="$2"
-    [[ -f "$config_file" ]] || return 0
-    grep -E "^${field}:" "$config_file" | head -1 \
-        | sed -E "s/^${field}:[[:space:]]*\"?([^\"#]+)\"?.*$/\\1/" \
-        | tr -d '[:space:]'
+    local state_file="$2"
+    [[ -f "$state_file" ]] || return 0
+    awk -v f="$field" '
+        $0 ~ "^"f":" {
+            sub(/^[^:]+:[[:space:]]*"?/, "")
+            sub(/"?[[:space:]]*(#.*)?$/, "")
+            print; exit
+        }
+    ' "$state_file"
 }
 
 _resolve_vault_path_from_yml() {
@@ -76,11 +85,11 @@ if [[ -z "${VAULT_PATH:-}" && -n "${VAULT_NAME:-}" ]]; then
     fi
 fi
 
-# 3. config.yaml.active_vault → last operated vault.
+# 3. state/wikiforge.yaml.active_vault → last operated vault.
 if [[ -z "${VAULT_PATH:-}" && "$_CFG_VAULT_NAME_BAD" -eq 0 ]]; then
     _CFG_ACTIVE=""
-    if [[ -f "$_CFG_CONFIG_YAML" ]]; then
-        _CFG_ACTIVE=$(_read_state_field "active_vault" "$_CFG_CONFIG_YAML")
+    if [[ -f "$_CFG_STATE_YAML" ]]; then
+        _CFG_ACTIVE=$(_read_state_field "active_vault" "$_CFG_STATE_YAML")
     fi
     if [[ -n "$_CFG_ACTIVE" && -f "${_CFG_VAULTS_DIR}/${_CFG_ACTIVE}/vault.yml" ]]; then
         _CFG_VP=$(_resolve_vault_path_from_yml "${_CFG_VAULTS_DIR}/${_CFG_ACTIVE}/vault.yml" || true)
@@ -122,5 +131,5 @@ if [[ -z "${VAULT_PATH:-}" && "$_CFG_VAULT_NAME_BAD" -eq 0 ]]; then
     unset _CFG_BUNDLES
 fi
 
-unset _CFG_REPO_DIR _CFG_VAULTS_DIR _CFG_CONFIG_YAML _CFG_STATE_YAML _CFG_STATE_FILE _CFG_VP _CFG_VAULT_NAME_BAD
+unset _CFG_REPO_DIR _CFG_VAULTS_DIR _CFG_STATE_YAML _CFG_VP _CFG_VAULT_NAME_BAD
 unset -f _resolve_vault_path_from_yml _read_state_field

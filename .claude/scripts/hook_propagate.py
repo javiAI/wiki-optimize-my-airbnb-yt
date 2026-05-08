@@ -34,13 +34,11 @@ def _atomization_lang(cfg: VaultConfig, atom_file: str, fallback_lang: str) -> s
     if not m:
         return fallback_lang
     sid = m.group(1)
-    raw_root = cfg.vault_path / "raw"
-    if not raw_root.exists():
-        return fallback_lang
-    for lang_dir in raw_root.iterdir():
-        if not lang_dir.is_dir():
+    for lang in cfg.enabled_languages:
+        raw_dir = cfg.raw_dir(lang)
+        if not raw_dir.is_dir():
             continue
-        for raw in lang_dir.glob("*.md"):
+        for raw in raw_dir.glob("*.md"):
             rt = raw.read_text(encoding="utf-8", errors="replace")
             if re.search(rf"^video_id:\s*{re.escape(sid)}\s*$", rt, re.MULTILINE):
                 n = re.search(r"^native_lang:\s*(\S+)", rt, re.MULTILINE)

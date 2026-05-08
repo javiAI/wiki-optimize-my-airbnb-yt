@@ -15,11 +15,10 @@ __pycache__/
 *.pyo
 
 # Local state (per-developer, not shared)
-.claude/config/config.yaml    # Contains active_vault, active_lang (local choices)
-.claude/state/queue/
-.claude/state/logs/
-.claude/state/state.yaml      # Legacy
-.claude/state/active-vault    # Legacy
+.claude/wikiforge/config.yaml  # Live user config (defaults + retrieval); template at .claude/templates/config.yaml.example
+.claude/state/                 # All runtime state (wikiforge.yaml, queue/, logs/) — gitignored
+.claude/config/config.yaml     # Legacy pre-migration location
+.claude/state/active-vault     # Legacy
 
 # Vault bundles (project/user-specific)
 vaults/

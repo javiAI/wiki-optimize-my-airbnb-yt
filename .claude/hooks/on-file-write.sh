@@ -21,11 +21,22 @@ except Exception:
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-# 1. Prefer deriving from the FILE path itself: {VAULT_PATH}/{wiki|raw}/...
-if [[ "$FILE" == */wiki/*/*.md ]]; then
-    VAULT_PATH="${FILE%/wiki/*}"
-elif [[ "$FILE" == */raw/* ]]; then
-    VAULT_PATH="${FILE%/raw/*}"
+# 1. Prefer deriving from the FILE path itself.
+# v1 layout: {VAULT_PATH}/{kind}/{lang}/{name}      → kind ∈ {wiki,raw,moc,queries,index}
+# v2 layout: {VAULT_PATH}/{lang}/{kind}/{name}
+LAYOUT=""
+LANG=""
+KIND=""
+if [[ "$FILE" =~ ^(.+)/([a-z]{2,3})/(wiki|moc|raw|queries|index)/([^/]+)$ ]]; then
+    VAULT_PATH="${BASH_REMATCH[1]}"
+    LANG="${BASH_REMATCH[2]}"
+    KIND="${BASH_REMATCH[3]}"
+    LAYOUT="v2"
+elif [[ "$FILE" =~ ^(.+)/(wiki|moc|raw|queries|index)/([a-z]{2,3})/([^/]+)$ ]]; then
+    VAULT_PATH="${BASH_REMATCH[1]}"
+    KIND="${BASH_REMATCH[2]}"
+    LANG="${BASH_REMATCH[3]}"
+    LAYOUT="v1"
 fi
 
 # 2. Fallback to .claude/scripts/config.sh (resolves via VAULT_NAME or single bundle).
@@ -50,7 +61,7 @@ VAULT_BUNDLE="${VAULT_NAME:-$(basename "$VAULT_PATH")}"
 STATE_DIR="$REPO_DIR/vaults/$VAULT_BUNDLE/state"
 
 # ── raw/ write → queue for atom creation ────────────────────────────────────
-if [[ "$FILE" == */raw/* && "$FILE" == *.md ]]; then
+if [[ "$KIND" == "raw" && "$FILE" == *.md ]]; then
     QUEUE="$STATE_DIR/queue/pending-atoms.txt"
     mkdir -p "$(dirname "$QUEUE")"
     touch "$QUEUE"
@@ -60,17 +71,15 @@ if [[ "$FILE" == */raw/* && "$FILE" == *.md ]]; then
 fi
 
 # ── wiki/{lang}/*.md write → auto-link + qa + optional translate ─────────────
-if [[ "$FILE" == */wiki/*/*.md ]]; then
+if [[ "$KIND" == "wiki" && "$FILE" == *.md ]]; then
     STEM=$(basename "$FILE" .md)
-    # Extract lang safely: path must be .../wiki/{lang}/{stem}.md
-    LANG=$(echo "$FILE" | sed -n 's|.*/wiki/\([^/][^/]*\)/[^/]*\.md$|\1|p')
 
     if [[ -z "$LANG" ]]; then
         echo "[hook] WARN: could not extract lang from path: $FILE" >&2
         exit 0
     fi
 
-    echo "[hook] Atom written: $STEM [$LANG]"
+    echo "[hook] Atom written: $STEM [$LANG] (layout=$LAYOUT)"
 
     cd "$REPO_DIR"
     export VAULT_NAME="$VAULT_BUNDLE"
@@ -78,6 +87,12 @@ if [[ "$FILE" == */wiki/*/*.md ]]; then
         echo "[hook] WARN: auto-link failed for $STEM [$LANG]" >&2
     python3 .claude/scripts/atom-qa.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
         echo "[hook] WARN: atom-qa failed for $STEM [$LANG]" >&2
+    # Hub detection: stub & queue entity / comparison hubs for this atom.
+    # /refresh-hubs (or on-ingest-batch-close) drains the queues to enrich.
+    python3 .claude/scripts/entity-detect.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
+        echo "[hook] WARN: entity-detect failed for $STEM [$LANG]" >&2
+    python3 .claude/scripts/comparison-detect.py "$STEM" --lang "$LANG" --vault "$VAULT_PATH" 2>&1 || \
+        echo "[hook] WARN: comparison-detect failed for $STEM [$LANG]" >&2
 
     # Single-pass config read: auto_refine, auto_propagate, atomization_lang, enabled.
     # Replaces 4 separate `python3 -c` invocations.
@@ -107,7 +122,13 @@ if [[ "$FILE" == */wiki/*/*.md ]]; then
             for TLANG in $ENABLED; do
                 [[ "$TLANG" == "$LANG" ]] && continue
                 LOCK="$LOCK_DIR/${STEM}.${TLANG}.lock"
-                TARGET="$VAULT_PATH/wiki/$TLANG/$STEM.md"
+                # Layout-aware target path: probe v2 first (write target for new
+                # vaults); fall back to v1 if v2 dir is absent.
+                if [[ -d "$VAULT_PATH/$TLANG/wiki" ]]; then
+                    TARGET="$VAULT_PATH/$TLANG/wiki/$STEM.md"
+                else
+                    TARGET="$VAULT_PATH/wiki/$TLANG/$STEM.md"
+                fi
 
                 if [[ -f "$TARGET" ]]; then
                     continue

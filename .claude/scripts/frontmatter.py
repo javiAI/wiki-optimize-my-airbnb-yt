@@ -9,9 +9,20 @@ Usage:
     fm, body = parse_frontmatter(atom_text)
     # fm: dict with all frontmatter keys, sources list, etc.
     # body: markdown body after '---' fence
+
+Compiled regexes are also exported for callers that only need a single field
+without paying the cost of the full parser (e.g. type/claim sniffing).
 """
 
+import re
 from typing import Optional
+
+# Splits an atom file into (fm_text, body_text). Use .match() — anchored at start.
+ATOM_FM_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n?(.*)$", re.DOTALL)
+
+# Single-field sniffers. Faster than parse_frontmatter when only one key is needed.
+CLAIM_RE = re.compile(r"^claim:\s*(.+?)$", re.MULTILINE)
+TYPE_RE = re.compile(r"^type:\s*(\w+)", re.MULTILINE)
 
 
 def parse_frontmatter(text: str) -> tuple[dict, str]:

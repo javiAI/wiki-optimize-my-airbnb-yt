@@ -33,9 +33,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
-import subprocess
 import sys
 from datetime import date
 from pathlib import Path
@@ -45,16 +43,13 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / ".claude" / "scripts"))
 from config import VaultConfig  # noqa: E402
 from extract_excerpt import extract_at_locator  # noqa: E402
-from frontmatter import parse_frontmatter  # noqa: E402
+from frontmatter import ATOM_FM_RE, parse_frontmatter  # noqa: E402
+from llm_utils import LLMTimeout, call_claude, strip_fences  # noqa: E402
 
-CLAUDE_BIN = os.environ.get("CLAUDE_BIN", "claude")
-DEFAULT_MAX_TURNS = "3"
+DEFAULT_MAX_TURNS = 3
 
 
 # ── Frontmatter / source parsing ─────────────────────────────────────────────
-
-FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n?", re.DOTALL)
-
 
 def _load_yaml(text: str) -> dict:
     try:
@@ -65,15 +60,12 @@ def _load_yaml(text: str) -> dict:
         return fm
 
 
-
-
 def parse_atom(atom_text: str) -> tuple[dict, str]:
-    m = FRONTMATTER_RE.match(atom_text)
+    m = ATOM_FM_RE.match(atom_text)
     if not m:
         raise ValueError("atom missing frontmatter")
     fm = _load_yaml(m.group(1))
-    body = atom_text[m.end():]
-    return fm, body
+    return fm, m.group(2)
 
 
 # ── Raw-file index (video_id → raw/{LANG}/{file}.md) ─────────────────────────
@@ -140,9 +132,9 @@ The canonical atom in {from_lang} is the source of truth for atom IDENTITY only:
   - "this atom" must remain the same atom across languages
 
 Your job: re-express that atom NATIVELY in {to_lang}, drawing vocabulary,
-phrasing, and idioms from the {to_lang} transcript at the locator. DO NOT
-translate the canonical word-for-word. A bilingual professional reading the
-{to_lang} transcript would produce this atom; that is your stance.
+phrasing, and idioms from the {to_lang} transcript at the locator. You are a
+native writer in {to_lang}, NOT a translator. A bilingual professional reading
+the {to_lang} transcript would produce this atom; that is your stance.
 
 Rules:
   - Output ONLY a JSON object with keys "claim" and "body". No markdown
@@ -152,8 +144,11 @@ Rules:
   - "body": 80–250 words in {to_lang}, markdown allowed. Open with the
     claim restated, then supporting detail drawn from the transcript window.
     No filler ("Es importante destacar", "Como podemos observar").
-  - Anglicisms: replace forbidden English terms per the table at the end of
-    this prompt. Whitelisted terms (PriceLabs, Airbnb, WiFi, etc.) stay.
+  - English borrowings (host, listing, fee, review, booking, amenity,
+    rating, ranking, etc.) are forbidden — use the target-lang term.
+    Brand names and standardised tech terms (PriceLabs, Wheelhouse,
+    Airbnb, Booking, Vrbo, Superhost, WiFi, PMS, API, URL, JSON, YAML,
+    SEO, ADR, RevPAR) stay verbatim.
   - Numbers, percentages, proper nouns: copy verbatim from the canonical.
 
 Inputs:
@@ -168,23 +163,7 @@ Inputs:
 {target_window}
 ```
 
-[ANGLICISM TABLE — replacements to apply in body]
-{anglicism_block}
-
 Now output the JSON object."""
-
-
-def render_anglicism_block(target_lang: str) -> str:
-    """Inline a compact anglicism table for non-English targets."""
-    if target_lang == "en":
-        return "(target is English — no anglicism check)"
-    try:
-        sys.path.insert(0, str(REPO_ROOT / ".claude" / "scripts"))
-        from qa_lexicon import ANGLICISM_TABLE  # noqa: E402
-    except ImportError:
-        return "(no anglicism table available)"
-    lines = [f"  {en} → {es}" for en, es in ANGLICISM_TABLE[:50]]
-    return "\n".join(lines)
 
 
 def call_llm_propagate(
@@ -198,27 +177,33 @@ def call_llm_propagate(
 
     Returns {claim, body, excerpt?} dict. May raise CalledProcessError on failure.
     """
+    if target_window.strip():
+        target_section = target_window.strip()
+    else:
+        target_section = (
+            f"NO {to_lang.upper()} TRANSCRIPT EXISTS for this locator. The source video has no\n"
+            f"{to_lang} subtitles (manual or auto). Work from the canonical atom only:\n"
+            f"  - Re-synthesize claim and body natively in {to_lang} as a native\n"
+            f"    {to_lang} hospitality writer would phrase them, not as a translator.\n"
+            f"  - Numbers, brand names, and proper nouns: copy verbatim from canonical.\n"
+            f"  - The caller will stamp `excerpt_source: llm_fallback` on the resulting\n"
+            f"    atom's frontmatter automatically — you do NOT emit that field."
+        )
     prompt = PROPAGATE_PROMPT.format(
         from_lang=from_lang,
         to_lang=to_lang,
         canonical_atom=canonical_atom_text.strip(),
-        target_window=target_window.strip() or "(target-lang transcript unavailable — translate the canonical excerpt as fallback)",
-        anglicism_block=render_anglicism_block(to_lang),
+        target_window=target_section,
     )
-    cmd = [CLAUDE_BIN, "-p", prompt, "--max-turns", DEFAULT_MAX_TURNS]
     try:
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=timeout_sec, check=True
-        )
-    except subprocess.TimeoutExpired:
+        raw = call_claude(prompt, timeout=timeout_sec, max_turns=DEFAULT_MAX_TURNS)
+    except LLMTimeout:
         raise RuntimeError(f"LLM call timed out after {timeout_sec}s")
-    raw = result.stdout.strip()
-    raw = re.sub(r"^```(?:json)?\s*\n?", "", raw)
-    raw = re.sub(r"\n?```\s*$", "", raw)
+    cleaned = strip_fences(raw, "json")
     try:
-        return json.loads(raw)
+        return json.loads(cleaned)
     except json.JSONDecodeError as e:
-        raise RuntimeError(f"LLM did not return valid JSON: {e}\nOutput head: {raw[:300]!r}")
+        raise RuntimeError(f"LLM did not return valid JSON: {e}\nOutput head: {cleaned[:300]!r}")
 
 
 # ── Atom rendering ───────────────────────────────────────────────────────────

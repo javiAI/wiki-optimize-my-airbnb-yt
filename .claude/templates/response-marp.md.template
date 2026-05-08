@@ -17,7 +17,7 @@ USAGE: This is the per-slide template after the title. Repeat for each main poin
 Each slide should:
   - Have ONE headline (≤ 8 words)
   - 3-5 bullets max (each ≤ 12 words)
-  - End with the citation: [[wiki/{lang}/<atom>]]
+  - End with the citation: [[{lang}/wiki/<atom>]]
   - NEVER mix atoms across slides arbitrarily — group by sub-topic
 
 Slide count budget by regime:
@@ -28,7 +28,7 @@ Slide count budget by regime:
 Last slide is ALWAYS "Sources" listing every cited atom with its locator URL.
 
 When done rendering, save to:
-  {{VAULT_PATH}}/queries/{{LANG}}/{{TOPIC}}--{{SLUG}}.marp.md
+  {{VAULT_PATH}}/{{LANG}}/queries/{{TOPIC}}--{{SLUG}}.marp.md
 
 Then tell the user how to view it:
   npx @marp-team/marp-cli {{output_file}} --preview
@@ -41,14 +41,14 @@ Then tell the user how to view it:
 - bullet 2
 - bullet 3
 
-[[wiki/{{LANG}}/<atom-stem>]]
+[[{{LANG}}/wiki/<atom-stem>]]
 
 ---
 
 ## Sources
 
-- [[wiki/{{LANG}}/<atom-1>]] — <one-line claim summary>
-- [[wiki/{{LANG}}/<atom-2>]] — <one-line claim summary>
+- [[{{LANG}}/wiki/<atom-1>]] — <one-line claim summary>
+- [[{{LANG}}/wiki/<atom-2>]] — <one-line claim summary>
 ...
 
 <!-- If a conflict caveat applies (CLAUDE.md §4.5), add a final ⚠️ slide before Sources. -->

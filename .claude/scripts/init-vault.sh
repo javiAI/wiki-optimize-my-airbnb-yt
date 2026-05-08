@@ -22,7 +22,7 @@
 #   vaults/{name}/tests/         — per-vault test bundle (questions, prompts, raw-responses, results, comparisons)
 #
 # Also creates the vault data directory at the chosen path. The data directory
-# contains DATA ONLY (raw/, wiki/, moc/, index/, queries/, meta/). No hooks,
+# contains DATA ONLY ({lang}/{raw,wiki,moc,index,queries}/ + meta/). No hooks,
 # no settings.json, no queues — those live in the repo's .claude/ and
 # vaults/{name}/state/.
 #
@@ -49,6 +49,7 @@ TEMPLATES_DIR="$REPO_DIR/.claude/templates"
 
 CONFIG_FILE=""
 AUTO_YES=0
+REVIEW_AFTER=0
 INPUT_DIR=""
 SOURCES_FILE=""
 VAULT_NAME_FROM_DIR=""   # set only when INPUT_DIR is a vaults/{name}/ slot
@@ -67,13 +68,17 @@ while [[ $# -gt 0 ]]; do
             AUTO_YES=1
             shift
             ;;
+        --review)
+            REVIEW_AFTER=1
+            shift
+            ;;
         -h|--help)
             sed -n '2,40p' "$0" | sed 's/^# \{0,1\}//'
             exit 0
             ;;
         -*)
             echo "ERROR: unknown flag: $1" >&2
-            echo "Usage: $0 [--config <yaml>] [--yes] | $0 <input_dir>" >&2
+            echo "Usage: $0 [--config <yaml>] [--yes] [--review] | $0 <input_dir>" >&2
             exit 2
             ;;
         *)
@@ -197,6 +202,60 @@ PY
     eval "$EVAL_LINES"
 fi
 
+# ── Plugin defaults loader ───────────────────────────────────────────────────
+# Pulls `defaults:` from .claude/wikiforge/config.yaml so /init-vault can run
+# zero-prompt when the plugin is preconfigured. Per-vault answers (from
+# CONFIG_FILE above) win — this only fills in fields still empty.
+
+DEFAULT_LINES=$(python3 - "$REPO_DIR" "$SCRIPT_DIR" <<'PY'
+import sys
+from pathlib import Path
+sys.path.insert(0, sys.argv[2])
+from config import read_config
+
+cfg = read_config(Path(sys.argv[1]))
+defaults = cfg.get("defaults") or {}
+
+def shq(v):
+    return "'" + str(v).replace("'", "'\\''") + "'"
+
+def emit(var, val):
+    if val is None:
+        return
+    if isinstance(val, bool):
+        val = "true" if val else "false"
+    print(f"{var}={shq(val)}")
+
+emit("DEF_DATA_PATH_PATTERN", defaults.get("data_path_pattern"))
+
+langs = defaults.get("languages")
+if isinstance(langs, list):
+    langs_csv = ",".join(str(x).strip() for x in langs if str(x).strip())
+elif isinstance(langs, str):
+    langs_csv = ",".join(s.strip() for s in langs.split(",") if s.strip())
+else:
+    langs_csv = ""
+if langs_csv:
+    emit("DEF_LANGS", langs_csv)
+
+pipeline = defaults.get("pipeline") or {}
+emit("DEF_AUTO_ATOMS", pipeline.get("auto_atoms"))
+emit("DEF_AUTO_PROPAGATE", pipeline.get("auto_propagate"))
+emit("DEF_AUTO_REFINE", pipeline.get("auto_refine"))
+PY
+)
+DEF_DATA_PATH_PATTERN=""
+DEF_LANGS=""
+DEF_AUTO_ATOMS=""
+DEF_AUTO_PROPAGATE=""
+DEF_AUTO_REFINE=""
+eval "$DEFAULT_LINES"
+
+[[ -z "$CFG_LANGS" && -n "$DEF_LANGS" ]] && CFG_LANGS="$DEF_LANGS"
+[[ -z "$CFG_AUTO_ATOMS" && -n "$DEF_AUTO_ATOMS" ]] && CFG_AUTO_ATOMS="$DEF_AUTO_ATOMS"
+[[ -z "$CFG_AUTO_PROPAGATE" && -n "$DEF_AUTO_PROPAGATE" ]] && CFG_AUTO_PROPAGATE="$DEF_AUTO_PROPAGATE"
+[[ -z "$CFG_AUTO_REFINE" && -n "$DEF_AUTO_REFINE" ]] && CFG_AUTO_REFINE="$DEF_AUTO_REFINE"
+
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 ask() {
@@ -289,6 +348,12 @@ fi
 
 if [[ -n "$CFG_DATA_PATH" ]]; then
     VAULT_DATA_PATH="$CFG_DATA_PATH"
+elif [[ -n "$DEF_DATA_PATH_PATTERN" ]]; then
+    # Plugin defaults provide the path pattern — apply silently. Users who
+    # want to override per-vault can pass --config with a data_path field.
+    VAULT_DATA_PATH="${DEF_DATA_PATH_PATTERN//\{name\}/$VAULT_NAME}"
+elif [[ -n "$CONFIG_FILE" ]]; then
+    VAULT_DATA_PATH="$HOME/Dev/obsidian_vaults/$VAULT_NAME"
 else
     VAULT_DATA_PATH=$(ask "Vault data path" "$HOME/Dev/obsidian_vaults/$VAULT_NAME")
 fi
@@ -376,22 +441,28 @@ fi
 echo ""
 echo "[1/4] Creating vault bundle: $BUNDLE_DIR"
 mkdir -p "$BUNDLE_DIR/state/queue" "$BUNDLE_DIR/state/logs"
-mkdir -p "$BUNDLE_DIR/tests/prompts" "$BUNDLE_DIR/tests/raw-responses" "$BUNDLE_DIR/tests/results" "$BUNDLE_DIR/tests/comparisons"
-cat > "$BUNDLE_DIR/tests/questions.yaml" << 'EOF'
-# Per-vault test questions (used by scripts/run-test-suite.py).
-# Add entries with {id, level, question, target_dimensions} once you start testing.
-questions: []
-EOF
+# /test-vault populates tests/ on demand (questions.{lang}.yaml, raw-responses/,
+# results/, reports/, history.md). Keep the parent dir only.
+mkdir -p "$BUNDLE_DIR/tests"
 
-echo "[2/4] Creating vault data structure at $VAULT_DATA_PATH"
+# Hub enrichment queues (drained by on-ingest-batch-close.sh → /refresh-hubs).
+# pending-atoms.txt is created on-demand by the ingest pipeline.
+: > "$BUNDLE_DIR/state/queue/entity-enrichment.txt"
+: > "$BUNDLE_DIR/state/queue/comparison-enrichment.txt"
+
+# Ingest counter — incremented per source by on-ingest-batch-close.sh, used to
+# auto-fire /audit (or /audit --deep) every `maintenance.audit_every_n_ingests`.
+echo 0 > "$BUNDLE_DIR/state/.ingest-counter"
+
+echo "[2/4] Creating vault data structure at $VAULT_DATA_PATH (v2 layout)"
 IFS=',' read -ra LANG_ARRAY <<< "$ALL_LANGS"
 LANG_DIRS=""
 for lang in "${LANG_ARRAY[@]}"; do
     lang=$(echo "$lang" | tr -d ' ')
-    # raw/{lang}/ holds per-language transcripts (one file per video per available subtitle lang).
-    LANG_DIRS="$LANG_DIRS $VAULT_DATA_PATH/raw/$lang $VAULT_DATA_PATH/wiki/$lang $VAULT_DATA_PATH/moc/$lang $VAULT_DATA_PATH/index/$lang $VAULT_DATA_PATH/queries/$lang"
+    # v2 layout: {VAULT_PATH}/{lang}/{kind}/. Each lang holds its own raw/wiki/moc/index/queries/.
+    LANG_DIRS="$LANG_DIRS $VAULT_DATA_PATH/$lang/raw $VAULT_DATA_PATH/$lang/wiki $VAULT_DATA_PATH/$lang/moc $VAULT_DATA_PATH/$lang/index $VAULT_DATA_PATH/$lang/queries"
 done
-mkdir -p "$VAULT_DATA_PATH/raw" "$VAULT_DATA_PATH/meta" $LANG_DIRS
+mkdir -p "$VAULT_DATA_PATH/meta" $LANG_DIRS
 
 # ── Render vault.yml + agents.md from templates ──────────────────────────────
 
@@ -423,14 +494,14 @@ render_template \
 
 echo "[4/4] Creating data stubs"
 
-# Generate empty index/{lang}/index.md via auto-link.py — same code path that
+# Generate empty per-lang index.md via auto-link.py — same code path that
 # regenerates the index on every atom write, so initial state is consistent
 # with the live state. At init there are no MOCs so this writes the empty stub.
 VAULT_NAME="$VAULT_NAME" python3 "$REPO_DIR/.claude/scripts/auto-link.py" --index-only \
     --vault "$VAULT_NAME" 2>/dev/null || \
     for lang in "${LANG_ARRAY[@]}"; do
         lang=$(echo "$lang" | tr -d ' ')
-        cat > "$VAULT_DATA_PATH/index/$lang/index.md" << EOF
+        cat > "$VAULT_DATA_PATH/$lang/index/index.md" << EOF
 # Vault Index — $VAULT_NAME ($lang)
 
 _No MOCs yet. Run \`/ingest\` then \`/ingest-queue\` to populate._
@@ -451,6 +522,24 @@ EOF
 
 touch "$VAULT_DATA_PATH/meta/backlinks.md" "$VAULT_DATA_PATH/meta/glossary.md"
 
+# Entities registry — seed file for entity-detect.py. Populate `entities:` with
+# the whitelist of slugs + aliases the vault should always treat as entities.
+# entity-detect.py also appends slugs it observes during ingest (after passing
+# capitalisation / multi-word noun-phrase filters), so this file grows with the
+# corpus. Leaving the seed empty is fine — detection still works on
+# capitalised noun phrases, just with more false-positive risk on the first
+# few ingests.
+cat > "$VAULT_DATA_PATH/meta/entities-registry.yaml" << 'EOF'
+# Entities registry — pattern-match seed for entity-detect.py.
+#
+# Each entry:
+#   slug:        # kebab-case, used as the file name (entity--<slug>.md)
+#     kind: tool | company | person | product | service | book | channel
+#     aliases: [<alias>, ...]   # case-insensitive surface forms
+
+entities: {}
+EOF
+
 # ── Active-vault pointer (config.yaml) ────────────────────────────────────────
 # When 2+ bundles exist, VaultConfig refuses to guess. Writing the new vault as
 # active here means the user can immediately /ingest, /query etc. without
@@ -470,9 +559,9 @@ set_active_vault() {
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(sys.argv[1]) / ".claude" / "scripts"))
-from config import write_config
-write_config(Path(sys.argv[1]), active_vault=sys.argv[2], active_lang=sys.argv[3])
-# Remove the legacy active-vault file if present — config.yaml supersedes it.
+from config import write_state
+write_state(Path(sys.argv[1]), active_vault=sys.argv[2], active_lang=sys.argv[3])
+# Remove the legacy active-vault file if present — state/wikiforge.yaml supersedes it.
 legacy = Path(sys.argv[1]) / ".claude" / "state" / "active-vault"
 if legacy.exists():
     legacy.unlink()
@@ -511,10 +600,12 @@ echo "Vault '$VAULT_NAME' created."
 echo "  Bundle      : $BUNDLE_DIR"
 echo "  Vault data  : $VAULT_DATA_PATH"
 if [[ "$ACTIVE_SET" -eq 1 ]]; then
-    echo "  Active      : yes (.claude/config/config.yaml — vault=$VAULT_NAME, lang=$DEFAULT_LANG)"
+    echo "  Active      : yes (.claude/state/wikiforge.yaml — vault=$VAULT_NAME, lang=$DEFAULT_LANG)"
 else
-    echo "  Active      : no — set with: VAULT_NAME=$VAULT_NAME python3 -c 'from config import write_config; from pathlib import Path; write_config(Path(\".\").resolve(), active_vault=\"$VAULT_NAME\", active_lang=\"$DEFAULT_LANG\")'"
+    echo "  Active      : no — set with: bash .claude/scripts/set-config.sh active_vault $VAULT_NAME"
 fi
+echo ""
+echo "  Review your vault config:  $BUNDLE_DIR/vault.yml"
 
 # ── Auto-ingest sources.txt (directory-mode only) ────────────────────────────
 if [[ -n "$SOURCES_FILE" ]]; then
@@ -538,3 +629,16 @@ echo "  - Open Claude in this repo and run /init-vault for the guided flow."
 echo ""
 echo "To delete this vault from the repo: rm -rf $BUNDLE_DIR"
 echo "To delete the data:                 rm -rf $VAULT_DATA_PATH"
+
+# ── Optional: open vault.yml for review ──────────────────────────────────────
+if [[ "$REVIEW_AFTER" -eq 1 ]]; then
+    if [[ -n "${EDITOR:-}" ]]; then
+        "$EDITOR" "$BUNDLE_DIR/vault.yml"
+    elif [[ "$(uname)" == "Darwin" ]] && command -v code >/dev/null 2>&1; then
+        code -r "$BUNDLE_DIR/vault.yml"
+    elif command -v vi >/dev/null 2>&1; then
+        vi "$BUNDLE_DIR/vault.yml"
+    else
+        echo "  ⚠  No editor available — set \$EDITOR or open $BUNDLE_DIR/vault.yml manually." >&2
+    fi
+fi

@@ -140,96 +140,86 @@ def _parse_simple_yaml_from_text(text: str) -> dict:
     return _parse_yaml_lines(text.split('\n'))
 
 
-# ── Repo config (.claude/config/config.yaml) ────────────────────────────────
-# config.yaml is the unified configuration file holding:
-# - current selection (active_vault, active_lang)
-# - retrieval backend choice and parameters
+def _walk_dotted(obj: Any, key_path: str, missing: Any) -> Any:
+    """Resolve a dot-path against nested dicts. Returns `missing` sentinel
+    when any segment doesn't exist. Pass a unique sentinel when None is a
+    valid stored value."""
+    for p in key_path.split("."):
+        if not isinstance(obj, dict) or p not in obj:
+            return missing
+        obj = obj[p]
+    return obj
+
+
+# ── Plugin config (.claude/wikiforge/config.yaml) ───────────────────────────
+# Holds: defaults: (seed values for /init-vault — read ONLY at init-time),
+# retrieval / regimes / evaluation (library config). NO runtime mutable state.
+#
+# Runtime mutable state (active_vault, active_lang) lives in a separate
+# .claude/state/wikiforge.yaml file so plugin defaults can be committable
+# while the per-installation state stays gitignored.
+
 
 def _config_path(repo_dir: Path) -> Path:
-    return repo_dir / ".claude" / "config" / "config.yaml"
+    """Canonical config location."""
+    return repo_dir / ".claude" / "wikiforge" / "config.yaml"
+
+
+def _state_path(repo_dir: Path) -> Path:
+    """Canonical state file. Gitignored, mutates per query/ingest."""
+    return repo_dir / ".claude" / "state" / "wikiforge.yaml"
 
 
 def read_config(repo_dir: Path) -> dict:
-    """Read config.yaml. Returns empty dict if not found or invalid.
-
-    This is the canonical config file. Legacy state.yaml and active-vault
-    are no longer read (were deprecated in favor of unified config.yaml).
-    """
+    """Read .claude/wikiforge/config.yaml verbatim. Empty dict if missing."""
     p = _config_path(repo_dir)
-    if p.exists():
-        try:
-            return _load_yaml(p) or {}
-        except Exception:
-            return {}
-    return {}
+    if not p.exists():
+        return {}
+    try:
+        return _load_yaml(p) or {}
+    except Exception:
+        return {}
 
 
-def write_config(repo_dir: Path, **updates) -> None:
-    """Merge `updates` into config.yaml. Pass None to delete a key.
+def read_state(repo_dir: Path) -> dict:
+    """Read .claude/state/wikiforge.yaml. Returns {} if missing."""
+    p = _state_path(repo_dir)
+    if not p.exists():
+        return {}
+    try:
+        return _load_yaml(p) or {}
+    except Exception:
+        return {}
 
-    Merges updates into current config while preserving the entire file structure.
-    Uses hand-written YAML only for top-level keys; preserves sections like
-    `retrieval:` and all their nested content exactly as-is.
+
+def write_state(repo_dir: Path, **updates) -> None:
+    """Merge `updates` into the state file. Pass None to delete a key.
 
     Allowed keys: active_vault, active_lang (others are silently dropped).
     """
-    p = _config_path(repo_dir)
-    p.parent.mkdir(parents=True, exist_ok=True)
+    allowed = {"active_vault", "active_lang"}
+    dst = _state_path(repo_dir)
+    dst.parent.mkdir(parents=True, exist_ok=True)
 
-    # Read current file as raw text (to preserve formatting and comments)
-    current_text = p.read_text() if p.exists() else ""
-
-    # Parse config from same text (avoids second file read)
-    current = _load_yaml_from_text(current_text)
-
-    # Merge updates
+    current = read_state(repo_dir)
     for k, v in updates.items():
+        if k not in allowed:
+            continue
         if v is None:
             current.pop(k, None)
         else:
             current[k] = v
 
-    # Rebuild: preserve comments + structure for retrieval section,
-    # but update top-level state keys (active_vault, active_lang)
     lines = [
-        "# WikiForge unified configuration",
-        "# Holds: vault selection, language, retrieval backend choice, and backend-specific settings",
-        "# Written by init-vault.sh, ingest hooks, and query routing",
+        "# WikiForge runtime state — written by init-vault, query routing, set-config.sh.",
+        "# Gitignored. Do not edit by hand unless you know what you're doing.",
         "",
     ]
-
-    # Write updated top-level fields
-    for k in ["active_vault", "active_lang"]:
+    for k in ("active_vault", "active_lang"):
         v = current.get(k)
         if v is not None and v != "":
             lines.append(f"{k}: {v}")
-
-    # Preserve retrieval section from current file if it exists,
-    # otherwise write it from parsed config
-    if "retrieval:" in current_text:
-        # Extract and preserve the original retrieval block
-        lines.append("")
-        lines.append("# === RETRIEVAL BACKEND ===")
-        lines.append("#")
-        lines.append("# Currently implemented: BM25, LLM (as primary backend or fallback)")
-        lines.append("# The fields below are READ and USED by .claude/scripts/retrieve.py")
-        lines.append("#")
-        lines.append("retrieval:")
-
-        # Extract retrieval subsection from original text
-        in_retrieval = False
-        for line in current_text.split("\n"):
-            if line.startswith("retrieval:"):
-                in_retrieval = True
-                continue
-            elif in_retrieval:
-                # Stop at next top-level key (no indent)
-                if line and not line[0].isspace() and line.strip():
-                    break
-                # Preserve the line as-is (comments, values, indentation, and blank lines)
-                lines.append(line)
-
-    p.write_text("\n".join(lines) + "\n")
+    dst.write_text("\n".join(lines) + "\n")
 
 
 # ── Language auto-detection ──────────────────────────────────────────────────
@@ -259,6 +249,37 @@ _LANG_MARKERS: dict = {
         },
     },
 }
+
+
+def list_vaults(repo_dir: Path) -> List[dict]:
+    """Enumerate vault bundles. Used by .claude/scripts/list-vaults.py
+    and by any frontend wanting to render a vault picker.
+
+    Returns `[{name, path, description, languages, vault_path, active}]`.
+    """
+    vaults_dir = repo_dir / "vaults"
+    if not vaults_dir.exists():
+        return []
+    active = read_state(repo_dir).get("active_vault")
+    out: List[dict] = []
+    for d in sorted(vaults_dir.iterdir()):
+        cfg = d / "vault.yml"
+        if not d.is_dir() or not cfg.exists():
+            continue
+        try:
+            data = _load_yaml(cfg) or {}
+        except Exception:
+            data = {}
+        langs = (data.get("languages") or {}).get("enabled") or []
+        out.append({
+            "name": data.get("name", d.name),
+            "path": str(d),
+            "description": data.get("description", ""),
+            "languages": langs,
+            "vault_path": data.get("vault_path", ""),
+            "active": data.get("name", d.name) == active,
+        })
+    return out
 
 
 def detect_language(text: str, enabled: List[str]) -> Optional[str]:
@@ -291,6 +312,31 @@ def detect_language(text: str, enabled: List[str]) -> Optional[str]:
     return best
 
 
+def kind_dir(vault_path: Path, kind: str, lang: str) -> Path:
+    """Resolve `<vault>/<kind>/<lang>` (v1) or `<vault>/<lang>/<kind>` (v2).
+
+    Filesystem-detected: returns whichever path exists. New vaults default
+    to v2 (the write-target). Mirror of `VaultConfig._kind_dir` for callers
+    that only have a vault data path.
+    """
+    v2 = vault_path / lang / kind
+    if v2.is_dir():
+        return v2
+    v1 = vault_path / kind / lang
+    if v1.is_dir():
+        return v1
+    return v2
+
+
+def wikilink_prefix(vault_path: Path, kind: str, lang: str) -> str:
+    """Wikilink path prefix for either layout: `{lang}/{kind}` (v2) or `{kind}/{lang}` (v1)."""
+    if (vault_path / lang / kind).is_dir():
+        return f"{lang}/{kind}"
+    if (vault_path / kind / lang).is_dir():
+        return f"{kind}/{lang}"
+    return f"{lang}/{kind}"
+
+
 def resolve_query_language(
     repo_dir: Path,
     enabled: List[str],
@@ -298,7 +344,7 @@ def resolve_query_language(
     query_text: Optional[str] = None,
 ) -> str:
     """Decide which lang to retrieve in. Order: explicit → auto-detect →
-    config.active_lang → enabled[0].
+    state.active_lang → enabled[0].
     """
     if explicit:
         return explicit
@@ -306,8 +352,7 @@ def resolve_query_language(
         detected = detect_language(query_text, enabled)
         if detected:
             return detected
-    config = read_config(repo_dir)
-    cand = config.get("active_lang")
+    cand = read_state(repo_dir).get("active_lang")
     if cand and cand in enabled:
         return cand
     return enabled[0]
@@ -321,7 +366,7 @@ class VaultConfig:
       2. explicit arg → absolute path to a .yml/.yaml file
       3. explicit arg → directory containing vault.yml or vault.yaml
       4. $VAULT_NAME env  → vaults/{name}/vault.yml
-      5. .claude/config/config.yaml → last operated vault (active_vault)
+      5. .claude/state/wikiforge.yaml → last operated vault (active_vault)
       6. vaults/*/vault.yml → auto-select if exactly one bundle exists
       7. 2+ bundles, no signal → loud error, refuse to guess
       8. $VAULT_PATH env  → directory with vault.yaml (legacy fallback)
@@ -368,6 +413,39 @@ class VaultConfig:
                             if p.parent.name == "vaults":
                                 bundle_dir = p
                             break
+                    if config_file is None and vaults_dir.exists():
+                        # Path is a data dir without vault.yml. Scan bundles for
+                        # one whose vault_path: field resolves to this dir.
+                        target = p.resolve()
+                        for d in vaults_dir.iterdir():
+                            cand = d / "vault.yml"
+                            if not cand.exists():
+                                continue
+                            try:
+                                vp = _load_yaml(cand).get("vault_path", "")
+                            except Exception:
+                                continue
+                            if vp and Path(vp).expanduser().resolve() == target:
+                                config_file = cand
+                                bundle_dir = d
+                                break
+
+                # Explicit --vault must resolve. Falling through to env / state /
+                # auto-select would mask user error: a typo in --vault would
+                # silently pick whatever active_vault happens to be.
+                if config_file is None:
+                    print(
+                        f"ERROR: --vault {vault_path!r} did not resolve to any vault.\n"
+                        "  Tried: bundle name (vaults/{name}/vault.yml), "
+                        "config-file path, data-dir-with-vault.yml, "
+                        "and reverse lookup against vaults/*/vault.yml:vault_path.",
+                        file=sys.stderr,
+                    )
+                    if vaults_dir.exists():
+                        avail = [d.name for d in vaults_dir.iterdir() if d.is_dir() and (d / "vault.yml").exists()]
+                        if avail:
+                            print("  Available vaults: " + ", ".join(sorted(avail)), file=sys.stderr)
+                    sys.exit(1)
 
         # $VAULT_NAME env var
         if config_file is None:
@@ -389,9 +467,9 @@ class VaultConfig:
                             print("Available vaults: " + ", ".join(sorted(avail)), file=sys.stderr)
                     sys.exit(1)
 
-        # config.yaml.active_vault (or legacy files) → last operated vault.
+        # state/wikiforge.yaml.active_vault → last operated vault.
         if config_file is None:
-            active = read_config(repo_dir).get("active_vault", "")
+            active = read_state(repo_dir).get("active_vault", "")
             if active:
                 cand = vaults_dir / active / "vault.yml"
                 if cand.exists():
@@ -499,38 +577,86 @@ class VaultConfig:
         return self._data.get("source", {}).get("type", "youtube")
 
     def get(self, key_path: str, default=None) -> Any:
-        """Dot-path accessor: cfg.get('pipeline.auto_translate')"""
-        parts = key_path.split(".")
-        obj = self._data
-        for p in parts:
-            if not isinstance(obj, dict):
-                return default
-            obj = obj.get(p, default)
-        return obj
+        """Dot-path accessor against vault.yml.
+
+        vault.yml is the sole source of truth for per-vault config.
+        If a key is missing, returns `default` (or None if not given).
+        Use `require()` instead when the field must exist.
+        """
+        sentinel = object()
+        val = _walk_dotted(self._data, key_path, sentinel)
+        if val is not sentinel:
+            return val
+        return default
+
+    def require(self, key_path: str) -> Any:
+        """Like `get()` but raises with a hint when the field is missing.
+
+        Use for fields that must be in vault.yml — keeps the failure mode
+        loud instead of silently treating absence as "False" or empty.
+        """
+        sentinel = object()
+        val = _walk_dotted(self._data, key_path, sentinel)
+        if val is sentinel:
+            template = self._repo_dir / ".claude" / "templates" / "vault.yml.template"
+            print(
+                f"ERROR: required field '{key_path}' missing from {self._config_file}.\n"
+                f"  See {template} for the canonical schema.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        return val
+
+    @property
+    def layout(self) -> str:
+        """Vault directory layout: 'v1' = `{kind}/{lang}/`, 'v2' = `{lang}/{kind}/`.
+
+        Detected from the filesystem. v2 wins when both shapes exist (migration
+        target). Pure-empty vaults default to v2 — that's the layout new files
+        should be written in.
+        """
+        for lang in self.enabled_languages:
+            if (self.vault_path / lang / "wiki").is_dir():
+                return "v2"
+            if (self.vault_path / "wiki" / lang).is_dir():
+                return "v1"
+        return "v2"
+
+    def _kind_dir(self, kind: str, lang: str) -> Path:
+        """Resolve a per-kind, per-lang dir for either layout.
+
+        Returns the existing dir when one is on disk; otherwise the v2 path
+        (the write-target for new files).
+        """
+        v2 = self.vault_path / lang / kind
+        if v2.is_dir():
+            return v2
+        v1 = self.vault_path / kind / lang
+        if v1.is_dir():
+            return v1
+        return v2
+
+    def wikilink_prefix(self, kind: str, lang: str) -> str:
+        """Path prefix used inside wikilinks: `wiki/{lang}` (v1) or `{lang}/wiki` (v2)."""
+        if self.layout == "v2":
+            return f"{lang}/{kind}"
+        return f"{kind}/{lang}"
 
     def wiki_dir(self, lang: str) -> Path:
-        return self.vault_path / "wiki" / lang
+        return self._kind_dir("wiki", lang)
 
     def moc_dir(self, lang: str) -> Path:
-        return self.vault_path / "moc" / lang
+        return self._kind_dir("moc", lang)
 
     def index_file(self, lang: str) -> Path:
-        return self.vault_path / "index" / lang / "index.md"
+        return self._kind_dir("index", lang) / "index.md"
 
     def queries_dir(self, lang: str) -> Path:
-        return self.vault_path / "queries" / lang
+        return self._kind_dir("queries", lang)
 
-    def raw_dir(self, lang: Optional[str] = None) -> Path:
-        """Raw transcripts directory.
-
-        Multilingual layout: raw/{lang}/{video}.md (one file per video per
-        available subtitle language). Pass `lang` to get the lang-specific
-        subdir; omit for the parent `raw/`.
-        """
-        base = self.vault_path / "raw"
-        if lang is None:
-            return base
-        return base / lang
+    def raw_dir(self, lang: str) -> Path:
+        """Per-lang raw transcripts directory."""
+        return self._kind_dir("raw", lang)
 
     def meta_dir(self) -> Path:
         return self.vault_path / "meta"

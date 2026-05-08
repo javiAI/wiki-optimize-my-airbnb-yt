@@ -15,7 +15,13 @@ except Exception:
 " 2>/dev/null || true)
 
 [[ -z "$CMD" ]] && exit 0
-[[ "$CMD" != *ingest* ]] && exit 0
+# Trigger on ingest.sh / batch-ingest.sh AND on init-vault.sh, since
+# directory-mode init-vault runs batch-ingest internally without re-invoking
+# the Bash tool — the outer command is init-vault.sh, not *ingest*.
+case "$CMD" in
+    *ingest*|*init-vault*) ;;
+    *) exit 0 ;;
+esac
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -81,5 +87,14 @@ fi
 # Promote the snapshot to the new watermark only after a successful scan,
 # regardless of whether new files were found. Use mv so the swap is atomic.
 mv "$NEXT_WATERMARK" "$WATERMARK"
+
+# Surface llm-fallback advisory if ingest.sh appended any sources during this run.
+FALLBACK_QUEUE="$STATE_DIR/queue/llm-fallback.txt"
+if [[ -f "$FALLBACK_QUEUE" && -s "$FALLBACK_QUEUE" ]]; then
+    FB_COUNT=$(grep -c . "$FALLBACK_QUEUE" 2>/dev/null || echo 0)
+    if [[ "$FB_COUNT" -gt 0 ]]; then
+        echo "[hook] LLM-fallback advisory: $FB_COUNT source(s) lack a transcript in any enabled language; atoms will be llm_fallback. /ingest-queue surfaces details."
+    fi
+fi
 
 exit 0

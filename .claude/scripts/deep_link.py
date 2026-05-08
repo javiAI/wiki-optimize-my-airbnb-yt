@@ -122,25 +122,33 @@ def inject_urls_into_frontmatter(frontmatter: str, source_type: str = "youtube")
 def backfill_atom_urls(vault_path: Path, source_type: str = "youtube", dry_run: bool = False,
                        langs: list = None) -> dict:
     """
-    Scan wiki/{lang}/*.md files in vault. For each atom that has
-    sources[].locator but no sources[].url, compute and inject the URL.
+    Scan per-lang wiki dirs. For each atom that has sources[].locator but no
+    sources[].url, compute and inject the URL.
 
-    `langs`: explicit list of enabled languages (avoids scanning stale lang
-    dirs). If omitted, falls back to listing every subdir under wiki/.
+    `langs`: explicit list of enabled languages — required for v2 layout
+    (`{vault}/{lang}/wiki`) since we cannot iterate kinds under each lang
+    without knowing the lang set. For v1 (`{vault}/wiki/{lang}`) we fall
+    back to scanning the subdirs of `wiki/` if no langs given.
 
     Returns: {lang: {stem: [urls_added]}} summary dict
     """
+    sys.path.insert(0, str(Path(__file__).parent))
+    from config import kind_dir  # noqa: E402
+
     results = {}
 
-    wiki_dir = vault_path / "wiki"
-    if not wiki_dir.exists():
-        # Legacy path
-        wiki_dir = vault_path / "notes"
-
     if langs:
-        lang_dirs = [wiki_dir / l for l in langs if (wiki_dir / l).is_dir()]
+        lang_dirs = []
+        for l in langs:
+            d = kind_dir(vault_path, "wiki", l)
+            if d.is_dir():
+                lang_dirs.append(d)
     else:
-        lang_dirs = sorted(d for d in wiki_dir.iterdir() if d.is_dir())
+        # v1 fallback: enumerate subdirs of wiki/. v2 needs explicit `langs`.
+        wiki_root = vault_path / "wiki"
+        if not wiki_root.exists():
+            wiki_root = vault_path / "notes"
+        lang_dirs = sorted(d for d in wiki_root.iterdir() if d.is_dir()) if wiki_root.exists() else []
 
     for lang_dir in lang_dirs:
         lang = lang_dir.name

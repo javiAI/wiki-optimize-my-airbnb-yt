@@ -22,9 +22,15 @@ if [[ -z "$STEM" || -z "$LANG" || -z "$VAULT_PATH" ]]; then
     exit 1
 fi
 
-ATOM_FILE="$VAULT_PATH/wiki/$LANG/$STEM.md"
-if [[ ! -f "$ATOM_FILE" ]]; then
-    echo "[refine] WARN: atom not found: $ATOM_FILE" >&2
+# Layout-aware atom path: v2 wins when both shapes exist on disk.
+if [[ -f "$VAULT_PATH/$LANG/wiki/$STEM.md" ]]; then
+    ATOM_FILE="$VAULT_PATH/$LANG/wiki/$STEM.md"
+    REL_ATOM="$LANG/wiki/$STEM.md"
+elif [[ -f "$VAULT_PATH/wiki/$LANG/$STEM.md" ]]; then
+    ATOM_FILE="$VAULT_PATH/wiki/$LANG/$STEM.md"
+    REL_ATOM="wiki/$LANG/$STEM.md"
+else
+    echo "[refine] WARN: atom not found in either layout: $VAULT_PATH ($STEM, $LANG)" >&2
     exit 0
 fi
 
@@ -53,7 +59,7 @@ sys.path.insert(0, '$REPO_DIR/.claude/scripts')
 from pathlib import Path
 from config import VaultConfig
 cfg = VaultConfig()
-atom = Path('$VAULT_PATH/wiki/$LANG/$STEM.md')
+atom = Path('$ATOM_FILE')
 if not atom.exists():
     print('false'); sys.exit()
 text = atom.read_text(encoding='utf-8', errors='replace')
@@ -66,7 +72,7 @@ print('true')
 (
     cd "$REPO_DIR"
 
-    claude -p "Refine the atom at wiki/$LANG/$STEM.md in vault $VAULT_PATH.
+    claude -p "Refine the atom at $REL_ATOM in vault $VAULT_PATH.
 
 Rules:
 1. The claim must be ONE falsifiable sentence — no compound claims with 'and/y'. If compound, rewrite as the single most important claim.

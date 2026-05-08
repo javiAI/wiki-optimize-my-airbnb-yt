@@ -2,7 +2,7 @@
 
 ## Overview
 
-`.claude/config/config.yaml` holds vault selection, language choice, and retrieval backend configuration.
+`.claude/wikiforge/config.yaml` holds vault selection, language choice, and retrieval backend configuration. Plugin distribution ships `.claude/templates/config.yaml.example` — copy it to `.claude/wikiforge/config.yaml` and edit. The live file is gitignored. Pre-migration `.claude/config/config.yaml` is still read as a fallback.
 
 **Key principle**: Only fields that are **actually read and used** by scripts are documented as active. Future phases are commented out. This prevents confusion between "declared intention" and "working implementation."
 
@@ -191,13 +191,13 @@ Once working, uncomment the section and set `backend: embeddings`.
 
 ## Migration Notes
 
-### From state.yaml → config.yaml
+### State / config split
 
-The old `state.yaml` at `.claude/state/state.yaml` is now legacy. The migration is:
-
-- **Read order**: config.yaml → state.yaml → active-vault (backward compatible)
-- **Write order**: All writes go to config.yaml (forward compatible)
-- **Deprecation**: state.yaml files will be ignored once all users migrate
+Runtime state (`active_vault`, `active_lang`) lives in
+`.claude/state/wikiforge.yaml` (gitignored, mutates per query). User prefs and
+library config (`defaults`, `retrieval`, `regimes`, `evaluation`) live in
+`.claude/wikiforge/config.yaml` (committable). `defaults:` is consulted only by
+`/init-vault` — runtime scripts read `vault.yml` directly.
 
 Set active vault/lang via:
 ```bash
@@ -256,6 +256,6 @@ python3 .claude/scripts/config.py --json | jq '.retrieval'
 
 ## See Also
 
-- `.claude/config/config.yaml` — Active configuration file
+- `.claude/wikiforge/config.yaml` — Active configuration file
 - `docs/PHASE_*.md` — Implementation roadmaps for each phase
 - `.claude/scripts/retrieve.py` — Reads and uses these config values
