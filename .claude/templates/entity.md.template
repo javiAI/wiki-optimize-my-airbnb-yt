@@ -1,0 +1,90 @@
+---
+type: entity
+title: {{TITLE}}
+slug: {{SLUG}}
+kind: {{KIND}}              # tool | company | person | product | service | book | channel
+aliases: [{{ALIASES}}]
+lang: {{LANG}}
+propagated_from: {{PROPAGATED_FROM}}   # omit on canonical; lang of origin on propagated
+source_count: {{SOURCE_COUNT}}
+first_seen: {{FIRST_SEEN}}
+last_seen: {{LAST_SEEN}}
+last_updated: {{LAST_UPDATED}}
+cited_atoms: [{{CITED_ATOMS}}]
+---
+
+# {{TITLE}}
+
+<one-paragraph identity: what this entity IS and why it matters in the corpus.
+Cite at least one atom with `[[{{LANG}}/wiki/<atom-stem>]]`.>
+
+## Body — pick the section layout that matches `kind`
+
+The per-kind layouts below are guidance for the synthesis step. Use the
+sections that apply; skip the ones that do not. Every bullet that makes a
+claim MUST cite the atom that supports it via `[[{{LANG}}/wiki/<atom-stem>]]`.
+No claim without citation.
+
+### kind: tool
+
+- **What it does** — one paragraph, with cite.
+- **Pricing model** — flat fee / per-listing / per-revenue, with cite.
+- **Connection / integration** — how it plugs into Airbnb / PMS, with cite.
+- **Key levers / customisations** — bulleted, one cite each.
+- **Author's stance** — use it / avoid it / when, with cite.
+- **Pitfalls** — bulleted, one cite each.
+
+### kind: company
+
+- **What it does** — one paragraph.
+- **Position in the market** — bulleted, with cites.
+- **Author's stance** — endorsement / criticism / neutral, with cites.
+
+### kind: person
+
+- **Background / role** — one paragraph.
+- **Positions advocated** — bulleted, one cite each.
+- **Body of work / canonical citations** — bulleted, one cite each.
+- **Author's stance toward them** — endorse / dispute / neutral, with cites.
+
+### kind: product
+
+- **What it is** — one paragraph.
+- **Use case** — bulleted, with cites.
+- **Pricing or access** — with cite if available.
+- **Pitfalls** — bulleted, one cite each.
+
+### kind: service
+
+- **What it is** — one paragraph.
+- **When it applies** — bulleted, with cites.
+- **Pricing or access** — with cite if available.
+- **Author's stance** — with cite.
+
+### kind: book / channel
+
+- **What it is** — one paragraph.
+- **Take** — recommended / not recommended / mixed, with cites.
+
+## Stub state
+
+If this file was just created by `entity-detect.py`, the body reads:
+
+> Stub — pending enrichment. The atom that triggered this stub is in
+> `cited_atoms[]`. Run `/refresh-hubs` (or wait for the
+> on-ingest-batch-close hook) to enrich.
+
+`/refresh-hubs` reads every atom listed in `cited_atoms[]`, picks the
+matching kind layout above, and replaces the stub body with the full
+synthesis. Existing filled bodies are extended (incremental), not
+rewritten — new atoms slot into the appropriate section, old material is
+preserved unless the new atom supersedes it (§4.5.3 in CLAUDE.md).
+
+## Related
+
+- Topic: [[../topics/{{PRIMARY_TOPIC}}|{{PRIMARY_TOPIC}}]]
+- See also: <list of related entities, concepts>
+
+## Sources (atoms cited)
+
+<auto-populated: one bullet per atom in `cited_atoms[]`>
