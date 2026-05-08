@@ -1,0 +1,5 @@
+# WikiForge runtime state — written by init-vault, query routing, set-config.sh.
+# Gitignored. Do not edit by hand unless you know what you're doing.
+
+active_vault: oma-test-2
+active_lang: en

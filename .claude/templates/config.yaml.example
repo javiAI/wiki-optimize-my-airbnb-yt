@@ -1,0 +1,46 @@
+# WikiForge configuration template — copy to config.yaml and edit.
+# Plugin-level user prefs and library config. Per-vault settings live in
+# vaults/{name}/vault.yml; runtime state (active_vault/lang) lives in
+# .claude/state/wikiforge.yaml (gitignored).
+
+# === DEFAULTS — seed values for /init-vault (init-time only) ===
+# init-vault reads these to skip prompts. Runtime scripts do NOT consult
+# defaults: — they read vault.yml directly. So this block has one job:
+# templating new vaults.
+defaults:
+  languages: [en]          # languages enabled for new vaults
+  data_path_pattern: "~/Dev/obsidian_vaults/{name}"
+  pipeline:
+    auto_atoms: true
+    auto_propagate: true
+    auto_refine: false
+
+# === RETRIEVAL — read by .claude/scripts/retrieve.py ===
+retrieval:
+  backend: bm25            # bm25 | llm | hybrid
+  bm25:
+    enabled: true
+    topic_boost: 3.0
+    claim_boost: 2.0
+  llm:
+    enabled: false
+    fallback:
+      enabled: false
+      trigger: "bm25_confidence"
+      threshold: 1.5
+
+# === REGIMES — query response format ceilings (CLAUDE.md §4.6) ===
+regimes:
+  A_ceiling: 250
+  B_ceiling: 600
+  C_ceiling: 1000
+
+# === EVALUATION — test rubric weights ===
+evaluation:
+  rubric:
+    completeness: 0.25
+    accuracy: 0.25
+    spanish_purity: 0.15
+    tone: 0.15
+    format_compliance: 0.20
+  composite_alpha: 0.85

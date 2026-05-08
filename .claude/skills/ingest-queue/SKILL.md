@@ -24,7 +24,10 @@ Atoms are created **once** per source, in that source's `atomization_lang` (the 
 
 1. Read the queue file: `vaults/$VAULT_NAME/state/queue/pending-atoms.txt` (per-vault bundle in this repo, NOT inside `$VAULT_PATH`).
 2. If empty: report "Queue is empty — nothing to process." and exit.
-3. Read `vaults/$VAULT_NAME/agents.md` to understand atom schema and per-vault rules (anglicism whitelist, etc.).
+
+   **LLM-fallback advisory** — also check `vaults/$VAULT_NAME/state/queue/llm-fallback.txt`. If it has lines, surface a one-liner before processing: *"N source(s) have no transcript in any enabled language; atomization will be done by LLM synthesis from `enabled[0]` transcript and stamped `excerpt_source: llm_fallback`. Quality may be lower."* Each line is `<video_id>\t<native_lang>\t<atomization_lang>` — list the affected video_ids inline. Continue to step 3 regardless; this is informational, not blocking.
+
+3. Read `vaults/$VAULT_NAME/agents.md` to understand atom schema and per-vault rules (native-synthesis directive, brand whitelist, regime contract, etc.).
 4. For each raw file path listed in the queue:
    a. **Read frontmatter** — extract `video_id`, `native_lang`, `language` (subtitle lang of this file), `subtitle_source` (manual|auto).
    b. **Determine atomization_lang**:
@@ -37,11 +40,19 @@ Atoms are created **once** per source, in that source's `atomization_lang` (the 
       ```
 
       The result is the lang you write atoms in. If it differs from this file's `language` field, find the sibling raw file at `$VAULT_PATH/raw/{atomization_lang}/{video}.md` and atomize from that one instead. If no sibling exists in `atomization_lang`, atomize from the file you have but produce atoms **in `atomization_lang`** (single combined translate-and-atomize pass — only happens when native_lang ∉ enabled).
-   c. **Extract atomic claims** — no artificial limit. Each atom must be:
+   c. **Extract atomic claims** — no fixed count. Each candidate must be:
       - One falsifiable sentence (no compound claims with "and / y").
       - Specific enough to contradict ("setting minimum price below 50% of base price degrades algorithm ranking", not "pricing matters").
-      - Non-redundant: scan `wiki/{atomization_lang}/{topic}--*.md` for near-identical claims; skip and log `duplicate: {existing_stem}` if found.
-   d. **Write each atom** to `$VAULT_PATH/wiki/{atomization_lang}/{topic}--{slug}.md`:
+
+      For each candidate, **integrate against the existing wiki before writing**:
+
+      1. Look up: `python3 .claude/scripts/retrieve.py --query "{claim}" --vault $VAULT_NAME --lang {atomization_lang} --top 3`. (Fall back to globbing `wiki/{atomization_lang}/{topic}--*.md` if retrieve is unavailable.)
+      2. Pick a branch:
+         - **NEW** — no close match → write a new atom (step 4d).
+         - **STRENGTHEN** — an existing atom makes the same claim, same direction, compatible scope → **Edit** that atom: append a new entry to its `sources:` list with this video's `source_id`, `locator`, `url`, `excerpt`, `excerpt_source: native_atomization`, `lang_origin: {atomization_lang}`. Do NOT create a new file. If the second corroboration shifts confidence (e.g. medium → high), update the field. Skip step 4d for this candidate.
+         - **CONFLICT** — an existing atom contradicts the new claim → write a new atom (step 4d) AND append a HIGH/MEDIUM entry to `meta/contradictions.md` per CLAUDE.md §4.5.5.
+         - **REDUNDANT** — an entry with this same `source_id` already exists for this claim (re-ingest) → skip silently, log `duplicate: {existing_stem}`.
+   d. **Write each NEW or CONFLICT atom** to `$VAULT_PATH/wiki/{atomization_lang}/{topic}--{slug}.md`:
 
       ```yaml
       ---
@@ -68,7 +79,14 @@ Atoms are created **once** per source, in that source's `atomization_lang` (the 
       - Runs `auto-link.py` and `atom-qa.py`.
       - If `pipeline.auto_propagate: true` and 2+ enabled langs → fires `propagate_atom.py` per other lang in the background. **You do not call it manually.**
 5. After all atoms are written, clear (truncate) `pending-atoms.txt`.
-6. Report: `N atoms created in {atomization_lang} across M sources, K duplicates skipped`.
+6. **Close the batch** — invoke the batch-close hook so hub queues drain and the audit threshold tracks correctly:
+
+   ```bash
+   bash .claude/hooks/on-ingest-batch-close.sh <N_NEW_OR_CONFLICT_ATOMS_WRITTEN>
+   ```
+
+   The hook (a) calls `/refresh-hubs` to enrich any entity/comparison stubs queued by `entity-detect.py` / `comparison-detect.py`, (b) bumps `state/.ingest-counter`, (c) prints an audit advisory if the counter crosses `vault.yml.maintenance.audit_every_n_ingests`. Pass the count of NEW + CONFLICT atoms (STRENGTHEN edits and REDUNDANT skips don't count).
+7. Report: `N atoms created in {atomization_lang} across M sources, K duplicates skipped`. If the batch-close hook printed an audit advisory, surface it verbatim.
 
 ## Critical rules
 

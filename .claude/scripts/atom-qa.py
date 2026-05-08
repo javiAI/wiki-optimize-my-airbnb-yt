@@ -7,18 +7,20 @@ Checks per atom (per language):
   3. Multilingual schema: each source has excerpt_source ∈ {yt_manual, yt_auto,
      llm_fallback, native_atomization}; if propagated_from is present at the
      top level, it points to an enabled language.
-  4. Anglicism (non-English langs): prohibited English words in body text
-  5. Acronyms: acronyms used without expansion on first occurrence
-  6. Conflict: claim overlaps with meta/contradictions.md entries
+  4. Acronyms: acronyms used without expansion on first occurrence
+  5. Conflict: claim overlaps with meta/contradictions.md entries
 
-Lexical data (anglicisms, whitelist, acronyms) lives in `.claude/scripts/qa_lexicon.py`.
+Language purity (anglicism leakage in non-English atoms) is enforced
+statistically by `/test-vault`'s `language_purity` rubric across N independent
+evaluators, not by string mapping. Atomization and propagation prompts
+instruct the LLM to write natively in the target lang.
 
 Usage:
     python3 .claude/scripts/atom-qa.py pricing--base-price --lang en
     python3 .claude/scripts/atom-qa.py pricing--base-price --lang es
     python3 .claude/scripts/atom-qa.py --all --lang es
     python3 .claude/scripts/atom-qa.py --all          # checks all langs enabled in vault.yaml
-    python3 .claude/scripts/atom-qa.py --all --fix    # auto-fix anglicisms, acronyms, missing URLs
+    python3 .claude/scripts/atom-qa.py --all --fix    # auto-fix acronyms, missing URLs
 
 Output: meta/qa-reports/{stem}.{lang}.json — written ONLY when violations exist.
         If atom becomes clean, any pre-existing report is deleted.
@@ -34,8 +36,24 @@ from pathlib import Path
 from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent))
-from qa_lexicon import ANGLICISM_TABLE, ANGLICISM_WHITELIST, ACRONYM_TABLE
+from config import kind_dir
 from frontmatter import parse_frontmatter
+
+# Hospitality-domain acronyms. Define-on-first-use is enforced regardless of
+# atom lang (an undefined "PMS" is opaque in any language). Add domain terms
+# here when they recur enough that readers benefit from a single expansion.
+ACRONYM_TABLE: list = [
+    ("ADR", "Average Daily Rate"),
+    ("RevPAR", "Revenue Per Available Rental"),
+    ("PMS", "Property Management System"),
+    ("OTA", "Online Travel Agency"),
+    ("LOS", "Length of Stay"),
+    ("DOW", "Day of Week"),
+    ("STR", "Short-Term Rental"),
+    ("KPI", "Key Performance Indicator"),
+    ("ROI", "Return on Investment"),
+    ("TOS", "Terms of Service"),
+]
 
 
 
@@ -128,49 +146,6 @@ def check_multilingual_schema(fm: dict, enabled_langs: list[str]) -> list[dict]:
     return violations
 
 
-def check_anglicisms(body: str, lang: str) -> list[dict]:
-    """Check body text for prohibited English words. Skipped for English atoms (those ARE in English)."""
-    violations = []
-    if lang == "en":
-        return violations
-
-    body_lower = body.lower()
-    whitelist_lower = {w.lower() for w in ANGLICISM_WHITELIST}
-
-    for english, spanish in ANGLICISM_TABLE:
-        if english.lower() in whitelist_lower:
-            continue
-        # Build pattern that also matches common plural/inflected forms
-        base = re.escape(english.lower())
-        pattern = r'\b' + base + r's?\b'
-        m = re.search(pattern, body_lower)
-        if m:
-            found = m.group(0)
-            violations.append({
-                "type": "anglicism",
-                "severity": "warning",
-                "message": f'Found "{found}" — use "{spanish}" instead',
-                "word": english,
-                "replacement": spanish,
-                "auto_fixable": True,
-            })
-
-    return violations
-
-
-def apply_anglicism_fixes(body: str, violations: list[dict]) -> str:
-    """Apply auto_fixable anglicism substitutions to body text."""
-    result = body
-    for v in violations:
-        if not v.get("auto_fixable") or v.get("type") != "anglicism":
-            continue
-        word = v["word"]
-        replacement = v["replacement"]
-        base = re.escape(word)
-        result = re.sub(r'\b' + base + r's?\b', replacement, result, flags=re.IGNORECASE)
-    return result
-
-
 def check_acronyms(body: str) -> list[dict]:
     """
     Check body for acronyms used without their expansion defined inline.
@@ -260,7 +235,7 @@ def run_qa(
       - Writes meta/qa-reports/{stem}.{lang}.json IF violations exist
       - Deletes any stale report if atom is now clean (skip-write-when-clean)
     """
-    wiki_dir = vault_path / "wiki" / lang
+    wiki_dir = kind_dir(vault_path, "wiki", lang)
     if not wiki_dir.exists():
         wiki_dir = vault_path / "notes"  # Legacy fallback
 
@@ -275,7 +250,6 @@ def run_qa(
     violations += check_completeness(fm)
     violations += check_url_format(fm, source_type)
     violations += check_multilingual_schema(fm, enabled_langs or [])
-    violations += check_anglicisms(body, lang)
     violations += check_acronyms(body)
     violations += check_conflicts(stem, fm, vault_path / "meta")
 
@@ -308,12 +282,12 @@ def run_qa(
 def run_all(lang: str, vault_path: Path, source_type: str = "youtube",
             enabled_langs: Optional[list] = None) -> dict:
     """Run QA on all atoms for a given language."""
-    wiki_dir = vault_path / "wiki" / lang
+    wiki_dir = kind_dir(vault_path, "wiki", lang)
     if not wiki_dir.exists():
         if lang == "en":
             wiki_dir = vault_path / "notes"
         else:
-            print(f"  No wiki/{lang}/ directory found — skipping")
+            print(f"  No wiki dir for [{lang}] — skipping")
             return {}
 
     results = {}
@@ -338,7 +312,7 @@ def run_all(lang: str, vault_path: Path, source_type: str = "youtube",
 
 def fix_atom(stem: str, lang: str, vault_path: Path, source_type: str = "youtube") -> int:
     """Apply all auto_fixable corrections to an atom file. Returns count of fixes applied."""
-    wiki_dir = vault_path / "wiki" / lang
+    wiki_dir = kind_dir(vault_path, "wiki", lang)
     atom_file = wiki_dir / f"{stem}.md"
     if not atom_file.exists():
         return 0
@@ -350,26 +324,19 @@ def fix_atom(stem: str, lang: str, vault_path: Path, source_type: str = "youtube
     text, url_fixes = _inject_missing_urls(text, source_type)
     fixes += url_fixes
 
-    # 2. Apply body-level fixes (anglicisms + acronyms), preserving original whitespace
+    # 2. Apply acronym fixes, preserving original whitespace
     end = text.find("---", 3)
     if end == -1:
         return fixes
     frontmatter_raw = text[:end + 3]
     body_raw = text[end + 3:]
 
-    # Split body into (leading_ws, content, trailing_ws) so substitutions don't collapse separators
     body_lstripped = body_raw.lstrip()
     leading_ws = body_raw[: len(body_raw) - len(body_lstripped)]
     body_content = body_lstripped.rstrip()
     trailing_ws = body_lstripped[len(body_content):]
 
     new_content = body_content
-
-    anglicism_violations = check_anglicisms(new_content, lang)
-    fixable_anglicisms = [v for v in anglicism_violations if v.get("auto_fixable")]
-    if fixable_anglicisms:
-        new_content = apply_anglicism_fixes(new_content, fixable_anglicisms)
-        fixes += len(fixable_anglicisms)
 
     acronym_violations = check_acronyms(new_content)
     fixable_acronyms = [v for v in acronym_violations if v.get("auto_fixable")]
@@ -408,7 +375,7 @@ if __name__ == "__main__":
             all_results[lang] = run_all(lang, cfg.vault_path, args.source_type,
                                         enabled_langs=enabled)
             if args.fix:
-                wiki_dir = cfg.vault_path / "wiki" / lang
+                wiki_dir = kind_dir(cfg.vault_path, "wiki", lang)
                 for atom_file in sorted(wiki_dir.glob("*.md")):
                     n = fix_atom(atom_file.stem, lang, cfg.vault_path, args.source_type)
                     if n:

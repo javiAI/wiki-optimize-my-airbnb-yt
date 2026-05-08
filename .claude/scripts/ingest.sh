@@ -172,3 +172,18 @@ if [[ "$ANY_OK" -eq 0 ]]; then
     echo "ERROR: no subtitles available in any requested lang for $VID" >&2
     exit 2
 fi
+
+# 5. If native_lang is outside enabled[], record an llm-fallback advisory.
+# Atomization will fall back to enabled[0] without a verbatim transcript in the
+# atomization lang, so excerpt_source: llm_fallback gets stamped on the atom.
+# Surface this at /ingest-queue and session-start so the user sees it.
+if [[ $NATIVE_IN_LIST -eq 0 ]]; then
+    BUNDLE="${VAULT_NAME:-$(basename "$VAULT")}"
+    FALLBACK_QUEUE="${REPO_ROOT}/vaults/${BUNDLE}/state/queue/llm-fallback.txt"
+    mkdir -p "$(dirname "$FALLBACK_QUEUE")"
+    touch "$FALLBACK_QUEUE"
+    if ! grep -qF "$VID" "$FALLBACK_QUEUE"; then
+        printf '%s\t%s\t%s\n' "$VID" "$NATIVE_LANG" "${ENABLED_LANGS[0]}" >> "$FALLBACK_QUEUE"
+        echo "[ingest] ADVISORY: native_lang=$NATIVE_LANG ∉ enabled[]; atomization → ${ENABLED_LANGS[0]} (llm_fallback)" >&2
+    fi
+fi
