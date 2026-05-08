@@ -86,23 +86,71 @@ def locator_to_url(
     return None
 
 
-def backfill_atom_urls(vault_path: Path, source_type: str = "youtube", dry_run: bool = False) -> dict:
+_SOURCE_BLOCK_RE = re.compile(
+    r'(  - source_id: (\S+)\n(?:    \w+: [^\n]+\n)*)',
+    re.MULTILINE,
+)
+
+
+def inject_urls_into_frontmatter(frontmatter: str, source_type: str = "youtube") -> tuple[str, list[str]]:
+    """For each source block missing a url, compute one from source_id+locator
+    and inject it after the locator line. Returns (new_frontmatter, urls_added).
     """
-    Scan all wiki/{lang}/*.md files in vault. For each atom that has
-    sources[].locator but no sources[].url, compute and inject the URL.
+    new_frontmatter = frontmatter
+    urls_added: list[str] = []
+    for block, source_id in _SOURCE_BLOCK_RE.findall(frontmatter):
+        if re.search(r'^    url:', block, re.MULTILINE):
+            continue
+        loc_m = re.search(r'    locator: "?([^"\n]+?)"?\n', block)
+        if not loc_m:
+            continue
+        locator = loc_m.group(1).strip()
+        url = locator_to_url(source_id, locator, source_type)
+        if not url:
+            continue
+        new_block = re.sub(
+            r'(    locator: [^\n]+\n)',
+            f'    locator: "{locator}"\n    url: "{url}"\n',
+            block,
+            count=1,
+        )
+        new_frontmatter = new_frontmatter.replace(block, new_block)
+        urls_added.append(url)
+    return new_frontmatter, urls_added
+
+
+def backfill_atom_urls(vault_path: Path, source_type: str = "youtube", dry_run: bool = False,
+                       langs: list = None) -> dict:
+    """
+    Scan per-lang wiki dirs. For each atom that has sources[].locator but no
+    sources[].url, compute and inject the URL.
+
+    `langs`: explicit list of enabled languages — required for v2 layout
+    (`{vault}/{lang}/wiki`) since we cannot iterate kinds under each lang
+    without knowing the lang set. For v1 (`{vault}/wiki/{lang}`) we fall
+    back to scanning the subdirs of `wiki/` if no langs given.
 
     Returns: {lang: {stem: [urls_added]}} summary dict
     """
+    sys.path.insert(0, str(Path(__file__).parent))
+    from config import kind_dir  # noqa: E402
+
     results = {}
 
-    wiki_dir = vault_path / "wiki"
-    if not wiki_dir.exists():
-        # Legacy path
-        wiki_dir = vault_path / "notes"
+    if langs:
+        lang_dirs = []
+        for l in langs:
+            d = kind_dir(vault_path, "wiki", l)
+            if d.is_dir():
+                lang_dirs.append(d)
+    else:
+        # v1 fallback: enumerate subdirs of wiki/. v2 needs explicit `langs`.
+        wiki_root = vault_path / "wiki"
+        if not wiki_root.exists():
+            wiki_root = vault_path / "notes"
+        lang_dirs = sorted(d for d in wiki_root.iterdir() if d.is_dir()) if wiki_root.exists() else []
 
-    for lang_dir in sorted(wiki_dir.iterdir()):
-        if not lang_dir.is_dir():
-            continue
+    for lang_dir in lang_dirs:
         lang = lang_dir.name
         results[lang] = {}
 
@@ -121,41 +169,7 @@ def backfill_atom_urls(vault_path: Path, source_type: str = "youtube", dry_run: 
             frontmatter = text[3:end]
             body = text[end + 3:]
 
-            # Find sources without url
-            urls_added = []
-            new_frontmatter = frontmatter
-
-            # Match source blocks: source_id + locator lines
-            source_blocks = re.findall(
-                r'(  - source_id: (\S+)\n(?:    \w+: [^\n]+\n)*)',
-                frontmatter,
-                re.MULTILINE
-            )
-
-            for block, source_id in source_blocks:
-                loc_m = re.search(r'    locator: "?([^"\n]+)"?', block)
-                url_m = re.search(r'    url:', block)
-
-                if loc_m and not url_m:
-                    locator = loc_m.group(1).strip()
-                    url = locator_to_url(source_id, locator, source_type)
-                    if url:
-                        # Insert url line after locator line
-                        new_block = block.replace(
-                            f'    locator: "{locator}"\n' if f'"{locator}"' in block
-                            else f'    locator: {locator}\n',
-                            f'    locator: "{locator}"\n    url: "{url}"\n'
-                        )
-                        if new_block == block:
-                            # Try without quotes
-                            new_block = re.sub(
-                                r'(    locator: [^\n]+\n)',
-                                f'    locator: "{locator}"\n    url: "{url}"\n',
-                                block,
-                                count=1
-                            )
-                        new_frontmatter = new_frontmatter.replace(block, new_block)
-                        urls_added.append(url)
+            new_frontmatter, urls_added = inject_urls_into_frontmatter(frontmatter, source_type)
 
             if urls_added:
                 results[lang][stem] = urls_added
@@ -199,7 +213,8 @@ if __name__ == "__main__":
         from config import VaultConfig
         cfg = VaultConfig(args.vault)
         print(f"Backfilling deep links in: {cfg.vault_path}")
-        results = backfill_atom_urls(cfg.vault_path, args.source_type, args.dry_run)
+        results = backfill_atom_urls(cfg.vault_path, args.source_type, args.dry_run,
+                                     langs=cfg.enabled_languages)
         total = sum(len(v) for v in results.values())
         print(f"\nDone. {total} atoms updated across {len(results)} languages.")
     else:

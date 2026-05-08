@@ -3,29 +3,41 @@
 # /audit, /qa, /ingest-queue, ...).
 #
 # Behavior:
-#   - Resolves $VAULT_PATH and $VAULT_NAME via config.sh (which already handles
-#     all the resolution rules: explicit env, .claude/state/active-vault, single
-#     bundle, or loud-error on 2+ bundle ambiguity).
-#   - On success: prints `[wikiforge] Using vault: <name> (<path>)` to stdout
-#     so the user sees which vault is about to be touched BEFORE any operation.
-#   - On failure: exits non-zero. The user-facing error already came from
-#     config.sh (it lists available vaults and how to disambiguate).
+#   - Accepts per-call overrides:
+#       --vault <name>   → exports VAULT_NAME (skips state lookup)
+#       --lang  <code>   → exports WIKIFORGE_LANG (read by skills + retrieve.py)
+#     This wires the same arg shape into every slash command, so a frontend
+#     can do `/query --vault apt-101 --lang es "..."` without touching state.
+#   - Resolves $VAULT_PATH / $VAULT_NAME via config.sh (state.active_vault,
+#     single-bundle auto-pick, or loud-error on 2+ bundle ambiguity).
+#   - On success: prints `[wikiforge] Using vault: <name> (<path>)` to stdout.
+#   - On failure: exits non-zero (config.sh already printed the helpful error).
 #
 # Usage from a skill:
-#   bash .claude/scripts/resolve-vault.sh || exit 1
+#   bash .claude/scripts/resolve-vault.sh [--vault NAME] [--lang CODE] || exit 1
 #
-# Or sourced (so the calling shell inherits VAULT_PATH/VAULT_NAME):
-#   source .claude/scripts/resolve-vault.sh || return 1
-#
-# Why this exists: skills are markdown instructions read by Claude. Without an
-# explicit, loud preamble it's easy for the LLM to silently pick the wrong
-# vault when 2+ exist. This script makes the choice visible and refuses to
-# proceed when ambiguous.
+# Or sourced (so the calling shell inherits VAULT_PATH/VAULT_NAME/WIKIFORGE_LANG):
+#   source .claude/scripts/resolve-vault.sh [--vault NAME] [--lang CODE] || return 1
 
 set -euo pipefail
 
 _RV_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 _RV_REPO_DIR="$(cd "$_RV_SCRIPT_DIR/.." && pwd)"
+
+# Parse per-call flags. Unknown args are left in "$@" so the caller can
+# forward them to the actual command.
+while [[ "${1:-}" == --* ]]; do
+    case "$1" in
+        --vault)
+            export VAULT_NAME="${2:?--vault needs a value}"
+            shift 2 ;;
+        --lang)
+            export WIKIFORGE_LANG="${2:?--lang needs a value}"
+            shift 2 ;;
+        --) shift; break ;;
+        *)  break ;;  # unknown flag → leave for caller
+    esac
+done
 
 # config.sh is idempotent — re-sourcing is safe. We don't pass QUIET because
 # this script's whole job is to surface vault selection (or its failure).

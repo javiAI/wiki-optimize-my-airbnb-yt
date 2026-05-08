@@ -31,6 +31,7 @@ fi
 
 STATE_DIR="$REPO_DIR/vaults/$(basename "$VAULT_PATH")/state"
 QUEUE="$STATE_DIR/queue/pending-atoms.txt"
+FALLBACK_QUEUE="$STATE_DIR/queue/llm-fallback.txt"
 
 if [[ -f "$QUEUE" && -s "$QUEUE" ]]; then
     # Count only lines that still point to existing files
@@ -52,6 +53,13 @@ if [[ -f "$QUEUE" && -s "$QUEUE" ]]; then
         echo "[WikiForge] $VALID source(s) pending atom creation. Run /ingest-queue to process."
         echo -e "$PREVIEW" | head -4
         [[ $VALID -gt 3 ]] && echo "  ... and $((VALID - 3)) more"
+    fi
+fi
+
+if [[ -f "$FALLBACK_QUEUE" && -s "$FALLBACK_QUEUE" ]]; then
+    FB_COUNT=$(grep -c . "$FALLBACK_QUEUE" 2>/dev/null || echo 0)
+    if [[ "$FB_COUNT" -gt 0 ]]; then
+        echo "[WikiForge] $FB_COUNT source(s) have no transcript in any enabled language; atomization will fall back to LLM synthesis from enabled[0] (excerpt_source: llm_fallback). Quality may be lower."
     fi
 fi
 

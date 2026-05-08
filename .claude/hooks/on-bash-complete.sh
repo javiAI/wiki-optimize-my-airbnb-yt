@@ -15,7 +15,13 @@ except Exception:
 " 2>/dev/null || true)
 
 [[ -z "$CMD" ]] && exit 0
-[[ "$CMD" != *ingest* ]] && exit 0
+# Trigger on ingest.sh / batch-ingest.sh AND on init-vault.sh, since
+# directory-mode init-vault runs batch-ingest internally without re-invoking
+# the Bash tool — the outer command is init-vault.sh, not *ingest*.
+case "$CMD" in
+    *ingest*|*init-vault*) ;;
+    *) exit 0 ;;
+esac
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -27,13 +33,17 @@ fi
 
 [[ -z "${VAULT_PATH:-}" ]] && exit 0
 
-STATE_DIR="$REPO_DIR/vaults/$(basename "$VAULT_PATH")/state"
+VAULT_BUNDLE="${VAULT_NAME:-$(basename "$VAULT_PATH")}"
+STATE_DIR="$REPO_DIR/vaults/$VAULT_BUNDLE/state"
 QUEUE="$STATE_DIR/queue/pending-atoms.txt"
+# Watermark is a separate sentinel file. Using QUEUE itself as the watermark
+# was racy: appending to QUEUE bumped its mtime, so any raw/ file created
+# during the append window got missed on the next run.
+WATERMARK="$STATE_DIR/queue/.last-ingest-scan"
 mkdir -p "$(dirname "$QUEUE")"
-# First-run only: create with epoch-0 mtime so -newer matches everything below.
-# DO NOT `touch` on every run — that resets mtime to NOW, making -newer return
-# zero results because all raw/ files predate the just-touched queue.
-[[ ! -f "$QUEUE" ]] && touch -t 197001010000 "$QUEUE"
+[[ ! -f "$QUEUE" ]] && touch "$QUEUE"
+# First-run only: create watermark at epoch 0 so -newer matches everything.
+[[ ! -f "$WATERMARK" ]] && touch -t 197001010000 "$WATERMARK"
 
 RAW_DIR="$VAULT_PATH/raw"
 if [[ ! -d "$RAW_DIR" ]]; then
@@ -41,8 +51,11 @@ if [[ ! -d "$RAW_DIR" ]]; then
     exit 0
 fi
 
-# Find raw/ files created after the queue file's last-write time
-NEW_FILES=$(find "$RAW_DIR" -name "*.md" -newer "$QUEUE" 2>/dev/null || true)
+# Snapshot the watermark to "now" BEFORE the scan. Files created during the
+# scan/append window will still have mtime > snapshot and get picked up next
+# run.
+NEXT_WATERMARK=$(mktemp)
+NEW_FILES=$(find "$RAW_DIR" -name "*.md" -newer "$WATERMARK" 2>/dev/null || true)
 
 if [[ -n "$NEW_FILES" ]]; then
     echo "$NEW_FILES" >> "$QUEUE"
@@ -69,6 +82,19 @@ if [[ -n "$NEW_FILES" ]]; then
     fi
     [[ ! -f "$LOG_FILE" ]] && printf '# Log\n\nChronological record of vault operations.\n\n' > "$LOG_FILE"
     printf '## [%s] ingest | %d source(s): %s\n\n' "$DATE" "$COUNT" "$STEMS" >> "$LOG_FILE"
+fi
+
+# Promote the snapshot to the new watermark only after a successful scan,
+# regardless of whether new files were found. Use mv so the swap is atomic.
+mv "$NEXT_WATERMARK" "$WATERMARK"
+
+# Surface llm-fallback advisory if ingest.sh appended any sources during this run.
+FALLBACK_QUEUE="$STATE_DIR/queue/llm-fallback.txt"
+if [[ -f "$FALLBACK_QUEUE" && -s "$FALLBACK_QUEUE" ]]; then
+    FB_COUNT=$(grep -c . "$FALLBACK_QUEUE" 2>/dev/null || echo 0)
+    if [[ "$FB_COUNT" -gt 0 ]]; then
+        echo "[hook] LLM-fallback advisory: $FB_COUNT source(s) lack a transcript in any enabled language; atoms will be llm_fallback. /ingest-queue surfaces details."
+    fi
 fi
 
 exit 0

@@ -17,7 +17,7 @@ languages:
   enabled: ["en", "es"]        # all wiki languages — no primary/secondary distinction.
                                # atomization_lang is decided per-source: native_lang if in enabled,
                                # else enabled[0] (single combined translate-and-atomize pass).
-  detect_from_query: true      # auto-route queries to correct wiki/{lang}/
+  detect_from_query: true      # auto-route queries to correct {lang}/wiki/
 
 topics: []                     # always auto-detected; leave empty
 
@@ -34,8 +34,10 @@ pipeline:
 qa:
   completeness: true           # require: claim, source, url, last_verified
   url_validation: true         # sources[].url must match ?v=*&t=* format
-  anglicism_check: []          # langs to check; auto-applied to non-English atoms
   conflict_check: true         # flag atoms that conflict with meta/contradictions.md
+  # Language purity (English-borrowing leakage in non-English atoms) is scored
+  # statistically by /test-vault's `language_purity` rubric across N independent
+  # evaluators — no string-mapping enforcement here.
 ```
 
 ## Atom schema
@@ -58,8 +60,9 @@ conflicts_with: []             # list of atom stems that contradict this one
 last_verified: 2026-04-29
 ---
 
-Body text (100–300 words). Written natively in the target language.
-No anglicisms if non-English. No intro fluff. No trailing summary.
+Body text (100–300 words). Written natively in the target language —
+draw vocabulary and idioms from the target-lang transcript, never translate
+the canonical body. No intro fluff. No trailing summary.
 ```
 
 **Field semantics**:

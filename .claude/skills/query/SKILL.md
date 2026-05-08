@@ -1,6 +1,6 @@
 ---
 name: query
-description: Run a vault query. Auto-detects response language from the question itself; falls back to state.yaml.active_lang and then enabled[0]. Use --lang to force.
+description: Run a vault query. Auto-detects response language from the question itself; falls back to .claude/state/wikiforge.yaml active_lang and then enabled[0]. Use --vault/--lang to scope.
 allowed-tools: Read Bash(python3) Bash(source)
 ---
 
@@ -8,7 +8,11 @@ allowed-tools: Read Bash(python3) Bash(source)
 
 Run a query against the vault.
 
-Usage: `/query [--lang es|en] [--format markdown|marp] "{question}"`
+Usage: `/query [--vault NAME] [--lang es|en] [--format markdown|marp] "{question}"`
+
+`--vault` scopes the query to a specific bundle (skips the active-vault lookup —
+useful for frontends running multiple vaults in parallel). `--lang` forces the
+response language.
 
 ## Language resolution chain
 
@@ -16,7 +20,7 @@ The retrieval lang is decided in this order — first hit wins:
 
 1. `--lang` flag (explicit, always wins)
 2. **Auto-detect** from the question itself (chars + stopwords scoring; only triggers if confident — ties and zero-score return None)
-3. `state.yaml.active_lang` in `.claude/state/` (sticky across sessions)
+3. `active_lang` in `.claude/state/wikiforge.yaml` (sticky across sessions)
 4. `enabled[0]` from `vaults/{name}/vault.yml` (deterministic fallback)
 
 Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in other langs are ignored at retrieval time. The response is rendered in `LANG`. The atom propagation pipeline guarantees per-lang parity, so cross-lang citations stay consistent.
@@ -30,17 +34,23 @@ Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in 
    python3 .claude/scripts/retrieve.py --query "{question}" --vault "$VAULT_PATH" --top 6 --lang-source
    ```
 
-   - `resolve-vault.sh` exports VAULT_PATH, resolves from state.yaml (or asks if ambiguous)
-   - `retrieve.py` reads VAULT_PATH from same shell, returns top-6 atoms as JSON
+   - `resolve-vault.sh` exports VAULT_PATH, resolves from `.claude/state/wikiforge.yaml` (or asks if ambiguous). Pass `--vault NAME --lang CODE` to override per call.
+   - `retrieve.py` reads VAULT_PATH from same shell, returns top-6 atoms (and any matching hub pages) as JSON. Each result carries a `type` field — `entity` and `comparison` are pre-compiled hub pages, `atom` is the default.
    - **Important**: Use `&&` to chain — separate Bash invocations lose environment variables
    - To force a lang: add `--lang es` to retrieve.py command
 
+   **Shape hint** (optional, default = auto): `--query-shape {entity|comparison|topic|atom|auto}`. With `auto` the script infers shape from the query string + `meta/entities-registry.yaml` (comparison cues, then registered entity mention, then topic cue, else atom). Pass `--query-shape entity` or `--query-shape comparison` only when you want to force the boost — e.g. when the user asks about a tool the registry doesn't yet know.
+
+   **Top-K** is configurable via `--top` (default 6). Raise to **10–12 for taxonomic-C** questions where you want broader coverage; lower to **3 for narrow-A** factual lookups where extra atoms are noise. Regime detection (§4.6) drives this.
+
 1. If retrieval returns 0 results OR the question needs broader context: fall back to manual indexing — `index/{LANG}/index.md` → `moc/{LANG}/{topic}.md` → atoms.
+
+   **If the top result is a hub** (`type: entity` or `type: comparison`): use it as the **scaffold for the response** rather than rebuilding the synthesis from atoms. Hubs are pre-compiled curated answers cited from atoms — quoting the hub directly (with citations to the atoms it lists) gives the user the best version of the answer. Atoms ranked below the hub are fallback / supporting material.
 2. Check `meta/contradictions.md` for active conflicts on cited atoms.
 3. Detect response regime (A/B/C per CLAUDE.md §4.6) and draft following `meta/RESPONSE_TEMPLATES.md`.
 4. Apply pre-output checklist (CLAUDE.md §pre-output checklist):
    - Word count within ceiling (A=250/B=600/C=1000)
-   - No anglicisms (substitution table applied)
+   - Written natively in the response lang (no English-borrowing leakage in non-English answers; brand/tech whitelist exempt)
    - Each step/cell has exactly one [[atom]] citation
    - **Each number backed by inline [[atom]] citation or source_id** (not just at end)
    - No intro filler, no trailing summary
@@ -49,10 +59,10 @@ Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in 
 5. Save to `queries/{LANG}/{topic}--{question-slug}.md` if synthesis is new.
    - Include `sources_used` frontmatter with full atom stems
    - For each source, preserve YouTube URL in frontmatter comment or dedicated field
-6. **Update `state.yaml.active_lang`** to `LANG` so the next query in the same session inherits it (sticky behaviour). Only do this if lang was auto-detected (not explicit `--lang` flag).
+6. **Update `config.yaml.active_lang`** to `LANG` so the next query in the same session inherits it (sticky behaviour). Only do this if lang was auto-detected (not explicit `--lang` flag).
 
    ```bash
-   bash .claude/scripts/set-state.sh active_lang "$LANG"
+   bash .claude/scripts/set-config.sh active_lang "$LANG"
    ```
 
 Queries are NOT auto-propagated across langs — they're per-language caches reflecting what the user asked, when. Atoms are propagated; queries are rendered on demand.
@@ -66,10 +76,10 @@ Every response MUST include YouTube video URLs from the cited atoms. The JSON fr
 ```markdown
 ## Fuentes
 
-- [[wiki/{lang}/{stem}]] — {one-line summary of claim}
+- [[{lang}/wiki/{stem}]] — {one-line summary of claim}
   Vídeo: {sources_url}
   
-- [[wiki/{lang}/{stem2}]] — {another claim}
+- [[{lang}/wiki/{stem2}]] — {another claim}
   Vídeo: {sources_url2}
 ```
 
@@ -81,7 +91,7 @@ Vídeo: https://youtube.com/watch?v=VIDEO_ID&t=83  (01:23-01:47)
 **Inline citation requirement**: Numbers (percentages, prices, durations) in the response body MUST have immediate [[atom]] or `source_id` next to them. Do NOT defer all citations to the end.
 
 Bad: "The 53% of travelers..." [body text without citation] ... "Fuentes: [[atom]]"
-Good: "The 53% of travelers [[wiki/es/occupancy--allow-pets-expand-guest-pool]]..." or "The 53% (source_id: VIDEO_ID@01:23)..."
+Good: "The 53% of travelers [[es/wiki/occupancy--allow-pets-expand-guest-pool]]..." or "The 53% (source_id: VIDEO_ID@01:23)..."
 
 ## Output formats
 

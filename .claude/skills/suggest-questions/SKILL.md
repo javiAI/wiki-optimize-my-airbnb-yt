@@ -1,6 +1,6 @@
 ---
 name: suggest-questions
-description: Mine the atom corpus to propose 5-10 questions per topic that the vault could answer right now (showing what's been gathered) AND 5-10 that reveal gaps (showing what's missing). Useful for users wondering "what should I ask this vault?" or for prioritizing /ingest. Pure-LLM skill — no script. Reads from wiki/{lang}/ and meta/contradictions.md.
+description: Mine the atom corpus to propose 5-10 questions per topic that the vault could answer right now (showing what's been gathered) AND 5-10 that reveal gaps (showing what's missing). Useful for users wondering "what should I ask this vault?" or for prioritizing /ingest. Pure-LLM skill — no script. Reads from {lang}/wiki/ and meta/contradictions.md.
 allowed-tools: Bash(python3 .claude/scripts/resolve-vault.sh .claude/scripts/retrieve.py) Read Glob Grep
 ---
 
@@ -25,7 +25,7 @@ Two output buckets:
 /suggest-questions                       # Top topics, both buckets, default lang
 /suggest-questions --topic pricing       # Focus on one topic
 /suggest-questions --bucket answerable   # Only answerable, skip gap-revealing
-/suggest-questions --lang es             # Force lang (else state.yaml.active_lang)
+/suggest-questions --lang es             # Force lang (else state/wikiforge.yaml active_lang)
 ```
 
 ## Steps
@@ -38,7 +38,7 @@ Two output buckets:
 
    Stop on non-zero exit.
 
-1. **Determine LANG** via the same chain as `/query` (auto-detect from any phrase the user typed → `state.yaml.active_lang` → `enabled[0]`).
+1. **Determine LANG** via the same chain as `/query` (auto-detect from any phrase the user typed → `state/wikiforge.yaml` `active_lang` → `enabled[0]`).
 
 2. **Read the topic distribution**. Either:
    - Glob `wiki/{LANG}/*.md` and tally `topics:` field across atoms, OR
@@ -79,7 +79,7 @@ Two output buckets:
    - Each "answerable" question must cite at least one atom by name
    - Each "gap-revealing" question must explain WHY it's a gap (single source, contradiction, low confidence, missing topic adjacency)
    - Phrase questions in the user's voice, not the wiki's: "How do I…", "What's the right…", "When should I…" — not "What does the corpus say about…"
-   - Use the **target language**: ES questions in Spanish, EN in English. Apply the anglicism table from CLAUDE.md §10.7.
+   - Use the **target language**: ES questions in Spanish, EN in English. Phrase natively in the target lang — no English borrowings in non-English questions (brand and standardised tech terms exempt: PriceLabs, Airbnb, PMS, API, etc.).
 
 7. **Refuse to invent topics**. Only suggest questions about topics that exist in `wiki/{LANG}/`. If the user asks about an unknown topic, say so and recommend `/suggest-sources <topic>` instead.
 

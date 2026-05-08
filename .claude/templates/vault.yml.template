@@ -1,5 +1,11 @@
 name: "{{VAULT_NAME}}"
 description: "{{DESCRIPTION}}"
+# Data layout under vault_path is per-lang (v2):
+#   {vault_path}/{lang}/{wiki,raw,moc,index,queries}/...
+#   {vault_path}/meta/                                (lang-agnostic)
+# The legacy v1 layout {vault_path}/{kind}/{lang}/ is still readable —
+# scripts auto-detect from the filesystem. Run scripts/migrate-vault-layout.sh
+# to convert an existing v1 vault in place.
 vault_path: "{{VAULT_PATH}}"
 version: "2.0"
 
@@ -27,10 +33,50 @@ pipeline:
   qa_on_create: true
   auto_refine: {{AUTO_REFINE}}
 
+# Hub pages: per-entity and per-comparison synthesis pre-compiled at
+# ingest time so entity-shape and comparison-shape queries land on a
+# curated page instead of fanning out across atoms.
+hubs:
+  entity: enabled                 # detect entities at ingest, stub on first sight
+  comparison: enabled             # detect peer-pair comparisons at ingest
+  auto_refresh: true              # drain enrichment queues at on-ingest-batch-close
+  # When false, hubs are stubbed on detection but never enriched until the
+  # user runs /refresh-hubs manually. Use this if you want fast ingests and
+  # batched enrichment on demand.
+
+# Periodic maintenance fires `/audit` automatically every N ingests.
+# `audit_mode: structural` runs the structural pass only (orphans, gaps,
+# stale, broken links). `audit_mode: deep` adds the semantic pass (numerical
+# instabilities, framework drift, stance reversals, concept-framing,
+# new canonical positions).
+maintenance:
+  audit_every_n_ingests: 10       # 0 disables auto-fire; manual /audit always works
+  audit_mode: deep                # structural | deep
+
 qa:
   completeness: true
   url_validation: true
-  # anglicism_check applies to every non-canonical lang (i.e. langs reached
-  # via propagation). Listed explicitly here for transparency.
-  anglicism_check: [{{ENABLED_LANGS}}]
   conflict_check: true
+  # Language purity (anglicism leakage in non-English atoms) is enforced
+  # statistically by /test-vault's `language_purity` rubric across N
+  # independent evaluators, not by string mapping. Atomization and
+  # propagation prompts (agents.md.template) instruct the LLM to write
+  # natively in the target lang.
+
+# Defaults for /test-vault. Every key is overridable per-call via CLI flags
+# (--count, --mix, --evaluators, --langs, --read-queries). CLI wins.
+tests:
+  count: 15                         # number of questions per lang
+  mix: { A: 5, B: 7, C: 3 }         # regime distribution; must sum to count
+  evaluators: 5                     # parallel independent evaluators per lang
+  langs: enabled                    # "enabled" (every lang of the vault) | "active" | explicit list ["es"]
+  read_queries: false               # if false, agent + evaluator MUST NOT read queries/ cache
+  rubric:
+    completeness:      0.25
+    accuracy:          0.25
+    language_purity:   0.15
+    tone:              0.15
+    format_compliance: 0.20
+  thresholds:
+    min_weighted_avg: 7.0           # below → flag the run as failed
+    max_dim_disagreement: 1.5       # std across evaluators above this → flag Q

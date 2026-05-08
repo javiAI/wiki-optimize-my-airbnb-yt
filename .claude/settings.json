@@ -21,10 +21,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'COMMAND=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r .command 2>/dev/null || echo \"\"); if echo \"$COMMAND\" | grep -qE \"git commit.*-m.*\\\"O[0-9]+:\"; then OPT=$(echo \"$COMMAND\" | grep -oE \"O[0-9]+\" | head -1); echo \"\\n[HOOK] Optimization $OPT committed. Test should run next.\\n   Run: python3 scripts/run-test-suite.py --prepare --label $OPT\\n   Then Claude launches 20 parallel agents.\\n   Then: python3 scripts/run-test-suite.py --consolidate --label $OPT\\n   Then: python3 scripts/run-test-suite.py --compare --from <previous> --to $OPT\"; fi'"
-          },
-          {
-            "type": "command",
             "command": "bash .claude/hooks/on-bash-complete.sh",
             "timeout": 30
           }

@@ -27,14 +27,38 @@ from collections import Counter
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from config import kind_dir, wikilink_prefix  # noqa: E402
+from frontmatter import CLAIM_RE, TYPE_RE  # noqa: E402
+from llm_utils import LLMFailure, LLMTimeout, call_claude, strip_fences  # noqa: E402
+
 TOPICS_RE = re.compile(r"^topics:\s*\[(.+?)\]", re.MULTILINE)
 LAST_VERIFIED_RE = re.compile(r"^last_verified:\s*(\S+)", re.MULTILINE)
-WIKILINK_RE = re.compile(r"\[\[wiki/([^/\]]+)/([^\]#]+?)(?:#[^\]]*)?\]\]")
+# Match both v1 (`wiki/{lang}/stem`) and v2 (`{lang}/wiki/stem`) so audits
+# work mid-migration. Capture group 1 = lang, group 2 = stem.
+WIKILINK_RE = re.compile(
+    r"\[\[(?:wiki/(?P<lang_v1>[^/\]]+)/(?P<stem_v1>[^\]#]+?)"
+    r"|(?P<lang_v2>[^/\]]+)/wiki/(?P<stem_v2>[^\]#]+?))(?:#[^\]]*)?\]\]"
+)
 CONTRADICTIONS_HEADER_RE = re.compile(r"^## \[", re.MULTILINE)
 
 
+def _wikilink_match_lang_stem(m: "re.Match") -> tuple:
+    """Return (lang, stem) from a WIKILINK_RE match, regardless of v1/v2 form."""
+    if m.group("lang_v1") is not None:
+        return m.group("lang_v1"), m.group("stem_v1")
+    return m.group("lang_v2"), m.group("stem_v2")
+
+DEEP_TIMEOUT = 600
+DEEP_MAX_TURNS = 3
+
+
 def load_atoms(vault_path: Path, lang: str) -> dict:
-    wiki_dir = vault_path / "wiki" / lang
+    """Read every atom in the per-lang wiki dir once, capturing topics,
+    last_verified, and the set of outbound wikilinks. Downstream checks
+    reuse these without re-reading the file.
+    """
+    wiki_dir = kind_dir(vault_path, "wiki", lang)
     if not wiki_dir.exists():
         return {}
     atoms = {}
@@ -49,20 +73,31 @@ def load_atoms(vault_path: Path, lang: str) -> dict:
                 last_verified = date.fromisoformat(m_lv.group(1))
             except ValueError:
                 pass
-        atoms[p.stem] = {"topics": topics, "last_verified": last_verified, "path": p}
+        outbound = set()
+        for m in WIKILINK_RE.finditer(text):
+            link_lang, link_stem = _wikilink_match_lang_stem(m)
+            if link_lang == lang and link_stem != p.stem:
+                outbound.add(link_stem)
+        atoms[p.stem] = {
+            "topics": topics,
+            "last_verified": last_verified,
+            "path": p,
+            "outbound": outbound,
+        }
     return atoms
 
 
 def load_moc_citations(vault_path: Path, lang: str) -> set:
     cited = set()
-    moc_dir = vault_path / "moc" / lang
+    moc_dir = kind_dir(vault_path, "moc", lang)
     if not moc_dir.exists():
         return cited
     for p in sorted(moc_dir.glob("*.md")):
         text = p.read_text(errors="replace")
         for m in WIKILINK_RE.finditer(text):
-            if m.group(1) == lang:
-                cited.add(m.group(2))
+            link_lang, link_stem = _wikilink_match_lang_stem(m)
+            if link_lang == lang:
+                cited.add(link_stem)
     return cited
 
 
@@ -70,21 +105,15 @@ def check_orphans(atoms: dict, moc_citations: set) -> list:
     return [stem for stem in atoms if stem not in moc_citations]
 
 
-def load_atom_citations(vault_path: Path, lang: str) -> dict:
-    """Map stem → set of stems that link TO it from atom bodies (inbound atom-links).
+def derive_atom_inbound(atoms: dict) -> dict:
+    """Inbound atom-links per stem, derived from cached `outbound` sets in atoms.
 
-    Counts any `[[wiki/{lang}/peer]]` reference inside any other atom's file as
-    an inbound link, including Related sections written by auto-link.py.
+    No I/O — uses the wikilinks already extracted by `load_atoms`.
     """
     inbound: dict = {}
-    wiki_dir = vault_path / "wiki" / lang
-    if not wiki_dir.exists():
-        return inbound
-    for p in sorted(wiki_dir.glob("*.md")):
-        text = p.read_text(errors="replace")
-        for m in WIKILINK_RE.finditer(text):
-            if m.group(1) == lang and m.group(2) != p.stem:
-                inbound.setdefault(m.group(2), set()).add(p.stem)
+    for stem, info in atoms.items():
+        for peer in info.get("outbound", ()):
+            inbound.setdefault(peer, set()).add(stem)
     return inbound
 
 
@@ -114,32 +143,24 @@ def check_missing_cross_refs(vault_path: Path, lang: str, atoms: dict) -> list:
         return []
     index = VaultIndex(vault_path, lang)
 
-    outbound: dict = {}
-    for stem, info in atoms.items():
-        text = info["path"].read_text(errors="replace")
-        outs = set()
-        for m in WIKILINK_RE.finditer(text):
-            if m.group(1) == lang:
-                outs.add(m.group(2))
-        outbound[stem] = outs
-
     missing: list = []
-    for stem in atoms:
+    for stem, info in atoms.items():
         atom_obj = index.atoms.get(stem) or {}
         claim = (atom_obj.get("fm") or {}).get("claim", "")
         topics_q = " ".join(atom_obj.get("topics", []))
         if not (claim or topics_q):
             continue
-        ranked = index.score(f"{claim} {topics_q}", _CROSSREF_TOP_K + 1)
+        ranked = index.score(f"{claim} {topics_q}", _CROSSREF_TOP_K + 1, shape="atom")
         ranked = [(score, s) for score, s in ranked if s != stem]
         if not ranked:
             continue
         top_score = ranked[0][0]
         threshold = top_score * _CROSSREF_MIN_RATIO
+        outbound = info.get("outbound", set())
         for score, peer in ranked[:_CROSSREF_TOP_K]:
             if score < threshold:
                 break
-            if peer not in outbound.get(stem, set()):
+            if peer not in outbound:
                 missing.append((stem, peer, round(score, 2)))
     return missing
 
@@ -154,13 +175,15 @@ def check_stale(atoms: dict, stale_days: int) -> list:
 
 def check_index_consistency(vault_path: Path, lang: str, atoms: dict) -> list:
     broken = []
-    index_file = vault_path / "index" / lang / "index.md"
+    index_file = kind_dir(vault_path, "index", lang) / "index.md"
     if not index_file.exists():
         return broken
     text = index_file.read_text(errors="replace")
+    rel = index_file.relative_to(vault_path)
     for m in WIKILINK_RE.finditer(text):
-        if m.group(1) == lang and m.group(2) not in atoms:
-            broken.append(f"{m.group(2)} (in index/{lang}/index.md)")
+        link_lang, link_stem = _wikilink_match_lang_stem(m)
+        if link_lang == lang and link_stem not in atoms:
+            broken.append(f"{link_stem} (in {rel})")
     return broken
 
 
@@ -170,7 +193,7 @@ def check_topic_gaps(vault_path: Path, lang: str, atoms: dict) -> list:
         for t in info["topics"]:
             freq[t] += 1
     gaps = []
-    moc_dir = vault_path / "moc" / lang
+    moc_dir = kind_dir(vault_path, "moc", lang)
     for topic, count in sorted(freq.items(), key=lambda x: -x[1]):
         if count >= 3 and not (moc_dir / f"{topic}.md").exists():
             gaps.append((topic, count))
@@ -191,7 +214,7 @@ def check_missing_propagations(vault_path: Path, enabled_langs: list) -> dict:
     stems_by_lang = {}
     union_stems = set()
     for lang in enabled_langs:
-        lang_dir = vault_path / "wiki" / lang
+        lang_dir = kind_dir(vault_path, "wiki", lang)
         stems = {p.stem for p in lang_dir.glob("*.md")} if lang_dir.exists() else set()
         stems_by_lang[lang] = stems
         union_stems |= stems
@@ -226,7 +249,7 @@ def query_topic_demand(vault_path: Path, langs: list) -> Counter:
     """
     demand = Counter()
     for lang in langs:
-        qdir = vault_path / "queries" / lang
+        qdir = kind_dir(vault_path, "queries", lang)
         if not qdir.exists():
             continue
         for q in qdir.glob("*.md"):
@@ -308,6 +331,139 @@ def collect_qa_findings(vault_path: Path) -> dict:
     }
 
 
+# ── Semantic pass (--deep) ───────────────────────────────────────────────────
+
+SEMANTIC_PROMPT = """You are auditing a WikiForge wiki for semantic anomalies that the structural pass cannot detect. Categories A–E below.
+
+LANG: {lang}
+TOTAL ATOMS: {n_atoms}
+
+For each atom: stem | claim | last_verified | topics
+
+{atoms_block}
+
+OUTPUT REQUIREMENTS
+
+Output a markdown body — no preamble, no closing remarks, no ```fences```. Use exactly these five `##` headings IN ORDER, with this template under each:
+
+## A. Numerical instabilities
+Same concept, different numbers, no supersession marker. For each finding:
+- **Concept**: <slug or topic>
+- **Atoms**: `[[{wiki_prefix}/<atom-A>]]` (number X, date Y) vs `[[{wiki_prefix}/<atom-B>]]` (number X′, date Y′)
+- **Severity**: HIGH | MEDIUM
+- **Proposed resolution**: <criterion: temporal_supersession | contextual_scope | confidence_tier | authority_tier | specificity_tier> + winner
+- **Action**: add `superseded_by:` / annotate scope / append to `meta/contradictions.md`
+
+If none: `None detected.`
+
+## B. Framework instabilities
+Formula or framework changed across atoms, no version field. Same format:
+- **Framework**: <name>
+- **Atoms (old)**: `[[...]]` (formula vN, date)
+- **Atoms (new)**: `[[...]]` (formula vN+1, date)
+- **Proposed resolution**: <action>
+
+If none: `None detected.`
+
+## C. Stance reversals
+Direction of recommendation flipped over time on the same topic.
+- **Topic**: <slug>
+- **Atoms** (chrono): `[[atom-old]]` (stance A, date) → `[[atom-new]]` (stance B, date)
+- **Proposed resolution**: temporal_supersession + winner
+
+If none: `None detected.`
+
+## D. Concept-framing instabilities
+Same slug or near-identical slugs, materially different definitions.
+- **Slug**: `<slug>`
+- **Atoms**: `[[atom-A]]` (definition X) vs `[[atom-B]]` (definition Y)
+- **Proposed resolution**: split / merge / annotate scope
+
+If none: `None detected.`
+
+## E. New canonical positions to lock in
+Recent atoms supersede older ones on the same concept.
+- **Concept**: <slug>
+- **New atom**: `[[{wiki_prefix}/<atom>]]` (date)
+- **Superseded atoms**: `[[{wiki_prefix}/<atom>]]` (date), ...
+- **Proposed action**: add `superseded_by: [<new-stem>]` to old atoms
+
+If none: `None detected.`
+
+## Summary
+| Category | Findings | Severity max |
+|---|---|---|
+| A. Numerical | <n> | HIGH/MEDIUM/— |
+| B. Framework | <n> | HIGH/MEDIUM/— |
+| C. Stance | <n> | HIGH/MEDIUM/— |
+| D. Concept-framing | <n> | HIGH/MEDIUM/— |
+| E. New canonical | <n> | HIGH/MEDIUM/— |
+
+Cite every atom by its stem in `[[{wiki_prefix}/<stem>]]` form. Be conservative — only flag findings supported by ≥2 atoms with concrete evidence in the listed claims. Skip categories where you have no evidence.
+"""
+
+
+def collect_semantic_atoms(vault_path: Path, lang: str) -> list:
+    """Return [{stem, claim, last_verified, topics}, ...] for non-hub atoms in lang."""
+    wiki_dir = kind_dir(vault_path, "wiki", lang)
+    if not wiki_dir.exists():
+        return []
+    out = []
+    for p in sorted(wiki_dir.glob("*.md")):
+        text = p.read_text(errors="replace")
+        type_match = TYPE_RE.search(text)
+        if type_match and type_match.group(1) in ("entity", "comparison"):
+            continue
+        claim_m = CLAIM_RE.search(text)
+        topics_m = TOPICS_RE.search(text)
+        lv_m = LAST_VERIFIED_RE.search(text)
+        out.append({
+            "stem": p.stem,
+            "claim": claim_m.group(1).strip().strip('"') if claim_m else "",
+            "last_verified": lv_m.group(1) if lv_m else "",
+            "topics": topics_m.group(1).strip() if topics_m else "",
+        })
+    return out
+
+
+def render_semantic_atoms_block(atoms: list) -> str:
+    return "\n".join(
+        f"- {a['stem']} | {a['claim']} | {a['last_verified']} | [{a['topics']}]"
+        for a in atoms
+    )
+
+
+def run_semantic_pass(vault_path: Path, langs: list) -> str:
+    """Run the LLM-driven semantic pass per lang. Returns markdown to append."""
+    sections = ["", "# Semantic findings (deep mode)", ""]
+    for lang in langs:
+        atoms = collect_semantic_atoms(vault_path, lang)
+        if not atoms:
+            sections.append(f"## [{lang}] — no atoms to analyse")
+            sections.append("")
+            continue
+        prompt = SEMANTIC_PROMPT.format(
+            lang=lang, n_atoms=len(atoms),
+            wiki_prefix=wikilink_prefix(vault_path, "wiki", lang),
+            atoms_block=render_semantic_atoms_block(atoms),
+        )
+        sections.append(f"## [{lang}] — {len(atoms)} atom(s) analysed")
+        sections.append("")
+        try:
+            raw = call_claude(prompt, timeout=DEEP_TIMEOUT, max_turns=DEEP_MAX_TURNS)
+        except LLMTimeout:
+            sections.append(f"_Semantic pass timed out after {DEEP_TIMEOUT}s — re-run `/audit --deep --lang {lang}`._")
+            sections.append("")
+            continue
+        except LLMFailure as e:
+            sections.append(f"_Semantic pass failed: {e.stderr or e}_")
+            sections.append("")
+            continue
+        sections.append(strip_fences(raw, "markdown", "md"))
+        sections.append("")
+    return "\n".join(sections)
+
+
 def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = None, since: date = None) -> tuple[str, dict]:
     today = date.today().isoformat()
     all_langs = list(cfg.enabled_languages)
@@ -322,12 +478,13 @@ def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = Non
         atoms = load_atoms(vault_path, lang)
         # Apply --since filter: only atoms modified after date
         if since:
+            since_ts = datetime(since.year, since.month, since.day).timestamp()
             atoms = {
                 stem: info for stem, info in atoms.items()
-                if info["path"].stat().st_mtime >= since.toordinal() * 86400
+                if info["path"].stat().st_mtime >= since_ts
             }
         moc_citations = load_moc_citations(vault_path, lang)
-        atom_inbound = load_atom_citations(vault_path, lang)
+        atom_inbound = derive_atom_inbound(atoms)
         orphans = check_orphans(atoms, moc_citations)
         atom_orphans = check_atom_orphans(atoms, atom_inbound)
         stale = check_stale(atoms, stale_days)
@@ -369,13 +526,16 @@ def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = Non
     for lang in all_langs:
         d = lang_data[lang]
         atom_count = len(d["atoms"])
-        moc_count = len(list((vault_path / "moc" / lang).glob("*.md"))) if (vault_path / "moc" / lang).exists() else 0
+        moc_dir = kind_dir(vault_path, "moc", lang)
+        moc_count = len(list(moc_dir.glob("*.md"))) if moc_dir.exists() else 0
+        wp = wikilink_prefix(vault_path, "wiki", lang)
+        moc_rel = moc_dir.relative_to(vault_path)
         lines += [f"### [{lang}] {atom_count} atoms | {moc_count} MOCs", ""]
 
         if d["orphans"]:
-            lines.append(f"**MOC orphans** ({len(d['orphans'])}) — atom not listed in any moc/{lang}/:")
+            lines.append(f"**MOC orphans** ({len(d['orphans'])}) — atom not listed in any {moc_rel}/:")
             for stem in d["orphans"][:20]:
-                lines.append(f"- [[wiki/{lang}/{stem}]]")
+                lines.append(f"- [[{wp}/{stem}]]")
             if len(d["orphans"]) > 20:
                 lines.append(f"- ... and {len(d['orphans']) - 20} more")
             lines.append("")
@@ -383,7 +543,7 @@ def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = Non
         if d["atom_orphans"]:
             lines.append(f"**Atom orphans** ({len(d['atom_orphans'])}) — no inbound links from other atoms:")
             for stem in d["atom_orphans"][:20]:
-                lines.append(f"- [[wiki/{lang}/{stem}]]")
+                lines.append(f"- [[{wp}/{stem}]]")
             if len(d["atom_orphans"]) > 20:
                 lines.append(f"- ... and {len(d['atom_orphans']) - 20} more")
             lines.append("")
@@ -400,7 +560,7 @@ def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = Non
             lines.append(f"**Stale claims** ({len(d['stale'])}):")
             for stem in d["stale"][:10]:
                 lv = d["atoms"][stem]["last_verified"]
-                lines.append(f"- [[wiki/{lang}/{stem}]] (last verified {lv})")
+                lines.append(f"- [[{wp}/{stem}]] (last verified {lv})")
             if len(d["stale"]) > 10:
                 lines.append(f"- ... and {len(d['stale']) - 10} more")
             lines.append("")
@@ -414,7 +574,7 @@ def build_report(vault_path: Path, cfg, stale_days: int, lang_filter: list = Non
         if d["gaps"]:
             lines.append(f"**Topic gaps** (3+ atoms, no MOC):")
             for topic, count in d["gaps"]:
-                lines.append(f"- `{topic}` — {count} atoms, no moc/{lang}/{topic}.md")
+                lines.append(f"- `{topic}` — {count} atoms, no {moc_rel}/{topic}.md")
             lines.append("")
 
     if missing_propagations:
@@ -514,6 +674,9 @@ def main():
     p.add_argument("--lang", default=None, help="Comma-separated language codes to audit (e.g. es or es,en)")
     p.add_argument("--since", default=None, help="Only audit atoms modified since this date (YYYY-MM-DD)")
     p.add_argument("--output", default="text", choices=["text", "json"], help="Output format")
+    p.add_argument("--deep", action="store_true",
+                   help="Run semantic pass after structural — flags numerical/framework/stance/"
+                        "concept-framing instabilities and new canonical positions. LLM-driven.")
     args = p.parse_args()
 
     sys.path.insert(0, str(Path(__file__).parent))
@@ -525,6 +688,11 @@ def main():
     since_date = date.fromisoformat(args.since) if args.since else None
 
     report_text, stats = build_report(vault_path, cfg, args.stale_days, lang_filter, since_date)
+
+    if args.deep:
+        deep_langs = lang_filter if lang_filter else list(cfg.enabled_languages)
+        print(f"[OK] Structural pass complete. Running semantic pass on: {', '.join(deep_langs)}", file=sys.stderr)
+        report_text += "\n\n" + run_semantic_pass(vault_path, deep_langs)
 
     if args.output == "json":
         print(json.dumps(stats, ensure_ascii=False, indent=2))
@@ -543,7 +711,8 @@ def main():
         print(f"[OK] Report: {out_path}")
         print(f"Stats: orphans={stats['orphans']}, stale={stats['stale']}, "
               f"missing_propagations={stats['missing_propagations']}, "
-              f"contradictions={stats['contradiction_count']}")
+              f"contradictions={stats['contradiction_count']}"
+              + (" [+ semantic pass]" if args.deep else ""))
 
 
 if __name__ == "__main__":

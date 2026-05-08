@@ -15,7 +15,7 @@ The user's argument decides:
 
    - If the dir is `vaults/{name}/`, its basename becomes the vault slot name (config.yaml's `name:` field is informational and should match).
    - If `sources.txt` is present, the script runs batch-ingest automatically after bundle creation — **skip Phase 3**, you don't need to write a queue file or invoke ingest separately.
-   - Skip Phase 1 entirely. Confirm the bundle was created and jump to Phase 4 (atoms) if `auto_atoms: true` in config.yaml. (The hook also queues atoms automatically on each ingest, so manually running `/ingest-queue` afterwards is the usual flow.)
+   - Skip Phase 1 entirely. **If `auto_atoms: true` in config.yaml, Phase 4 is mandatory in this same turn** — do not stop and tell the user to run `/ingest-queue`. The post-ingest hook populates `vaults/{name}/state/queue/pending-atoms.txt`; read it and atomize each entry exactly as Phase 4 prescribes (parallel subagents, one per source).
 
 2. **Config-file mode**. Argument is a YAML file (e.g. `/init-vault path/to/answers.yml`). Run `init-vault.sh --config <path>`. The script reads every answer from the file; skip Phase 1 and continue with Phase 3 (sources) — no auto-ingest in this mode.
 
@@ -88,7 +88,7 @@ bash .claude/scripts/init-vault.sh
 
 The script:
 - Creates the bundle `vaults/{vault-name}/` in this repo with `vault.yml` (rendered from `.claude/templates/vault.yml.template`), `agents.md` (rendered from `.claude/templates/agents.md.template`), and `state/` for runtime queue/logs.
-- Creates the vault data directory tree at the chosen path with `raw/`, `wiki/{lang}/`, `moc/{lang}/`, `index/{lang}/`, `queries/{lang}/`, `meta/`.
+- Creates the vault data directory tree at the chosen path with `{lang}/raw/`, `{lang}/wiki/`, `{lang}/moc/`, `{lang}/index/`, `{lang}/queries/`, `meta/`.
 - Writes data stubs (per-language index, contradictions, backlinks, glossary).
 
 You do not need to write any of those files directly.
@@ -133,25 +133,32 @@ If the user skipped sources, say:
 
 ---
 
-## Phase 4 — Create atoms
+## Phase 4 — Create atoms (integration-aware)
 
-If `auto_atoms` is true AND at least one source was ingested successfully:
+If `auto_atoms` is true AND at least one source was ingested successfully, launch one subagent per source. Subagents can run in parallel for **extraction**; **integration is serial within each subagent** (so each candidate claim sees its sibling writes from the same source).
 
-1. Read the vault config to get vault_path and primary language.
+Each subagent reads `vaults/{vault-name}/agents.md` for the atom schema and follows the integration loop documented there. The high-level shape:
 
-2. List all files in `{vault_path}/raw/` to see what was just ingested.
+1. **Orient against the existing wiki**. Read `{vault_path}/index/{atomization_lang}/index.md` for the topic catalog. For each topic the source plausibly touches, read the corresponding `moc/{atomization_lang}/{topic}.md` and skim the top-listed atoms. On a fresh vault these will be empty — that is fine, every claim becomes NEW.
 
-3. For each ingested source file, extract atomic claims following the atom schema in `vaults/{vault-name}/agents.md` (in this repo). Rules:
-   - One claim per file → `wiki/{lang}/{topic}--{slug}.md`
-   - Extract 5–15 atoms per source (quality over quantity)
-   - Topics are inferred from content — never restrict to a fixed list
-   - Each atom must have: `lang`, `claim`, `topics`, `confidence`, `sources` (with `source_id`, `locator`, `url`, `excerpt`), `last_verified`
-   - Compute `url` from `source_id` + `locator` using: start timestamp → seconds → `?v={id}&t={seconds}`
-   - Body text (below frontmatter): 100–300 words, written in the target language, no anglicisms if non-English
+2. **Read the source** at `raw/{atomization_lang}/{video}.md`.
 
-4. After writing each atom, the `on-file-write` hook fires automatically — do not run auto-link or QA manually.
+3. **For each falsifiable claim found**, run a lookup against the existing corpus and pick a branch:
 
-5. When all atoms are written, run:
+   | Branch | Trigger | Action |
+   | --- | --- | --- |
+   | **NEW** | No close match in the wiki | Write new atom at `wiki/{atomization_lang}/{topic}--{slug}.md` |
+   | **STRENGTHEN** | Existing atom makes the same claim, same direction, compatible scope | **Edit** the existing atom — append a new entry to its `sources:` list with this video's `source_id`, `locator`, `url`, `excerpt`. Do not Write a new file. If the second corroboration shifts confidence (e.g. medium → high), update the field |
+   | **CONFLICT** | Existing atom contradicts the new claim (opposite direction, incompatible threshold) | Write new atom **AND** append a HIGH/MEDIUM entry to `meta/contradictions.md` per CLAUDE.md §4.5.5 |
+   | **REDUNDANT** | An entry with this same `source_id` already exists for this claim (re-ingest) | Skip silently |
+
+   Lookup tool: `python3 .claude/scripts/retrieve.py --query "{claim}" --vault $VAULT_NAME --lang {atomization_lang} --top 3`. Fall back to globbing the relevant MOC if retrieve is unavailable.
+
+4. **No fixed atom count**. The number emerges from what the source says. As a sanity check, a tactical/how-to video produces roughly `duration_sec / 120` distinct claims — far fewer for vlogs or sponsor-heavy content. If you find yourself padding to hit a number, you have already over-extracted; stop.
+
+5. After every Write/Edit, the `on-file-write` hook fires automatically — do not run auto-link, qa, or propagate manually.
+
+6. When all sources are processed:
    ```bash
    VAULT_NAME="{vault-name}" python3 .claude/scripts/vault-agent.py --incremental
    ```

@@ -1,80 +1,28 @@
-# Environment
-.env
-.env.local
-*.pem
-*.key
-
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-.DS_Store
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-.pytest_cache/
-
-# Node (if used)
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# Temporary files
-*.tmp
-*.bak
-*.swp
-*~
-
-# Logs
-*.log
-logs/
-
-# Local state (session-specific)
-.claude/state/queue/
-.claude/state/logs/
-.claude/state/state.yaml
-
-# Vault bundles (project/user-specific, each creates their own)
-vaults/
-
-# Embeddings cache (regenerated as needed)
-*.faiss
-*.pkl
-embeddings_cache/
-
-# Test outputs
-test_output/
-test_results/
 
 # OS
-Thumbs.db
 .DS_Store
+Thumbs.db
 
-# Sensitive
-credentials.json
-secrets.yaml
-*_credentials*
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Local state (per-developer, not shared)
+.claude/wikiforge/config.yaml  # Live user config (defaults + retrieval); template at .claude/templates/config.yaml.example
+.claude/state/                 # All runtime state (wikiforge.yaml, queue/, logs/) — gitignored
+.claude/config/config.yaml     # Legacy pre-migration location
+.claude/state/active-vault     # Legacy
+
+# Vault bundles (project/user-specific)
+vaults/
+
+# Secrets
+.env
+.env.local

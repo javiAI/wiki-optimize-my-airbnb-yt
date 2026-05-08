@@ -2,21 +2,22 @@
 """
 auto-link.py — wires a newly written atom into the wiki graph.
 
-For the given atom stem + language it does FOUR things:
+For the given atom stem + language it does FOUR things. Wikilink prefixes are
+layout-aware via `wikilink_prefix(vault_path, kind, lang)` — v2 emits
+`{lang}/wiki/...`, v1 emits `wiki/{lang}/...`.
 
-  1. atom → MOC: append `- [[wiki/{lang}/stem]] — claim` into every
-     `moc/{lang}/{topic}.md` covering one of the atom's topics. Creates the
-     MOC stub if it doesn't exist yet.
+  1. atom → MOC: append `- [[{wiki_prefix}/stem]] — claim` into every MOC
+     covering one of the atom's topics. Creates the MOC stub if missing.
 
-  2. atom → MOC backref: emit `**Topics**: [[moc/{lang}/topic]], ...` in the
-     atom body footer so the atom points to its own MOC(s).
+  2. atom → MOC backref: emit `**Topics**: [[{moc_prefix}/topic]], ...` in
+     the atom body footer so the atom points to its own MOC(s).
 
   3. atom → atom: BM25-rank the K most similar atoms in the same language
      (claim+topics weighted) and emit a `## Related` section with
-     `[[wiki/{lang}/peer]]` links above a relative score floor.
+     `[[{wiki_prefix}/peer]]` links above a relative score floor.
 
-  4. index: regenerate `index/{lang}/index.md` listing every MOC with its
-     atom count, so the navigation root stays current.
+  4. index: regenerate the per-lang index listing every MOC with its atom
+     count, so the navigation root stays current.
 
 All four are idempotent — re-running the script reproduces the same file.
 
@@ -34,8 +35,11 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from config import kind_dir, wikilink_prefix  # noqa: E402
+from frontmatter import CLAIM_RE  # noqa: E402
+
 TOPICS_RE = re.compile(r"^topics:\s*\[(.+?)\]", re.MULTILINE)
-CLAIM_RE = re.compile(r"^claim:\s*(.+?)$", re.MULTILINE)
 
 # Inter-atom linking config
 RELATED_TOP_K = 5
@@ -54,45 +58,34 @@ def get_atom_meta(atom_path: Path):
     return topics, claim
 
 
-def already_linked(moc_text: str, lang: str, stem: str) -> bool:
-    return f"[[wiki/{lang}/{stem}]]" in moc_text or f"[[wiki/{lang}/{stem}#" in moc_text
+def already_linked(moc_text: str, wiki_prefix: str, stem: str) -> bool:
+    head = f"[[{wiki_prefix}/{stem}"
+    return f"{head}]]" in moc_text or f"{head}#" in moc_text
 
 
-def ensure_moc_stub(moc_path: Path, topic: str, lang: str, vault_path: Path, dry_run: bool) -> bool:
+def ensure_moc_stub(moc_path: Path, topic: str, lang: str, dry_run: bool) -> bool:
     """Create a fresh MOC file for {topic}/{lang} if missing.
 
-    Returns True if a stub was created (or would be in dry-run), False if the
-    file already existed.
+    Returns True if a stub was created (or would be in dry-run), False if the file already existed.
     """
     if moc_path.exists():
         return False
-    wiki_dir = vault_path / "wiki" / lang
-    count = 0
-    if wiki_dir.exists():
-        topic_pat = re.compile(r"^topics:\s*\[(.+?)\]", re.MULTILINE)
-        for atom in wiki_dir.glob("*.md"):
-            m = topic_pat.search(atom.read_text(errors="replace"))
-            if not m:
-                continue
-            atom_topics = {t.strip() for t in m.group(1).split(",")}
-            if topic in atom_topics:
-                count += 1
-    stub = f"# MOC — {topic} [{lang}]\n\n{count} atoms.\n\n## Auto-linked\n"
+    stub = f"# MOC — {topic} [{lang}]\n\n## Auto-linked\n"
     if dry_run:
         print(f"  [DRY-RUN] Would create MOC stub: {moc_path}")
         return True
     moc_path.parent.mkdir(parents=True, exist_ok=True)
     moc_path.write_text(stub)
-    print(f"  [OK] Created MOC stub: moc/{lang}/{moc_path.name} ({count} atoms)")
+    print(f"  [OK] Created MOC stub: {moc_path.name}")
     return True
 
 
-def append_to_moc(moc_path: Path, lang: str, stem: str, claim: str, dry_run: bool, section: str = None) -> bool:
+def append_to_moc(moc_path: Path, wiki_prefix: str, stem: str, claim: str, dry_run: bool, section: str = None) -> bool:
     text = moc_path.read_text(errors="replace")
-    if already_linked(text, lang, stem):
+    if already_linked(text, wiki_prefix, stem):
         return False
 
-    entry = f"- [[wiki/{lang}/{stem}]] — {claim}"
+    entry = f"- [[{wiki_prefix}/{stem}]] — {claim}"
 
     if section:
         # Insert under specific heading
@@ -126,7 +119,7 @@ def append_to_moc(moc_path: Path, lang: str, stem: str, claim: str, dry_run: boo
 def link_atom(stem: str, lang: str, vault_path: Path, dry_run: bool,
               section: str = None, vault_index=None, with_related: bool = True,
               vault_name: str = None, with_index: bool = True) -> int:
-    wiki_dir = vault_path / "wiki" / lang
+    wiki_dir = kind_dir(vault_path, "wiki", lang)
     atom_path = wiki_dir / f"{stem}.md"
     if not atom_path.exists():
         print(f"ERROR: atom not found: {atom_path}", file=sys.stderr)
@@ -137,22 +130,24 @@ def link_atom(stem: str, lang: str, vault_path: Path, dry_run: bool,
         print(f"  No topics found in {stem} — skipping")
         return 0
 
-    moc_dir = vault_path / "moc" / lang
+    moc_dir = kind_dir(vault_path, "moc", lang)
+    wiki_prefix = wikilink_prefix(vault_path, "wiki", lang)
     linked = 0
     for topic in topics:
         moc_path = moc_dir / f"{topic}.md"
-        ensure_moc_stub(moc_path, topic, lang, vault_path, dry_run)
+        ensure_moc_stub(moc_path, topic, lang, dry_run)
         if dry_run and not moc_path.exists():
-            # In dry-run we didn't actually create the stub, so we can't append.
-            print(f"  [DRY-RUN] Would link {stem} into moc/{lang}/{topic}.md")
+            print(f"  [DRY-RUN] Would link {stem} into {moc_path.relative_to(vault_path)}")
             linked += 1
             continue
-        if append_to_moc(moc_path, lang, stem, claim, dry_run, section):
+        if append_to_moc(moc_path, wiki_prefix, stem, claim, dry_run, section):
             linked += 1
 
     if with_related:
         related = compute_related(stem, lang, vault_path, index=vault_index)
-        if upsert_related_section(atom_path, topics, related, lang, dry_run):
+        moc_prefix = wikilink_prefix(vault_path, "moc", lang)
+        if upsert_related_section(atom_path, topics, related, lang, dry_run,
+                                  wiki_prefix, moc_prefix):
             linked += 1
 
     if with_index:
@@ -173,7 +168,7 @@ def compute_related(stem: str, lang: str, vault_path: Path, index=None) -> list:
     matches survive, so a topical outlier ends up with an empty Related list
     rather than spurious links.
     """
-    atom_path = vault_path / "wiki" / lang / f"{stem}.md"
+    atom_path = kind_dir(vault_path, "wiki", lang) / f"{stem}.md"
     if not atom_path.exists():
         return []
     text = atom_path.read_text(errors="replace")
@@ -209,26 +204,28 @@ def compute_related(stem: str, lang: str, vault_path: Path, index=None) -> list:
     return out
 
 
-def render_related_section(topics: list, related: list, lang: str) -> str:
+def render_related_section(topics: list, related: list, lang: str,
+                           wiki_prefix: str, moc_prefix: str) -> str:
     """Render the trailing block: topic backrefs + related-atom list."""
     heading = RELATED_HEADER_BY_LANG.get(lang, "## Related")
     label = TOPIC_LABEL_BY_LANG.get(lang, "**Topics**")
-    moc_links = ", ".join(f"[[moc/{lang}/{t}]]" for t in topics)
+    moc_links = ", ".join(f"[[{moc_prefix}/{t}]]" for t in topics)
     lines = [heading, "", f"{label}: {moc_links}"]
     if related:
         lines.append("")
         for peer_stem, peer_claim, _score in related:
             claim_clean = peer_claim.strip().rstrip(".").strip('"').strip()
-            lines.append(f"- [[wiki/{lang}/{peer_stem}]] — {claim_clean}")
+            lines.append(f"- [[{wiki_prefix}/{peer_stem}]] — {claim_clean}")
     return "\n".join(lines) + "\n"
 
 
 def upsert_related_section(atom_path: Path, topics: list, related: list,
-                           lang: str, dry_run: bool) -> bool:
+                           lang: str, dry_run: bool,
+                           wiki_prefix: str, moc_prefix: str) -> bool:
     """Insert or replace the trailing Related/Topics block. Idempotent."""
     text = atom_path.read_text(errors="replace")
     heading = RELATED_HEADER_BY_LANG.get(lang, "## Related")
-    new_section = render_related_section(topics, related, lang)
+    new_section = render_related_section(topics, related, lang, wiki_prefix, moc_prefix)
 
     # Strip any existing block headed by `heading` up to next `##` heading or EOF.
     pat = re.compile(
@@ -250,7 +247,9 @@ def upsert_related_section(atom_path: Path, topics: list, related: list,
 
 # ── Index regeneration (navigation root) ─────────────────────────────────────
 
-_INDEX_LINK_RE = re.compile(r"\[\[wiki/[a-z]{2,3}/([^\]\s|#]+)")
+# Match v1 (`wiki/{lang}/stem`) or v2 (`{lang}/wiki/stem`) so the atom-counter
+# stays correct during a layout migration window.
+_INDEX_LINK_RE = re.compile(r"\[\[(?:wiki/[a-z]{2,3}|[a-z]{2,3}/wiki)/([^\]\s|#]+)")
 
 
 def regenerate_index(vault_path: Path, lang: str, vault_name: str, dry_run: bool) -> bool:
@@ -260,8 +259,9 @@ def regenerate_index(vault_path: Path, lang: str, vault_name: str, dry_run: bool
     atom). Re-running is cheap (~ms per lang) and idempotent — content only
     changes when the underlying MOCs change.
     """
-    moc_dir = vault_path / "moc" / lang
-    index_path = vault_path / "index" / lang / "index.md"
+    moc_dir = kind_dir(vault_path, "moc", lang)
+    index_path = kind_dir(vault_path, "index", lang) / "index.md"
+    moc_prefix = wikilink_prefix(vault_path, "moc", lang)
 
     rows = []
     if moc_dir.exists():
@@ -279,9 +279,9 @@ def regenerate_index(vault_path: Path, lang: str, vault_name: str, dry_run: bool
         lines.append("| Topic | Atoms |")
         lines.append("|-------|-------|")
         for topic, count in rows:
-            lines.append(f"| [[moc/{lang}/{topic}]] | {count} |")
+            lines.append(f"| [[{moc_prefix}/{topic}]] | {count} |")
         lines.append("")
-        lines.append(f"→ Read `moc/{lang}/{{topic}}.md` for the constituent atoms; "
+        lines.append(f"→ Read `{moc_prefix}/{{topic}}.md` for the constituent atoms; "
                      "atoms cross-link via `## Related` blocks.")
         lines.append("")
 
@@ -289,12 +289,13 @@ def regenerate_index(vault_path: Path, lang: str, vault_name: str, dry_run: bool
     old_text = index_path.read_text(errors="replace") if index_path.exists() else ""
     if new_text == old_text:
         return False
+    rel = index_path.relative_to(vault_path)
     if dry_run:
-        print(f"  [DRY-RUN] Would regenerate index/{lang}/index.md ({len(rows)} MOCs)")
+        print(f"  [DRY-RUN] Would regenerate {rel} ({len(rows)} MOCs)")
         return True
     index_path.parent.mkdir(parents=True, exist_ok=True)
     index_path.write_text(new_text)
-    print(f"  [OK] Regenerated index/{lang}/index.md ({len(rows)} MOCs)")
+    print(f"  [OK] Regenerated {rel} ({len(rows)} MOCs)")
     return True
 
 
@@ -336,7 +337,7 @@ def main():
             sys.path.insert(0, str(Path(__file__).parent))
             from retrieve import VaultIndex  # type: ignore
             for lang in langs:
-                if (cfg.vault_path / "wiki" / lang).exists():
+                if kind_dir(cfg.vault_path, "wiki", lang).exists():
                     vault_indexes[lang] = VaultIndex(cfg.vault_path, lang)
         except ImportError:
             print("WARN: retrieve.py not importable — skipping atom→atom linking", file=sys.stderr)
@@ -347,9 +348,9 @@ def main():
     if args.all:
         total = 0
         for lang in langs:
-            wiki_dir = cfg.vault_path / "wiki" / lang
+            wiki_dir = kind_dir(cfg.vault_path, "wiki", lang)
             if not wiki_dir.exists():
-                print(f"  wiki/{lang}/ not found — skipping")
+                print(f"  {wiki_dir.relative_to(cfg.vault_path)}/ not found — skipping")
                 continue
             print(f"\nLinking [{lang}]...")
             # In --all mode, skip per-atom index regen — do it once at the end.

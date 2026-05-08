@@ -1,35 +1,45 @@
 ---
 name: audit
-description: Vault-level health audit. Checks structure (orphans, stale, missing translations, contradictions). Does NOT re-run per-atom content checks — use /qa for that.
+description: Vault-level health audit. Two modes — structural (default; orphans, stale, missing translations, contradictions; fast, no LLM) and `--deep` (structural + semantic pass: numerical/framework/stance/concept-framing instabilities, new canonical positions). Does NOT re-run per-atom content checks — use /qa for that.
 allowed-tools: Bash(python3 .claude/scripts/vault-agent.py .claude/scripts/resolve-vault.sh)
 ---
 
 # /audit — Vault Health Audit
 
-Scope: **vault structure**, not atom content. Complements /qa (which checks atom content).
+Two modes:
+
+- **default (structural)** — orphans, stale, gaps, missing translations, broken links, contradiction count. Pattern-match only, no LLM, sub-second per lang.
+- **`--deep`** — structural pass first, then a semantic pass that asks the LLM to flag cross-atom anomalies the structural pass cannot detect (numerical drift, framework versions, stance reversals, concept-framing collisions, new canonical positions). Output appended under `# Semantic findings` in the same report.
+
+Scope: **vault structure** + (in deep mode) **cross-atom semantic drift**, not per-atom content. Complements /qa (which checks each atom's content).
 
 ## /audit vs /qa
 
-| Check | /audit | /qa |
-|-------|--------|-----|
-| Orphan atoms (not in any MOC) | ✅ | ❌ |
-| Stale last_verified | ✅ | ❌ |
-| Missing translations | ✅ | ❌ |
-| Broken index links | ✅ | ❌ |
-| Topic gaps (no MOC) | ✅ | ❌ |
-| Missing claim field | ❌ | ✅ |
-| URL format validation | ❌ | ✅ |
-| Anglicism violations | ❌ | ✅ |
+| Check | /audit | /audit --deep | /qa |
+|-------|--------|---------------|-----|
+| Orphan atoms (not in any MOC) | ✅ | ✅ | ❌ |
+| Stale last_verified | ✅ | ✅ | ❌ |
+| Missing translations | ✅ | ✅ | ❌ |
+| Broken index links | ✅ | ✅ | ❌ |
+| Topic gaps (no MOC) | ✅ | ✅ | ❌ |
+| Numerical/framework/stance drift | ❌ | ✅ | ❌ |
+| New canonical positions | ❌ | ✅ | ❌ |
+| Missing claim field | ❌ | ❌ | ✅ |
+| URL format validation | ❌ | ❌ | ✅ |
+| Acronym first-use definition | ❌ | ❌ | ✅ |
 
 ## Usage
 
-```
-/audit                          # Full audit, all languages
-/audit --lang es                # Audit only ES
-/audit --lang es,en             # Audit ES and EN
+```text
+/audit                          # Structural, all languages
+/audit --deep                   # Structural + semantic pass (LLM-driven)
+/audit --lang es                # Structural, ES only
+/audit --deep --lang es,en      # Deep audit on ES and EN
 /audit --since 2026-04-01       # Only atoms modified since date
-/audit --output json            # Machine-readable stats
+/audit --output json            # Machine-readable stats (structural counters only)
 ```
+
+`--deep` is auto-fired by `on-ingest-batch-close.sh` every `vault.yml.maintenance.audit_every_n_ingests` atoms (default 10) when `audit_mode: deep`. The hook prints an advisory; you still run `/audit --deep` manually to refresh the report.
 
 ## Steps
 

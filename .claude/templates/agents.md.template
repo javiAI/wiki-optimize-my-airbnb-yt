@@ -55,9 +55,25 @@ conflicts_with: []
 last_verified: YYYY-MM-DD
 ---
 
-Body: 100–300 words, written natively in this atom's `lang`. No anglicisms if non-English.
-No intro fluff, no trailing summaries.
+Body: 100–300 words, written natively in this atom's `lang`. No intro fluff, no trailing summaries.
 ```
+
+## Native-synthesis directive (MANDATORY for non-English atoms)
+
+When atomizing in a non-English `lang`, you are a **native writer** in that lang, not a translator. Render the claim and body in the natural register of `lang`, drawing vocabulary and idioms from the target-lang transcript window.
+
+English borrowings from the source-language hospitality jargon are **forbidden** — use the target-lang term. Worst-offender examples for `lang = es`:
+
+- host → anfitrión
+- listing → anuncio
+- fee → tarifa
+- review → reseña
+- booking → reserva
+- amenity → comodidad
+
+Brand names and standardised tech terms stay verbatim (NOT translated): PriceLabs, Wheelhouse, Beyond, Hostfully, Hospitable, Guesty, OwnerRez, Airbnb, Booking, Vrbo, Superhost, Aircover, Instant Book, WiFi, PMS, API, URL, JSON, YAML, SEO, ADR, RevPAR.
+
+Language purity is scored statistically by `/test-vault`'s `language_purity` rubric across N independent evaluators — no string-mapping enforcement at write time. Native writing here is what keeps the rubric green.
 
 ## Naming
 
@@ -86,3 +102,30 @@ When two atoms conflict, the one with higher score is primary. Documented confli
 
 Auto-inferred from content during ingest. Never restricted to a fixed list.
 Slugs: lowercase, hyphens, no spaces.
+
+## Integration on ingest
+
+Atomization is **integration-aware**. Each candidate claim is reconciled against the existing wiki before any file is written. This is the core llm-wiki.md pattern: when a new source arrives, its claims update the existing knowledge base — they do not just pile up alongside it.
+
+**Per-candidate flow**:
+
+1. **Look up** existing coverage:
+
+   ```bash
+   python3 .claude/scripts/retrieve.py --query "{candidate-claim}" --vault $VAULT_NAME --lang {atomization_lang} --top 3
+   ```
+
+   On a fresh vault this returns nothing — every claim becomes NEW. As the corpus grows, top-1 score and the top match's `claim` field decide the branch.
+
+2. **Pick a branch**:
+
+   | Branch | Trigger | Action |
+   | --- | --- | --- |
+   | **NEW** | No close match (top-1 score below relevance threshold, or no matches at all) | Write new atom at `wiki/{atomization_lang}/{topic}--{slug}.md` |
+   | **STRENGTHEN** | Close match makes the same claim, same direction, compatible scope | Edit the existing atom and append a new entry to `sources:` (this video's `source_id`, `locator`, `url`, `excerpt`, `excerpt_source: native_atomization`, `lang_origin: {atomization_lang}`). Do not create a new file. If the corroboration shifts confidence (e.g. medium → high), update the field |
+   | **CONFLICT** | Close match contradicts the new claim (opposite direction, incompatible threshold, declared `conflicts_with`) | **BEFORE writing the atom**, append a HIGH/MEDIUM entry to `meta/contradictions.md` with: severity, both `[[atom]]` ids, topic, proposed resolution criterion (per §4.5.3 hierarchy: temporal_supersession / contextual_scope / confidence_tier / authority_tier / specificity_tier), evidence (≤80 words). THEN write the new atom (writing first leaves the contradiction undocumented if anything fails). Both atoms also gain each other's stem in their `conflicts_with:` list |
+   | **REDUNDANT** | An entry with this same `source_id` already exists for this claim (re-ingest) | Skip silently |
+
+3. **Cap is empirical, not numeric**. There is no fixed "5–15 atoms per source" target. The number emerges from what the source actually says. As an order-of-magnitude sanity check, a tactical/how-to video produces roughly `duration_sec / 120` distinct claims; sponsor-heavy or vlog content produces fewer. Padding to hit a number degrades the wiki — stop when you stop finding falsifiable, non-redundant claims.
+
+4. **Hooks fire automatically** after every Write or Edit (auto-link, atom-qa, propagation to other enabled langs). Do not call them manually.

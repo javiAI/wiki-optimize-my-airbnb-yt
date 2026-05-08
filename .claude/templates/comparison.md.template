@@ -1,0 +1,79 @@
+---
+type: comparison
+title: {{SUBJECT_A_TITLE}} vs {{SUBJECT_B_TITLE}}
+slug: {{SLUG}}                  # alpha-sorted: <a-slug>-vs-<b-slug>
+subjects: [{{SUBJECT_A_SLUG}}, {{SUBJECT_B_SLUG}}]
+subjects_kind: {{SUBJECTS_KIND}}     # tool | service | product | company | person
+lang: {{LANG}}
+propagated_from: {{PROPAGATED_FROM}}   # omit on canonical; lang of origin on propagated
+source_count: {{SOURCE_COUNT}}
+first_seen: {{FIRST_SEEN}}
+last_seen: {{LAST_SEEN}}
+last_updated: {{LAST_UPDATED}}
+cited_atoms: [{{CITED_ATOMS}}]
+---
+
+# {{SUBJECT_A_TITLE}} vs {{SUBJECT_B_TITLE}}
+
+<two-sentence framing: what's the comparison axis, who would care.
+Cite at least one atom with `[[{{LANG}}/wiki/<atom-stem>]]`.>
+
+## At a glance
+
+| Dimension | {{SUBJECT_A_TITLE}} | {{SUBJECT_B_TITLE}} |
+|---|---|---|
+| <e.g. pricing model> | <claim with [[atom]]> | <claim with [[atom]]> |
+| <e.g. customisation depth> | <claim with [[atom]]> | <claim with [[atom]]> |
+| <…3-6 dimensions total> | | |
+
+Every cell that makes a claim MUST cite the atom that supports it via
+`[[{{LANG}}/wiki/<atom-stem>]]`. No cell may carry a claim without a cite.
+
+## Per-dimension
+
+### <Dimension 1>
+
+<prose comparing both subjects on this dimension, with cites. Either
+side-by-side bullets or a comparative paragraph — pick whichever is
+clearer for the dimension at hand.>
+
+### <Dimension 2>
+
+<…>
+
+### <Dimension N>
+
+<…>
+
+## Recommendation
+
+<decision-tree style, 2-4 lines: "If X, pick {{SUBJECT_A_TITLE}}. If Y,
+pick {{SUBJECT_B_TITLE}}." Each branch carries a cite.>
+
+If neither subject is a clean winner across all dimensions, the
+recommendation MUST express the contextual scope (§4.5.3 in CLAUDE.md):
+when does each one apply.
+
+## Stub state
+
+If this file was just created by `comparison-detect.py`, the body reads:
+
+> Stub — pending enrichment. The atom that triggered this stub is in
+> `cited_atoms[]`. Run `/refresh-hubs` (or wait for the
+> on-ingest-batch-close hook) to enrich.
+
+`/refresh-hubs` reads every atom in `cited_atoms[]`, fills the at-a-glance
+table, the per-dimension prose, and the recommendation, replacing the
+stub body. Existing filled comparisons are extended (incremental) — new
+atoms slot into existing dimensions or add a new dimension; old material
+is preserved unless the new atom supersedes it.
+
+## Related
+
+- Subjects: [[entity--{{SUBJECT_A_SLUG}}|{{SUBJECT_A_TITLE}}]], [[entity--{{SUBJECT_B_SLUG}}|{{SUBJECT_B_TITLE}}]]
+- Topic: [[../topics/{{PRIMARY_TOPIC}}|{{PRIMARY_TOPIC}}]]
+- See also: <related comparisons or concepts>
+
+## Sources (atoms cited)
+
+<auto-populated: one bullet per atom in `cited_atoms[]`>

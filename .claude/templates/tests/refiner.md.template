@@ -51,7 +51,7 @@ TU TAREA:
 Reescribe la respuesta corrigiendo específicamente las violations listadas, manteniendo lo que ya estaba bien.
 
 PRIORIDAD ABSOLUTA: arreglar las dimensiones que fallaron. Especialmente:
-- Si falló spanish_purity: relee la tabla §10.7 de CLAUDE.md y substituye TODOS los anglicismos listados. Solo permanecen los términos de la whitelist (nombres propios y tech estandarizada).
+- Si falló language_purity: reescribe nativamente en `{lang}` — nada de calcos del inglés. Substituye préstamos típicos del jargón hospitality (host → anfitrión, listing → anuncio, fee → tarifa, review → reseña, booking → reserva, amenity → comodidad, rating → calificación, ranking → posicionamiento, occupancy → ocupación, revenue → ingresos). Solo permanecen marcas y tech estandarizada (PriceLabs, Wheelhouse, Airbnb, Booking, Vrbo, Superhost, WiFi, PMS, API, URL, JSON, YAML, SEO, ADR, RevPAR).
 - Si falló format_compliance: respeta el ceiling del régimen detectado (A=250 / B=600 / C=1000 palabras), una cita [[atom]] por paso (B) o por celda (C), sin secciones inventadas.
 - Si falló completeness: revisa qué caveat o paso faltaba según las violations.
 - Si falló accuracy: verifica las citas y números contra los atoms/sources.
