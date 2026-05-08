@@ -4,7 +4,7 @@
 
 Transforms YouTube transcripts into a curated, interconnected wiki. Powered by BM25 retrieval, language auto-detection, and conflict-aware responses.
 
-- **Repository**: https://github.com/javiAI/wiki-optimize-my-airbnb-yt
+- **Repository**: https://github.com/javiAI/wikiforge
 - **Status**: V1 (Core features frozen, ready for embeddings integration)
 
 ---
@@ -62,8 +62,8 @@ python3 ../.claude/scripts/retrieve.py --query "your question here" --lang es --
 - Language auto-detection (confidence-based scoring)
 - Query regime detection (narrow/tactical/taxonomic)
 - Atom conflict detection with caveat generation
-- Spanish language purity enforcement (anglicism table)
-- Persistent state management (state.yaml)
+- Language purity scored statistically by `/test-vault`'s `language_purity` rubric (no string-mapping enforcement)
+- Persistent state management (.claude/state/wikiforge.yaml)
 - YouTube URL extraction and inline citation linking
 - Response template enforcement with word ceilings (A=250/B=600/C=1000)
 
@@ -188,10 +188,10 @@ python3 .claude/scripts/atom-qa.py --all --lang es --fix
 
 ```bash
 # Get active vault/language
-cat .claude/state/state.yaml
+cat .claude/state/wikiforge.yaml
 
 # Update state (used by queries)
-bash .claude/scripts/set-state.sh active_lang es
+bash .claude/scripts/set-config.sh active_lang es
 ```
 
 ---
