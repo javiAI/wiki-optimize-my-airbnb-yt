@@ -144,11 +144,12 @@ Rules:
   - "body": 80–250 words in {to_lang}, markdown allowed. Open with the
     claim restated, then supporting detail drawn from the transcript window.
     No filler ("Es importante destacar", "Como podemos observar").
-  - English borrowings (host, listing, fee, review, booking, amenity,
-    rating, ranking, etc.) are forbidden — use the target-lang term.
-    Brand names and standardised tech terms (PriceLabs, Wheelhouse,
-    Airbnb, Booking, Vrbo, Superhost, WiFi, PMS, API, URL, JSON, YAML,
-    SEO, ADR, RevPAR) stay verbatim.
+  - Write as a bilingual native of {to_lang} would write for a monolingual
+    reader of {to_lang}. If a phrase reads like a literal translation,
+    rewrite it as a native would phrase it. Proper nouns (brand names,
+    product names, places, people) and technical acronyms that are
+    universally known by their original form stay verbatim — that is
+    native writing, not borrowing.
   - Numbers, percentages, proper nouns: copy verbatim from the canonical.
 
 Inputs:

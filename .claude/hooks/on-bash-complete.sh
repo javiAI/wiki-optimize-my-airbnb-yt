@@ -61,7 +61,7 @@ if [[ -n "$NEW_FILES" ]]; then
     echo "$NEW_FILES" >> "$QUEUE"
     COUNT=$(echo "$NEW_FILES" | grep -c . || true)
     echo "[hook] Ingest complete: $COUNT new source(s) added to queue"
-    echo "[hook] Run /ingest-queue to create atoms"
+    echo "[hook] Run /ingest (no args) to create atoms"
 
     # Append a chronological entry to log.md (vault-root, llm-wiki.md §2 spec).
     # Format: `## [YYYY-MM-DD] ingest | N source(s): stem1, stem2, ...`
@@ -93,7 +93,7 @@ FALLBACK_QUEUE="$STATE_DIR/queue/llm-fallback.txt"
 if [[ -f "$FALLBACK_QUEUE" && -s "$FALLBACK_QUEUE" ]]; then
     FB_COUNT=$(grep -c . "$FALLBACK_QUEUE" 2>/dev/null || echo 0)
     if [[ "$FB_COUNT" -gt 0 ]]; then
-        echo "[hook] LLM-fallback advisory: $FB_COUNT source(s) lack a transcript in any enabled language; atoms will be llm_fallback. /ingest-queue surfaces details."
+        echo "[hook] LLM-fallback advisory: $FB_COUNT source(s) lack a transcript in any enabled language; atoms will be llm_fallback. /ingest surfaces details."
     fi
 fi
 

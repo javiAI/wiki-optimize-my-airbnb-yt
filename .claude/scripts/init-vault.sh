@@ -504,7 +504,7 @@ VAULT_NAME="$VAULT_NAME" python3 "$REPO_DIR/.claude/scripts/auto-link.py" --inde
         cat > "$VAULT_DATA_PATH/$lang/index/index.md" << EOF
 # Vault Index — $VAULT_NAME ($lang)
 
-_No MOCs yet. Run \`/ingest\` then \`/ingest-queue\` to populate._
+_No MOCs yet. Run \`/ingest\` to populate._
 EOF
     done
 

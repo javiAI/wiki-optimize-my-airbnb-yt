@@ -176,7 +176,7 @@ fi
 # 5. If native_lang is outside enabled[], record an llm-fallback advisory.
 # Atomization will fall back to enabled[0] without a verbatim transcript in the
 # atomization lang, so excerpt_source: llm_fallback gets stamped on the atom.
-# Surface this at /ingest-queue and session-start so the user sees it.
+# Surface this at /ingest and session-start so the user sees it.
 if [[ $NATIVE_IN_LIST -eq 0 ]]; then
     BUNDLE="${VAULT_NAME:-$(basename "$VAULT")}"
     FALLBACK_QUEUE="${REPO_ROOT}/vaults/${BUNDLE}/state/queue/llm-fallback.txt"

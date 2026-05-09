@@ -1,116 +1,108 @@
 ---
 name: query
-description: Run a vault query. Auto-detects response language from the question itself; falls back to .claude/state/wikiforge.yaml active_lang and then enabled[0]. Use --vault/--lang to scope.
-allowed-tools: Read Bash(python3) Bash(source)
+description: |-
+  Run a query against the vault and produce a cited, regime-aware response.
+  Auto-detects the response language from the question itself (chars + stopwords);
+  falls back to `.claude/state/wikiforge.yaml#active_lang`, then the active vault's
+  `enabled[0]`. Retrieves the top atoms (and any matching entity / comparison
+  hubs) via BM25, drafts in regime A / B / C per `meta/RESPONSE_TEMPLATES.md`,
+  applies the pre-output checklist from `CLAUDE.md`, and saves the result to
+  `queries/{lang}/` for cache reuse.
+  Use when the user asks a substantive question about the vault's domain (the
+  default answering path), or types `/query`. Pass `--vault NAME` to scope to a
+  specific bundle, `--lang CODE` to force the response lang, `--format marp` to
+  render as a slide deck (see `reference.md`).
+allowed-tools: Read, Bash(source .claude/scripts/resolve-vault.sh:*), Bash(python3 .claude/scripts/retrieve.py:*), Bash(bash .claude/scripts/set-config.sh:*)
+arguments:
+  - name: question
+    description: "The user's question, in any enabled lang. Positional, required."
+  - name: --vault
+    description: "Vault bundle name (skips the active-vault lookup). Useful when running multiple vaults in parallel."
+  - name: --lang
+    description: "Force the response lang (e.g. `en`, `es`). Skips auto-detection."
+  - name: --format
+    description: "`markdown` (default) or `marp` (slide deck — see `reference.md`)."
 ---
 
-# /query
+# /query — Vault Query
 
-Run a query against the vault.
-
-Usage: `/query [--vault NAME] [--lang es|en] [--format markdown|marp] "{question}"`
-
-`--vault` scopes the query to a specific bundle (skips the active-vault lookup —
-useful for frontends running multiple vaults in parallel). `--lang` forces the
-response language.
+Usage: `/query [--vault NAME] [--lang CODE] [--format markdown|marp] "{question}"`
 
 ## Language resolution chain
 
 The retrieval lang is decided in this order — first hit wins:
 
-1. `--lang` flag (explicit, always wins)
-2. **Auto-detect** from the question itself (chars + stopwords scoring; only triggers if confident — ties and zero-score return None)
-3. `active_lang` in `.claude/state/wikiforge.yaml` (sticky across sessions)
-4. `enabled[0]` from `vaults/{name}/vault.yml` (deterministic fallback)
+1. `--lang` flag (explicit, always wins).
+2. **Auto-detect** from the question itself (chars + stopwords scoring; only triggers when confident — ties and zero-score return None).
+3. `active_lang` in `.claude/state/wikiforge.yaml` (sticky across sessions).
+4. `enabled[0]` from the active vault's `vault.yml` (deterministic fallback).
 
-Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in other langs are ignored at retrieval time. The response is rendered in `LANG`. The atom propagation pipeline guarantees per-lang parity, so cross-lang citations stay consistent.
+Once resolved, retrieval **strictly searches `wiki/{LANG}/` only** — atoms in other langs are ignored. The response is rendered in `LANG`. The atom propagation pipeline guarantees per-lang parity, so cross-lang citations stay consistent.
 
 ## Steps
 
-0. **Resolve vault + retrieve atoms (one bash block, chain with &&)**. CRITICAL: All commands in same shell, no separate invocations.
+1. **Resolve vault + retrieve atoms (one bash block, chained with `&&`)**. Critical: same shell, no separate invocations.
 
    ```bash
    source .claude/scripts/resolve-vault.sh && \
    python3 .claude/scripts/retrieve.py --query "{question}" --vault "$VAULT_PATH" --top 6 --lang-source
    ```
 
-   - `resolve-vault.sh` exports VAULT_PATH, resolves from `.claude/state/wikiforge.yaml` (or asks if ambiguous). Pass `--vault NAME --lang CODE` to override per call.
-   - `retrieve.py` reads VAULT_PATH from same shell, returns top-6 atoms (and any matching hub pages) as JSON. Each result carries a `type` field — `entity` and `comparison` are pre-compiled hub pages, `atom` is the default.
-   - **Important**: Use `&&` to chain — separate Bash invocations lose environment variables
-   - To force a lang: add `--lang es` to retrieve.py command
+   - `resolve-vault.sh` exports `$VAULT_NAME` and `$VAULT_PATH`. If it asks for a vault choice, **STOP** and surface the question — never pick silently.
+   - `retrieve.py` returns top-K atoms (and matching hub pages) as JSON. Each result carries a `type` field — `atom` (default), `entity`, or `comparison` (pre-compiled hub pages).
+   - Use `&&` to chain — separate Bash invocations lose env vars.
+   - To force a lang in the same shell: add `--lang es` to the retrieve.py call.
 
-   **Shape hint** (optional, default = auto): `--query-shape {entity|comparison|topic|atom|auto}`. With `auto` the script infers shape from the query string + `meta/entities-registry.yaml` (comparison cues, then registered entity mention, then topic cue, else atom). Pass `--query-shape entity` or `--query-shape comparison` only when you want to force the boost — e.g. when the user asks about a tool the registry doesn't yet know.
+   **Top-K** (`--top`, default 6): raise to **10–12** for taxonomic-C questions where you want broader coverage; lower to **3** for narrow-A factual lookups where extra atoms are noise. Regime detection (`CLAUDE.md §4.6`) drives this.
 
-   **Top-K** is configurable via `--top` (default 6). Raise to **10–12 for taxonomic-C** questions where you want broader coverage; lower to **3 for narrow-A** factual lookups where extra atoms are noise. Regime detection (§4.6) drives this.
+   **Shape hint** (`--query-shape {entity|comparison|topic|atom|auto}`, default `auto`): the script infers shape from the query string + `meta/entities-registry.yaml` (comparison cues, then registered entity mention, then topic cue, else atom). Pass `--query-shape entity|comparison` only to force the boost — e.g. when the user asks about a tool the registry doesn't yet know.
 
-1. If retrieval returns 0 results OR the question needs broader context: fall back to manual indexing — `index/{LANG}/index.md` → `moc/{LANG}/{topic}.md` → atoms.
+2. **If retrieval returns 0 results** OR the question needs broader context: fall back to manual indexing — `index/{LANG}/index.md` → `moc/{LANG}/{topic}.md` → atoms.
 
-   **If the top result is a hub** (`type: entity` or `type: comparison`): use it as the **scaffold for the response** rather than rebuilding the synthesis from atoms. Hubs are pre-compiled curated answers cited from atoms — quoting the hub directly (with citations to the atoms it lists) gives the user the best version of the answer. Atoms ranked below the hub are fallback / supporting material.
-2. Check `meta/contradictions.md` for active conflicts on cited atoms.
-3. Detect response regime (A/B/C per CLAUDE.md §4.6) and draft following `meta/RESPONSE_TEMPLATES.md`.
-4. Apply pre-output checklist (CLAUDE.md §pre-output checklist):
-   - Word count within ceiling (A=250/B=600/C=1000)
-   - Written natively in the response lang (no English-borrowing leakage in non-English answers; brand/tech whitelist exempt)
-   - Each step/cell has exactly one [[atom]] citation
-   - **Each number backed by inline [[atom]] citation or source_id** (not just at end)
-   - No intro filler, no trailing summary
-   - Conflict caveat if HIGH/MEDIUM active
-   - **YouTube URL linking**: For each atom cited, extract `sources_url` from the JSON and include in Sources section as `Vídeo: https://...` with timestamp if available from locator field.
-5. Save to `queries/{LANG}/{topic}--{question-slug}.md` if synthesis is new.
-   - Include `sources_used` frontmatter with full atom stems
-   - For each source, preserve YouTube URL in frontmatter comment or dedicated field
-6. **Update `config.yaml.active_lang`** to `LANG` so the next query in the same session inherits it (sticky behaviour). Only do this if lang was auto-detected (not explicit `--lang` flag).
+   **If the top result is a hub** (`type: entity` or `type: comparison`): use it as the **scaffold for the response** rather than rebuilding from atoms. Hubs are pre-compiled curated answers cited from atoms — quoting the hub directly (with citations to the atoms it lists) gives the user the best version of the answer. Atoms ranked below the hub are fallback / supporting material.
+
+3. **Check `meta/contradictions.md`** for active conflicts on cited atoms.
+
+4. **Detect response regime** (A / B / C per `CLAUDE.md §4.6`) and draft following `meta/RESPONSE_TEMPLATES.md`. Read the template before drafting — the section list is contract, not suggestion.
+
+5. **Apply the pre-output checklist** (`CLAUDE.md §pre-output checklist`). The full list is canonical there; the high-violation invariants worth keeping in mind while drafting:
+   - Word count within ceiling (A=250 / B=600 / C=1000).
+   - Written natively in the response lang (per the vault's `agents.md` — proper nouns and universally-known acronyms stay verbatim).
+   - **Each step (B) / each cell (C) has exactly one `[[atom]]` citation**; in A, 1–3 atoms inline.
+   - **Every number** (percentage, price, threshold) carries an inline `[[atom]]` or `source_id` citation — never deferred to the Sources section.
+   - No intro filler ("Excelente pregunta…"), no trailing summary ("En resumen…").
+   - Conflict caveat (⚠️) at the end if HIGH/MEDIUM applies.
+   - **Surface every cited source's URL** in the Sources section using the convention from the vault's `agents.md` ("Source linking convention" — typically the public URL with locator suffix when the source is timestamped media).
+
+6. **Save** to `queries/{LANG}/{topic}--{question-slug}.md` if the synthesis is new. Include `sources_used` frontmatter with full atom stems and the source URLs.
+
+7. **Update `active_lang`** so the next query in the same session inherits the lang (sticky behaviour). Only when the lang was auto-detected, **not** when the user passed `--lang` explicitly:
 
    ```bash
    bash .claude/scripts/set-config.sh active_lang "$LANG"
    ```
 
-Queries are NOT auto-propagated across langs — they're per-language caches reflecting what the user asked, when. Atoms are propagated; queries are rendered on demand.
+Queries are **not** auto-propagated across langs — they're per-language caches reflecting what the user asked, when. Atoms are propagated; queries are rendered on demand.
 
-## YouTube linking requirement
+## Inline citation invariant
 
-Every response MUST include YouTube video URLs from the cited atoms. The JSON from `retrieve.py` includes `sources_url` for each atom — extract and surface this in the final response.
+Numbers (percentages, prices, durations, thresholds) in the response body MUST have an immediate `[[atom]]` or `source_id` next to them. Do **not** defer all citations to the Sources block at the end.
 
-**Format for Sources section** (all regimes A/B/C):
-
-```markdown
-## Fuentes
-
-- [[{lang}/wiki/{stem}]] — {one-line summary of claim}
-  Vídeo: {sources_url}
-  
-- [[{lang}/wiki/{stem2}]] — {another claim}
-  Vídeo: {sources_url2}
+```text
+Bad:   "53% of travellers …" [body without citation] … "## Sources [[atom]]"
+Good:  "53% of travellers [[en/wiki/occupancy--allow-pets-expand-guest-pool]] …"
+       "53% (source_id: VIDEO_ID@01:23) …"
 ```
 
-**When to include locator**: If the atom frontmatter contains a `locator` field (e.g., `01:23-01:47`), append to the YouTube URL:
-```markdown
-Vídeo: https://youtube.com/watch?v=VIDEO_ID&t=83  (01:23-01:47)
-```
+## Source linking
 
-**Inline citation requirement**: Numbers (percentages, prices, durations) in the response body MUST have immediate [[atom]] or `source_id` next to them. Do NOT defer all citations to the end.
+The Sources section format and label come from the vault's `agents.md` ("Source linking convention"). The skill is source-type agnostic — for video sources the convention is typically a deep-link URL with timestamp; for articles or PDFs the convention may be a URL with anchor or page number. Read the vault's `agents.md` before drafting if you have not already.
 
-Bad: "The 53% of travelers..." [body text without citation] ... "Fuentes: [[atom]]"
-Good: "The 53% of travelers [[es/wiki/occupancy--allow-pets-expand-guest-pool]]..." or "The 53% (source_id: VIDEO_ID@01:23)..."
+**Fallback** when the vault's `agents.md` does not yet define the section: surface each cited atom's `sources[].url` with a generic label in the response lang (`Source:` / `Fuente:` / etc.), append the `locator` in parentheses when the atom has one. This keeps the response navigable while you (or the vault owner) backfill the section.
 
 ## Output formats
 
-`--format markdown` (default): the standard regime-A/B/C response per CLAUDE.md §4.6.
+- **`--format markdown`** (default): the standard regime-A / B / C response per `CLAUDE.md §4.6` and `meta/RESPONSE_TEMPLATES.md`.
+- **`--format marp`**: render the answer as a [Marp](https://marp.app) slide deck. Slide budgets, citation rules per slide, save path, and viewing instructions live in `reference.md`.
 
-`--format marp`: render the answer as a [Marp](https://marp.app) slide deck. Use the template at `.claude/templates/response-marp.md.template` and apply these rules on top of the standard checklist:
-
-- **Slide budget by regime**: A=3 slides, B=5-7 slides, C=8-12 slides
-- **One headline per slide** (≤8 words), 3-5 bullets max, each ≤12 words
-- **One atom citation per slide**: `[[wiki/{LANG}/<atom>]]` at the bottom
-- **Last slide is always "Sources"** listing every cited atom with locator URL
-- **Conflict caveat**: if HIGH/MEDIUM conflict applies, add a ⚠️ slide before Sources (not intercalated)
-- **Save to**: `queries/{LANG}/{topic}--{slug}.marp.md` (note `.marp.md` suffix so it's distinguishable from the markdown answer)
-- **Tell the user how to view**: `npx @marp-team/marp-cli <file> --preview` or VS Code Marp extension
-
-The word ceiling (A=250/B=600/C=1000) still applies to total cumulative bullet text — slide format doesn't license verbosity.
-
-**Deferred formats** (not implemented):
-
-- `--format chart` (matplotlib/plotly) — needs numeric content detection + script execution sandbox. Design open: should the script run in a separate process? Where does the output PNG live? Punted for now; ask if you need it urgently.
-- `--format canvas` (Obsidian Canvas JSON) — needs node-positioning algorithm. Punted.
-- Obsidian Web Clipper integration — out of scope for this repo.
+Deferred formats (chart, canvas, web-clipper) are out of scope — see `reference.md` for status.

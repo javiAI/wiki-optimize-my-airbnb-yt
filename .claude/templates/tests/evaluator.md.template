@@ -49,16 +49,16 @@ Are facts correct? Are citations valid (the cited atoms exist and say what's quo
 
 ### 3. language_purity (weight 15%)
 
-Pure `{lang}`. The response must be written natively in `{lang}` — no source-language borrowings from hospitality jargon. For `{lang}=es`, typical violations are calques like *host*, *listing*, *fee*, *review*, *booking*, *amenity*, *rating*, *ranking*, *occupancy*, *revenue*, plus calque verbs (*rankear*, *bookear*) and English connectors (*anyway*, *by the way*) — substitute with the native term. For other non-English `{lang}`, apply the equivalent native rule.
+The response must read as if written by a bilingual native of `{lang}` for a monolingual reader of `{lang}`. Penalise calques of the source-language wording, literal translations that no native would utter, and unnecessary code-mixing. Reward register, idiom, and connectors that match how a fluent native would phrase the same idea.
 
-Whitelist (these stay verbatim, NOT a violation): brand names and standardised tech (PriceLabs, Airbnb, Booking, Vrbo, AllTheRooms, AirDNA, Wheelhouse, Beyond, Hostfully, Hospitable, Guesty, OwnerRez, NoiseAware, Minut, Google, YouTube, Superhost, Aircover, Instant Book, Stays, Co-Host, WiFi, PMS, API, URL, OS, JSON, YAML, SEO, ADR, RevPAR, TOS, GMB, StayFi).
+**What counts as verbatim, NOT a violation**: proper nouns (brand names, product names, places, people) and technical acronyms that are universally known by their original form in the relevant industry. The vault's `{vault_path}/agents.md` lists the verbatim terms specific to this vault's domain — consult it when in doubt.
 
-**Acronym subcheck**: every acronym (BLT, ADR, FPG, PMS, etc.) must be defined on first use in the response. Undefined first use ⇒ deduct ≥ 1 point.
+**Acronym subcheck**: any acronym not in the verbatim list of `agents.md` must be defined on first use in the response. Undefined first use ⇒ deduct ≥ 1 point.
 
 Scale:
 
-- 10: pure `{lang}`, whitelist respected, all acronyms defined.
-- 7–9: ≤ 2 avoidable foreign words OR 1 undefined acronym.
+- 10: native register throughout, vault verbatim terms respected, all acronyms defined.
+- 7–9: ≤ 2 avoidable calques OR 1 undefined acronym.
 - 4–6: 3–5 violations.
 - 0–3: 6+ violations or constant code-mixing.
 

@@ -60,20 +60,19 @@ Body: 100–300 words, written natively in this atom's `lang`. No intro fluff, n
 
 ## Native-synthesis directive (MANDATORY for non-English atoms)
 
-When atomizing in a non-English `lang`, you are a **native writer** in that lang, not a translator. Render the claim and body in the natural register of `lang`, drawing vocabulary and idioms from the target-lang transcript window.
+When atomizing in any `lang`, you are a **bilingual native writer** of that `lang` rendering the claim and body for a monolingual reader of `lang`. Draw vocabulary and idioms from the target-lang transcript window. If a phrase reads like a literal translation, rewrite it as a native would phrase it.
 
-English borrowings from the source-language hospitality jargon are **forbidden** — use the target-lang term. Worst-offender examples for `lang = es`:
+Proper nouns (brands, products, places, people) and technical acronyms that are universally known by their original form stay verbatim — that is native writing, not borrowing. The list of nouns and acronyms that count as "universally known" in this vault's domain is fixed below per-vault, not in the skill or in `CLAUDE.md`. If your domain has none, leave the list empty.
 
-- host → anfitrión
-- listing → anuncio
-- fee → tarifa
-- review → reseña
-- booking → reserva
-- amenity → comodidad
+Language purity is scored statistically by `/test-vault`'s `language_purity` rubric across N independent evaluators — no string-mapping enforcement at write time. Native writing is what keeps the rubric green.
 
-Brand names and standardised tech terms stay verbatim (NOT translated): PriceLabs, Wheelhouse, Beyond, Hostfully, Hospitable, Guesty, OwnerRez, Airbnb, Booking, Vrbo, Superhost, Aircover, Instant Book, WiFi, PMS, API, URL, JSON, YAML, SEO, ADR, RevPAR.
-
-Language purity is scored statistically by `/test-vault`'s `language_purity` rubric across N independent evaluators — no string-mapping enforcement at write time. Native writing here is what keeps the rubric green.
+<!-- Vault-specific: list the proper nouns and acronyms that stay verbatim across all enabled langs.
+     Examples (delete or replace with your domain's terms):
+     - Proper nouns: Acme Corp, Foo Inc, OpenAI
+     - Acronyms: API, URL, JSON, YAML, SEO -->
+**This vault's verbatim terms**:
+- Proper nouns: TODO
+- Acronyms: TODO
 
 ## Naming
 
@@ -89,6 +88,28 @@ url = "https://youtube.com/watch?v={source_id}&t={seconds}"
 ```
 
 Computed once at atom-creation time, stored in `sources[].url`. Same URL across language versions.
+
+## Source linking convention
+
+How `/query` should surface a cited source's URL in the response's Sources section. Read by the skill before drafting; the skill itself is source-type-agnostic.
+
+- **Label** (per response lang): TODO — e.g. `Vídeo:` (es) / `Video:` (en) / `Source:` / `Article:` …
+- **Format**: `{label} {sources[].url}` followed by the locator in parentheses when present, e.g. `Vídeo: https://youtube.com/watch?v=VIDEO_ID&t=83  (01:23-01:47)`.
+- **Inline numbers** still carry the `[[atom]]` or `source_id` citation directly — the URL block in Sources is for navigation, not for citation hygiene.
+
+If your vault uses a non-video source type (articles, PDFs), replace the URL formula above with the convention that fits (URL with `#anchor`, page number, etc.) and update the label accordingly.
+
+## Source discovery templates
+
+Used by `/suggest-sources` to turn high-demand topics into concrete WebSearch queries. The skill reads this section before searching; if it's missing, the skill falls back to a generic template derived from `vault.yml#source.type`.
+
+- **Domain context** (one or two sentences): TODO — e.g. *"Vault tracks the @OptimizeMyAirbnb YouTube channel; preferred sources are videos from this creator and short-term-rental industry blogs."*
+- **Search query templates** (per source type — fill in the ones you actually use):
+  - `youtube`: `<topic> site:youtube.com "<channel-name>"` / `<topic> <domain> tips youtube`
+  - `web`: `<topic> <domain> guide YYYY` / `<topic> best practices`
+  - `pdf`: `<topic> filetype:pdf` / `<topic> whitepaper`
+- **Topic translation**: when topic slugs are not search-friendly raw, translate them into the vault's first enabled lang (e.g. `precio-base` → `base price` for an EN-first vault) before composing the query. Drop hyphens, expand abbreviations.
+- **Quality signals** to annotate per candidate: TODO — e.g. *creator authority, recency, transcript availability for video sources, paywall status for articles*.
 
 ## Source priority score
 

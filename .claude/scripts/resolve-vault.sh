@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # resolve-vault.sh — preamble for every vault-touching skill (/query, /ingest,
-# /audit, /qa, /ingest-queue, ...).
+# /audit, /qa, ...).
 #
 # Behavior:
 #   - Accepts per-call overrides:

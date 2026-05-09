@@ -1,44 +1,89 @@
 ---
 name: qa
-description: Atom-level content QA. Checks completeness, URL format, acronym definitions, and conflicts. Use /audit for vault-level structural checks.
-allowed-tools: Bash(python3 .claude/scripts/atom-qa.py .claude/scripts/resolve-vault.sh)
+description: |-
+  Atom-level content QA. Validates each atom's completeness (claim, sources, last_verified),
+  URL deep-link format, multilingual schema (per-source `excerpt_source`, top-level
+  `propagated_from` coherence) and surfaces known conflicts against `meta/contradictions.md`.
+  Optional `--fix` auto-injects missing source URLs derived from `source_id + locator`.
+  Use when the user asks to "qa", "validate atoms", "check atom quality / health", or
+  before publishing / running `/test-vault`. Use `/audit` for vault-level structural checks
+  (orphans, stale, missing propagations, broken cross-refs).
+allowed-tools: Bash(source .claude/scripts/resolve-vault.sh:*), Bash(python3 .claude/scripts/atom-qa.py:*)
+arguments:
+  - name: stem
+    description: "Atom stem (e.g. `pricing--base-price`). Omit when using `--all`."
+  - name: --lang
+    description: "Language code (`en`, `es`, …). Defaults to the first enabled lang for a single-atom run, or every enabled lang with `--all`."
+  - name: --all
+    description: "Check every atom across enabled langs."
+  - name: --fix
+    description: "Auto-inject missing source URLs from `source_id + locator`."
+  - name: --source-type
+    description: "Source-type used to validate URL format (`youtube` by default). Per-vault default will move to `vault.yml`."
 ---
 
 # /qa — Atom Content QA
 
-Scope: **atom content**, not vault structure. See /audit for structural checks (orphans, stale, missing translations).
+Scope: **atom content**, not vault structure. Run `/audit` for structural checks.
 
 ## Usage
 
-```bash
-/qa {stem}                  # Check one atom (primary language)
-/qa {stem} --lang es        # Check one atom in specific language
-/qa --all                   # Check all atoms in all enabled languages
-/qa --all --lang es         # Check all atoms in one language
-/qa --all --fix             # Check + auto-fix acronym definitions
+```text
+/qa <stem>              # Check one atom in the first enabled lang
+/qa <stem> --lang es    # Check one atom in a specific lang
+/qa --all               # Every atom, every enabled lang
+/qa --all --lang es     # Every atom in one lang
+/qa --all --fix         # Same + auto-inject missing source URLs
 ```
 
 ## Steps
 
-0. **Resolve vault (mandatory preamble)**:
+1. **Resolve vault**:
 
    ```bash
    source .claude/scripts/resolve-vault.sh
    ```
 
-   Prints `[wikiforge] Using vault: <name> (<path>)`. **If it exits non-zero, STOP** and ask the user which vault to QA; never pick silently.
+   Sets `$VAULT_NAME` and `$VAULT_PATH`. If it exits non-zero, **STOP** and ask the user which vault to QA — never pick silently.
 
-1. Run `python3 .claude/scripts/atom-qa.py {args} --vault "$VAULT_PATH"`
-2. Report results:
-   - **CRITICAL** (pipeline-blocking): missing claim, no sources → must fix before atom is usable
-   - **WARNING** (non-blocking): missing url, undefined acronym, invalid url format → fix when convenient
-   - **PASS**: atom is clean
-3. For `--all`, summarize: N passed, M failed. List all CRITICAL failures by stem.
-4. If auto-fixable issues exist (acronym definitions), suggest: `--fix` flag or `/qa --all --fix`
+2. **Run the script**:
 
-Note: language purity (English-borrowing leakage in non-English atoms) is NOT enforced here. It's scored statistically by `/test-vault`'s `language_purity` rubric across N independent evaluators.
+   ```bash
+   python3 .claude/scripts/atom-qa.py [<stem>] [--lang <lang>] [--all] [--fix] --vault "$VAULT_PATH"
+   ```
 
-## When to use /qa vs /audit
+3. **Read the result**. Reports persist at `meta/qa-reports/{stem}.{lang}.json` only when violations exist; clean atoms have no report (any stale report is deleted).
 
-Run `/qa` when you want to verify atom content quality — e.g. after `/ingest-queue` or `/translate`.
-Run `/audit` when you want to check vault health — e.g. after a batch ingest session or weekly maintenance.
+4. **Summarise** for the user, grouped by severity:
+   - **CRITICAL** (pipeline-blocking): missing `claim`, no `sources`, invalid `propagated_from`. Must fix before the atom is usable.
+   - **WARNING** (informational): missing source URL, invalid URL format, missing `last_verified`, missing or unknown `excerpt_source`, propagated atom carrying `excerpt_source: native_atomization`. Fix when convenient.
+   - **INFO**: atom appears in `meta/contradictions.md` — verify the conflict is documented.
+
+5. For `--all`, give one summary line per lang (`[lang] N/M passed, K failed`) and list every CRITICAL by stem. Don't dump warnings unless the user asks.
+
+6. If `--fix` was passed, report how many URLs were auto-injected. The script re-runs QA after fixes; the final report reflects post-fix state.
+
+## Output schema
+
+A persisted report at `meta/qa-reports/{stem}.{lang}.json` has this shape:
+
+```json
+{
+  "atom": "topic--slug",
+  "lang": "en",
+  "timestamp": "ISO-8601",
+  "pass": true,
+  "critical_count": 0,
+  "warning_count": 0,
+  "violations": [
+    {"type": "...", "severity": "critical|warning|info", "message": "...", "auto_fixable": false}
+  ],
+  "auto_fixable": []
+}
+```
+
+## Notes
+
+- **Language purity is not enforced here.** Source-language calque leakage in cross-lang atoms is scored statistically by `/test-vault`'s `language_purity` rubric across N independent evaluators — not by string-mapping.
+- **URL-format validation** uses `--source-type youtube` by default. Pass `--source-type <other>` when the vault sources are not YouTube; the per-vault default will move to `vault.yml` in a follow-up.
+- **`/qa` vs `/audit`**: `/qa` is per-atom content; `/audit` is per-vault structure. Run `/qa` after content edits (ingest, propagation, manual fixes); run `/audit` after batch operations or weekly.
