@@ -220,7 +220,9 @@ Si el shortlist toca 2+ conflictos distintos (ej. una pregunta de pricing global
 
 ## 4.6 Format Check (query-time, regime-based) — O5
 
-**Antes de redactar, lee `meta/RESPONSE_TEMPLATES.md`** — contiene las plantillas canónicas A/B/C con secciones, ejemplos y reglas. Sin esa lectura no puedes garantizar el formato correcto. Las secciones obligatorias de cada régimen NO son sugerencias, son contrato.
+**Antes de redactar, lee `meta/RESPONSE_TEMPLATES.md`** del vault activo — contiene las plantillas canónicas A/B/C con secciones, ejemplos y reglas para ese dominio. Sin esa lectura no puedes garantizar el formato correcto. Las secciones obligatorias de cada régimen NO son sugerencias, son contrato.
+
+> Las **reglas de detección de régimen y los ceilings** que siguen son globales (parte del contrato del plugin). Los **ejemplos de preguntas** en la tabla son del dominio OMA (anfitriones de Airbnb hispano-hablantes) por continuidad histórica; cada vault puede añadir patrones de detección propios de su dominio en `vaults/{name}/agents.md`.
 
 ### 4.6.1 Regime detection
 
@@ -291,7 +293,7 @@ grep -r "orphan night" index/<lang>/index.md moc/<lang>/ wiki/<lang>/ # Locate c
 
 ## 6. Capa de dominio — Optimize My Airbnb
 
-Específico de esta bóveda.
+Específico de esta bóveda. **Para cualquier vault nuevo, el equivalente de esta sección vive en `vaults/{name}/agents.md`** — no aquí. Lo que sigue (fuentes, schema YAML extendido, tópicos, score, meta, ingest pipeline, response contract con audiencia/tono/forbid-list) es la instancia OMA del contrato per-vault. Las skills (`/query`, `/ingest`, `/audit`, `/qa`, `/test-vault`, `/refresh-hubs`, `/suggest-questions`, `/suggest-sources`, `/propagate`, `/init-vault`) son agnósticas al dominio y leen este contenido del `agents.md` del vault activo.
 
 ### 6.1 Fuentes
 
@@ -349,6 +351,8 @@ score = 0.40·recency + 0.30·popularity + 0.20·specificity + 0.10·authority
 ```
 
 ### 6.7 Response contract
+
+> Audiencia, tono, forbid-list y stance frente a anglicismos son **per-vault** y viven en `vaults/{name}/agents.md`. Lo que sigue es la instancia OMA. Las reglas estructurales (regime detection, ceilings, conflict caveat) sí son globales (§4.5–§4.6).
 
 Audiencia: anfitrión. Tono: consultor — humano, profesional, cálido (no robótico).
 
