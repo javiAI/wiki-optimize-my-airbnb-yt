@@ -99,6 +99,18 @@ How `/query` should surface a cited source's URL in the response's Sources secti
 
 If your vault uses a non-video source type (articles, PDFs), replace the URL formula above with the convention that fits (URL with `#anchor`, page number, etc.) and update the label accordingly.
 
+## Source discovery templates
+
+Used by `/suggest-sources` to turn high-demand topics into concrete WebSearch queries. The skill reads this section before searching; if it's missing, the skill falls back to a generic template derived from `vault.yml#source.type`.
+
+- **Domain context** (one or two sentences): TODO — e.g. *"Vault tracks the @OptimizeMyAirbnb YouTube channel; preferred sources are videos from this creator and short-term-rental industry blogs."*
+- **Search query templates** (per source type — fill in the ones you actually use):
+  - `youtube`: `<topic> site:youtube.com "<channel-name>"` / `<topic> <domain> tips youtube`
+  - `web`: `<topic> <domain> guide YYYY` / `<topic> best practices`
+  - `pdf`: `<topic> filetype:pdf` / `<topic> whitepaper`
+- **Topic translation**: when topic slugs are not search-friendly raw, translate them into the vault's first enabled lang (e.g. `precio-base` → `base price` for an EN-first vault) before composing the query. Drop hyphens, expand abbreviations.
+- **Quality signals** to annotate per candidate: TODO — e.g. *creator authority, recency, transcript availability for video sources, paywall status for articles*.
+
 ## Source priority score
 
 ```
